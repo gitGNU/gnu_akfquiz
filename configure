@@ -1,0 +1,158 @@
+#! /bin/sh
+
+#####################################################################
+# configure here:
+
+PREFIX=/usr/local
+CGIPATH=/usr/lib/cgi-bin
+
+# for modified versions use a variant-name please
+#VARIANT=""
+VARIANT="-testing"
+NAME="AKFQuiz"
+
+MAINVERSION=4
+SUBVERSION=3
+REVISION=2
+
+VERSION=$MAINVERSION.$SUBVERSION.$REVISION
+SVERSION=$MAINVERSION$SUBVERSION$REVISION
+
+#####################################################################
+# functions
+
+help() {
+cat <<AMEN
+./configure [options]
+
+options:
+  -h | --help
+  --target=
+  --prefix=
+  --cgipath=
+  --variant=
+  --arch=
+  --sys=
+AMEN
+exit
+}
+
+getcompiler() {
+  # search for available compiler
+  if which fpc
+  then TARGET=fpc
+  elif which gpc
+  then TARGET=gpc
+  else echo 1>&2 "error: neither gpc nor fpc found"; exit 1
+  fi
+  }
+
+convert_rc() {
+  mv "$1" "$1.old"
+  sed < "$1.old" > "$1" \
+    -e "s/^\(FILEVERSION\).*/\1 $MAINVERSION, $SUBVERSION, $REVISION, 0/" \
+    -e "s/^\(PRODUCTVERSION\).*/\1 $MAINVERSION, $SUBVERSION, $REVISION, 0/" \
+    -e "s/\(.*VALUE \"FileVersion\", *\)\".*\"/\1\"$VERSION$VARIANT\"/" \
+    -e "s/\(.*VALUE \"ProductName\", *\)\".*\"/\1\"$NAME\"/" \
+    -e "s/\(.*VALUE \"ProductVersion\", *\)\".*\"/\1\"$VERSION$VARIANT\"/"
+    }
+
+
+#####################################################################
+# main program:
+
+SYS=`uname -s`
+ARCH=`uname -m`
+# rename architecture
+case "$ARCH" in
+   i?86) ARCH=x86 ;;
+esac
+
+# check parameter
+while [ $# -gt 0 ] 
+do
+  case "$1" in
+    -h | --help)   help ;;
+    --prefix=*)    PREFIX=`echo "$1" | sed -e "s/--prefix=\(.*\)/\1/"` ;;
+    --cgipath=*)   CGIPATH=`echo "$1" | sed -e "s/--cgipath=\(.*\)/\1/"` ;;
+    --variant=*)   VARIANT=-`echo "$1" | sed -e "s/--variant=\(.*\)/\1/"` ;;
+    --arch=*)      ARCH=`echo "$1" | sed -e "s/--arch=\(.*\)/\1/"` ;;
+    --sys=*)       SYS=`echo "$1" | sed -e "s/--sys=\(.*\)/\1/"` ;;
+    --gpc)         TARGET=gpc ;;
+    --fpc)         TARGET=fpc ;;
+    --xw32)        TARGET=xw32 ;;
+    --xarm)        TARGET=xarm ;;
+    --target=gpc)  TARGET=gpc ;;
+    --target=fpc)  TARGET=fpc ;;
+    --target=xw32) TARGET=xw32 ;;
+    --target=xarm) TARGET=xarm ;;
+  esac
+  shift
+done
+
+test -z "$TARGET" && getcompiler
+
+test "$TARGET" = "xarm" && ARCH=arm
+test "$TARGET" = "xw32" && SYS=w32
+
+VERSION=$MAINVERSION.$SUBVERSION.$REVISION
+SVERSION=$MAINVERSION$SUBVERSION$REVISION
+
+# show settings:
+cat << AMEN
+PREFIX:   $PREFIX
+CGIPATH:  $CGIPATH
+NAME:     $NAME
+VARIANT:  $VARIANT
+VERSION:  $VERSION
+SVERSION: $SVERSION
+TARGET:   $TARGET
+SYS:      $SYS
+ARCH:     $ARCH
+AMEN
+
+# change to default directory
+cd $(dirname $0)
+
+mv Makefile Makefile.old
+sed < Makefile.old > Makefile \
+    -e "s/TARGET=.*/TARGET=$TARGET/" \
+    -e "s/ARCH=.*/ARCH=$ARCH/" \
+    -e "s/SYS=.*/SYS=$SYS/" \
+    -e "s/^\(VERSION *= *\).*/\1$VERSION/" \
+    -e "s/^\(SVERSION *= *\).*/\1$SVERSION/"
+
+ln -sf Makefile.$TARGET srcbin/Makefile
+
+mv srcbin/common.mak srcbin/common.old
+sed < srcbin/common.old > srcbin/common.mak \
+    -e "s%^\(PREFIX *= *\).*%\1$PREFIX%" \
+    -e "s%^\(CGIPATH *= *\).*%\1$CGIPATH%"
+
+mv srcbin/config.inc srcbin/config.old
+sed < srcbin/config.old > srcbin/config.inc \
+    -e "s/const AKFQuizName *= '.*';/const AKFQuizName = \'$NAME$VARIANT\';/" \
+    -e "s/const AKFQuizVersion *= '.*';/const AKFQuizVersion = '$VERSION';/"
+
+if [ -w ../autopackage/default.apspec ]
+then
+  mv ../autopackage/default.apspec ../autopackage/default.apspec.old
+  sed < ../autopackage/default.apspec.old > ../autopackage/default.apspec \
+      -e "s/^\(SoftwareVersion: *\).*/\1$VERSION/"
+fi
+
+# Windows stuff
+
+mv srcbin/w32/akfquiz.iss srcbin/w32/akfquiz.iss.old
+sed < srcbin/w32/akfquiz.iss.old > srcbin/w32/akfquiz.iss \
+    -e "s/^\(AppName=\).*/\1$NAME$VARIANT/" \
+    -e "s/^\(AppVerName=\).*/\1$NAME$VARIANT $VERSION/" \
+    -e "s/^\(OutputBaseFileName=\).*/\1akfquiz$VARIANT-${VERSION}-w32/" \
+    -e "s/^\(VersionInfoVersion=\).*/\1$VERSION/"
+
+convert_rc srcbin/w32/scrquiz.rc
+convert_rc srcbin/w32/mkquiz.rc
+convert_rc srcbin/w32/cgiquiz.rc
+convert_rc srcbin/w32/linequiz.rc
+convert_rc srcbin/w32/grquiz.rc
+convert_rc srcbin/w32/wquizchooser.rc
