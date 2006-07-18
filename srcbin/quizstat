@@ -1,0 +1,49 @@
+#! /usr/bin/awk -f
+#
+# AKFQuiz statistics
+# AKFQuiz 4.1.0
+#
+# this file is public domain
+#
+
+# make case insensitive: 
+{ $0 = tolower($0) }
+
+/^[ \t]*question:/    { questions++; mc++ }
+/^[ \t]*frage:/       { questions++; mc++ }
+/^[ \t]*mc:/          { questions++; mc++ }
+
+/^[ \t]*anfrage:/     { questions++; mcma++ }
+/^[ \t]*query:/       { questions++; mcma++ }
+/^[ \t]*multi:/       { questions++; mcma++ }
+/^[ \t]*mcma:/        { questions++; mcma++ }
+
+/^[ \t]*fitbest:/     { questions++; fitb++ }
+/^[ \t]*freeform:/    { questions++; fitb++ }
+/^[ \t]*freiform:/    { questions++; fitb++ }
+
+/^[ \t]*intro:/       { comments++ }
+/^[ \t]*comment:/     { comments++ }
+/^[ \t]*kommentar:/   { comments++ }
+
+/^[ \t]*hint:/        { hints++ }
+/^[ \t]*remark:/      { hints++ }
+/^[ \t]*hinweis:/     { hints++ }
+/^[ \t]*anmerkung:/   { hints++ }
+
+/^[ \t]*assessment:/  { assessment  = "yes" }
+/^[ \t]*auswertung:/  { assessment  = "yes" }
+/^[ \t]*assessment%:/ { assessmentp = "yes" }
+/^[ \t]*auswertung%:/ { assessmentp = "yes" }
+
+END {
+  if (questions)   print "questions:", questions
+  if (mc)          print " -> multiple choice:", mc
+  if (mcma)        print " -> multiple choice, multiple answers:", mcma
+  if (fitb)        print " -> fit best:", fitb
+  if (comments)    print "comments:", comments
+  if (hints)       print "hints:", hints
+  
+  if (assessment)  print "'assessment:' used"
+  if (assessmentp) print "'assessment%:' used"
+  }

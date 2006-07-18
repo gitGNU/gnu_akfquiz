@@ -1,0 +1,57 @@
+# Compile with FPC for the native machine
+
+# make further changes in common.mak
+
+# Conditional Defines:
+#
+# Advertisement
+#          - print msg_advertisement line (qmsgs.pas)
+# NoHide   - scrquiz: don't hide the cursor 
+#            because it may cause trouble with FPC on some terminals
+#            automatically set for BSD systems
+# SDL      - use SDL4FreePascal (else SVGAlib is used for Unix)
+# GTK2     - use GTK2 instead of GTK 1.2 in gtkquizchooser
+# OEM      - scrquiz: display has OEM charset (IBM437)
+#            (don't check the varable MM_CHARSET)
+# grNoEscKey,
+# scrNoEscKey
+#          - Esc key may cause troulble in some cases
+# ForceLFN - force LFNsupport on DOS
+# NoProjectLink
+#          - Omit the Link to the project's homepage
+#            (still remains in the Meta-data)
+
+# one program must be compiled for the native machine
+NATIVEPC=fpc
+NATIVEPFLAGS=-Sh -Sd
+
+# compile for the native machine as default
+PC=$(NATIVEPC)
+PFLAGS=$(NATIVEPFLAGS)
+POPT=-O2G -Xs -XX
+#POPT=-g
+
+# additional optimization-flags for i386 machines
+# POPT+=-Op3
+
+# path to SDL4Freepascal
+PFLAGS+=-Fu../../SDL4Freepascal-1.2.0.0
+DEFINES+=-dSDL
+
+#DEFINES+=-dNoTitleImage
+#DEFINES+=-dAdvertisement
+#DEFINES+=-dNoRelocation
+#DEFINES+=-dGTK2
+#DEFINES+=-dNoHide
+#DEFINES+=-dscrNoEscKey
+#DEFINES+=-dgrNoEscKey
+#DEFINES+=-dOEM
+#DEFINES+=-dForceLFN
+#DEFINES+=-dNoProjectLink
+
+IMAGEOBJ=quizhg.inc hginfo.inc titimg.inc
+SOUNDOBJ=errorsnd.inc infosnd.inc introsnd.inc rightsnd.inc wrongsnd.inc \
+         neutralsnd.inc
+
+include common.mak
+

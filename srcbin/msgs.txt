@@ -1,0 +1,210 @@
+Please help to translate AkfQuiz to other languages
+
+ deutsch, english:: Andreas K. Förster
+ italiano:: Martin Guy
+ dansk:: Tommy Jensen
+
+----
+
+ msg_GPL::
+  deutsch:: 'GPL V2 oder neuer'
+  english:: 'GPL v2 or later'
+
+ msg_contributions::
+  deutsch:: 'Beiträge:'
+  english:: 'contributions:'
+
+ msg_advertisement::
+  deutsch:: 'Das original AKFQuiz ist für GNU/Linux erhältlich'
+  dansk:: 'Den oprindelige AKFQuiz findes til GNU/Linux'
+  english:: 'The original of AKFQuiz is available for GNU/Linux'
+
+ msg_noquizfound::
+  deutsch:: 'Keine AKFQuiz-Dateien gefunden'
+  italiano:: 'Nessum AKFQuiz-Archivio trovato'
+  dansk:: 'Ingen AKFQuiz filer fundet'
+  english:: 'No AKFQuiz-files found'
+
+ msg_filenotfound::
+  deutsch:: 'Fehler: Datei nicht gefunden'
+  italiano:: 'Errore: Archivio non trovato'
+  dansk:: 'Fejl: Fil ikke fundet'
+  english:: 'Error: file not found'
+
+ msg_anykey::
+  deutsch:: 'beliebige Taste...', 'beliebige Taste zum Fortfahren, oder [q] zum Beenden...'
+  italiano:: 'Premere un tasto...', 'Premere un tasto per continuare o [q] per uscire...'
+  dansk:: 'Tryk på en tast for at fortsætte...', 'Tryk på en tast for at fortsætte eller [q] for at stoppe...'
+  english:: 'press any key to continue...', 'press any key to continue or [q] to stop...'
+
+ msg_quiz::
+  deutsch:: 'Quiz: '
+  italiano:: 'Quiz: '
+  dansk:: 'Quiz: '
+  english:: 'Quiz: '
+
+ msg_author::
+  deutsch:: 'Autor: '
+  italiano:: 'Autore: '
+  dansk:: 'Forfatter: '
+  english:: 'Author: '
+
+ msg_authorURI::
+  deutsch:: 'Autor-Link: '
+  italiano:: 'Autore-link: '
+  dansk:: 'Forfatter-Link: '
+  english:: 'Author-link: '
+
+ msg_translator::
+  deutsch:: 'Übersetzer: '
+  italiano:: 'Traduttore: '
+  dansk:: 'Oversætter: '
+  english:: 'Translator: '
+
+ msg_edited::
+  deutsch:: 'Überarbeitet von: '
+  english:: 'Edited by: '
+
+ msg_license::
+  deutsch:: 'Lizenz: '
+  english:: 'License: '
+
+ msg_licenseURI::
+  deutsch:: 'Lizenz-Link: '
+  english:: 'License-Link: '
+
+ msg_right::
+  deutsch:: 'richtig'
+  italiano:: 'giusto'
+  dansk:: 'rigtigt'
+  english:: 'right'
+
+ msg_wrong::
+  deutsch:: 'leider falsch'
+  italiano:: 'sbagliato, mi dispiace'
+  dansk:: 'beklager, det er forkert'
+  english:: 'wrong, sorry'
+
+ msg_points::
+  deutsch:: 'Punkte: '
+  italiano:: 'punti: '
+  dansk:: 'point: ' (?)
+  english:: 'points: '
+
+ msg_seen::
+  deutsch:: 'Du hast die Lösung doch schon gesehen!'
+  italiano:: 'Ehi! Hai già visto la soluzione!'
+  dansk:: 'Du har jo allerede set løsningen!'
+  english:: Hey, you have seen the solution already!'
+
+ msg_really::
+  deutsch:: 'Wirklich die Lösung zeigen?'
+  italiano:: 'Vuoi vedere la soluzione davvero?'
+  dansk:: 'Ønsker du virkelig at se løsningen?'
+  english:: 'You really want to see the solution?'
+
+ msg_sol1::
+  deutsch:: 'Es wurden '
+  italiano:: 'Hai guagadnato '
+  dansk:: 'Du har fået '
+  english:: 'You have gained '
+
+ msg_sol2::
+  deutsch:: ' von maximal '
+  italiano:: ' dei '
+  dansk:: ' af '
+  english:: ' of '
+
+ msg_sol3::
+  deutsch:: ' Punkten erreicht.'
+  italiano:: ' punti possibili.'
+  dansk:: ' mulige point.'
+  english:: ' possible points.'
+
+ msg_sol4::
+  deutsch:: 'Das sind ';
+  italiano:: 'Ciò fà '
+  dansk:: 'Det giver '
+  english:: 'That makes '
+ 
+ msg_sol5::
+  deutsch:: 'Das sind leider nicht genug.'
+  italiano:: 'Mi dispiace, ma non basta.'
+  dansk:: 'Beklager, det er ikke nok.'
+  english:: 'Sorry, that's not enough.'
+
+ msg_timeout::
+  deutsch:: 'Die Zeit ist abgelaufen!'
+  english:: 'The time is up!'
+
+ msg_time::
+  deutsch:: 'Benötigte Zeit: '
+  english:: 'Elapsed time: '
+
+ msg_timelimit::
+  deutsch:: 'Zeit-Limit: '
+  english:: 'time limit: '
+
+ msg_error::
+  deutsch:: 'Fehler'
+  italiano:: 'Errore'
+  dansk:: 'Fejl'
+  english:: 'Error'
+
+ msg_fileerror::
+  deutsch:: 'Fehler in der Eingabe-Datei'
+  italiano:: 'Errore nell''archivio di input'
+  dansk:: 'Fejl i input filen'
+  english:: 'Error in input file'
+
+ msg_result::
+  deutsch:: 'Auswertung'
+  italiano:: 'risultato'
+  dansk:: 'resultat'
+  english:: 'result'
+
+ msg_solution::
+  deutsch:: 'Auflösung'
+  italiano:: 'soluzione'
+  dansk:: 'løsning'
+  english:: 'solution'
+
+ msg_new::
+  deutsch:: 'neu'
+  italiano:: 'nuovo'
+  dansk:: 'ny'
+  english:: 'new'
+
+ msg_made::
+  deutsch:: 'erstellt mit'
+  italiano:: 'Creato con'
+  dansk:: 'skabt ved brug af' (?)
+  english:: 'made using'
+
+ msg_back::
+  deutsch:: 'zurück'
+  italiano:: 'Indietro'
+  dansk:: 'tilbage'
+  english:: 'back'
+
+ msg_noJS::
+  deutsch:: 'JavaScript nicht verfügbar oder deaktiviert'
+  italiano:: 'JavaScript o non è disponibile o è disattivato'
+  dansk:: 'JavaScript ikke installeret eller deaktiveret'
+  english:: 'JavaScript not available or deactivated'
+
+ msg_notusable::
+  deutsch:: 'Quiz nicht benutzbar!'
+  italiano:: 'Quiz non utilizzabile!'
+  dansk:: 'Quizzen kan ikke bruges!'
+  english:: 'Quiz not usable!'
+
+ msg_assessment::
+  deutsch:: 'Auswertung'
+  dansk:: 'bedømmelse'
+  english:: 'assessment'
+
+ msg_more::
+  deutsch:: 'mehr...'
+  english:: 'more...'
+  otherwise:: '...'

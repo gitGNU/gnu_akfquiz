@@ -1,0 +1,18 @@
+
+The files with the extension .ub are raw sound files.
+They are encoded in Mono, 22050Hz, 8-Bit (unsigned Byte, thus .ub).
+
+If you have the program sox installed, you can play them like this:
+ $ play -r 22050 *.ub
+
+You can use sox to convert soundfiles from other formats:
+ $ sox mysound.wav -r 22050 -c 1 introsnd.ub resample
+
+It is a good idea to sample the sounds with a higher quality first and
+resample them afterwards.
+
+The soundfiles 
+errorsnd.ub, infosnd.ub, introsnd.ub, rightsnd.ub, wrongsnd.ub, 
+neutralsnd.ub
+of the original AKFQuiz package are put into the Public Domain.
+

@@ -1,0 +1,41 @@
+# use FPC Cross-Compiler for windows
+
+# Edit this file for Compiler-specific configuration
+# make further changes in common.mak
+
+# one program must be compiled for the native machine
+NATIVEPC=fpc
+NATIVEPFLAGS=-Sh -Sd
+
+# Cross-Compiling to Windows
+# use "make windows"
+PC=ppc386
+PFLAGS=-Sh -Sd -Twin32 -XPi586-mingw32msvc- -Xd
+
+POPT=-O2G -Xs -XX
+
+# additional optimization-flags for i386 machines
+POPT+=-Op3
+
+# path to SDL4Freepascal
+PFLAGS+=-Fu../../SDL4Freepascal-1.2.0.0
+DEFINES+=-dSDL
+
+DEFINES+=-dAdvertisement
+#DEFINES+=-dNoTitleImage
+#DEFINES+=-dGTK2
+#DEFINES+=-dNoHide
+#DEFINES+=-dscrNoEscKey
+#DEFINES+=-dgrNoEscKey
+#DEFINES+=-dOEM
+#DEFINES+=-dForceLFN
+#DEFINES+=-dNoProjectLink
+
+IMAGEOBJ=quizhg.inc hginfo.inc titimg.inc
+SOUNDOBJ=errorsnd.inc infosnd.inc introsnd.inc rightsnd.inc wrongsnd.inc \
+         neutralsnd.inc
+
+default: windows
+
+include common.mak
+
