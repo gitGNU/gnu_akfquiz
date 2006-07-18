@@ -1,0 +1,276 @@
+4.3.1
+- new keyword: "bidi:"
+- grquiz: neutralsound
+- optimizations in string handling
+- moved html handling from "uakfquiz" into new unit "htmlquiz"
+- grquiz: improved error handling when video output cannot be opened
+- grquiz: charset with 512 characters (for UTF-8)
+- import filters for all ISO 8859 codes and KOI8-(R,U,RU) to Unicode
+4.3.0
+- grquiz: "any key" always at the very bottom
+- grquiz: just reacts on the first 3 mouse buttons (not the wheel)
+- grquiz: audio-effects when compiled for SDL
+- DOS/GPC specific improvements in filename handling
+- default charset is now ASCII, and that is always enforced
+- interactive programs show the elapsed time at the end
+- scrquiz, grquiz: run in a loop as default, prarmeter -1 for run only once
+- scrquiz, grquiz: internal filechooser works fine now
+- grquiz: better support for some unusual display drivers
+- grquiz: F11 or Alt+Enter toggles between fullsscreen and window mode
+- grquiz with SDL uses its own icon now
+- grquiz: titlescreen supports exitkey
+- improved charset support a little
+- wquizchooser can use relative paths
+4.2.2
+- improved relocation algorithm
+- bugfix: text "IBM437" typo corrected (only the output text was corrupted)
+- new keywords "AuthorLink:", "Edited:"
+- some keywords "...URI" -> "...Link"
+- interactive programs enforce ASCII, when it's chosen
+- ASCII = US-ASCII
+- accepts "ftp://" with a deliberate hostname
+- "javascript:" recognized as URI
+- grquiz: improved handling of question, which don't fit on a screen
+- grquiz: graphical Symbols for right or wrong
+- grquiz: optimized event handling in SDL
+- grquiz: info screen
+- grquiz: grx uses fullcolor display as default
+- when installation-prefix is not detectable use '/usr/local'
+- some other minor changes
+4.2.1
+- lots of changes in the configure script and makefiles
+- akfquiz.cgi: renamed to cgiquiz
+- crtquiz: renamed to scrquiz
+- scrquiz: support for very small displays
+- improved text-formating
+- removed quiz-files with incompatible licenses from main package
+4.2.0
+- QUIZPATH may have more than one search-directories
+- when QUIZPATH is not set, use a "relocatable" default path
+- new keywords: "license:" and "licenseURI:"
+- HTML: Author and so on are printed at the beginning of page
+- mkquiz embeds the quizfile in the HTML code
+  => the HTML file is then still usable as quizfile
+- ppm2pas creates quizhg.inc from quizhg.ppm automatically
+  (previous versions needed some manual work)
+- autopackage registers MIME types for .akfquiz and .aqz
+- HTML: questions get a id "question#"
+- setting GRX mouse pointer color
+- fix: typo ISO-8559-1 instead of ISO-8859-1 in quizfiles and docs!
+- quizfiles: "\-" will be read as "-"
+- bugfix: "\" at end of line didn't work when there's more than one "\"
+- gtkquizchooser doesn't use the shell to execute the program
+- "make install" installs english *and* german manpages
+- removed some windows specific code
+4.1.1
+- grquiz: partly mouse support with SDL and GRX
+- rewrite of grquiz - can be used with SDL now
+- grquiz: window-title set for GRX
+- bugfix: a directory is not a valid quizfile
+- replaced quizchooser script with program gtkquizchooser
+- system signals as variables
+4.1.0
+- new script quizchooser for Unix, program wquizchooser for windows
+- new script: quizstat
+- bugfix: grquiz with FPC 1.0.x uses correct colors
+- grquiz: using a latin9 font (from Guylhem AZNAR)
+- danish translation - thanks to Tommy Jensen
+- alias "mc:" for "question:", "mcma:" for query
+- automatic recognition of URIs
+- images for HTML output
+- bugfix: diaquiz doesn't hang in the filechooser when no file is chosen
+- new keyword "rtl:", support for right-to-left written languages in HTML
+- the assessment text block doesn't use an id anymore
+- akfquiz5.js used
+- quizfile starts with keyword "AKFQuiz" and ends with "End" or "Ende"
+  => so it can be embedded in other files
+- larger strings for settings
+- new keyword "assessment%:"
+- no negative percentage calculated anymore
+4.0.3
+- configure accepts parameter --fpc or --gpc
+- configure and Makefile in the main directory now
+- crtquiz, grquiz: filechooser doesn't stop on typos only on empty lines
+- graphic mode now standard VGA 640x350x16 
+    -> no trouble with unsupported cards 
+- grquiz, crtquiz, linequiz new parameter -d <dir>
+- mkquiz: parameters -o, --out (instead of -d, --data)
+- Exitkey not displayd when not valid
+- akfquiz.cgi: indexer uses "Cache-control: no-cache"
+- bugfix: quiz files with cr/lf also work with gpc compiled progs now
+- lots of changes for gpc compatiblity (grquiz supported using GRX lib now)
+4.0.2
+- code cleanups
+- grquiz, crtquiz, linequiz: "-s" = no sound (no beep)
+- detection of system language under windows
+- language code is case insensitive now (but you should use lowercase)
+- possability to include an advertisement line
+- linequiz: waits for Enter after each section
+- linequiz: beeps now 
+- linequiz: new parameter "-l"
+- bugfix: linequiz: handling of parameters
+- bugfix: grquiz: defaultanswer showed position number instead of
+  key
+- changes for newer gpc (grquiz still not supported with gpc)
+4.0.1
+- Makefile: directories will be created
+- CGI: correct answer is marked <strong> for text-browsers
+- bugfix: very last answer was missing sometimes in HTML output
+- mkquiz: no "solution" button on neutral quiz-files
+- source: more abstract hooks for singnals (sounds...)
+- crtquiz: corrected the positioning of the title-screen
+- FSF moved -> corrected address again
+4.0.0
+- bugfixes...
+- script "akfquiz" which tries to start the most appropriate quiz-prog.
+- syntax of mkquiz completely reworked
+- grquiz can handle background patterns in the textarea (not on windows)
+- changed format of answer lines
+- more than 9 answers supported in the interactive interpreters
+- long answers may be split using a backslash (\)
+- akfquiz4.js uses DOM model => more posabillities
+- use the <LABEL> tag in produced HTML-code
+- bugfixes: range checking
+- # is only a comment if it's the first non-whitespace char in the line!
+- new keywords: "hint:" | "remark:"
+- diaquiz made even more secure again
+- some hacks for backward compatiblity with FPC 1.0.x (still need it for DOS)
+3.1.3
+- security-fix for diaquiz
+  (tempfile security-hole introduced in 3.1.2)
+3.1.2
+- sources work with Free Pascal 1.9.x 
+  => grquiz available for FreeBSD
+3.1.1
+- put German translation of the GPL into the doc path
+- bugfix: grquiz had problems with some parameters
+- added example file "schulnote.html"
+- using longer string-types ("ansistring" or "string(2048)")
+- added UTF-8 support
+3.1.0
+- bugfix: ./configure runs under FreeBSD again
+- new program: grquiz (just FPC, not yet for FreeBSD)
+- new keyword "assessmentURI:"
+- mkquiz handles "assessment:"-blocks differently (akfquiz3.js)
+3.0.3 (no official release)
+- updated the address of the FSF (had a very old adress)
+- new program: linequiz (as backend / for speech-output / Braille-lines)
+- improved language heuristics
+- bugfixes: crtquiz, akfquiz.cgi: better handling of invalid pathnames
+- more and better italian translations
+3.0.2
+- crtquiz: titlescreen
+- Windows: executables get icon and version infos linked in
+- crtquiz/diaquiz can convert between latin1/IBM charsets as needed
+- extentions .akfquiz and .aqz are both supported on all systems
+- DOS: crtquiz supports parameter -LFN (needed for bootfloppy)
+- DOS: support for environment variable LFN
++ HTML-entity &euro; -> "Euro" on crtquiz/diaquiz
+3.0.1
+- bugfix: crtquiz didn't accept full paths on POSIX machines
+3.0.0
++ HTML-code now skipped if it's no HTML output (htmlcode: yes)
+- bugfix: italian translation was scrambled
+- crtquiz now handles displays with just 40 chars per line
+- crtquiz now handles words, that don't fit into the display
+- rewritten akfquiz2.js
++ added keyword assessment: (Auswertung:)
+2.04 ( several "prerelease" versions released )
+- bugfix: diaquiz calculated points wrong
++ even on questions with just one choosable answer there may be
+  more than one "correct" answer (for psycho-tests)
+- more portable to older compilers
++ crtquiz handles long texts now by waiting
+- preparing later switch to XHTML
++ paragraph support for questions and comments
+- bugfix: TABs after keywords are now allowed
++ introduced NoProjectLink - please don't use it
+- mkquiz: text-phrases moved out of JavaScript into HTML file
+- akfquiz.cgi: bugfixes
++ parameter "-" used for stdin/stdout (not for DOS?)
++ introduced keyword "neutral:" (for psycho-tests)
++ file-extention .akfquiz searched automatically
++ introduced environment variable QUIZPATH
+- using additional Buffer for FPC
+- example-quizfiles now in subdirectory
+- many bugfixes in crtquiz
++ keywords now also in german language (got more german audience)
+- the main unit is now renamed to uakfquiz.pas to avoid missunderstandings
++ wrote CGI program
++ introduced keyword "baseURI"
++ started to write diaquiz
+- mkquiz: link to my website stops possible frames made by others
+2.03b
+- updated Makefile for compatiblity with FreeBSD and easier package 
+  creation
+- corrections in CSS files
+2.03a
+- changes in mkquiz for windows version
+2.03
+- italien phrases in crtquiz and akfquiz.js
+- "query:" as alias for "multi:"
+- compatiblity changes in crtquiz
+2.02
+- crtquiz: statistic on Multi questions
+- changed color-scheme - also to avoid problems with some terminals
+- added support for: make install-quizzes
+2.01d
+- more English translations
+2.01c
+- crtquiz: window to bottom
+2.01b
+- crtquiz: bugfix
+2.01a
+- uakfquiz renamed to akfquiz
+- children of Thtmlquiz must call "inherited headdata" now
+2.01
+- Fix - crtquiz: no crash on nonexistant file
+2.0
+- total rewrite
+1.5a
+- clearified the Copyright term in codes (Prog/Scripts: GPL, CSS: PD)
+- Windows: moved documentation into separate directory
++ also excluded default-answer from being printed
+- englisch names for all css files
+1.5
+- separated the windows specific documentation
++ media types in css files - escpecially for printing
++ media type style in html code - for not printig buttons
++ added "getquiz" command for Unix
++ doesn't give negatige percentages anymore
+1.4b
++ Version Number in help output
++ if Langage set to "de" then german error codes else english ones
+- documentation without hyphenation
+1.4a
++ added command line parameters -h, --help and /?
++ documentation as manpage now
+1.4
++ major documentation updatates
++ keywords now case insensitive 
++ keywords can have spaces and tabs in front of them
++ errors written to HTML code
++ more checkings
++ stylistic code changes
++ reference to my homepage included
+1.3
++ Hotkeys for buttons
++ Buttons "solution" and "reset" can be left away
++ fixed: default-answer just for radio-boxes
++ fixed: marks on defautChecked boxes are now removed if set
+- "form" now named "akfquiz" (former "quiz")
+- minor beatyfying of html-code
++ version-number in output
++ lang="en"-attributes on fixed text
+1.2
+- images now have "name" instead of "id" for older browsers
+- JavaScript revised for older browsers
+1.1 
++ added META tag for "author"
++ compatiblity changes
++ added NOSCRIPT area
++ added META tag for defining script-language
++ added LANGUAGE attribute in SCRIPT, 
+ just for backward compatiblity with old browsers
+
+1.0 first release

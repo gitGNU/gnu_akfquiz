@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Exec=grquiz
+TryExec=grquiz
+Icon=AKFQuiz.xpm
+Terminal=false
+Name=AKFQuiz: grquiz
+Name[de]=AKFQuiz: grquiz
+GenericName=AKFQuiz
+Comment=AKFQuiz graphical
+Comment[de]=AKFQuiz grafisch

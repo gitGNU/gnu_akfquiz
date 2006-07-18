@@ -1,0 +1,160 @@
+AKFQuiz 4.3.0 or higher
+
+# Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
+#
+# This quiz file is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This quiz file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+title:       GNU+Linux-Quiz (en)
+author:      
+Copyright:   Andreas K. Foerster
+authorlink:  mailto:akfquiz@akfoerster.de
+edited:
+license:     GPL v2 or later
+licenseLink: http://www.gnu.org/licenses/gpl.html
+charset:     US-ASCII
+language:    en
+layout:      q-school.css
+default:     don't know
+
+
+comment:
+correctly answered questions bring you one point, for wrong answers you 
+lose one point. The answer "Don't know" is neutral.
+
+question:
+To which operating system is GNU+Linux compatible?
+
+-1 Windows
++1 Unix 
+-1 it's a system on its own
+
+hint:
+Unix was chosen, because it was the only portable operating system at 
+that time.
+
+question:
+What is the origin of GNU+Linux?
+
++1 1984 by Richard Stallman
+-1 1987 by Andrew Tannenbaum
+-1 1991 by Linus Torvalds
+
+hint:
+By 1990 the GNU system was an almost complete operating system. 
+The only missing thing was a kernel.
+.
+You can learn more about the history of GNU under 
+http://www.gnu.org/gnu/gnu-history.html
+
+
+question:
+What has Linus Torvalds developed?
+
+-1 he developed the whole system
++1 he developed the kernel of the system
+-1 he is only the coordinator
+
+
+question:
+What is the mascot of Linux?
+
++1 a penguin
+-1 a gnu
+-1 a window
+
+
+question:
+On what kind of machines is GNU+Linux running?
+
+-1 on mainframes
+-1 on PCs
++1 on a lot of different machines
+
+question:
+Does the system have a graphical user environments?
+
+-1 No, there is only the text-console
+-1 yes, the environment is called KDE
++1 yes, there are a lot of environments
+
+hint:
+Some well known environments are GNOME, KDE, XFCE and WindowMaker...
+
+question:
+GNU+Linux and most of the software for it is "free software". 
+What does that mean?
+
+-1 it must be available without cost or for a reasonable low price
+-1 the source code must be open
++1 you have the freedom to use, read, modify and distribute \
+   the software
+-1 it's a development model, where a community of developers work \
+   together
+
+hint:
+Free Software means freedom, not price. 
+That means you can charge any deliberate price for it, 
+you just may not among other things forbid copying.
+.
+It is true,  that the source code must be made available, 
+but that alone is not enough. That is a just precondition for the 
+freedom to read or modify the software.
+.
+Free Software is free, when the user has all the freedoms -
+no matter with which development model the software was developed.
+.
+Read more about this topic under
+http://www.gnu.org/philosophy/free-sw.html
+
+
+question:
+In which programming language are the basic elements of GNU+Linux 
+written? (the kernel, and the GNU tools like bash, tar, gzip and so on)
+
+-1 Assembler
+-1 Pascal
++1 C
+-1 C++
+-1 C#
+-1 LISP
+
+
+question:
+Which of these programming languages do not exist for GNU+Linux?
+
+-1 Fortran, Lisp, Pascal, Modula-2, ADA
+-1 Java, JavaScript
++1 Visual Basic, Visual C, Visual Java 
+
+
+question:
+Which kernel was created in the GNU project?
+
+-1 BSD
++1 the HURD
+-1 Linux
+
+hint:
+The HURD was started around the same time as Linux. But the 
+development was largely retarded due to some difficult design 
+decisions and because Linux was already available. It took more 
+than ten years for HURD to run and it is not stable until now 
+(2005).
+
+
+assessment%:
+100 Congratulations! Everything right!
+70  not bad!
+40  akcepatble
+25  could be better
+0   you were just guessing, right?
+
+end

@@ -1,0 +1,118 @@
+/* akfquiz - styles for school-theme */
+/* this file is in the public domain */
+
+/* last revision for AKFQuiz 4.1.2 */
+
+/* import special styles for printig: */
+@import url(q-print.css) print;
+
+/* common to all media */
+html {
+     font-family:cursive;
+     }
+
+h1 {
+     text-decoration:underline;
+     text-align:center;
+     }
+
+.result { 
+     text-align:center;
+     font-style:italic;
+     font-weight:bold;
+     font-size:larger;
+     }
+
+.resultlink, .home { text-align:center; }
+
+.comment {
+     clear:both;
+     font-family:sans-serif;
+     font-style:italic;
+     }
+
+#metadata, .hint {
+     margin-top:1ex;
+     padding:.5ex;
+     font-family:sans-serif;
+     font-style:italic;
+     }
+
+.question { 
+     clear:both;
+     font-size:larger;
+     font-weight:bold;
+     }
+
+.answer { 
+     margin-left:1em;
+     margin-right:1em;
+     }
+
+.wrong {
+     text-decoration:line-through;
+     }
+  
+.points {
+     text-align:center;
+     font-weight:bold;
+     }
+
+.assessment {
+     clear:both;
+     text-align:center;
+     }
+
+.buttons { 
+     margin-top:2em;
+     margin-bottom:2em;
+     text-align:center;
+     }
+
+  .made {
+     font-family:sans-serif;
+     font-size:x-small;
+     text-align:right;
+     }
+
+/* styles for screens */
+@media screen {
+  html {
+     color:#0000aa; /* inc */
+     background-color:white; /* if graphic not available */
+     background-image:url(school.png);
+     }
+
+  body { 
+     margin:1ex 8%;
+     }
+
+  .error {
+     color:red;
+     background:transparent;
+     text-align:center;
+     font-weight:bold;
+     font-style:italic;
+     font-size:larger;
+     }
+
+  #metadata, .hint, .assessment {
+     color:black;
+     background-color:#eeeeee;
+     }
+
+  .answer input {
+     color:black;
+     background:transparent;
+     }
+
+  .correct {
+     background:#dfd;
+     color:black;
+     }
+
+  .buttons input {
+     color:black;
+     background:#ccc;
+     }
+}

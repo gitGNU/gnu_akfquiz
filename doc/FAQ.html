@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+  <meta http-equiv="content-language" content="en" />
+
+  <title>AKFQuiz: FAQ</title>
+  
+  <style type="text/css">
+  /*<![CDATA[*/
+  <!--
+  body { margin:1ex 2em }
+  h1, h2, .question { 
+     text-align: center;
+     padding:1ex; 
+     color:#00d; 
+     background-color:#ddd; 
+     border:solid thin
+     }
+  // -->
+  /*]]>*/
+  </style>
+</head>
+
+<body>
+
+<h1>AKFQuiz-FAQ</h1>
+
+<p id="english" class="question"><strong>
+Why is there so much in English?
+</strong></p>
+
+<p>
+Because I don't speak Esperanto. ;-)
+</p>
+
+<p>
+Well, I don't want to limit the program to be used in just one country, 
+and it's much easier to find a German who speaks English, than to find 
+a Japanese who speaks German.
+</p>
+
+<p>
+By the way, it's much easier first to write something in a foreign 
+language and then translate it to my native language, than vice versa.
+</p>
+
+
+<p id="autopackage" class="question"><strong>
+I have installed AKFQuiz using the autopackage, but the programs don't 
+find any quizfiles.
+</strong></p>
+
+<p>
+Try to log out and log in again. Then the variable QUIZPATH should be 
+set.
+</p>
+
+
+
+<p id="extension" class="question"><strong> 
+What file-extension have AKFQuiz-files?
+</strong></p>
+
+<p> 
+Give them either the extension ".akfquiz" or no extension at all.
+On more limited systems you could also use the extension ".aqz".
+In some graphical environments it is useful for the system - in others 
+it is rather disturbing. So you can decide.
+</p>
+
+
+<p id="mime" class="question"><strong>
+I need to give a MIME-type to AKFQuiz-files. What can I use?
+</strong></p>
+
+<p>
+If you need a special mime-type for AKFQuiz, please use 
+"application/x-akfquiz".
+</p>
+
+<p>
+Since AKFQuiz-files are plain text files, you could also use 
+"text/plain" if you want them to be shown as text.
+</p>
+
+<p id="limits" class="question"><strong>
+What are the limits in AKFQuiz-files?
+</strong></p>
+
+<p>
+Each program for AKFQuiz has it's own limitations. So you have to try 
+yourself.
+But if you intend to run your quiz just in one single environment, then 
+don't bother about the others. 
+The number of questions is unlimited in any frontend so far.
+The number of possible answers is limited to 35 in the interactive 
+variants - a planned extension will limit it to 4, if you want to use 
+it - but you will of course not be forced to support it.
+</p>
+
+<p>
+The code does check the ranges of variables, so it should not be 
+possible to misuse buffer overflows. 
+</p>
+
+<p id="uri" class="question"><strong>
+The syntax "URI:index.html" is wrong, because index.html is not an URI.
+</strong></p>
+
+<p>
+Well, if it were an URI you wouldn't have to use that keyword.
+Please read the keywords URI: or URL: as "handle the following as if it 
+would be an URI, no matter whether it is one or not".
+</p>
+
+
+<p id="proglang" class="question"><strong>
+What programming language is used in AKFQuiz?
+</strong></p>
+
+<p>
+Most parts are in Pascal. To be precise it's mostly the Borland dialect.
+Well, that dialect is far away from the official standards, but indeed, 
+it's more widely spread than the standards.
+</p>
+
+<p>
+Then there is also a JavaScript script and some scripts for the 
+Bourne-Shell. the tool quizstat is written in AWK.
+</p>
+
+<p>
+And of course also HTML and CSS are used. But I don't regard them as 
+being programming languages - but there are people who insist, that 
+they are. Even professors at universities. ;->>>
+</p>
+
+
+<p id="compiler" class="question"><strong>
+What compiler do I need to compile it myself?
+</strong></p>
+
+<p>
+It's ported especially for <a href="http://www.freepascal.org/">FreePascal</a>
+(FPC). Most of it can also be compiled with <a 
+href="http://www.gnu-pascal.de/">GNU-Pascal</a> (GPC). 
+</p>
+
+<p>
+If you want to compile it with another compiler, you have to do some 
+porting work. It would be nice, if you would tell me about it.
+You'd better don't try p2c or Irie Pascal - That's most probably not 
+possible.
+</p>
+
+<p id="contact" class="question"><strong>
+How can I get in contact with you?
+</strong></p>
+
+<p>
+Write to <a href="mailto:akfquiz@akfoerster.de">akfquiz@akfoerster.de</a>.
+</p>
+
+<p>
+Please put the term AKFQuiz into the subject line, so I can distinguish 
+it from spam more easily.
+</p>
+
+<p id="doswin" class="question"><strong>
+Are there DOS programs in the Windows package?
+</strong></p>
+
+<p>
+No, there aren't!
+There are programs which use the text console, namely scrquiz and 
+linequiz. They look the same as their DOS counterparts. But yet, 
+technically they are Windows programs, they wouldn't run without 
+Windows. They use the Windows API for their output. - 
+Yes, they use the text console through the Windows API!
+</p>
+
+<p id="dos32" class="question"><strong>
+But there are DOS programs available?
+</strong></p>
+
+<p>
+Yes, but they use a DOS-extender, since they are 32-Bit programs.
+Therefore you need the program CWSDPMI.EXE in your path. That's also 
+the reason, why you need at least an 80386 processor, because the 
+earlier processors were still 16-Bit processors.
+</p>
+
+<p id="mach64" class="question"><strong>
+Could AKFQuiz be compiled as native 64-Bit applications?
+</strong></p>
+
+<p>
+Yes, but there wouldn't be any advantage - there could even 
+be disadvantages. But I cannot check that.
+</p>
+
+<!-- *************************************************************** -->
+
+<h2 id="legal">legal questions</h2>
+
+<p id="quizgpl" class="question"><strong>
+The program is put under the GNU GPL. Does that mean, that quizfiles 
+also must be published under this license.
+</strong></p>
+
+<p>
+No. 
+</p>
+
+<p>
+I'm a fan of free software. But I don't see quizfiles as software. It's 
+something different and may have different licenses.
+</p>
+
+<p>
+A good choice for licensing quizfiles are the
+<a href="http://creativecommons.org/license/">Creative Commons</a> licenses.
+Quizfiles are "interactive".
+</p>
+
+<p>
+Please note however, that these licenses are not necessarily compatible with
+the free software definition. This means, that they might be rejected by some
+software distributions. If you want to bundle the quizfile with the 
+software, then it <em>is</em> problably a good idea to publish it under 
+the GPL.
+</p>
+
+<p id="quizlicense" class="question"><strong>
+How can I apply a license to my quiz-file?
+</strong></p>
+
+<p>
+Use the keywords <code>license:</code> and <code>licenseURI:</code> 
+in the head of the quizfile.
+</p>
+
+<p>
+If you want a more detailed description, you could also use a 
+<code>comment:</code> field in the body like in this example:
+</p>
+
+<blockquote>
+<p><code>
+comment:<br />
+This work is licensed under the Creative Commons Attribution-ShareAlike 2.5
+License. To view a copy of this license, visit <a
+href="http://creativecommons.org/licenses/by-sa/2.5/">http://creativecommons.org/licenses/by-sa/2.5/</a>
+or send a letter to Creative Commons, 543 Howard Street, 5th Floor, San
+Francisco, California, 94105, USA.
+</code></p>
+</blockquote>
+
+<p>
+The URI will be automatically recognized as such in the web-based variants
+of AKFQuiz.
+</p>
+
+<p id="outputlicense" class="question"><strong>
+What are the license terms for the output of mkquiz?
+Under the terms of the GPL, do I have to put the HTML files under the 
+GPL too?
+</strong></p>
+
+<p>
+If you are the author of the quiz, then you can choose which license to
+use. Since the HTML code is trivial, I don't claim copyright on that.
+You can do with the output of mkquiz whatever you want to do.
+So you could also remove the link to my homepage or any hint to my
+program - if you want to.
+</p>
+
+<p>
+But the JavaScript-Code is licensed under the GPL - even if you would
+include it in the HTML-files. There you have to keep the copyright
+notices!
+</p>
+
+<p>
+The png- and css-files of AKFQuiz are public domain, so do whatever you
+want with them.
+</p>
+
+<p id="publprog" class="question"><strong>
+May I publish my own version of AKFQuiz?
+</strong></p>
+
+<p>
+Yes, it's free software. You have to publish it under the same 
+license terms, which means you have to make the source code of your 
+version available. Of course you have to keep the copyright notice.
+</p>
+
+<p>
+You have to mark the version as a modified version. The best way to do 
+it, is to add a variant name. Edit the file <em>configure</em> and 
+modify the VARIANT line. For example, if your name is Joe, use 
+<em>VARIANT="-joe"</em>. Then you have to execute <em>./configure</em> 
+to get this change into the source code.
+</p>
+
+<p id="mustpublish" class="question"><strong>
+When I change the programs, do I have to publish my changes?
+</strong></p>
+
+<p>
+No. <strong>If</strong> you publish your version, you must also make 
+the source code available under the GPL. But when you make the changes 
+just for your own or your schools use, there is no need to publish 
+your modified version at all.
+</p>
+
+<p id="unfree" class="question"><strong>
+May i use code from AKFQuiz in my unfree programs?
+</strong></p>
+
+<p>
+No. You may not! - At least you may not publish such combinations.
+</p>
+
+
+<p id="otherchanges" class="question"><strong>
+I don't want to change the executables. I only want to change other 
+things in your package.
+</strong></p>
+
+<p>
+Yes, you can do so. But you still have to make the source code 
+available. It is not enough to point others to my homepage and say "get 
+the sources there." It might be, that I don't have the source for that 
+version anymore. So if you make binaries available, you have also the 
+duty to make the source code available!
+</p>
+
+<p id="commercial" class="question"><strong>
+May I sell AKFQuiz for money, or include it in commercial program 
+collections?
+</strong></p>
+
+<p>
+Yes you may. There is no limit how much you may charge for it. But you 
+have to make the source code available.
+</p>
+
+
+<p id="aggregation" class="question"><strong>
+May I put together AKFQuiz with unfree products?
+</strong></p>
+
+<p>
+Yes, as long, as they are separate entities. 
+Well, I think using unfree software should be avoided whenever possible, 
+but if you want to use it, it's your choice.
+You just cannot merge it together with unfree code to build up one 
+product.
+</p>
+
+<p id="book" class="question"><strong>
+The book so and so says about the GPL...
+</strong></p>
+
+<p>
+The program is licensed under the GPL, not under a book about the GPL!
+I don't want to say, that your book says something wrong, but since a 
+book tries to make things easier to understand, it simplifies things. 
+But you cannot take these simplifications and say, that's what the GPL 
+says. Please read the GPL itselve!
+</p>
+
+<p id="moreGPL" class="question"><strong>
+I have more questions concerning the GPL...
+</strong></p>
+
+<p>
+There is a good <a href="http://www.gnu.org/licenses/gpl-faq.html">GPL FAQ</a> on the Internet.
+</p>
+
+<p id="testing" class="question"><strong>
+I have found a version labeled "AKFQuiz-testing". What's that?
+</strong></p>
+
+<p>
+It's an intermediate, not official version. Use it at your own risk.
+There may be different variants with the same version number.
+</p>
+
+<p>
+If you have the source code, you can use it, as if it was published. 
+If you don't have the source code, you may use it, but you may not 
+distribute it. Don't ask me for the source code, I most probably 
+don't have it either. Get the latest official release.
+</p>
+
+<!-- *************************************************************** -->
+
+<h2 id="quizfiles">Quiz files</h2>
+
+<p id="sign" class="question"><strong> 
+(How) can I sign a quiz-file using GnuPG?
+</strong></p>
+
+<p>
+Yes, you can.
+Make sure that your quiz-file ends with the keyword "end" or "Ende",
+then use <tt>gpg --clearsign --not-dash-escaped myquiz.akfquiz</tt>.
+You don't have to necessarily use the <tt>--not-dash-escaped</tt> 
+option. The AKFQuiz programs take care about dash-escaped sequences, 
+but it increases the readability when you use the option.
+</p>
+
+<p>
+This only works with AKFQuiz 4.1.0 or higher.
+</p>
+
+<!-- *************************************************************** -->
+
+<h2 id="grquiz">GRQUIZ</h2>
+
+<p id="obsoltete" class="question"><strong> 
+Grquiz is so much better than scrquiz. Isn't scrquiz obsoleted by 
+grquiz?
+</strong></p>
+
+<p>
+No. Grquiz may be the best choice for most people, but not for everybody.
+</p>
+
+<p> 
+Grquiz is the best choice for a desktop user, who lives in western
+Europe. But people, who want to use something interactively over the
+network can't use grquiz, but scrquiz can be used via telnet or ssh.
+And scrquiz is more portable to other computers, it can even handle very
+small text-displays. Grquiz is also limited to western characters.
+Quizfiles for languages with other letters cannot be used with grquiz,
+but the system  may be configured in a way, that they can be used with
+scrquiz. Also scrquiz is probably the better choice for blind users -
+although linequiz may be the best for them... 
+</p>
+
+<p id="sdl.dll" class="question"><strong>
+I get an error message, saying the a required SDL.DLL is missing.
+</strong></p>
+
+<p> 
+Then you are trying to use grquiz under ReactOs or Windows.
+You can get that needed file from <a
+href="http://www.libsdl.org/download-1.2.php">http://www.libsdl.org/download-1.2.php</a>.
+You need the "Runtime Library" for "Win32" (that can also be used on 
+ReactOS). Unpack the package and put the file SDL.DLL into your System32
+folder. That is depending on your system "C:\REACTOS\System32" or 
+"C:\Windows\System32" or "C:\WinNT\System32". 
+</p>
+
+<p id="ldd" class="question"><strong> 
+Grquiz can be linked to use different libraries. How can I find out, 
+what library is needed when I have a precompiled binary?
+</strong></p>
+
+<p>
+On Unix systems use the tool "ldd": "ldd /usr/local/bin/grquiz"
+That also tells you, when something is missing.
+</p>
+
+
+<p id="iopermissions" class="question"><strong>
+When I try to start grquiz, I only get the message 
+"svgalib: Cannot get I/O permissions.".
+</strong></p>
+
+<p>
+When grquiz is linked with SVGAlib, it needs root-privileges.
+</p>
+
+<p id="svgalibconsole" class="question"><strong>
+Grquiz just gives me a long message, that says something like
+<br />
+"You must be the owner of the current console to use svgalib.
+Not running in a graphics capable console,
+and unable to find one."
+</strong></p>
+
+<p>
+Are you trying to start it under X11? Try to start it from a 
+text-console, or use a version, that is compiled with another library.
+</p>
+
+<p>
+Are you trying to run it in a framebuffer device? Try it without the 
+framebuffer (it might work with that, but it's not granted).
+</p>
+
+<p>
+Are you trying to start it over the network? SVGAlib isn't 
+network-capable.
+</p>
+
+
+<p id="grxdriver" class="question"><strong>
+When I try to start grquiz, I only get the message 
+<br />
+"GrSetMode: could not find suitable video driver"
+</strong></p>
+
+<p>
+Then it was compiled with GPC. Try to start it under X11.
+If that doesn't help, use the tool "ldd" (see above) to find out, what 
+you need.
+</p>
+
+
+<p id="whichlib" class="question"><strong>
+I use FPC to compile the programs. How can I determine, which output 
+device is used for grquiz?
+</strong></p>
+
+<p>
+Normally FPC compiles grquiz for SVGAlib. If you want to compile for 
+libSDL, you need SDL4Freepascal-1.2. Please edit "Makefile.fpc" to 
+choose whether SDL is to be used or not.
+</p>
+
+<p>
+You could also use GPC and the library GRX.
+</p>
+
+<!-- *************************************************************** -->
+
+<h2 id="scrquiz">SCRQUIZ / CRTQUIZ</h2>
+
+<p id="crtquiz" class="question"><strong>
+Where is crtquiz? It isn't there anymore.
+</strong></p>
+
+<p>
+Crtquiz was renamed to scrquiz (scr: screen). 
+The title crt had a historical reason, which nobody nowadays 
+understands anymore.
+</p>
+
+<p id="scrkeyb" class="question"><strong>
+The initial screen and the first comments are not shown, when I start up
+scrquiz. In the second round, they are there.
+</strong></p>
+
+<p>
+That's a known bug. It only appears with version 1.3 or earlier on 
+BSD systems. It should be fixed now.
+</p>
+
+
+<p id="scresc" class="question"><strong>
+With scrquiz I get a strange "1[" on the screen. {@@}
+</strong></p>
+
+<p>
+Some terminals don't know about how to hide the cursor. FreePascal 
+doesn't use a terminal database. So, recompile it with activated
+"DEFINES+=-dNoHide" in the file "Makefile.fpc" or recompile it with 
+GNU-Pascal.
+</p>
+
+
+<p id="scrcursor" class="question"><strong>
+With scrquiz the cursor goes to the upper left corner of the screen.
+</strong></p>
+
+<p>
+It's not a bug, it's a feature. This happens on terminals, that can
+not hide the cursor. If you don't like it, recompile with activated
+"DEFINES+=-D NoHide" in the file "Makefile.gpc". Then the cursor 
+always stays after the "...".
+</p>
+
+
+<p id="scrbackground" class="question"><strong>
+With scrquiz on some terminals I get a black background, 
+which looks ugly.
+</strong></p>
+
+<p>
+@@@
+</p>
+
+<p id="scrhang" class="question"><strong>
+Scrquiz sometimes hang.
+</strong></p>
+
+<p>
+That's a known bug in older versions. It happens, when there is a long 
+expression without spaces in it, which doesn't fit in the display - for 
+example a long Internet-address.
+It's hopefilly fixed in 4.2.1.
+</p>
+
+<p>
+Another reason can be, that there are more than 9 possible answers. 
+This bug is solved in version 3.2.0.
+</p>
+
+<!-- *************************************************************** -->
+
+<h2 id="cgi">CGI:</h2>
+
+<p id="cginonetw" class="question"><strong>
+Do I need a networked machine to use the CGI program?
+</strong></p>
+
+<p>
+No, you can also use it on a stand alone machine. But you need a 
+webserver. See also the next question...
+</p>
+
+<p id="bigserver" class="question"><strong>
+I don't want to install a big webserver on my small machine!
+</strong></p>
+
+<p>
+Then install a small one. The program cgiquiz was heavily tested 
+with "BOA" &lt;<a href="http://www.boa.org">http://www.boa.org</a>&gt;, 
+which doesn't need much more space than the bash.
+</p>
+
+<p>
+There are also some browsers with a builtin CGI-Interface. But I haven't 
+tested them yet.
+</p>
+
+<p id="apache" class="question"><strong> 
+Does cgiquiz work with apache?
+</strong></p>
+
+<p>
+Of course!
+</p>
+
+
+<p id="iis" class="question"><strong> 
+Does cgiquiz work with IIS?
+</strong></p>
+
+<p>
+Possibly not. I can't test it myself.
+But I've read, that IIS is lacking a CGI-feature, my program uses.
+</p>
+
+<p id="cgiuri" class="question"><strong>
+Can I use a full URI to access the quizfile?
+</strong></p>
+
+<p>
+No, that could be misused.
+</p>
+
+<p id="cgiother" class="question"><strong>
+So I can't access quizfiles on other servers?
+</strong></p>
+
+<p>
+Only if you deliberately import the filesystem with NFS, Coda, SMB or
+something like that.
+</p>
+
+</body>
+</html>

@@ -1,0 +1,422 @@
+.\" Process this file with
+.\" groff -man -Tlatin1 akfquiz.5
+.\"
+.TH "akfquiz" 5 "4.3.1" AKFQuiz
+
+.SH NAME
+akfquiz \- file-format for quiz-games, exercises, psycho-tests
+
+.SH DESCRIPTION
+
+AKFQuiz-files can be made and edited with a normal text-editor.
+
+AKFQuiz-files could get the file-extension ".akfquiz" or ".aqz", 
+but in lots of cases it's okay to leave the extension away. 
+
+A line, which begins with a hash-sign (#) is a comment and will be ignored.
+Only spaces are allowed in front of the hash-sign.
+If the hash-sign is not at the beginning, it will be regarded as normal 
+character.
+
+The AKFQuiz-format is based on keywords.
+The keywords may be intended and they are case-insensitive.
+To disable keywords, you could put a hash-sign (#) in front of it.
+
+There are one-line keywords. These are for global settings.
+One-line keywords must be at the beginning of the file, before 
+the block-oriented keywords.
+
+Then there are also block-oriented keywords. These build up the visible 
+content of the quiz. The text for the block-oriented keywords has to 
+start in an new line.
+
+Have a look at the example-files.
+
+.SH keywords
+
+Detailed description of the keywords:
+
+.IP "AKFQuiz"
+Put the term 
+.I AKFQuiz
+at the beginning of an AKFQuiz-file (after the #! line if you use that). 
+Behind that that you can enter information about which version is needed. 
+
+If needed you can also use a variant name like this:
+.br
+.I "AKFQuiz-testing version 4.1.0"
+
+.B Attention:
+In version 4.1.0 or higher the keyword AKFQuiz 
+.I must
+be used and it must be at the beginning of the line. 
+Lines before that keyword are ignored.
+
+.IP end
+The keyword end should be used at the end of a quiz-file. Lines after that 
+keyword will be ignored. So AKFQuiz files can be embedded in other 
+textoriented file formats.
+
+.SS line-oriented keywords:
+
+.IP title: 
+Title of the quiz - there should always be a unique title!
+
+.IP author: 
+The author of the quiz. This should be the one who is responsible for 
+the
+.IR content " ie. the " questions .
+- not the one, who made a quiz-file of it.
+
+.IP authorlink: 
+Link to the homepage of the autor, or the email adress. This should be 
+given in form of an URI, ie. with the protocol name. For example:
+.I http://akfoerster.de/
+or
+.I mailto:akfquiz@akfoerster.de
+
+.IP edited:
+List of people, who have edited the quiz-file
+
+.IP copyright:
+the one who holds the copyright.
+This keyword may be used as alternative to 
+.IR author: .
+But there are also cases, where the author and the copyright-holder are 
+different. In this case you can use both keywords.
+
+.IP license:
+Which license applies to the quiz. Please be precise about the name and 
+the version of the license.
+
+You may put the term
+.I Public Domain
+here, which means, you don't claim any Copyright at all.
+
+.IP licenselink:
+A link to the license text or an URN which refers to the license.
+
+.IP translator:
+the translator, if it is a translation.
+
+.IP charset:
+Which charset encoding is used. (The charset is not the font!)
+The default is US-ASCII any non-ASCII characte is filtered out.
+
+supported: UTF-8, ISO-8859-1, ISO-8859-15, IBM850, Windows-1252, 
+US-ASCII
+
+(use IBM850 instead of IBM437 to avoid trouble)
+
+.IP language:
+The language should be given in the usual two-letter abbreviation as 
+defined in ISO-639-1.
+For example "en" for English or "de" for Deutsch. You should always 
+use the correct language-code, even if it's not yet supported by the 
+programs, because it is copied into the (X)HTML-code for further analysis.
+Languages not defined in ISO-639-1 should start with "x-", for example 
+"x-cherokee".
+
+supported languages: en, de, da, it
+
+.IP rtl:
+can be set to "yes", "true" or "1". This means the main text is written 
+in a right-to-left language, eg. hebrew or arabic.
+
+.B Experimental feature
+
+.IP bidi:
+Bidi stands for "bidirectional". It can be set to "yes", "true" or "1". 
+This means, the text may contain text, which is written in the other 
+direction as the main text.
+
+.B Experimental feature
+
+.IP neutral:
+can be set to "yes", "true" or "1", which means the programs should 
+answer in a neutral way, ie. not mark answers as right or wrong or 
+say that less than 1 point is "not enough" or so.
+.I "This should be used together with the keywords"
+.I """assessment:"" and ""assessmentlink:""."
+
+.IP assessmentlink:
+A link, which references a document, which explains, what the result means. 
+It could say for example "over 80% is good, 10% or less is bad". 
+
+Assessmentlink is only used, when the output is HTML 
+(mkquiz, akfquiz.cgi). You should also use the block-keyword
+.I """assessment:"""
+as alternative for the other programs. Only using the keyword
+.I """assessment:"""
+is also okay when it's enough for you.
+
+.B Advanced use:
+When the last character of the URI is a question-mark (?), then values 
+for "points", "maxpoints" and "percent" are appended, so that they can 
+be used by scripts.
+
+.I Example:
+assessmentlink: schulnote.html?
+
+This example-file calculates a school-mark (german school-system).
+It uses JavaScript. Of course you can also use CGI or PHP scripts.
+
+.IP htmlcode:
+can be set to "yes", "true" or "1", if you want to use HTML-code in the 
+file directly - the HTML-tags are copied into the HTML-output directly. 
+Other AKFQuiz-interpreters simply skip HTML-tags.
+.br
+.B Attention:
+You should then use 
+.BR "&lt;" " for " < ,
+.BR "&gt;" " for " > ,
+.BR "&amp;" " for " "& " and
+.BR "&quot;" " for " \*(lq !
+These HTML-entities are also recognized by non-HTML-based 
+AKFQuiz-interpreters. The entity 
+.BR "&euro;" " is also supported."
+
+The automatic URI recognition (see below) is switched off, when 
+htmlcode: is activated.
+
+.IP baseURI:
+URI for the image files and CSS-files. Can be a relative or absolute 
+address. This keyword is only used for akfquiz.cgi.
+.RI Example: " /akfquiz"
+
+.IP "layout: (css:)"
+points to a CSS file. This keyword just makes sense for the 
+(X)HTML-output and is ignored otherwise. 
+CSS-files influence the appearance of the quiz in a web-browser. 
+The implementation for different output media should be done in the CSS 
+file itself.
+You may use my example files in your own projects and distribute them 
+together.
+
+.IP keywords:
+Keywords for the meta-data of (X)HTML-files. 
+Used by some search-engines.
+
+.IP javascript:
+can be used to point to another JavaScript file. 
+.I "This keyword is obsolete now. Don't use it."
+
+.IP noindex:
+can be set to "yes", "true" or "1". It puts a command for search 
+engines into the (X)HTML-code, saying that the quiz should not be 
+indexed in the search engine. Most search engines respect this 
+command.
+
+.IP default:
+default answer for questions with just one correct answer.
+This answer is always listed as the last one and is checked by 
+default.
+You should use this keyword, if you want to give negative values 
+for wrong answers.
+
+.SS block-oriented keywords:
+
+.IP comment:
+puts a comment into the quiz. The comment may have several lines and is 
+closed by an empty line. Comments can be put at the beginning, between 
+the questions or at the end. You cannot have an empty line in one 
+comment. To begin a new paragraph, put a single dot as only character 
+in a line (Whitespace still allowed).
+.I "(see also ""hint:"" and ""assessment:"")"
+
+.IP "hint:, remark:"
+This is similar to a "comment:", but it is only shown after the 
+previous question has been answered. So for the interactive versions of 
+AKFQuiz there is no difference to a "comment:", but in the HTML variants 
+the "hint:" is only shown on the result page.
+
+.IP "question:, mc:"
+defines a question with just one possible answer. There may be more 
+than one correct answer, but just one can be chosen, for example for 
+"best guess"-questions.
+
+The question can have several lines and is closed by an empty line. 
+To begin a new paragraph, put a single dot as only character in a 
+line (Whitespace still allowed). 
+
+Then the possible answers and their score follow: put the score for an 
+answer at the beginning of the line, then one or more spaces or tabs 
+and then the answer-text. If you need more than one line, put a 
+backslash (\\) at the end of the line to show, that the text is not 
+yet ended.
+
+example:
+
+.B "question:"
+.br
+.B "The question can have more than one line."
+.br
+.B "Paragraphs are also possible."
+.br
+.B .
+.br
+.br
+.B "Can answers also have more than one line?"
+
+.B "0 No"
+.br
+.B "1 yes, but you have to mask the end of the line \\\\"
+.br
+.B "  with a backslash"
+
+Useful values for the score are either 0 and 1, or -1 and +1. 
+But other integer values are also possible if appropriate.
+
+.I "(see also ""multi:"", ""default:"")"
+
+.IP "multi:, query:, mcma:"
+defines a question, that could have more than one correct answer.
+In contrast to the keyword "question:" the user can choose several 
+answers at the same time. The format is the same as in the keyword 
+"question:". But the values 0 and 1 shouldn't be used here, because 
+then the user could simply choose everything to get the full score. 
+You should work with the values -1 and +1 instead. 
+The keyword "default:" has no influence here.
+
+.IP assessment:
+like a comment:-field, but it's shown at the very end.
+.I "The keyword ""assessment:"" has to be at the end of the quiz!"
+AKFQuiz-interpreters only show that comment after they calculated 
+the result. 
+
+When the output is HTML (mkquiz, akfquiz.cgi) and the keyword
+.I "assessmentlink:"
+is given, then this assessment is not shown. So both keywords can be 
+used as alternatives for different output formats.
+
+.I "(see also ""assessment%:"")"
+
+.IP assessment%:
+The content of the "assessment%:" block looks similar to the answers to a 
+question; first a number at the beginning of the line, then one or more 
+spaces or tabs and then the text. If you need more than one line, put a 
+backslash (\\) at the end of the line to show, that the text is not 
+yet ended. But the number in this case means the minimum percentage 
+needed for the given assessment-text.
+.B Attention:
+The values must be given in descending order and the last entry 
+.I must
+be 0!
+
+.I "The keyword ""assessment%:"" has to be at the end of the quiz!"
+
+.I Example:
+
+.B "assessment%:"
+.br
+.B "95 very good"
+.br
+.B "80 good"
+.br
+.B "65 satisfactory"
+.br
+.B "45 adequate"
+.br
+.B "25 not so good"
+.br
+.B "0  that's bad"
+
+When the output is HTML (mkquiz, akfquiz.cgi) and the keyword
+.I "assessmentlink:"
+is given, then this assessment% is not shown. So both keywords can be 
+used as alternatives for different output formats.
+
+.I "(see also ""assessment:"")"
+
+.SH AUTOMATIC URI RECOGNITION
+
+The Web based variants of AKFQuiz automatically recognize most URI 
+schemes when "htmlcode" is not set. 
+URIs may be surrounded by spaces or tabs or quote characters (") or 
+enclosed with <...>. When the URI doesn't start with a known protocal 
+idetifier, you can prepend it with "URI:" or "URL:", so you can have 
+relative addresses. Protocol identifiers must be given in lower case 
+letters, while the prefixes "URI:" or "URL:" mut be in upper case 
+letters. "URN:" can be used both, uper case or lower case.
+
+Images can be directly included into the webpage by using the prefix 
+"image:".
+.B Attention:
+the positioning of images is still experimental and may change in later 
+versions.
+
+.SS Examples:
+
+http://akfoerster.de/akfquiz/
+.br
+<http://akfoerster.de/akfquiz/>
+.br
+URI:next.html
+.br
+image:URI:next.png
+.br
+<mailto:akfquiz@akfoerster.de>
+.br
+telnet://akf@akfoerster.de/
+.br
+file://localhost/usr/share/pixmaps/myimage.png
+
+Many other URIs are supported.
+
+Use "file:"-URIs only as last resort, when nothing else is possible.
+
+.SH ADVANCED USE
+
+On Posix-compatible systems you can make the quiz-file executable by 
+writing the following in the very first line:
+.br
+.I "#! /usr/bin/env akfquiz"
+.br
+Then you can set the execution bit with the command 
+.IR chmod(1) .
+
+As MIME-type you should use 
+.IR application/x-akfquiz .
+
+
+.SH LICENSE
+
+Copyright \(co 2003-2006 Andreas K. Foerster
+.br
+.RI < akfquiz@akfoerster.de >
+
+AKFQuiz is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+AKFQuiz is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+
+.SH INTERNET
+
+.IP contact:
+mailto:akfquiz@akfoerster.de
+
+.IP homepage:
+http://akfoerster.de/akfquiz/
+
+.IP examples:
+http://akfoerster.de/akfquiz/quiz.html
+
+.IP "publish quiz:"
+http://akfoerster.de/akfquiz/quizupload
+(no guaranty!)
+
+
+.SH "SEE ALSO"
+.BR scrquiz (1)
+.BR grquiz (1)
+.BR mkquiz (1)
+.BR cgiquiz (8)
+.BR linequiz (1)
+.BR gtkquizchooser (1)
+

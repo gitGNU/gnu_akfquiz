@@ -1,0 +1,7 @@
+#!/bin/sh
+# public domain
+
+cd $(dirname $0)
+cd srcbin
+
+exec akfquiz "$@"

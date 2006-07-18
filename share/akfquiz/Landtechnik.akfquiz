@@ -1,0 +1,241 @@
+AKFQuiz 4.3.0 oder höher
+
+# Copyright © 2006 Simon Niederwinkler
+#
+# Diese Quiz-Datei ist Freie Software. Sie können es unter den Bedingungen
+# der GNU General Public License, wie von der Free Software Foundation
+# veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß
+# Version 2 der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+#
+# Die Veröffentlichung der Quiz-Datei erfolgt in der Hoffnung, dass sie
+# Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne
+# die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN
+# BESTIMMTEN ZWECK.
+
+Titel:          Wissen über Landtechnik
+Autor:
+Copyright:      Simon Niederwinkler
+AutorLink:      http://people.freenet.de/simonniederwinkler/
+Uebersetzer:
+Bearbeitet:
+Lizenz:         GPL v2 oder neuer
+LizenzURI:      http://www.gnu.org/licenses/gpl.html
+Sprache:        de
+Zeichensatz:    WINDOWS-1252
+HauptURI:
+NoIndex:        ja
+Neutral:        nein
+Layout:	        q-blue.css
+StandardAntwort:weiß ich nicht
+
+Kommentar: Keine Gewähr für die Richtigkeit der Angaben! Keine Haftung für Schäden durch dieses Quiz!
+
+Frage:
+Warum haben Automatikwägen (Abladewägen) meist 2 Achsen (keine Tandemachse)?
+
+0 Weil die zulässige Stützlast am Schlepper sonst überschritten würde
+0 Weil 2 Achsen mehr Gewicht tragen können
+0 Weil man mit 2-achsigen Anhängern schneller fahren kann
+1 Weil 2-achsige Anhänger eine besonders niedrige Stützlast haben
+
+Hinweis:
+Abladewägen werden meistens hinten am Feldhäcksler angehängt. Um bei Anbauhäckslern das Hubwerk des Schleppers nicht zu belasten, benutzt man wegen der geringen Stützlast 2-achsige Wägen.
+
+Anfrage:
+Mit welchen Führerscheinklassen dürfen land- und forstwirtschaftliche Fahrzeuge gefahren werden?
+
+-1 Klasse A1
+-1 Klasse A
++1 Klasse B
+-1 Klasse BE
+-1 Klasse C1
+-1 Klasse C1E
+-1 Klasse C
++1 Klasse CE
+-1 Klasse D1
+-1 Klasse D1E
+-1 Klasse D
+-1 Klasse D1E
++1 Klasse L
+-1 Klasse M
+-1 Klasse S
++1 Klasse T
+
+Hinweis:
+Mit der Klasse L (eingeschlossen in B und T) dürfen Zugmaschinen (auch mit Anhänger) bis zur bauartbedingten Höchstgeschwindigkeit von 32 km/h gefahren werden. Will man schneller fahren, benötigt man die Klasse T (eingeschlossin in CE), mit der man ab 16 max. 40 und ab 18 max. 60 km/h fahren darf. Will man noch schneller fahren, benötigt man Klasse CE.
+
+Anfrage:
+Welche Bedingungen müssen erfüllt sein, damit ein landwirtschaftlicher Anhänger keine Zulassung benötigt?
+
+-1 Es gibt keine Bedingungen, Anhänger müssen immer zugelassen werden
++1 Man darf nur 25 km/h fahren
+-1 Man darf auch schneller als 25 km/h fahren
+-1 Man darf nur 2,5 m hoch und 2,5 t schwer beladen
++1 Der Anhänger muss hinten ein Schild "25" und das Kennzeichen des Zugfahrzeuges tragen
+-1 Am Anhänger müssen hinten sechseckige Rückstrahler angebracht sein
++1 Man benötigt eine Betriebserlaubnis statt dem Fahrzeugschein
+-1 Ein nicht zugelassener Anhänger darf nicht auf Bundesstraßen gefahren werden
+-1 Es dürfen keine Personen damit transportiert werden
++1 Der Anhänger darf nur land- und forstwirtschaftlich genutzt werden
+
+Frage:
+Was ist ein Kratzboden?
+
+0 Ein Kratzboden wird in einem Kuhstall verlegt, um Klauenkrankheiten vorzubeugen
+0 Ein Kratzboden entsteht dann, wenn in einem Fahrsilo lose Silage am Boden anfriert
+0 Ein Kratzboden kann auf einem Kipper zum Mahlen von Getreide eingesetzt werden
+1 Ein Kratzboden wird auf Ablade-, Lade- und Erntewägen zur Beförderung des Ladeguts verwendet
+
+Hinweis:
+Ein Kratzboden besteht aus einem Antrieb, Ketten und Schienen. Die Schienen sind an den Ketten befestigt und werden ruckweise über den Boden der Ladepritsche eines Ablade-, Lade- oder Erntewagens gezogen. Das Ladegut, das sich darauf befindet, wird - je nach Bauart - nach vorne oder nach hinten gerückt, wo es von den Verteilerwalzen und vom Querförderband ins Freie befördert wird. Der Antrieb erfolgt mechanisch (Ratsche) oder hydraulisch.
+
+Frage:
+Woran erkennt man auf dem Foto eines Schleppers, dass dieser einen Allradantrieb besitzt?
+
+0 Die Vorder- und Hinterreifen sind gleich groß
+1 Die Vorder- und Hinterreifen haben das gleiche Profil
+0 Die Hinterreifen sind kleiner als die Vorderreifen
+0 Der Schlepper hat Vollgummireifen
+0 Es ist von Außen nicht ersichtlich
+
+Frage:
+Wie lässt sich anhand der Modellnummer von Fendt-Traktoren die Leistung in PS auf etwa +/- 5 PS bestimmen?
+
+0 Man lässt die erste Ziffer der Modellnummer weg und addiert zum Rest 20
+1 Man lässt die erste Ziffer der Modellnummer weg und multipliziert den Rest mit 10
+0 Man lässt die letzte Ziffer der Modellnummer weg und subtrahiert 15
+0 Man lässt die mittlere Ziffer der Modellnummer weg und dividiert durch 25
+0 Es ist nicht möglich, die Leistung anhand der Modellnummer zu bestimmen
+
+Hinweis:
+Beispiel: Fendt 936: 9 weglassen -> 36 x 10 = 360 PS für das Flaggschiff von Fendt: 360 PS und 60 km/h bauartbestimmte Höchstgeschwindigkeit.
+Die erste Ziffer bezeichnet die Baureihe (1-9)
+Um in Kilowatt umzurechnen, multipliziert man die PS-Zahl mit 0,736.
+Bei Geräteträgern lässt man nur die erste Ziffer weg:
+Fendt GTA 380: 3 weglassen -> 80 PS.
+Ausnahme: GTA 395 -> 115 PS.
+
+Frage:
+Womit kann man Frontanbaugeräte schnell an Schlepper an- und wieder abbauen?
+
+0 Mit dem Meinste-Oberlenker
+0 Mit der Hörste-Schnellkupplung
+1 Mit dem Weiste-Dreieck
+0 Mit der Denkste-Gelenkwelle
+
+Hinweis:
+Das Weiste-Dreieck wird an das Fronthubwerk des Schleppers angebaut und das Anbaugerät über die dreieckige Aufnahme damit aufgenommen.
+
+Anfrage:
+Welche Motoren werden bzw. wurden in Fendt-Traktoren verbaut?
+
++1 MAN-Motoren
+-1 Sisu-Motoren
+-1 Iveco-Motoren
++1 Deutz-Motoren
+-1 Fendt-Motoren
++1 MWM-Motoren
+-1 Perkins-Motoren
+
+Hinweis:
+Deutz-Motoren sind wegen ihrer Luftkühlung besonders kompakt und wurden daher wegen beengter Platzverhältnisse in den Geräteträgern verbaut.
+Perkins-Motoren findet man vor allem in Traktoren von John Deere und Massey Ferguson.
+
+Frage:
+Welche Schraubenschlüsselgrößen kommen in der Landtechnik sehr häufig vor?
+
+0 12, 14 und 18 mm
+0 32, 33 und 34 mm
+1 13, 17 und 19 mm
+0 15, 18 und 21 mm
+0 6, 7 und 9 mm
+
+Frage:
+Wie oft muss im Idealfall ein Innengewinde geschnitten werden, bis es fertig ist?
+
+0 1x
+0 2x
+1 3x
+0 4x
+0 5x
+
+Frage:
+Von welchem Hersteller stammen die Traktoren von Claas?
+
+0 Fendt
+0 Deutz
+0 Claas stellt seine Traktoren selbst her
+0 John Deere
+0 McCormick
+0 Massey Ferguson
+0 Ford
+1 Renault
+
+Frage:
+Wie viele Ecken hat der Kopf einer normalen Maschinenschraube?
+
+0 3
+0 4
+0 5
+1 6
+0 8
+
+Frage:
+Welches Werkzeug wird umgangssprachlich als "Flex" bezeichnet?
+
+1 Der Winkelschleifer
+0 Die Bohrmaschine
+0 Der Akkuschrauber
+
+Frage:
+Wie viele Pole hat eine normale Anhängersteckdose?
+
+0 13
+1 7
+0 10
+
+Frage:
+Die Pole eines Anhängersteckers bzw. einer Steckdose sind mit bestimmten Kennzahlen gekennzeichnet. Welche Kennzahl gibt es nicht?
+
+0 L
+0 R
+0 54 g
+0 54
+0 58 L
+0 58 R
+1 30
+0 31 
+
+Frage:
+Welche Funktion muss auf die Kennzahl "54 g" angeschlossen werden?
+
+0 Blinker rechts
+1 Elektromagnetisches Druckluftventil
+0 Masse
+0 Bremslicht
+0 Schlussleuchte
+
+Hinweis:
+Blinker rechts = R
+Masse = 31
+Bremslicht = 54
+Schlussleuchte: links (+Kennzeichenbeleuchtung) 58 L, rechts 58 R
+
+Frage:
+Welche Kennzahl befindet sich mittig in der Steckdose bzw. dem Stecker?
+
+1 58 L
+0 58 R
+0 54
+0 R
+0 L
+
+Auswertung%:
+100 Landmaschinenmechanikermeister (sehr gut)
+95 Landwirt (gut)
+70 Ex-Landwirt (befriedigend)
+50 Elektriker (ausreichend)
+25 Lehrer (mangelhaft)
+0 Programmierer (ungenügend)
+
+Ende

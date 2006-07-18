@@ -1,0 +1,80 @@
+.\" Process this file with
+.\" groff -man -Tlatin1 quizchooser.1
+.\"
+.TH "gtkquizchooser" 1 "4.2.0" AKFQuiz
+
+.SS NAME
+gtkquizchooser \- Quiz-Auswähler Skript für AKFQuiz
+
+.SH SYNTAX
+.BI "gtkquizchooser [" Optionen "] " "Quizprogram"
+.br
+.BI "gtkquizchooser [" -h | --help | /? ]
+
+.SH DESCRIPTION
+
+Dieses Wrapper-Programm öffnet einen Datei-Auswähler und startet dann ein 
+AKFQuiz-Programm mit der ausgewählten Quiz-Datei.
+GTKQuizchooser ist für Einträge in Menüs grafischer Benutzer-Oberflächen 
+gedacht.
+
+.SH OPTIONEN
+
+.IP "-h | --help | /?"
+zeige eine kurze Hilfe
+
+.IP "-d <Verzeichnis> | --dir <Verzeichnis>"
+verwende nur dieses Verzeichnis
+
+.IP "-n | --new"
+erlaube die Eingabe eines noch nicht existierenden Dateinamens. Die 
+Datei wird mit einer Vorlage erstellt. Das kann benutzt werden, wenn 
+man einen Editor als Programm angibt.
+
+.SH UMGEBUNGSVARIABLEN
+
+.P PATH
+Suchpfad für das Programm.
+
+.IP QUIZPATH
+Suchpfad zu den Quiz-Dateien.
+Es können mehrere Verzeichnisse angegeben werden, genau wie in PATH.
+Der Datei-Auswähler zeigt nur die Dateien des ersten Verzeichnisses an,
+wenn man aber den Dateinamen eingibt, wird er in allen Verzeichnissen
+gesucht.
+
+.SS BEISPIELE
+
+gtkquizchooser xgrquiz
+
+gtkquizchooser xterm -e scrquiz
+
+gtkquizchooser --new gedit
+
+.SH LIZENZ
+
+Copyright \(co 2005-2006 Andreas K. Förster 
+.br
+.RI < akfquiz@akfoerster.de >
+
+AKFQuiz ist Freie Software. Sie können es unter den 
+Bedingungen der GNU General Public License, wie von der Free 
+Software Foundation veröffentlicht, weitergeben und/oder 
+modifizieren, entweder gemäß Version 2 der Lizenz oder (nach 
+Ihrer Option) jeder späteren Version. 
+
+Die Veröffentlichung von AKFQuiz erfolgt in der Hoffnung, dass 
+es Ihnen von Nutzen sein wird, aber 
+.B ohne irgendeine Garantie, 
+sogar ohne die implizite Garantie der 
+.B Marktreife 
+oder der 
+.B Verwendbarkeit für einen bestimmten Zweck.
+
+
+.SH "SIEHE AUCH"
+.BR akfquiz (5)
+.BR mkquiz (1)
+.BR scrquiz (1)
+.BR grquiz (1)
+.BR linequiz (1)

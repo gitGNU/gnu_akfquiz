@@ -1,0 +1,102 @@
+/* akfquiz - styles for printing */
+/* this file is in the public domain */
+
+/* last revision for AKFQuiz 4.1.2 */
+
+  html {
+     color:black;
+     background:white;
+     }
+
+  body {
+     margin-top:1.7cm;
+     margin-bottom:1.4cm;
+     margin-left:2cm;
+     margin-right:2cm;
+     }
+
+  a:link, a:visited {
+    color:black;
+    background:transparent;
+    text-decoration:none;
+    }
+
+  h1 {
+     font-weight:bold;
+     text-align:center;
+     text-decoration:underline;
+     page-break-after:avoid;
+     }
+
+  .error {
+     text-align:center;
+     font-weight:bold;
+     font-style:italic;
+     }
+
+  .comment {
+     clear:both;
+     font-style:italic;
+     }
+ 
+  #metadata, .hint, .assessment {
+     margin-top:1ex;
+     padding:.5ex;
+     border:solid thin black;
+     font-style:italic;
+     }
+  
+  .assessment {
+    clear:both;
+    }
+    
+  .question {
+     clear:both;
+     font-weight:bold;
+     font-style:italic;
+     page-break-after:avoid;
+     }
+
+  .answer {
+     margin-left:1em;
+     margin-right:1em;
+     }
+  
+  /* bug-workaround */
+  .answer input {
+     background:transparent;
+     color:black;
+     }
+     
+  .correct {
+     font-weight:bold;
+     }
+     
+  .points {
+    text-align:center;
+    font-style:italic;
+    }
+
+  .assessment {
+     clear:both;
+     text-align:center;
+     }
+
+  .wrong {
+     text-decoration:line-through;
+     }
+     
+  .result {
+     font-weight:bold;
+     font-style:italic;
+     }
+
+  .buttons, .resultlink, .home, noscript {
+     display:none;
+     }
+
+  .made {
+     font-family:sans-serif;
+     font-size:x-small;
+     text-align:right;
+     }

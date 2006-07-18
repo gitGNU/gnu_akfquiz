@@ -1,0 +1,16 @@
+Hohe Priotität:
+- Audio Ausgabe
+- Timeout(?)
+- mehr Zeichensatz-Konverter
+- akfexam für Prüfungen (cgiquiz?)
+
+Niedere Priorität:
+- Umstellung auf XHTML (?)
+- Fragen mit Freiform-Eingabe
+- Typtest mit Typen array['A'..'Z'] of LongInt
+- Option um JavaScript und CSS in die Datei einzubetten (?)
+  (die Grafiken können aber eh nicht eingebettet werden)
+- JavaScript: Auswertungsgrafik bei multi: Fragen (wie?)
+- Verschlüsselung (?) - nur der Punktzahlen?
+- Fragen/Antworten verwürfeln
+- Plugin support

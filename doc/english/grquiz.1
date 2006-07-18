@@ -1,0 +1,129 @@
+.\" Process this file with
+.\" groff -man -Tlatin1 grquiz.1
+.\"
+.TH "grquiz" 1 "4.3.0" AKFQuiz
+
+.SH NAME
+grquiz \- graphical Quiz-program 
+
+.SH SYNTAX
+.BI "grquiz [" options "] [" "input file" "]"
+.br
+.BI "grquiz [" -h | --help | /? ]
+
+.SH DESCRIPTION
+
+With this program you can play a quiz, that's in the
+.IR akfquiz (5)
+with a graphical surface.
+
+When you enter the input file on the command-line, you may leave away 
+the extension ".akfquiz". If the filename is given without a path
+and the environment-variable 
+.B QUIZPATH
+is set, then the file is searched there.
+
+You can stop the program nearly anywhere with the key
+.I q
+or
+.I Esc
+(depends on the system).
+
+On some systems you can switch between window-mode and fullscreen-mode 
+with the keys F11 or F4 or Alt+Enter.
+
+The prompt ">" means, that it's a question with just one possible 
+answer, while the prompt ">>" indicates a question with more than one 
+possible answer. In this case you have to commit your answers with the 
+.IR "Enter" -key.
+
+.SS Mouse support:
+
+Click onto the answers with the left mouse button.
+For a query with more than one possible answer you can close the query 
+by pressing the right mouse button.
+
+.SH Options
+
+.IP "-h | --help | /?"
+
+print a short help-message
+
+.IP -s
+
+no sound (no beep)
+
+.IP "-m | --nomouse"
+
+disable mouse support
+
+.IP "-d <dir>"
+
+path to the quizfiles. 
+This parameter overrides the environment variable QUIZPATH.
+
+.IP -p
+
+run program in an endless loop (for bootdisks)
+
+.SS Printing:
+
+To print the questions on a form, you could use the command
+.IR mkquiz (1).
+
+
+.SH ENVIRONMENT
+
+.IP QUIZPATH
+
+searchpath to the quiz-files.
+It may have more than one directory, just like the variable PATH.
+
+If not set a reasonable default will be used. Check with
+.IR "--help" .
+
+.IP LANG
+
+Language. 
+The language-setting in the quiz-file overrides this.
+
+.SH LICENSE
+
+Copyright \(co 2003-2006 Andreas K. Foerster
+.br
+.RI < akfquiz@akfoerster.de >
+
+AKFQuiz is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+AKFQuiz is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+
+.SH INTERNET
+
+.IP contact:
+mailto:akfquiz@akfoerster.de
+
+.IP homepage:
+http://akfoerster.de/akfquiz/
+
+.IP examples:
+http://akfoerster.de/akfquiz/quiz.html
+
+.IP "publish quiz:"
+http://akfoerster.de/akfquiz/quizupload
+(no guaranty!)
+
+
+.SH "SEE ALSO"
+.BR akfquiz (5)
+.BR scrquiz (1)
+.BR mkquiz (1)
+.BR cgiquiz (8)
+.BR linequiz (1)
+.BR gtkquizchooser (1)

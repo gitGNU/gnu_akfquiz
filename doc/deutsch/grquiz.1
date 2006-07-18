@@ -1,0 +1,138 @@
+.\" Process this file with
+.\" groff -man -Tlatin1 grquiz.1
+.\"
+.TH "grquiz" 1 "4.3.0" AKFQuiz
+.nh
+
+.SH NAME
+grquiz \- grafisches Quiz-Programm
+
+.SH SYNTAX
+.BI "grquiz [" Optionen "] [" "Eingabedatei" "]"
+.br
+.BI "grquiz [" -h | --help | /? ]
+
+.SH BESCHREIBUNG
+
+Mit diesem Programm kann man ein Quiz im 
+.IR akfquiz (5)
+Format mit einer grafische Oberfläche benutzen. 
+
+Wenn man die Eingabedatei auf der Kommandozeile angibt, 
+kann man die Datei-Endung ".akfquiz" weglassen. 
+Wenn die Eingabedatei ohne Pfad angegeben wird und die 
+Umgebungsvariable
+.B QUIZPATH
+gesetzt ist, wird die Datei dort gesucht.
+
+Das Programm kann fast an jeder Stelle mit der Taste
+.I q
+oder
+.I Esc
+(je nach System) beendet werden.
+
+Auf einigen Systemen kann man zwischen Fenster- und Vollbild-Modus 
+umschalten, indem man F11 oder F4 oder Alt+Enter drückt.
+
+Die Eingabe-Aufforderung ist ein ">" bei Fragen mit nur einer 
+Antwort-Möglichkeit und ">>" bei Fragen mit mehreren 
+Antwort-Möglichkeiten. Im letzteren Fall muss die Eingabe mit der 
+.IR "Enter" -Taste
+abgeschlossen werden.
+
+.SS Maus-Unterstützung:
+
+Antworten können mit der linken Maus-Taste angeklickt werden.
+Anfragen mit mehr als einer Antwort-Möglichkeit kann man durch Drücken 
+der rechten Maus-Taste abschließen.
+
+.SH Optionen
+
+.IP "-h | --help | /?"
+
+zeige eine kurze Hilfe an
+
+.IP -s
+
+kein System-Klang (kein Piep)
+
+.IP "-m | --nomouse"
+
+keine Maus-Unterstützung
+
+.IP "-d <dir>"
+
+Pfad zu den Quiz-Dateien. 
+Dieser Parameter hat Vorang vor der Umgebungs-Variablen QUIZPATH.
+
+.IP -p
+
+Programm läuft in einer Endlos-Schleife
+
+.SS Drucken:
+
+Zum Ausdrucken von Fragebögen kann man das Programm
+.IR mkquiz (1)
+verwenden.
+
+.SH UMGEBUNGSVARIABLEN
+
+.IP QUIZPATH
+
+Such-Pfad zu den Quiz-Dateien.
+Es können mehrere Verzeichnisse angegeben werden, genau wie in PATH.
+
+Wenn kein QUIZPATH gesetzt ist, wird eine sinnvolle Vorgabe verwendet.
+Bitte mit
+.I "--help"
+überprüfen.
+
+.IP LANG
+
+Sprache. 
+Die Sprache, die in der Quiz-Datei angegeben wird, hat Vorrang.
+
+.SH LIZENZ
+
+Copyright \(co 2003-2006 Andreas K. Förster 
+.br
+.RI < akfquiz@akfoerster.de >
+
+AKFQuiz ist Freie Software. Sie können es unter den 
+Bedingungen der GNU General Public License, wie von der Free 
+Software Foundation veröffentlicht, weitergeben und/oder 
+modifizieren, entweder gemäß Version 2 der Lizenz oder (nach 
+Ihrer Option) jeder späteren Version. 
+
+Die Veröffentlichung von AKFQuiz erfolgt in der Hoffnung, dass 
+es Ihnen von Nutzen sein wird, aber 
+.B ohne irgendeine Garantie, 
+sogar ohne die implizite Garantie der 
+.B Marktreife 
+oder der 
+.B Verwendbarkeit für einen bestimmten Zweck.
+
+
+.SH INTERNET
+
+.IP Kontakt:
+mailto:akfquiz@akfoerster.de
+
+.IP Homepage:
+http://akfoerster.de/akfquiz/de
+
+.IP Beispiele:
+http://akfoerster.de/akfquiz/quiz.html
+
+.IP "Quiz veröffentlichen:"
+http://akfoerster.de/akfquiz/quizupload
+(keine Garantie!)
+
+
+.SH "SIEHE AUCH"
+.BR akfquiz (5)
+.BR scrquiz (1)
+.BR mkquiz (1)
+.BR cgiquiz (8)
+.BR linequiz (1)
+.BR gtkquizchooser (1)

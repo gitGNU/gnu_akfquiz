@@ -1,0 +1,199 @@
+AKFQuiz 4.3.0 oder höher
+
+# Copyright © 2005 Yvonne Wittenbreder-Molloisch
+#
+# Diese Quiz-Datei ist Freie Software. Sie können es unter den Bedingungen
+# der GNU General Public License, wie von der Free Software Foundation
+# veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß 
+# Version 2 der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+#
+# Die Veröffentlichung der Quiz-Datei erfolgt in der Hoffnung, dass sie
+# Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne
+# die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN
+# BESTIMMTEN ZWECK.
+
+Titel:           Rund um die Schokolade
+Autor:		 Klasse 3b der Grundschule Vellwigstraße, Herne
+Copyright:
+Uebersetzer:
+Bearbeitet:
+Lizenz:          GPL Version 2 oder neuer
+LizenzLink:      http://www.gnu.org/licenses/gpl.html
+StandardAntwort: Weiß ich nicht
+Sprache:         de
+Zeichensatz:     ISO-8859-1
+Neutral:         nein
+AuswertungsURI:  
+HauptURI:
+Layout:          q-brown.css
+NoIndex:         nein
+
+Kommentar:
+Dieses Quiz hat die Klasse 3b der Grundschule Vellwigstraße in 
+Herne 2005 im Rahmen ihrer Projektwoche zum Thema Schokolade 
+erstellt.
+
+Frage:
+Wie viele Zutaten gehören in die Schokolade?
+
+0 Es sind 4 Zutaten.
+1 Es sind 6 Zutaten.
+0 Es sind 8 Zutaten.
+
+#Frage:
+#Welche Zutaten gehören in die Schokolade?
+#
+#0 Kakaopulver, Wasser und künstliche Aromastoffe.
+#0 Kaffeebohnen, Mehl und Geschmacksverstärker.
+#1 Kakaobohnen, Zucker, Milch, Vanille, Nüsse und Rosinen.
+
+Anfrage:
+Welche Zutaten gehören in die Schokolade?
+
+-1 Kakaopulver
++1 Kakaobohnen
+-1 Kaffeebohnen
+-1 Wasser
++1 Zucker
+-1 künstliche Aromastoffe
+-1 Geschmacksverstärker
++1 Milch
++1 Vanille
++1 Nüsse
++1 Rosinen
+-1 Mehl
+
+Frage:
+Ist die Schokolade in Ghana Hauptnahrungsmittel?
+
+0 Ja.
+1 Nein.
+0 Ja, aber nur in Süd-Ghana.
+
+Frage:
+In welchen Ländern wird Kakao angepflanzt?
+
+0 Deutschland, Frankreich und Italien.
+0 Indien, USA, Kanada und Norwegen.
+1 Mexiko, Ecuador, Brasilien, Malaysia, Ghana, Elfenbeinküste, \
+  Kamerun und Nigeria.
+
+
+Frage:
+Wie sieht eine Kakaobohne aus?
+
+0 Groß, schwarze Schale.
+1 Klein, weiß und rund.
+0 Wie eine kleine Kokosnuss mit roter Schale.
+
+Frage:
+Auf wie vielen Kontinenten wird Kakao angebaut?
+
+0 Auf drei Kontinenten.
+0 Auf fünf Kontinenten.
+1 Auf vier Kontinenten.
+
+Frage:
+Wie werden die Bohnen getrocknet?
+
+0 Die Bohnen werden mit einem Heizlüfter getrocknet.
+1 Die Bohnen werden an der Luft in der Sonne unter Palmwedeln getrocknet.
+0 Die Bohnen werden auf einem Feuer getrocknet.
+
+
+Frage:
+Welche Farbe hat die Kakaobohne vor dem Trocknen?
+
+0 Schwarz
+0 Braun
+1 Weiß
+
+
+Frage:
+Welche Farbe hat die Kakaobohne nach dem Trocknen?
+
+0 Grün
+1 Braun
+0 Schwarz
+
+Frage:
+Wie sieht eine Kakaofrucht aus?
+
+0 Sie ist schwarz und krumm wie eine Banane.
+0 Sie ist gelb und sieht wie eine Zitrone aus.
+1 Sie ist braun, in Form einer Honigmelone.
+
+#Frage:
+#Was kann man aus Kakaobohnen alles herstellen?
+#
+#1 Kakaopulver und Schokolade.
+#0 Bohnensalat und Chilipulver.
+#0 Vanillecreme.
+
+Anfrage:
+Was kann man aus Kakaobohnen alles herstellen?
+
++1 Kakaopulver
+-1 Bohnensalat und Chilipulver
++1 Schokolade
+-1 Vanillecreme
+
+Frage:
+Wo wachsen Kakaofrüchte?
+
+0 am Strauch
+0 auf dem Boden
+1 am Baum
+
+Frage:
+Wie kommen die Kakaobohnen nach Europa?
+
+0 Mit einer Kamelkarawane
+0 Mit der Eisenbahn
+1 Mit dem Schiff oder dem Flugzeug
+
+Frage:
+Wer arbeitet am härtesten auf den Kakaoplantagen?
+
+1 Die Frauen bewältigen den härtesten Teil der Arbeit.
+0 Die Besitzer der Plantagen haben die härteste Arbeit.
+0 Die Fahrer der LKW.
+
+Frage:
+Müssen in den Kakaoländern auch die Kinder arbeiten?
+
+0 Nein, Kinderarbeit ist verboten.
+1 Ja, Kinder müssen meistens mitarbeiten.
+0 Nein, denn die Kinder müssen ja zur Schule.
+
+Frage: 
+Können die Kinder dort auch zur Schule gehen?
+
+0 Natürlich, denn es herrscht Schulpflicht.
+0 Nur die Kinder, die an der Schule wohnen.
+1 Selten können Kinder dort zur Schule gehen und höchstens bis \
+  zum 12. Lebensjahr.
+
+Frage:
+Werden Kakaofrüchte auf allen Kontinenten angebaut?
+
+0 Ja, Kakao wächst überall.
+1 Nein, denn Kakao benötigt ein spezielles Klima.
+0 Ja, denn man kann in jedem Gewächshaus Kakao anbauen.
+
+Frage:
+An wen verkaufen die Kakaohändler ihre Ware?
+
+0 Sie verkaufen die Ware direkt nach Deutschland.
+0 Sie verkaufen die Ware am Hafen.
+1 Sie verkaufen die Ware an einen Zwischenhändler, der ihnen nur wenig zahlt.
+
+Frage:
+Wie können wir die Lage der Kakaobauern verbessern?
+
+0 Wir trinken keinen Kakao mehr.
+1 Wir kaufen Kakao und Schokolade aus dem fairen Welthandel, \
+  bei dem Mindestlöhne garantiert werden.
+0 Wir können da leider gar nichts machen.
+
+Ende

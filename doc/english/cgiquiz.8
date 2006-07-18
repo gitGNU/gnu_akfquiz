@@ -1,0 +1,188 @@
+.\" Process this file with
+.\" groff -man -Tlatin1 akfquiz.cgi.8
+.\"
+.TH "cgiquiz" 8 "4.2.0" AKFQuiz
+
+.SS NAME
+cgiquiz \- CGI program for using AKFQuiz-files
+
+.B This manpage is under construction!
+
+.SH SYNTAX
+.BI "http://" "example.org/" "cgi-bin/cgiquiz" "/quizpath/quizfile.akfquiz"
+.br
+.BI "http://" "example.org/" "cgi-bin/cgiquiz" "/quizpath/"
+
+.SH DESCRIPTION
+
+cgiquiz lets you use a quiz from an easy to write text-file.
+
+It needs also the files "richtig.png" and "falsch.png", and probably a given 
+CSS file. These files have to be either in the same directory as the 
+AKFQuiz-file, or you can use the keyword
+.I baseURI
+in the quiz-file.
+
+The format of the input file is described in 
+.IR akfquiz (5).
+
+.SH INSTALLATION
+
+You have to have access to the 
+.I cgi-bin
+directory of a web-server. The server must be able to run your compiled 
+program.
+
+Copy or upload the compiled program file
+.I cgiquiz
+into your cgi-bin directory of your web-server.
+[...]
+
+.SH USAGE
+
+The URI is constructed by the path to the CGI-executable plus the 
+relative path to the quizfile.
+So, if you can access the CGI program by
+.br
+.I http://example.org/cgi-bin/cgiquiz
+.br
+and the quizfile by
+.br
+.I http://example.org/quizpath/quizfile.akfquiz
+.br
+then you can put it together like this:
+.br
+.BI "http://" "example.org/" "cgi-bin/cgiquiz" "/quizpath/quizfile.akfquiz"
+
+Users may have their quiz-files in their "public-html" directory.
+The URI then looks something like this:
+.br
+.BI "http://" "example.org/" "cgi-bin/cgiquiz" "/~user/quizfile.akfquiz"
+
+[...]
+
+Additionally there are also key-shortcuts defined
+
+On PCs they are as follows:
+.TP 3
+Alt + R
+shows the 
+.IR R esult
+.TP 3
+Alt + N
+allows you to enter anything 
+.IR N ew
+.P
+
+These shortcuts are only available with newer browsers.
+
+.SS automatic indexer
+
+The program also includes an automatic indexer. 
+That is not very flexible and puts a heavy load on the server. So you 
+should avoid using it whenever possible. If you have a fixed set of 
+quiz-files, write your own index.
+
+The indexer is called when the URI ends up with a "/".
+.br
+For example:
+.br
+.I http://example.org/cgi-bin/cgiquiz/quizpath/
+.br
+or
+.br
+.I http://example.org/cgi-bin/cgiquiz/~user/
+.br
+You must not leave the trailing "/" away.
+
+.SH DIAGNOSTICS
+
+.SS If it encounters errors:
+
+The program should even then always produce correct HTML code.
+Error messages are written into the code. So you can easily find the 
+position of the errors, by looking at the result with a browser.
+
+If the program cannot interpret the input data at all, it outputs 
+nothing, or it creates an empty file.
+
+The HTML code that's produced by the program, should always be formally 
+correct, unless you use the keyword "htmlcode:". If you use it, you're 
+responsive for it yourself.
+
+.SS Additional information:
+
+The HTML code contains some additional information, which you cannot 
+see with the browser.
+The code contains the language as given with the keyword "language:".
+This also has technical relevancy, so don't simply skip this keyword.
+Besides of that, the author is stored in a way, that it can be easily 
+found by software programs (for example search-engines). Also the 
+name of the software which created the file and version is stored.
+
+.SH SECURITY
+
+Some limitations of the program are intentionally there for 
+security-reasons: 
+
+The CGI program doesn't allow using "/.." in the quizpath and 
+the automatic indexer doesn't show any subdirectories.
+
+The environment variable QUIZPATH as used by the other parts of AKFQuiz 
+has no influence on the CGI program.
+
+This program doesn't execute any external programs and it doesn't 
+write anything to disk. It only reads the file or directory given in 
+the URI.
+
+.SH FILES
+
+The following files must be in the same directory as the quizfile:
+
+.IP "richtig.png, falsch.png"
+needed graphic-files
+.P
+
+If you mentioned a CSS-file in the quizfile, it also has to be in the 
+same directory. It might be, that this CSS-file again needs other 
+files.
+
+.SH LICENSE
+
+Copyright \(co 2005-2006 Andreas K. Foerster
+.br
+.RI < akfquiz@akfoerster.de >
+
+AKFQuiz is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+AKFQuiz is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+
+.SH INTERNET
+
+.IP contact:
+mailto:akfquiz@akfoerster.de
+
+.IP homepage:
+http://akfoerster.de/akfquiz/
+
+.IP examples:
+http://akfoerster.de/akfquiz/quiz.html
+
+.IP "publish quiz:"
+http://akfoerster.de/akfquiz/quizupload
+(no guaranty!)
+
+
+.SH "SEE ALSO"
+.BR akfquiz (5)
+.BR mkquiz (1)
+.BR scrquiz (1)
+.BR grquiz (1)
+.BR linequiz (1)

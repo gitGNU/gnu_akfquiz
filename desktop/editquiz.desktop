@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=AKFQuiz: edit or create quiz
+Name[de]=AKFQuiz: bearbeite oder erstelle Quiz
+Type=Application
+Exec=gtkquizchooser --new xedit
+TryExec=xedit
+Icon=AKFQuiz.xpm
+Terminal=false
+GenericName=AKFQuiz

@@ -1,0 +1,146 @@
+.\" Process this file with
+.\" groff -man -Tlatin1 linequiz.1
+.\"
+.TH "linequiz" 1 "4.3.1" AKFQuiz
+.nh
+
+.SH NAME
+linequiz \- Zeilen-orientiertes Quiz-Programm
+
+.SH SYNTAX
+.BI "linequiz [" Optionen "] [" "Eingabedatei" "]"
+.br
+.BI "linequiz [" -h | --help | /? ]
+
+.SH BESCHREIBUNG
+
+Diese Programm ist nicht dafür gedacht um es direkt an einem 
+Computer-Display zu verwenden, sondern als Backend-Programm.
+Man kann es zum Beispiel verwenden um grafische Oberflächen in anderen 
+Programmiersprachen zu erstellen, man kann es leicht mit Software
+für Sprach-Ausgabe kombinieren, oder Blinde können es mit einer 
+Braille-Zeile verwenden.
+
+Jede Aktion wird durch ein festgelegtes englischsprachiges Stichwort 
+in Großbuchstaben eingeleitet. Diese kann man als Aufhänger in 
+anderen Programmen verwenden.
+
+Wenn man die Eingabedatei auf der Kommandozeile angibt, 
+kann man die Datei-Endung ".akfquiz" weglassen. 
+Wenn die Eingabedatei ohne Pfad angegeben wird und die 
+Umgebungsvariable
+.B QUIZPATH
+gesetzt ist, wird die Datei dort gesucht.
+
+Die Eingabe-Aufforderung ist ein "#>" bei Fragen mit nur einer 
+nummerischen Antwort-Möglichkeit und "##>" bei Fragen mit mehreren 
+nummerischen Antwort-Möglichkeiten. Für Text-Anfragen wird "$>" 
+verwendet.
+
+.SH Optionen
+
+.IP "-h | --help | /?"
+
+zeige eine kurze Hilfe an
+
+.IP -s
+
+kein System-Klang (kein Piep)
+
+.IP "-d <dir>"
+
+Pfad zu den Quiz-Dateien. 
+Dieser Parameter hat Vorang vor der Umgebungs-Variablen QUIZPATH.
+
+.IP "-l"
+
+mehr Zeilen-Umbrüche (für die Verwendung als Backend)
+
+.IP "-w 75"
+
+gibt die Breite der Ausgabe an
+
+.IP -OEM
+
+Ausgabe mit OEM-Zeichensatz (IBM850 oder IBM437)
+
+.IP -latin1
+
+Ausgabe mit Latin-1 Zeichensatz (ISO 8859-1), oder kompatiblen
+
+.SH UMGEBUNGSVARIABLEN
+
+.IP QUIZPATH
+
+Such-Pfad zu den Quiz-Dateien.
+Es können mehrere Verzeichnisse angegeben werden, genau wie in PATH.
+
+Wenn kein QUIZPATH gesetzt ist, wird eine sinnvolle Vorgabe verwendet.
+Bitte mit
+.I "--help"
+überprüfen.
+
+.IP LANG
+
+Sprache. 
+Die Sprache, die in der Quiz-Datei angegeben wird, hat Vorrang.
+
+.IP MM_CHARSET
+
+Wenn die Variable auf 
+.IR DOS , " IBM850" , " CP850" , " IBM437 " oder " CP437"
+gesetzt ist und kein entsprechender Zeichensatz in der Quiz-Datei 
+gewählt wurde, wird der Latin1->OEM Konverter aktiviert.
+
+Diese Variable wird nur auf Multi-User Systemen unterstützt.
+
+.SH Limits
+
+Die Unterstützung von Zeichensätzen ist beschränkt.
+
+Das Programm unterstützt nicht die Stichworte
+.IR rtl: " und " bidi: .
+
+.SH LIZENZ
+
+Copyright \(co 2003-2006 Andreas K. Förster 
+.br
+.RI < akfquiz@akfoerster.de >
+
+AKFQuiz ist Freie Software. Sie können es unter den 
+Bedingungen der GNU General Public License, wie von der Free 
+Software Foundation veröffentlicht, weitergeben und/oder 
+modifizieren, entweder gemäß Version 2 der Lizenz oder (nach 
+Ihrer Option) jeder späteren Version. 
+
+Die Veröffentlichung von AKFQuiz erfolgt in der Hoffnung, dass 
+es Ihnen von Nutzen sein wird, aber 
+.B ohne irgendeine Garantie, 
+sogar ohne die implizite Garantie der 
+.B Marktreife 
+oder der 
+.B Verwendbarkeit für einen bestimmten Zweck.
+
+.SH INTERNET
+
+.IP Kontakt:
+mailto:akfquiz@akfoerster.de
+
+.IP Homepage:
+http://akfoerster.de/akfquiz/de
+
+.IP Beispiele:
+http://akfoerster.de/akfquiz/quiz.html
+
+.IP "Quiz veröffentlichen:"
+http://akfoerster.de/akfquiz/quizupload
+(keine Garantie!)
+
+
+.SH "SIEHE AUCH"
+.BR akfquiz (5)
+.BR scrquiz (1)
+.BR grquiz (1)
+.BR mkquiz (1)
+.BR cgiquiz (8)
+.BR gtkquizchooser (1)

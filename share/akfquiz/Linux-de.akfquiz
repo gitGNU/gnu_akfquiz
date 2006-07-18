@@ -1,0 +1,167 @@
+AKFQuiz 4.3.0 oder höher
+
+# Copyright © 2003-2006 Andreas K. Förster <akfquiz@akfoerster.de>
+#
+# Diese Quiz-Datei ist Freie Software. Sie können es unter den Bedingungen
+# der GNU General Public License, wie von der Free Software Foundation
+# veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß 
+# Version 2 der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+#
+# Die Veröffentlichung der Quiz-Datei erfolgt in der Hoffnung, dass sie
+# Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne
+# die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN
+# BESTIMMTEN ZWECK.
+
+Titel:           GNU+Linux-Quiz (de)
+Autor:
+Copyright:       Andreas K. Förster
+AutorLink:       mailto:akfquiz@akfoerster.de
+Bearbeitet:
+Lizenz:          GPL v2 oder neuer
+LizenzURI:       http://www.gnu.org/licenses/gpl.html
+Zeichensatz:     ISO-8859-1
+Sprache:         de
+Layout:          q-school.css
+StandardAntwort: weiß ich nicht
+
+
+Kommentar:
+Richtig beantwortete Fragen geben einen Punkt, für falsch beantwortete 
+Fragen bekommt man einen Punkt abgezogen. Die Antwort "weiß ich nicht"
+bleibt unbewertet.
+
+
+Frage:
+Zu welchem System ist GNU+Linux kompatibel?
+
+-1 Windows
++1 Unix
+-1 es ist ein eigenständiges Betriebssystem
+
+Hinweis:
+Man hat sich für Unix entschieden, weil dieses zu jener Zeit das 
+einzige portable Betriebssystem war.
+
+
+Frage:
+Wo liegt der Ursprung von GNU+Linux?
+
++1 1984 durch Richard Stallman
+-1 1987 durch Andrew Tannenbaum
+-1 1991 durch Linus Torvalds
+
+Hinweis:
+1990 war GNU ein schon fast vollständiges Betriebssystem. 
+Es fehlte jedoch noch ein Kernel.
+.
+Mehr über die Anfänge des GNU Systemes erfährt man unter
+http://www.gnu.org/gnu/gnu-history.html
+
+
+Frage:
+Was hat Linus Torvalds entwickelt?
+
+-1 ein komplettes Betriebssystem
++1 einen Betriebssystem-Kernel
+-1 er ist nur als Koordinator tätig
+
+
+Frage:
+Was ist das Maskottchen von Linux?
+
++1 ein Pinguin
+-1 ein Gnu
+-1 ein Fenster
+
+
+Frage:
+Auf was für Rechnern läuft GNU+Linux?
+
+-1 auf Großrechnern
+-1 auf PCs 
++1 auf vielen verschiedenen 
+
+
+Frage:
+Hat das System eine grafische Benutzeroberfläche?
+
+-1 Nein, es ist rein textbasiert
+-1 Ja, die Oberfläche heißt KDE
++1 Ja, es gibt viele Oberflächen
+
+Hinweis:
+Die bekanntesten Oberflächen sind GNOME, KDE, XFCE und WindowMaker...
+
+Frage:
+GNU+Linux und die meiste Software dafür ist "freie Software". 
+Was bedeutet das?
+
+-1 sie muss kostenlos, oder für einen angemessen kleinen Preis \
+   verfügbar sein
+-1 der Quellcode muss offen gelegt werden
++1 man hat die Freiheit die Software nach belieben zu benutzen, \
+   durchzulesen, zu ändern und weiterzuverteilen
+-1 es ist ein Entwicklungs-Modell, bei dem eine Gemeinschaft von \
+   Programmierern zusammenarbeitet.
+
+Hinweis:
+Freie Software meint die Freiheit, nicht den Preis.
+Das bedeutet, man kann jeden beliebigen Preis dafür verlangen, 
+man darf aber unter anderem nicht das Weiterverbreiten verbieten.
+.
+Es stimmt, dass der Quellcode offen gelegt werden muss.
+Das alleine ist aber noch nicht ausreichend. 
+Es ist jedoch Voraussetzung für die Freiheiten, Software lesen oder 
+ändern zu können.
+.
+Freie Software ist frei, wenn der Benutzer all diese Freiheiten hat -
+ganz egal, unter welchem Entwicklungs-Modell die Software entwickelt 
+wurde.
+.
+Mehr zu diesem Thema findet man unter
+http://www.gnu.org/philosophy/free-sw.de.html
+
+
+Frage:
+In welcher Programmiersprache sind die grundlegenden Bestandteile von
+GNU+Linux geschrieben? (Der Kernel und die GNU Tools wie bash, tar, 
+gzip und so weiter)
+
+-1 Assembler
+-1 Pascal
++1 C
+-1 C++
+-1 LISP
+
+
+Frage:
+Welche Programmiersprachen gibt es für GNU+Linux nicht?
+
+-1 Fortran, Lisp, Pascal, Modula-2, ADA
+-1 Java, JavaScript
++1 Visual Basic, Visual C, Visual Java 
+
+
+Frage:
+Welcher Kernel stammt aus dem GNU Projekt?
+
+-1 BSD
++1 the HURD
+-1 Linux
+
+Hinweis:
+The HURD wurde ungefähr zur selben Zeit wie Linux begonnen. 
+Aber die Entwicklung wurde stark verzögert wegen schwieriger 
+Design-Entscheidungen und weil Linux ja bereits verfügbar war.
+Es dauerte mehr als zehn Jahre, bis HURD schließlich lief und er 
+ist bis heute (2005) nicht stabil.
+
+
+Auswertung%:
+100 Herzlichen Glückwunsch! Alles richtig!
+70  nicht schlecht
+40  akzeptabel
+25  könnte besser sein
+0   nur geraten, oder?
+
+Ende

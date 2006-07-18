@@ -1,0 +1,42 @@
+AKFQuiz 4.0
+
+Ab Version 4.0 von AKFQuiz hat sich einiges geändert, so dass alte 
+Quiz-Dateien umgeschrieben werden müssen.
+
+Kommentare werden wie in früheren Versionen auch mit dem 
+Raute-Zeichen (#) eingeleitet. Im Gegensatz zu früheren Versionen muss 
+ein Kommentar aber in einer eigenen Zeile stehen und kann nicht mehr 
+hinter Stichworte oder Text geschrieben werden. Dafür darf die Raute 
+dann aber auch im Text verwendet werden. Das ist vor allem sinnvoll 
+wenn man HTML-Code einbetten will (siehe GPL-Quiz).
+
+Nur für Un*x:
+Will man auf Un*x Systemen das Quiz selber ausführbar machen, sollte 
+man jetzt folgendes in die erste Zeile schreiben:
+#!/usr/bin/env akfquiz
+Diese "akfquiz" ist ein Skript das automatisch das beste Quiz-Programm 
+für die aktuelle Umgebung raussucht.
+
+Man sollte das Stichwort "AKFQuiz" am Anfang der Quiz-Datei schreiben 
+(nach der #!-Zeile).
+
+Auch das Format für Antworten hat sich geändert. Die Punktzahl muss 
+nicht mehr in eine extra Zeile hinter der Antwort geschrieben werden, 
+sondern steht jetzt vor der Antwort in der selben Zeile. Lange 
+Antworten kann man jetzt auch über mehrere Zeilen verteilen, indem 
+man vor dem Zeilenende einen umgekehrten Schrägstrich (\) setzt. 
+
+Beispiel:
+
+  Frage:
+  Die Frage kann mehr als nur eine Zeile haben.
+  Absätze sind ebenfalls möglich.
+  .
+  Können Antworten auch mehr als nur eine Zeile umfassen?
+
+  0 Nein
+  1 Ja, aber das Zeilenende muss mit einem \
+    Backslash maskiert werden
+
+Es sind jetzt auch mehr als 9 Antwort-Möglichkeiten erlaubt.
+Außerdem sind die Stichworte "Hinweis:" bzw. "Anmerkung:" neu.

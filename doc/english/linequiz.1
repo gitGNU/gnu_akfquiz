@@ -1,0 +1,137 @@
+.\" Process this file with
+.\" groff -man -Tlatin1 linequiz.1
+.\"
+.TH "linequiz" 1 "4.3.1" AKFQuiz
+
+.SH NAME
+linequiz \- command-line quiz-program
+
+.SH SYNTAX
+.BI "linequiz [" options "] [" "input file" "]"
+.br
+.BI "linequiz [" -h | --help | /? ]
+
+.SH DESCRIPTION
+
+This program isn't actually meant to be directly used on a normal 
+computer-display, but as a backend program. You can use it for example 
+to write graphical interfaces in other programming languages, you can 
+easily combine it with text-to-speech software, or blind users can use 
+it with a braille-line.
+
+Each action is introduced by a fixed english keyword in capital 
+letters. These can be used as hooks in other programs.
+
+When you enter the input file on the command-line, you may leave away 
+the extension ".akfquiz". If the filename is given without a path
+and the environment-variable 
+.B QUIZPATH
+is set, then the file is searched there.
+
+The prompt "#>" means, that it's a question with just one possible 
+numeric answer, while the prompt "##>" indicates a question with more 
+than one possible numeric answer. For text-string answers "$>" is used.
+
+.SH Options
+
+.IP "-h | --help | /?"
+
+print a short help-message
+
+.IP -s
+
+no sound (no beep)
+
+.IP "-l"
+
+add more line-breaks (useful when used as backend)
+
+.IP "-w 75"
+
+set the width of the output
+
+.IP "-d <dir>"
+
+path to the quizfiles. 
+This parameter overrides the environment variable QUIZPATH.
+
+.IP -OEM
+
+OEM charset (IBM850 or IBM 437) for output
+
+.IP -latin1
+
+Latin 1 charset (ISO 8859-1), or a compatible one for output
+
+.SH ENVIRONMENT
+
+.IP QUIZPATH
+
+searchpath to the quiz-files.
+It may have more than one directory, just like the variable PATH.
+
+If not set a reasonable default will be used. Check with
+.IR "--help" .
+
+.IP LANG
+
+Language. 
+The language-setting in the quiz-file overrides this.
+
+
+.IP MM_CHARSET
+
+If set to
+.IR "IBM850" , " CP850" , " IBM437 " or " CP437"
+and the quiz-file doesn't specify an equivalent charset, then the 
+Latin1->OEM converter is activated.
+
+This variable is just supported on multi-user systems.
+
+.SH Limits
+
+Support of different charsets is very limited.
+
+The program does not support the keywords
+.IR rtl: " and " bidi: .
+
+.SH LICENSE
+
+Copyright \(co 2003-2006 Andreas K. Foerster
+.br
+.RI < akfquiz@akfoerster.de >
+
+AKFQuiz is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+AKFQuiz is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+
+.SH INTERNET
+
+.IP contact:
+mailto:akfquiz@akfoerster.de
+
+.IP homepage:
+http://akfoerster.de/akfquiz/
+
+.IP examples:
+http://akfoerster.de/akfquiz/quiz.html
+
+.IP "publish quiz:"
+http://akfoerster.de/akfquiz/quizupload
+(no guaranty!)
+
+
+.SH "SEE ALSO"
+.BR akfquiz (5)
+.BR scrquiz (1)
+.BR grquiz (1)
+.BR mkquiz (1)
+.BR cgiquiz (8)
+.BR gtkquizchooser (1)

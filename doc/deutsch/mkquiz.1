@@ -1,0 +1,181 @@
+.\" Process this file with
+.\" groff -man -Tlatin1 mkquiz.1
+.\"
+.TH "mkquiz" 1 "4.2.0" AKFQuiz
+.nh
+
+.SH NAME
+mkquiz \- erzeugt HTML Dateien mit einem Quiz für akfquiz4.js
+
+.SH SYNTAX
+.BI "mkquiz [" "Optionen" "] [" "Quiz-Dateien" "]"
+.br
+.BI "mkquiz [" -h | --help | /? ]
+
+.SH BESCHREIBUNG
+
+Das Programm erzeugt aus einfach zu erstellenden Vorlagen 
+HTML Dateien mit einem Quiz. 
+
+Diese HTML Dateien benötigen außerdem das Script "akfquiz5.js" und die 
+Dateien "leer.png", "richtig.png" und "falsch.png" und falls 
+angegeben noch eine CSS Datei. Diese Dateien müssen im selben 
+Verzeichnis liegen, oder der Pfad kann über das Stichwort
+.I HauptURI
+angegeben werden.
+
+Das Format der Eingabedateien ist in
+.IR akfquiz (5)
+beschrieben.
+
+Die Dateinamen für die Ausgabedateien werden von den Dateinamen der 
+Eingabedateien hergeleitet.
+
+Wird mkquiz ohne Dateinamen und ohne den Parameter
+.IR -a " bzw. " --auto
+aufgerufen, liest es von der Standardeingabe und schreibt auf die 
+Standardausgabe.
+
+.SH BENUTZUNG
+
+.SS Optionen
+
+.IP "-o <Verz.> | --out <Verz.>"
+Verzeichnis für die Ausgabe-Dateien
+
+.IP "-a | --auto"
+bearbeite alle Quiz-Dateien im aktuellen Verzeichnis
+
+.IP "-i | --index"
+erstelle eine index.html mit allen bearbeiteten Quiz-Dateien
+
+.SS Benutzung der erzeugten HTML-Datei:
+
+Es handelt sich um eine HTML Datei die ein JavaScript einbindet. Die 
+Benutzung ist somit weitestgehend vom Browser abhängig. Bei den meisten 
+Browsern kann man die Antworten und die Bedienelemente am Ende mit der 
+Maus oder einem anderen Zeigegerät "anklicken". Außerdem erlauben die 
+meisten Browser, dass man mit der Tabulator-Taste die Bedienelemente 
+anwählen und mit der Leertaste oder der Enter-Taste aktivieren kann.
+
+Zusätzlich zu den Bedienelementen im unteren Teil der Seite werden noch 
+Tastatur-Kürzel definiert.
+
+Auf PCs sind diese folgendermaßen aufrufbar:
+.TP 3
+Alt + R
+zeigt die Auswertung an (R wie "Resultat", engl. "Result")
+.TP 3
+Alt + S
+zeigt die Lösung an (S wie engl. "solution")
+.TP 3
+Alt + N
+erlaubt alles Neu zu machen (N wie "Neu", engl. "New")
+.P
+
+Diese Tastatur-Kürzel sind nur auf neueren Browsern verfügbar.
+
+.SS Drucken:
+
+Um das Quiz zu drucken, drucken Sie bitte die erzeugte HTML-Datei und 
+nicht die Eingabedatei. In der HTML Datei, sowie in den CSS Dateien 
+sind spezielle Anweisungen für den Druck. Es wird also nicht einfach 
+nur die Bildschirmdarstellung ausgedruckt.
+
+Wenn man neben dem Aufgaben-Blatt noch ein Lösungs-Blatt drucken will, 
+kann man einfach den Knopf
+.IR Auflösung " bzw. " Solution
+drücken und dann das Ganze nochmal ausdrucken.
+
+.SH DIAGNOSE
+
+.SS Wenn Fehler auftreten:
+
+Das Programm mkquiz sollte auch dann immer korrektes HTML ausgeben.
+Fehlermeldungen werden mit in den HTML Code geschrieben. Auf diese 
+Weise kann man die Position von Fehlern leicht ermitteln, indem man mit 
+einem Browser einfach schaut, an welcher Stelle die Fehlermeldung 
+eingefügt wurde.
+
+Wenn das Programm mit den Eingabedaten gar nichts anfangen kann, gibt 
+es nichts aus bzw. erstellt eine leere Datei.
+
+Der HTML-Code, den das Programm erstellt, sollte immer formal korrekt 
+sein solange man das Stichwort "htmlcode:" nicht verwendet. Wenn man 
+es verwendet, ist man selber für die korrekte Verwendung verantwortlich.
+
+.SS Zusatzinformationen:
+
+In den HTML Code werden einige wenige Zusatzinformationen aufgenommen, 
+die im Browser nicht zu sehen sind.
+Es wird die Sprache gespeichert, wenn man das Stichwort "language:" 
+verwendet hat. Diese Angabe ist übrigens auch technisch relevant 
+und sollte deshalb nicht weggelassen werden. Außerdem wird auch 
+der Autor so eingetragen, dass es von Software leicht ausgelesen werden 
+kann (zB. von Suchmaschinen). Ebenfalls gespeichert wird, mit welchem 
+Programm und welcher Version die Datei erstellt wurde.
+
+.SH MACKEN
+
+Das JavaScript 
+.I akfquiz5.js 
+zeigt keine Grafik bei "multi:" Fragen an.
+
+.SH DATEIEN
+
+Folgende Dateien müssen mit der erzeugten HTML Datei im selben 
+Verzeichnis liegen:
+
+.IP akfquiz5.js
+JavaScript Datei - wird von der erzeugten HTML Datei benötigt
+
+.IP "leer.png, richtig.png, falsch.png"
+benötigte Grafik-Dateien
+
+.P
+Falls in der AKFQuiz Datei eine CSS Datei angegeben wurde, muss 
+diese ebenfalls in dem Verzeichnis liegen. Evtl. benötigt diese CSS 
+Datei weitere Dateien.
+
+.SH LIZENZ
+
+Copyright \(co 2003-2006 Andreas K. Förster 
+.br
+.RI < akfquiz@akfoerster.de >
+
+AKFQuiz ist Freie Software. Sie können es unter den 
+Bedingungen der GNU General Public License, wie von der Free 
+Software Foundation veröffentlicht, weitergeben und/oder 
+modifizieren, entweder gemäß Version 2 der Lizenz oder (nach 
+Ihrer Option) jeder späteren Version. 
+
+Die Veröffentlichung von AKFQuiz erfolgt in der Hoffnung, dass 
+es Ihnen von Nutzen sein wird, aber 
+.B ohne irgendeine Garantie, 
+sogar ohne die implizite Garantie der 
+.B Marktreife 
+oder der 
+.B Verwendbarkeit für einen bestimmten Zweck.
+
+.SH INTERNET
+
+.IP Kontakt:
+mailto:akfquiz@akfoerster.de
+
+.IP Homepage:
+http://akfoerster.de/akfquiz/de
+
+.IP Beispiele:
+http://akfoerster.de/akfquiz/quiz.html
+
+.IP "Quiz veröffentlichen:"
+http://akfoerster.de/akfquiz/quizupload
+(keine Garantie!)
+
+
+.SH "SIEHE AUCH"
+.BR akfquiz (5)
+.BR scrquiz (1)
+.BR grquiz (1)
+.BR cgiquiz (8)
+.BR linequiz (1)

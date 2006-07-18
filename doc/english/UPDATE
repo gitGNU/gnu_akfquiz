@@ -1,0 +1,43 @@
+AKFQuiz 4.0
+
+In version 4.0 of AKFQuiz a lot has changed so that old quiz files have 
+to be rewritten.
+
+Comments are introduced with the hash sign (#) just like in earlier 
+versions. But in contrast to earlier versions it must stand alone in 
+the line, it can no longer be behind keywords or text. Therefor you 
+can use the hash sign inside of texts now. That is especially useful 
+if you want to embed HTML-code (see GPL-Quiz).
+
+Un*x only:
+If you want to make the quiz executable on Un*x compatible systems you 
+have to write the following in the very first line:
+#!/usr/bin/env akfquiz
+This "akfquiz" is a script which tries to start the best quiz-program 
+for your actual environment.
+
+
+You should put the term AKFQuiz at the beginning of the quiz-file 
+(after the #! line if you use it).
+
+The format for answers has also changed. The points value is no longer 
+on a line for itself, but you have to write it in front of the answer 
+on the same line. Long answer texts can spawn more than just one line 
+in this version, when you put a backslash (\) at the end of the line 
+when the text has not ended yet.
+
+example:
+
+  question:
+  The question can have more than one line.
+  Paragraphs are also possible.
+  .
+  Can answers also have more than one line?
+
+  0 No
+  1 yes, but you have to mask the end of the line \
+  with a backslash
+
+You can have more than just 9 possible answers.
+And there are new keywords "hint:" or "remark:".
+

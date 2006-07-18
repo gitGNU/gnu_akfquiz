@@ -1,0 +1,174 @@
+.\" Process this file with
+.\" groff -man -Tlatin1 mkquiz.1
+.\"
+.TH "mkquiz" 1 "4.2.0" AKFQuiz
+
+.SH NAME
+mkquiz \- creates HTML file with a quiz (needs akfquiz5.js)
+
+.SH SYNTAX
+.BI "mkquiz [" "options" "] [" "quiz-files" "]"
+.br
+.BI "mkquiz [" -h | --help | /? ]
+
+.SH DESCRIPTION
+
+Mkquiz creates a HTML file with a quiz from easy to write text-files.
+
+This HTML files then need also the script "akfquiz5.js" as well as the 
+files "leer.png", "richtig.png" and "falsch.png", and probably a given 
+CSS file. These files have to be in the same directory as the HTML 
+files, or the path may be given with the keyword
+.IR baseURI: .
+
+The format of the input data is described in 
+.IR akfquiz (5).
+
+The filenames for the output files are deduced from the filenames of 
+the input files.
+
+If mkquiz is called without filenames and without the option 
+.IR -a " or " --auto ,
+it reads from standard input and writes to standard output.
+
+.SH USAGE
+
+.SS OPTIONS
+
+.IP "-o <dir> | --out <dir>"
+directory for the output files
+
+.IP "-a | --auto"
+process all quiz-files in the current directory
+
+.IP "-i | --index"
+write an index.html with all files processed
+
+.RE
+When you enter input files on the command-line, you may leave away 
+the extension ".akfquiz" or ".aqz".
+
+.SS Usage of the created HTML-file:
+
+It is an HTML-file, which includes a JavaScript-file. So the usage is 
+mostly dependent on the browser. On most browsers you can use the 
+buttons at the end by "clicking" with a mouse or an other device on 
+it. Besides of that on most browsers you can chose the elements with 
+the Tab-key and activate them by pressing either the space-key or the 
+enter-key.
+
+Additionally there are also key-shortcuts defined in the HTML-file
+
+On PCs they are as follows:
+.TP 3
+Alt + R
+shows the 
+.IR R esult
+.TP 3
+Alt + S
+shows the 
+.IR S olution
+.TP 3
+Alt + N
+allows you to enter anything 
+.IR N ew
+.P
+
+These shortcuts are only available with newer browsers.
+
+.SS Printing:
+
+To print a quiz on a printer, please use the HTML-file, not the 
+input-file. The HTML-file and the CSS-files contain special code for 
+printing. So it's not simply the same as what you see on the screen.
+
+If you want to print a page with the solution, then press the button
+.IR Solution
+in the browser and print it again.
+
+.SH DIAGNOSTICS
+
+.SS If it encounters errors:
+
+The program mkquiz should even then always produce correct HTML code.
+Error messages are written into the code. So you can easily find the 
+position of the errors, by looking at the result with a browser.
+
+If the program cannot interpret the input data at all, it outputs 
+nothing, or it creates an empty file.
+
+The HTML code, that's produced by the program, should always be formally 
+correct, unless you use the keyword "htmlcode:". If you use it, you're 
+responsive for it yourself.
+
+.SS Additional information:
+
+The HTML code contains some additional information, which you cannot 
+see with the browser.
+The code contains the language as given with the keyword "language:".
+This also has technical relevancy, so don't simply skip this keyword.
+Besides of that, the author is stored in a way, that it can be easily 
+found by software programs (for example search-engines). Also the 
+name of the software which created the file and version is stored.
+
+.SH BUGS
+
+The JavaScript 
+.I akfquiz5.js 
+shows no graphic for "multi:"-questions.
+
+.SH FILES
+
+The following files must be in the same directory as the created 
+HTML-file:
+
+.IP akfquiz5.js
+JavaScript-file - needed by the HTML-file
+
+.IP "leer.png, richtig.png, falsch.png"
+needed graphic-files
+.P
+
+If you mentioned a CSS-file in the AKFQuiz-file, it also has to be in the 
+same directory. It might be, that this CSS-file again needs other 
+files.
+
+.SH LICENSE
+
+Copyright \(co 2003-2006 Andreas K. Foerster
+.br
+.RI < akfquiz@akfoerster.de >
+
+AKFQuiz is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+AKFQuiz is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+
+.SH INTERNET
+
+.IP contact:
+mailto:akfquiz@akfoerster.de
+
+.IP homepage:
+http://akfoerster.de/akfquiz/
+
+.IP examples:
+http://akfoerster.de/akfquiz/quiz.html
+
+.IP "publish quiz:"
+http://akfoerster.de/akfquiz/quizupload
+(no guaranty!)
+
+
+.SH "SEE ALSO"
+.BR akfquiz (5)
+.BR scrquiz (1)
+.BR grquiz (1)
+.BR cgiquiz (8)
+.BR linequiz (1)

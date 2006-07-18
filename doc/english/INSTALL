@@ -1,0 +1,109 @@
+AKFQuiz
+
+Homepage:
+http://akfoerster.de/akfquiz/
+
+Contact:
+akfquiz@akfoerster.de
+
+
+INSTALLATION
+
+With binary packages:
+
+You need the main package and the package with the binaries for your 
+system. For example:
+
+akfquiz-4.2.1.main.tar.gz
+akfquiz-4.2.1.bin.Linux.x86.tar.gz
+
+Unpack them in the same directory. Go into the newly created directory
+"akfquiz/srcbin/" and play around with the binaries there.
+
+To install everything, go into the directory "akfquiz/" and run 
+"./configure" and have a look at the settings it shows. If you don't 
+like the settings, use the parameters for configure, as described below.
+Then become root, go into the directory "akfquiz/" and type "make install" 
+and eventually "make install-cgi".
+
+
+COMPILING:
+
+If you cannot or don't want to use a binary package, you have to compile 
+the programs yourself. 
+
+Compiling with Free Pascal (FPC) 2.0.0 or newer:
+
+You need the main package and SDL4Freepascal-1.2.0.0. SDL-1.2 has to be 
+installed on your system.
+
+Unpack the main packackage and SDL4Freepascal in the same directory.
+Go into the newly created directory akfquiz/ and type
+
+  ./configure
+  make 
+  make clean
+
+After that, it is ready to use, as described above.
+
+
+Compiling with GNU Pascal (GPC) 20030303 or newer.
+
+To compile grquiz with GPC, the GRX library with GPC support enabled 
+must be installed. When grquiz cannot be compiled, that error is 
+ignored in the Makefile. The program gtkquizchooser cannot be compiled 
+with GPC either.
+
+type
+
+  ./configure --target=gpc
+  make 
+  make clean
+
+After that, it is ready to use, as described above.
+
+
+Using configure:
+The configure script accepts the following parameters:
+
+--help      shows a short help
+--prefix=   where to install
+--cgipath=  where to install the CGI binary
+--variant=  Variant name
+--target=   compile target  [*]
+--arch=     CPU architecture (just a name for making packages)
+--sys=      system (just a name for making packages)
+
+[*] target may be
+fpc  - Free Pascal 2.0 or newer
+gpc  - GNU Pascal 20030303 or newer
+xarm - Free Pascal Cross-Compiler for Linux on ARM
+xw32 - Free Pascal Cross-Compiler for Windows 
+       (don't use it directly on Windows)
+
+
+Windows Users:
+
+The configure script needs a Bourne Shell. You may try to compile the 
+programs anyway with "make windows". Do not use "make install" or 
+"make install-cgi".
+
+
+AKFQuiz contains the following programs:
+
+grquiz         - interactive quiz in graphic mode [1]
+scrquiz	       - interactive quiz on textconsole/terminal
+linequiz       - interactive quiz in command-line mode [2]
+diaquiz        - interactive quiz for X (needs Xdialog)
+mkquiz	       - creates HTML code for the quiz
+gtkquizchooser - file-chooser for quiz-files
+getquiz	       - fetches all files needed for the HTML files and 
+                 copies them to the current directory
+
+[1] grquiz can be compiled for differen libraries.
+    To use it with SVGALIB it must be installed setuid root.
+[2] linequiz is meant as backend program
+
+Manpages:
+akfquiz(5), mkquiz(1), grquiz(1), scrquiz(1), diaquiz(1), linequiz(1),
+akfquiz.cgi(8)

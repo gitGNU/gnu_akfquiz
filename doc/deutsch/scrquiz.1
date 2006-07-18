@@ -1,0 +1,149 @@
+.\" Process this file with
+.\" groff -man -Tlatin1 scrquiz.1
+.\"
+.TH "scrquiz" 1 "4.3.1" AKFQuiz
+.nh
+
+.SH NAME
+scrquiz \- Quiz-Programm für die Text-Konsole oder xterm
+
+.SH SYNTAX
+.BI "scrquiz [" Optionen "] [" "Eingabedatei" "]"
+.br
+.BI "scrquiz [" -h | --help | /? ]
+
+.SH BESCHREIBUNG
+
+Mit diesem Programm kann man ein Quiz im 
+.IR akfquiz (5)
+Format auf der Text-Konsole oder im xterm spielen.
+
+Wenn man die Eingabe-Datei auf der Kommandozeile angibt, 
+kann man die Datei-Endung ".akfquiz" weglassen. 
+Wenn die Eingabe-Datei ohne Pfad angegeben wird und die 
+Umgebungsvariable
+.B QUIZPATH
+gesetzt ist, wird die Datei dort gesucht.
+
+Beenden kann man das Programm an fast jeder Stelle mit der Taste
+.IR Esc .
+
+Die Eingabe-Aufforderung ist ein ">" bei Fragen mit nur einer 
+Antwort-Möglichkeit und ">>" bei Fragen mit mehreren 
+Antwort-Möglichkeiten. Im letzteren Fall muss die Eingabe mit der 
+.IR "Enter" -Taste
+abgeschlossen werden.
+
+.SH Optionen
+
+.IP "-h | --help | /?"
+
+zeige eine kurze Hilfe an
+
+.IP -s
+
+kein System-Klang (kein Piep)
+
+.IP "-d <dir>"
+
+Pfad zu den Quiz-Dateien. 
+Dieser Parameter hat Vorang vor der Umgebungs-Variablen QUIZPATH.
+
+.IP -p
+
+Programm läuft in einer Endlos-Schleife (für Boot-Disks)
+
+.IP -OEM
+
+Anzeige hat OEM-Zeichensatz (IBM850 oder IBM437)
+
+.IP -latin1
+
+Anzeige hat Latin-1 Zeichensatz (ISO 8859-1), oder kompatiblen
+
+.SS Drucken:
+
+Zum Ausdrucken von Fragebögen kann man das Programm
+.IR mkquiz (1)
+verwenden.
+
+.SH UMGEBUNGSVARIABLEN
+
+.IP QUIZPATH
+
+Such-Pfad zu den Quiz-Dateien.
+Es können mehrere Verzeichnisse angegeben werden, genau wie in PATH.
+
+Wenn kein QUIZPATH gesetzt ist, wird eine sinnvolle Vorgabe verwendet.
+Bitte mit 
+.I "--help" 
+überprüfen.
+
+.IP LANG
+
+Sprache. 
+Die Sprache, die in der Quiz-Datei angegeben wird hat Vorrang.
+Die Variable kann auch verwendet werden, um den Zeichensatz anzugeben.
+
+.IP MM_CHARSET
+
+Wenn die Variable auf 
+.IR "UTF-8" , " IBM850" , " CP850" , " IBM437 " oder " CP437"
+gesetzt ist und kein entsprechender Zeichensatz in der Quiz-Datei 
+gewählt wurde, wird ein Konverter aktiviert.
+
+Diese Variable wird nur auf Multi-User Systemen unterstützt.
+
+.SH Limits
+
+Die Unterstützung von Zeichensätzen ist beschränkt.
+
+Das Programm unterstützt nicht die Stichworte
+.IR rtl: " und " bidi: .
+
+Das nachträgliche Verändern der Fenstergröße wird nicht unterstützt.
+
+.SH LIZENZ
+
+Copyright \(co 2003-2006 Andreas K. Förster 
+.br
+.RI < akfquiz@akfoerster.de >
+
+AKFQuiz ist Freie Software. Sie können es unter den 
+Bedingungen der GNU General Public License, wie von der Free 
+Software Foundation veröffentlicht, weitergeben und/oder 
+modifizieren, entweder gemäß Version 2 der Lizenz oder (nach 
+Ihrer Option) jeder späteren Version. 
+
+Die Veröffentlichung von AKFQuiz erfolgt in der Hoffnung, dass 
+es Ihnen von Nutzen sein wird, aber 
+.B ohne irgendeine Garantie, 
+sogar ohne die implizite Garantie der 
+.B Marktreife 
+oder der 
+.B Verwendbarkeit für einen bestimmten Zweck.
+
+
+.SH INTERNET
+
+.IP Kontakt:
+mailto:akfquiz@akfoerster.de
+
+.IP Homepage:
+http://akfoerster.de/akfquiz/de
+
+.IP Beispiele:
+http://akfoerster.de/akfquiz/quiz.html
+
+.IP "Quiz veröffentlichen:"
+http://akfoerster.de/akfquiz/quizupload
+(keine Garantie!)
+
+
+.SH "SIEHE AUCH"
+.BR akfquiz (5)
+.BR grquiz (1)
+.BR mkquiz (1)
+.BR cgiquiz (8)
+.BR linequiz (1)
+.BR gtkquizchooser (1)

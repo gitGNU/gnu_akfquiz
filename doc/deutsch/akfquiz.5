@@ -1,0 +1,456 @@
+.\" Process this file with
+.\" groff -man -Tlatin1 akfquiz.5
+.\"
+.TH "akfquiz" 5 "4.3.1" AKFQuiz
+.nh
+
+.SH NAME
+akfquiz \- Dateiformat für Quiz-Spiele, Übungsaufgaben, Psycho-Tests
+
+.SH BESCHREIBUNG
+
+Die AKFQuiz-Dateien können mit einem normalen Texteditor erstellt und 
+bearbeitet werden. 
+
+AKFQuiz-Dateien können die Datei-Endung ".akfquiz" oder ".aqz" haben, 
+in vielen Fällen kann man die Datei-Endung aber auch weg lassen. 
+
+Eine Zeile, die mit einer Raute (#) beginnt ist ein Kommentar und wird 
+ignoriert. Vor der Raute dürfen nur Leerzeichen stehen. Eine Raute, die 
+nicht am Anfang der Zeile steht, wird als normales Zeichen 
+interpretiert. 
+
+Das AKFQuiz-Format basiert auf Stichworten. 
+Die Stichworte dürfen eingerückt sein und die Groß-/Kleinschreibung 
+ist beliebig. Um Stichworte ungültig zu machen kann man eine Raute 
+(#) davor setzen.
+
+Es gibt einzeilige Stichworte. Diese dienen zu Einstellungszwecken.
+Einzeilige Stichworte müssen am Anfang der Datei, vor den 
+block-orientierten Stichworten stehen.
+
+Außerdem gibt es block-orientierte Stichworte. Diese bilden dann den 
+sichtbaren Inhalt des Quizzes. Der Text bei block-orientierten 
+Stichworten muss in einer neuen Zeile beginnen.
+
+Man beachte die Beispiel-Dateien.
+
+.SH Stichworte
+
+Die Stichworte in AKFQuiz-Dateien im Einzelnen:
+
+.IP "AKFQuiz"
+Schreiben Sie den Ausdruck 
+.I AKFQuiz
+an den Anfang einer AKFQuiz-Datei 
+(hinter der #! Zeile, falls Sie die verwenden). 
+Dahinter können Sie Informationen über die benötigte Version schreiben.
+
+Falls nötig kann auch ein Varianten-Name benutzt werden:
+.br
+.I "AKFQuiz-testing Version 3.2.0"
+
+.B Achtung:
+Ab Version 4.1.0 oder höher 
+.I muss
+dieses Stichwort benutzt werden und es muss am Anfang der Zeile stehen. 
+Zeilen vor diesem Stichwort werden ignoriert.
+
+.IP "Ende (end)"
+
+Das Stichwort Ende oder end sollte am Ende der Quiz-Datei geschrieben 
+werden. Zeilen nach diesem Stichwort werden ignoriert. Somit können 
+AKFQuiz Dateien in andere textorientierte Dateiformate eingebettet 
+werden.
+
+.SS Zeilen-orientierte Stichworte:
+
+.IP "Titel: (title:)"
+Titel des Quizzes - dieser sollte immer angegeben werden und eindeutig 
+sein.
+
+.IP "Autor: (author:)" 
+der Autor des Quizzes. Es sollte derjenige angegeben werden, der für 
+den
+.IR Inhalt ,
+also für die Fragen verantwortlich ist - nicht derjenige, der das als 
+Datei umgesetzt hat.
+
+.IP "Autorlink: (authorlink:)" 
+Link zur Homepage des Autors, oder die E-Mail Adresse. Bitte in 
+URI-Schreibweise mit Protokollnamen angeben. Zum Beispiel:
+.I http://akfoerster.de/
+oder
+.I mailto:akfquiz@akfoerster.de
+
+.IP "Bearbeitet: (edited:)"
+Liste von Leuten, die die Quizdatei überarbeitet haben
+
+.IP "Copyright:"
+derjenige, der das Copyright bzw. Urheberrecht inne hat. Dieses 
+Stichwort kann alternativ zu
+.I Autor:
+benutzt werden. Es gibt aber auch Fälle, wo der Autor und der 
+Copyright-Inhaber verschieden sind. In dem Fall können auch beide 
+Stichworte verwendet werden.
+
+.IP "Lizenz: (license:)"
+unter welcher Lizenz das Quiz steht. Bitte die präzise Bezeichnung und 
+die Versions-Nummer der Lizenz angeben.
+
+.IP "Lizenzlink: (licenselink:)"
+ein Link zum Lizenz-Text, oder eine URN, die sich auf die Lizenz 
+bezieht.
+
+.IP "Uebersetzer: (translator:)"
+der Übersetzer, falls es sich um eine Übersetzung handelt
+
+.IP "Zeichensatz: (charset:)"
+welche Zeichensatz-Kodierung verwendet wird. 
+(Der Zeichensatz ist nicht die Schriftart!)
+Die Vorgabe ist US-ASCII und Zeichen, die nicht in ASCII vorkommen 
+(zB. deutsche Umlaute) werden herausgefiltert.
+
+Unterstützt: UTF-8, ISO-8859-1, ISO-8859-15, IBM850, 
+US-ASCII, Windows-1252
+
+(man sollte IBM850 statt IBM437 verwenden, um Probleme zu vermeiden)
+
+.IP "Sprache: (language:)"
+Sprache - als zweistelliges Buchstabenkürzel anzugeben, wie sie in 
+ISO-639-1 definiert sind.
+Zum Beispiel "de" für deutsch, "en" für Englisch. Es sollte immer die 
+richtige Sprache angegeben werden, auch wenn diese von den Programmen 
+noch nicht unterstützt wird, da diese Angabe auch in den (X)HTML-Code 
+zur weiteren Bearbeitung kopiert wird.
+Sprachen, die nicht in ISO-639-1 definiert sind, sollten mit "x-" 
+eingeleitet werden. Zum Beispiel "x-cherokee" (Sprache der 
+Schirokesen).
+
+Unterstützte Sprachen: en, de, da, it
+
+.IP rtl:
+kann man auf "ja", "yes", "true" oder "1" setzen. Es bedeuted, dass die 
+Schreibrichtung des Haupttextes von rechts nach links verläuft, 
+zB. für Hebräisch oder Arabisch.
+
+.B Experimentelle Unterstüzung
+
+.IP bidi:
+Bidi steht für "bidirectional" (sinngemäß: 2 Schreibrichtungen)
+Man kann es auf "ja", "yes", "true" oder "1" setzen.
+Das bedeutet, der Text kann Textstellen enthalten, die eine andere 
+Schreibrichtung haben, als der Haupttext.
+
+.B Experimentelle Unterstüzung
+
+.IP Neutral:
+kann man auf "ja", "yes", "true" oder "1" setzen, was bedeutet, dass 
+die Programme neutral antworten sollen, das heißt Antworten nicht als 
+richtig oder falsch kennzeichnen, oder sagen, dass weniger als 1 Punkt 
+"nicht genug" sei.
+.I "Dieses sollte zusammen mit den Stichworten"
+.I """Auswertung:"" und ""Auswertungslink:"""
+.I "verwendet werden."
+
+.IP "Auswertungslink: (assessmentlink:)"
+Link, der auf ein Dokument verweist, das erklärt, was das Ergebnis zu 
+bedeuten hat. Da könnte zum Beispiel so was stehen wie "über 80% ist 
+gut, unter 10% ist schlecht".
+
+Der Auswertungslink wird nur benutzt, wenn die Ausgabe HTML-Code ist 
+(mkquiz, akfquiz.cgi). Man sollte zusätzlich auch das Block-Stichwort
+.I "Auswertung:"
+als Alternative für die anderen Programme verwenden. Nur das Stichwort
+.I "Auswertung:"
+zu verwenden ist auch in Ordnung, wenn das ausreicht.
+
+.B Für Fortgeschrittene:
+Wenn das letzte Zeichen der URI ein Fragezeichen (?) ist, werden Werte 
+für "points", "maxpoints" und "percent" angehängt, so dass sie aus 
+Skripten ausgelesen werden können.
+
+.I Beispiel:
+Auswertungslink: schulnote.html?
+
+Diese Beispiel-Datei berechnet eine Schulnote.
+Sie benutzt dafür JavaScript. Natürlich kann man auch CGI oder PHP 
+Skripte verwenden.
+
+.IP "htmlcode:"
+kann man auf "ja", "yes", "true" oder "1" setzen, wenn man in der 
+Eingabe-Datei selber HTML Code verwenden will - 
+die HTML-Tags werden direkt in die HTML-Ausgabe kopiert. 
+Andere AKFQuiz-Interpreter lassen HTML-Tags einfach aus.
+.br
+.B Achtung:
+Dann sollte man auch 
+.BR "&lt;" " für " < ,
+.BR "&gt;" " für " > ,
+.BR "&amp;" " für " "& " und
+.BR "&quot;" " für " \*(lq " benutzen!"
+Diese "benannten Zeichen" werden auch von nicht-HTML-basierten
+AKFQuiz-Interpretern verstanden. Das "benannte Zeichen"
+.BR "&euro;" " wird ebenfalls unterstützt."
+
+Die automatische URI Erkennung (siehe unten) wird ausgeschaltet, wenn 
+htmlcode aktiviert ist.
+
+.IP "HauptURI: (baseURI:)"
+URI für die Grafik-Dateien und CSS-Dateien. Es kann eine relative oder 
+absolute Adresse angegeben werden.
+Diese Angabe hat nur Auswirkungen bei akfquiz.cgi.
+.RI Beispiel: " /akfquiz"
+
+.IP "Layout: (CSS:)"
+verweist auf eine CSS Datei. Diese Dateien beeinflussen das Aussehen 
+des Quizzes im Web-Browser. Diese Angabe hat nur Auswirkungen auf die 
+(X)HTML-Ausgabe.
+Die Unterscheidung zwischen verschiedenen Ausgabe-Medien sollte in der 
+CSS-Datei stattfinden.
+Man kann gerne die Beispiel-Dateien, die bei dem Programm mitgeliefert 
+werden auch für eigene Quizze verwenden, und auch mit veröffentlichen.
+
+.IP "Stichworte: (keywords:)"
+Stichworte für die Meta-Daten von (X)HTML-Dateien. Wird von einigen 
+Suchmaschinen ausgewertet.
+
+.IP "JavaScript:"
+gibt den Namen der JavaScript Datei an. 
+.I "Das Stichwort ist mittlerweile obsolet und sollte nicht mehr "
+.I "verwendet werden."
+
+.IP "NoIndex:"
+kann man auf "ja", "yes", "true" oder "1" setzen. Es schreibt eine 
+Anweisung für Suchmaschinen in den (X)HTML-Code, dass dieses Quiz nicht 
+in den Index der Suchmaschine aufgenommen werden soll. Die meisten 
+Suchmaschinen halten sich auch dran. Auf andere Ausgabeformen hat 
+dieses Stichwort keine Auswirkungen.
+
+.IP "StandardAntwort: (default:)"
+Standard-Antwort für Fragen mit nur einer Antwort-Möglichkeit.
+Diese Antwort wird immer als letzte angeführt und ist vorausgewählt.
+Dies sollte man immer verwenden, wenn man für falsche Antworten auch 
+Punkt-Abzüge geben will.
+
+.SS Block-orientierte Stichworte:
+
+.IP "Kommentar: (comment:)"
+fügt einen Kommentar in das Quiz ein. Der Kommentar kann mehrere 
+Zeilen umfassen und wird durch eine Leerzeile abgeschlossen.
+Kommentare können am Anfang, zwischen den Fragen oder am Ende 
+eingefügt werden. Eine Leerzeile kann in einem solchen Kommentar 
+nicht vorkommen. Um einen neuen Abschnitt zu beginnen, kann man einen 
+einzelnen Punkt als einziges lesbares Zeichen in der Zeile schreiben 
+(Leerzeichen sind erlaubt)
+.I "(siehe auch ""Hinweis:"" und ""Auswertung:"")"
+
+.IP "Hinweis:, Anmerkung: (hint:, remark:)"
+Dieses ist ähnlich wie ein "Kommentar:", aber es wird nur gezeigt, 
+nachdem die vorhergehende Frage bereits beantwortet wurde. Für die 
+interaktiven AKFQuiz-Programme gibt es keinen Unterschied zu 
+"Kommentar:", aber in den HTML-Varianten wird ein "Hinweis:" erst 
+auf der Auflösungs-Seite angezeigt.
+
+.IP "Frage: (question:, mc:)"
+definiert eine Frage mit nur einer Antwort-Möglichkeit. Es kann auch 
+mehr als nur eine Antwort richtig sein, aber nur eine kann ausgewählt 
+werden, zB. für "was ist die beste Lösung"-Fragen.
+
+Die Frage kann mehrere Zeilen umfassen und wird durch eine Leerzeile 
+abgeschlossen. Um einen neuen Abschnitt zu beginnen, kann man einen 
+einzelnen Punkt als einziges lesbares Zeichen in der Zeile schreiben 
+(Leerzeichen sind erlaubt).
+
+Darauf folgen die Antwort-Möglichkeiten und die zugeordneten 
+Punktzahlen: Am Anfang der Zeile steht die Punktzahl für die Antwort, 
+danach kommt ein oder mehrere Leerzeichen oder Tab-Zeichen und dann der 
+Antwort-Text. Wenn man für die Antwort mehr als nur eine Zeile benötigt, 
+kann man am Zeilenende einen Backslash (\\) eingeben, um anzuzeigen, dass 
+der Text an diesem Zeilenende noch nicht endet.
+
+.I Beispiel:
+
+.B Frage:
+.br
+.B "Die Frage kann mehr als nur eine Zeile haben."
+.br
+.B "Absätze sind ebenfalls möglich."
+.br
+.B .
+.br
+.B "Können Antworten auch mehr als nur eine Zeile umfassen?"
+
+.B "0 Nein"
+.br
+.B "1 Ja, aber das Zeilenende muss mit einem \\\\"
+.br
+.B "  Backslash maskiert werden"
+
+Sinnvolle Werte für die Punktzahl sind hier entweder 0 und 1,
+oder -1 und +1. Aber andere ganzzahlige Punktwerte sind ebenfalls 
+möglich, wenn es passend erscheint.
+
+.I "(siehe auch ""StandardAntwort:"" und ""Anfrage:"")"
+
+.IP "Anfrage: (multi:, query:, mcma:)"
+definiert eine Frage mit mehreren Antwort-Möglichkeiten. Im Gegensatz 
+zu "Frage:" kann der Endbenutzer hier mehreres auswählen.
+Der Aufbau entspricht dem bei dem Stichwort "Frage:" 
+beschriebenen. Die Werte 0 und 1 sind hier jedoch nicht sinnvoll, da 
+man ansonsten einfach alles anwählen könnte um die höchste Punktzahl 
+zu erreichen. Man sollte also mit -1 und +1 arbeiten. Das Stichwort 
+"StandardAntwort:" hat auf diesen Fragen-Typ keinen Einfluss.
+
+.IP "Auswertung: (assessment:)"
+Wie ein Kommentar:-Feld, wird aber erst ganz am Ende angezeigt.
+.I "Das Stichwort ""Auswertung:"" muss am Ende des Quizzes stehen!"
+AKFQuiz-Interpreter zeigen diesen Kommentar erst an, 
+nachdem die erreichte Punktzahl ausgegeben wurde. 
+
+Wenn die Ausgabe HTML-Code ist (mkquiz, akfquiz.cgi) und das Stichwort
+.I "Auswertungslink:"
+verwendet wurde, dann wird diese Auswertung nicht angezeigt.
+So können beide Stichworte als Alternativen für verschiedene 
+Ausgabe-Formate verwendet werden.
+.I "(siehe auch ""Auswertung%:"")"
+
+.IP "Auswertung%: (assessment%:)"
+Der Inhalt beim Stichwort "Auswertung%:" ist ähnlich aufgebaut, wie 
+die Antworten bei einer Frage; zuerst ein Zahlwert, dann beliebig viele 
+Leerzeichen oder Tab-Zeichen und dann ein Text. Längere Zeilen können 
+auch hier mit einem Backslash (\\) erweitert werden. Der Zahlenwert 
+stellt hier jedoch den Prozentwert dar, ab welchem der angegebe Text 
+als Auswertung gilt.
+.B Achtung:
+Die Zahlwerte müssen in absteigender Folge angegeben werden und der 
+letzte Eintrag
+.I muss
+0 sein!
+
+.I "Das Stichwort ""Auswertung%:"" muss am Ende des Quizzes stehen!"
+
+.I Beispiel:
+
+.B "Auswertung%:"
+.br
+.B "95 sehr gut"
+.br
+.B "80 gut"
+.br
+.B "65 befriedigend"
+.br
+.B "45 ausreichend"
+.br
+.B "25 mangelhaft"
+.br
+.B "0  ungenügend"
+
+Wenn die Ausgabe HTML-Code ist (mkquiz, akfquiz.cgi) und das Stichwort
+.I "Auswertungslink:"
+verwendet wurde, dann wird diese Auswertung% nicht angezeigt.
+So können beide Stichworte als Alternativen für verschiedene 
+Ausgabe-Formate verwendet werden.
+
+.I "(siehe auch ""Auswertung:"")"
+
+.SH AUTOMATISCHE URI ERKENNUNG
+
+Die Web basieren Varianten von AKFQuiz erkennen viele URI Schemata 
+automatisch wenn "HTMLcode" nicht aktiviert ist. URIs können durch 
+Leerzeichen oder TAB Zeichen, doppelte Anführungsstriche (") oder 
+spitze Klammern (<...>) abgegrenzt werden. Wenn die URI nicht mit 
+einer bekannten Protokoll Bezeichnung anfängt, kann man "URI:" oder 
+"URL:" davor setzen. Damit kann man also auch relative Adressen 
+benutzen. Protokoll Bezeichnungen müssen klein geschrieben werden, 
+während "URI:", bzw. "URL:" groß geschrieben werden müssen. 
+"URN:" kann sowohl groß, als auch klein geschrieben werden.
+
+Bilder können direkt in die Webseite eingebunden werden, indem man das 
+Stichwort "image:" davor setzt.
+.B Achtung:
+Die Positionierung der Bilder ist noch experimentell und kann sich in 
+späteren Versionen noch ändern.
+
+.SS Beispiele:
+
+http://akfoerster.de/akfquiz/
+.br
+<http://akfoerster.de/akfquiz/>
+.br
+URI:next.html
+.br
+image:URI:next.png
+.br
+<mailto:akfquiz@akfoerster.de>
+.br
+telnet://akf@akfoerster.de/
+.br
+file://localhost/usr/share/pixmaps/myimage.png
+
+Es werden noch viele weitere URIs unterstützt.
+
+Benutzen Sie "file:"-URIs nur als letzten Ausweg, wenn nichts anderes 
+möglich ist.
+
+
+.SH WEITERE FUNKTIONEN
+
+Auf Posix-kompatiblen Systemen kann man den das Quiz selbst zu einer 
+ausführbaren Datei machen, indem man folgendes in die erste Zeile 
+schreibt:
+.br
+.I "#! /usr/bin/env akfquiz"
+.br
+Danach kann man das Ausführungs-Bit der Datei mit dem Befehl
+.I chmod(1) 
+setzen.
+
+Als MIME-Typ sollte 
+.IR application/x-akfquiz " verwendet werden."
+
+
+.SH LIZENZ
+
+Copyright \(co 2003-2006 Andreas K. Förster 
+.br
+.RI < akfquiz@akfoerster.de >
+
+AKFQuiz ist Freie Software. Sie können es unter den 
+Bedingungen der GNU General Public License, wie von der Free 
+Software Foundation veröffentlicht, weitergeben und/oder 
+modifizieren, entweder gemäß Version 2 der Lizenz oder (nach 
+Ihrer Option) jeder späteren Version. 
+
+Die Veröffentlichung von AKFQuiz erfolgt in der Hoffnung, dass 
+es Ihnen von Nutzen sein wird, aber 
+.B ohne irgendeine Garantie, 
+sogar ohne die implizite Garantie der 
+.B Marktreife 
+oder der 
+.B Verwendbarkeit für einen bestimmten Zweck.
+
+.SH INTERNET
+
+.IP Kontakt:
+mailto:akfquiz@akfoerster.de
+
+.IP Homepage:
+http://akfoerster.de/akfquiz/de
+
+.IP Beispiele:
+http://akfoerster.de/akfquiz/quiz.html
+
+.IP "Quiz veröffentlichen:"
+http://akfoerster.de/akfquiz/quizupload
+(keine Garantie!)
+
+
+.SH "SIEHE AUCH"
+.BR scrquiz (1)
+.BR grquiz (1)
+.BR mkquiz (1)
+.BR cgiquiz (8)
+.BR linequiz (1)
+.BR gtkquizchooser (1)
+

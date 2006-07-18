@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-akfquiz">
+    <comment>AKFQuiz quizfile</comment>
+    <comment xml:lang="de">AKFQuiz Quiz-Datei</comment>
+    <glob pattern="*.akfquiz" />
+    <glob pattern="*.aqz" />
+    <glob pattern="*.AQZ" />
+  </mime-type>
+</mime-info>

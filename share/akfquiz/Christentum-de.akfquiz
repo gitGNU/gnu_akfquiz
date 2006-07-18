@@ -1,0 +1,144 @@
+AKFQuiz 4.3.0 oder höher
+
+# Copyright © 2005-2006 Andreas K. Förster <akfquiz@akfoerster.de>
+#
+# Diese Quiz-Datei ist Freie Software. Sie können es unter den Bedingungen
+# der GNU General Public License, wie von der Free Software Foundation
+# veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß 
+# Version 2 der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+#
+# Die Veröffentlichung der Quiz-Datei erfolgt in der Hoffnung, dass sie
+# Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne
+# die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN
+# BESTIMMTEN ZWECK.
+
+Titel:		Christentum 1
+Autor:		Andreas K. Förster
+Copyright:
+Uebersetzer:
+Bearbeitet:
+Lizenz:         GPL Version 2 oder neuer
+LizenzURI:      http://www.gnu.org/licenses/gpl.html
+Sprache:	de
+Zeichensatz:    UTF-8
+RTL:            nein
+BiDi:           ja
+HauptURI:
+NoIndex:        ja
+Neutral:        nein
+Layout:		q-brown.css
+StandardAntwort:weiß ich nicht
+
+
+Anfrage:
+Welche der folgenden sind Bezeichnungen für christliche Gruppierungen?
+
++1 Katholiken
++1 Protestanten
+-1 Demonstranten
++1 Evangelische
++1 Evangelikale
++1 Orthodoxe
+-1 Unorthodoxe
+
+Kommentar:
+Der Autor dieses Quizzes ist evangelisch und kann sich natürlich nicht 
+mit allen genannten Gruppierungen identifizieren.
+
+
+Anfrage:
+Was wird in der christichen Kirche als heiliges Buch angesehen?
+.
+Bezeichnungen aus anderen Religionen, die faktisch das selbe 
+Buch bezeichnen wie ein christlicher Begriff sind mit anzugeben!
+
++1 Neues Testament
++1 Altes Testament
+-1 Koran (القرآن)
++1 Thora (תורה)
+-1 Talmud (תלמוד)
++1 Tanach (תנך)
++1 5 Bücher Mose
+
+#+1 Neues Testament
+#+1 Altes Testament
+#-1 Koran
+#+1 Thora
+#-1 Talmud
+#+1 Tanach
+#+1 5 Bücher Mose
+
+Frage:
+Das Christentum ist aus einer anderen Religion hervorgegangen. 
+Aus welcher?
+
+-1 Buddismus
+-1 Hinduismus
+-1 Islam
++1 Judentum
+
+Frage:
+Was ist ein „Engel“ 
+(griech.: „άγγελος“) 
+dem Namen nach?
+
+-1 ein „Himmels“-Wesen
++1 ein „Bote“ Gottes
+-1 ein „Glück“-Bringer
+-1 ein „Unglück“-Bringer
+
+Frage:
+Was bedeutet der Ausruf „Halleluja“ 
+(hebr.: „הללויה“) 
+übersetzt?
+
+-1 Das ist toll
++1 Lobt den HERRN
+-1 das beudeutet nicht wirklich etwas
+-1 Helau
+
+Kommentar:
+Kommen wir nun zu den christlichen Feiertagen...
+
+Frage:
+Was für ein Feiertag ist „Pfingsten“?
+
+-1 Da feiert man die Geburt Christi
+-1 Da gedenkt man der Passion, dem Leidensweg Christi
+-1 Da gedenkt man der Kreuzigung Christi
+-1 Das ist die Feier der Auferstehung
++1 Da gedenkt man der Ausgießung des Heiligen Geistes über die Gemeinde
+
+Frage:
+Was für ein Feiertag ist „Karfreitag“?
+
+-1 Da feiert man die Geburt Christi
+-1 Da gedenkt man der Passion, dem Leidensweg Christi
++1 Da gedenkt man der Kreuzigung Christi
+-1 Das ist die Feier der Auferstehung
+-1 Da gedenkt man der Ausgießung des Heiligen Geistes über die Gemeinde
+
+Frage:
+Was für ein Feiertag ist „Weihnachten“?
+
++1 Da feiert man die Geburt Christi
+-1 Da gedenkt man der Passion, dem Leidensweg Christi
+-1 Da gedenkt man der Kreuzigung Christi
+-1 Das ist die Feier der Auferstehung
+-1 Da gedenkt man der Ausgießung des Heiligen Geistes über die Gemeinde
+
+Frage:
+Was für ein Fest ist „Ostern“?
+
+-1 Da feiert man die Geburt Christi
+-1 Da gedenkt man der Passion, dem Leidensweg Christi
+-1 Da gedenkt man der Kreuzigung Christi
++1 Das ist die Feier der Auferstehung
+-1 Da gedenkt man der Ausgießung des Heiligen Geistes über die Gemeinde
+
+Auswertung:
+Als gläubiger Christ sollte man schon mindestens 50% erreichen.
+.
+Bei Andersgläubigen sind 20% schon ein gutes Ergebnis.
+
+Ende
