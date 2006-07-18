@@ -1,0 +1,76 @@
+AKFQuiz
+
+Windows-Portierung des GNU/Linux Programm-Paketes AKFQuiz.
+
+DEINSTALLIEREN SIE ALTE VERSIONEN VON AKFQUIZ BEVOR SIE EINE 
+NEUE VERSION INSTALLIEREN!
+
+
+BESCHREIBUNG
+
+Mit dem Programm-Paket AKFQuiz kann man auf einfache Weise 
+Quiz-Spiele, Übungsaufgaben für Schule und Ausbildung, sowie 
+Psycho-Tests erstellen.
+
+Diese können mit grquiz in einer grafischen Umgebung oder mit 
+scrquiz auf der Text-Konsole benutzt werden. Es gibt auch eine 
+zeilenorientierte Variante, linequiz, die als Backend benutzt werden 
+kann.
+
+Eine CGI-Variante, cgiquiz, kann auf einem Web-Server installiert 
+werden, um Übungsaufgaben über das Internet oder ein lokales Netzwerk 
+anzubieten.
+
+Oder man benutzt mkquiz, mit dem man eine HTML-Datei mit JavaScript 
+erstellen kann. Diese kann man dann über jeden beliebigen 
+Webspace-Anbieter veröffentlichen.
+
+
+Falls Sie freie Software mögen, denken Sie bitte mal darüber nach, ob
+Sie nicht auch auf ein freies Betriebssystem wechseln wollen. Dieses
+Programm-Paket ist auch für GNU/Linux erhältlich. Durch die 
+Verfügbarkeit der Quelltexte ist es leicht auf andere Systeme portierbar.
+Dies ist nur einer der Vorteile freier Software.
+
+Mehr über freie Software unter: 
+http://www.gnu.ftp.uni-erlangen.de/philosophy/
+
+Kontakt in Europa:
+http://www.fsfeurope.org/
+
+CGI
+
+ACHTUNG: Das CGI-Programm wird noch nicht automatisch installiert.
+
+Sonstiges:
+
+Wenn Sie ein Quiz ausdrucken wollen, drucken Sie es bitte über den
+Web-Browser aus. Es wurde extra darauf geachtet, dass die Bedienelemente
+nicht mitgedruckt werden.
+
+Eine ausführliche Anleitung, wie diese AKFQuiz Dateien aufgebaut sind
+finden Sie im Startmenü unter Programme/AKFQuiz/Anleitungen.
+
+Die Beispiel-Dateien sind zwar recht selbsterklärend, doch zeigen sie
+noch nicht alle Möglichkeiten, die die Programme bieten.
+
+
+quizstat:
+
+quizstat bietet ein paar statistische Angaben zu Quiz-Dateien. Aber
+nichts, was man unbedingt haben muss. Falls Sie quizstat dennoch
+verwenden wollen, benötigen Sie einen nawk (new awk) Interpreter wie
+mawk oder gawk. In Posix-kompatiblitäts-Umgebungen wie MSYS oder Cygwin
+ist bereits ein entsprechender awk Interpreter enthalten.
+
+Ein eigenständiges awk erhalten Sie unter folgender Adresse:
+http://gnuwin32.sourceforge.net/packages/mawk.htm
+
+
+Die aktuellste Version von AKFQuiz finden Sie im Internet:
+http://www.akfoerster.de/akfquiz/index.de.html
+
+Für den Installer unter Windows verwende ich 
+Inno Setup von Jordan Russell
+http://innosetup.com
+

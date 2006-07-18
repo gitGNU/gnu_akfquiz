@@ -1,0 +1,50 @@
+AKFQuiz
+
+Titel: Unbenannt
+Autor:
+AutorLink:
+Bearbeitet:
+Uebersetzer:
+Copyright:
+Lizenz:
+LizenzLink:
+StandardAntwort: Weiß ich nicht
+Sprache: de
+Zeichensatz: WINDOWS-1252
+Neutral: nein
+HauptURI:
+Layout: q-blue.css
+NoIndex: nein
+AuswertungsLink:  
+
+#######################################################################
+# Der Rest bis zum "Ende" sind nur Beispiele. Bitte löschen.
+
+Kommentar:
+Ein Kommentar kann an beliebiger Stelle erfolgen.
+
+
+# Fragen mit nur einer Antwortmöglichkeit werden mit "Frage:" eingeleitet
+# Als Punktzahlen kann beliebige Ganz-Zahlen verwenden
+
+Frage:
+Wie lautet die Frage?
+
+0 Antwort 1
+1 Antwort 2
+0 Antwort 3
+
+
+# Fragen mit mehreren gültigen Antwortmöglichkeiten werden mit 
+# "Anfrage:" oder "Multi:" eingeleitet
+# Als Punktzahlen sollte man nie die 0 verwenden
+
+Anfrage:
+Wie war nochmal die Frage?
+(mehr als eine Antwort möglich)
+
+-1 Antwort 1
++1 Antwort 2
++1 Antwort 3
+
+Ende

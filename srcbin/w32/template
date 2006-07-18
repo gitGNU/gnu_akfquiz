@@ -1,0 +1,50 @@
+AKFQuiz
+
+# Fill out these settings:
+
+title: Unnamed
+author:
+copyright:
+translator:
+default: I don't know
+language: en
+charset: WINDOWS-1252
+neutral: no
+baseURI:
+layout: q-blue.css
+noindex: no
+assessmentURI:
+
+#######################################################################
+# The rest up to "end" are examples. Please delete them.
+
+comment:
+You can put a comment nearly anywhere.
+.
+A dot alone on one line means a new paragraph
+
+
+# introduce questions with just one correct answer with "question:"
+# As score values you can use any deliberate integer
+
+question:
+What was the question?
+
+0 Answer 1
+1 Answer 2
+0 Answer 3
+
+
+# introduce questions with more than one possible correct 
+# answers with "query:"
+# As score values you should not use 0!
+
+query:
+What was the question?
+(more than one possible answers)
+
+-1 Answer 1
++1 Answer 2
++1 Answer 3
+
+end

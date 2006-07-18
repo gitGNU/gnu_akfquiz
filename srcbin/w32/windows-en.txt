@@ -1,0 +1,71 @@
+AKFQuiz for Windows
+
+Windows-port of the GNU/Linux program-package AKFQuiz.
+
+PLEASE UNINSTALL OLDER VERSIONS OF AKFQUIZ BEFORE YOU INSTALL
+A NEW VERSION!
+
+
+DESCRIPTION
+
+The package AKFQuiz lets you easily make your own quiz games, 
+learning exercises or psychotests. These can be used with grquiz in 
+a graphical environment or with scrquiz on the text-console. There 
+is also a line oriented variant, linequiz, which can be used as a 
+backend.
+
+A CGI-variant, cgiquiz, can be installed on a Web server to 
+offer exercises via Internet or a local network.
+
+Or you can use mkquiz, which generates an HTML-file for to use with 
+JavaScript. Those can then be published using any deliberate web-space 
+provider.
+
+
+If you like free software, please also think about changing to a free 
+operating system. This program package is also available for GNU/Linux. 
+Because of the availability of the source code, it is also easy to port 
+it to other operating systems. That is just one of the advantages of 
+free software.
+
+More about free software: 
+http://www.fsf.org/philosophy/
+
+Contact in Europe:
+http://www.fsfeurope.org/
+
+CGI
+
+ATTENTION: The CGI-program will not be automatically installed yet. 
+
+
+other hints:
+
+If you want to print out a quiz-form, please do it using your web-
+browser. There is special code in the HTML-file that suppresses the 
+buttons and stuff from being printed out.
+
+A detailed description about how AKFQuiz-files are built up can be 
+found in the start-menu under programs/AKFQuiz/Documentation.
+
+The example-files are very self-explaining, but they don't show each 
+and every possibility offered by the programs.
+
+
+quizstat:
+
+quizstat shows some simple statistics about quizfiles. It is not
+really  needed. If you want to use quizstat anyway, you need a nawk
+(new awk) interpreter like mawk or gawk. A nawk interpreter is included
+in Posix compatiblity environments like MSYS or Cygwin.
+
+You can get a standalone awk there:
+http://gnuwin32.sourceforge.net/packages/mawk.htm
+
+
+The most actual version of AKFQuiz can be found on the Internet:
+http://www.akfoerster.de/akfquiz/
+
+For the installer for Windows I use Inno Setup by Jordan Russell
+http://innosetup.com
+
