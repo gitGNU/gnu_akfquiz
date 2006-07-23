@@ -62,7 +62,7 @@ h1, .result {
 @media screen {
   html {
      color:black;
-     background:#bbbbff;
+     background-color:#bbbbff;
      }
    
   body { 
@@ -71,7 +71,7 @@ h1, .result {
 
   h1, .result { 
      color:#ffffdd;
-     background:#000055;
+     background-color:#000055;
      text-align:center;
      font-weight:bold;
      border:12px ridge;
@@ -82,7 +82,7 @@ h1, .result {
 
   .hint, .assessment {
      color:#ffffdd;
-     background:#000055;
+     background-color:#000055;
      font-weight:bold;
      border:12px ridge;
      border-color:#5555AA;
@@ -93,21 +93,21 @@ h1, .result {
   
   .error {
      color:red;
-     background:transparent;
+     background-color:transparent;
      }
 
   .question { 
      color:#000088;
-     background:transparent;
+     background-color:transparent;
      }
 
   .answer input {
      color:black;
-     background:#bbbbff;
+     background-color:#bbbbff;
      }
 
   .correct {
-     background:#ddd;
+     background-color:#ddd;
      color:black;
      }
      
@@ -119,7 +119,7 @@ h1, .result {
      
   .buttons input {
      color:#ffffdd;
-     background:#000055;
+     background-color:#000055;
      }
 
   .made {

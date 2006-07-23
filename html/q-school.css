@@ -89,7 +89,7 @@ h1 {
 
   .error {
      color:red;
-     background:transparent;
+     background-color:transparent;
      text-align:center;
      font-weight:bold;
      font-style:italic;
@@ -103,16 +103,16 @@ h1 {
 
   .answer input {
      color:black;
-     background:transparent;
+     background-color:transparent;
      }
 
   .correct {
-     background:#dfd;
+     background-color:#dfd;
      color:black;
      }
 
   .buttons input {
      color:black;
-     background:#ccc;
+     background-color:#ccc;
      }
 }

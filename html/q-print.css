@@ -5,7 +5,7 @@
 
   html {
      color:black;
-     background:white;
+     background-color:white;
      }
 
   body {
@@ -17,7 +17,7 @@
 
   a:link, a:visited {
     color:black;
-    background:transparent;
+    background-color:transparent;
     text-decoration:none;
     }
 
@@ -64,7 +64,7 @@
   
   /* bug-workaround */
   .answer input {
-     background:transparent;
+     background-color:transparent;
      color:black;
      }
      
