@@ -31,7 +31,7 @@
   Sotiris Tsimbonis <tsimbonis@rosehill-1.irc.gr>
   and others
   
-  The file COPYING in kbd-1.2 states:
+  The file COPYING in kbd-1.12 states:
   | All files in this package may be freely copied under the terms 
   | of the GNU General Public License (GPL), version 2, or at your
   | option any later version - except possibly for the restrictions
