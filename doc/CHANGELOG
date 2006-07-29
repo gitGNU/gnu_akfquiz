@@ -1,4 +1,5 @@
 4.3.2
+- cgiquiz: methods GET and POST are both supported now + optimizations
 - CSS: background->background-color
 4.3.1
 - new keyword: "bidi:"

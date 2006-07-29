@@ -95,7 +95,7 @@ type
   Tcgianswer =    
     object(Tcgiquiz)
       private
-	CGIelement : mystring;
+	CGIElement : string255; { just one Element }
 	Home       : mystring;
 	AnsPoints  : pointsType;
 
@@ -121,28 +121,48 @@ var
   CGI_PATH_INFO,
   CGI_PATH_TRANSLATED: myString;
 
-{ gets data from CGI method POST }
-procedure GetCGIelement(var s: myString); {@@}
+{$IfDef __GPC__}
+  var 
+    CGI_QUERY_STRING: PString; {@@@ untested }
+    QUERY_STRING_POS: LongInt;
+{$Else}
+  var 
+    CGI_QUERY_STRING: PAnsiString;
+    QUERY_STRING_POS: LongInt;
+{$EndIf}
+
+procedure GetCGIElement(var s: String255);
 var 
   i,err: integer;
   c, c1: char;
   next: boolean;
-begin
+
+  function getNextChar: char;
+  begin
+  inc(QUERY_STRING_POS);
+  getNextChar := CGI_QUERY_STRING^[QUERY_STRING_POS]
+  end;
+
+begin { GetCGIElement }
 s := '';
-if eof then exit;
+if (CGI_QUERY_STRING=NIL) or
+   (QUERY_STRING_POS>=Length(CGI_QUERY_STRING^))
+   then exit;
 
 repeat
-  Read(c);
+  c := getNextChar;
   next := (c='&'); { an encoded '&' doesn't hurt here yet }
   if c='+' then c := ' ';
   if c='%' then { hexadecimal encoded }
     begin
-    Read(c, c1); { read 2 hex-chars }
+    { read 2 hex-chars }
+    c  := getNextChar;
+    c1 := getNextChar;
     val('$'+c+c1, i, err); { convert them to an integer }
     c := chr(i) { and that integer to a char }
     end;
   if not next then s := s + c
-until next or eof
+until next or (QUERY_STRING_POS >= Length(CGI_QUERY_STRING^))
 end;
 
 procedure showHelp;
@@ -447,13 +467,13 @@ if checkEOF then fail;
 AnsPoints := 0;
 Home := '';
 
-GetCGIelement(CGIelement);
+GetCGIelement(CGIElement);
 
-if Pos('home=', CGIelement)=1 then
+if Pos('home=', CGIElement)=1 then
   begin
-  Home := CGIelement;
+  Home := CGIElement;
   Delete(Home, 1, length('home='));
-  GetCGIelement(CGIelement)
+  GetCGIElement(CGIElement)
   end
 end;
 
@@ -505,12 +525,12 @@ Write(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
 	    ' name="q', questionNr, '"',
             ' type="', qTypeStr(qType), 
             '" value="', answerNr, '" disabled'); { change-xhtml }
-if CGIelement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then 
+if CGIElement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then 
    begin
    inc(Points, value);
    inc(AnsPoints, value);
    Write(outp, ' checked'); { change-xhtml }
-   GetCGIelement(CGIelement)
+   GetCGIElement(CGIElement)
    end;
 WriteLn(outp, cet);
 
@@ -539,10 +559,10 @@ Write(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
 	    ' name="q', questionNr, '"',
             ' type="radio" value="',
             answerNr, '" disabled');
-if CGIelement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then 
+if CGIElement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then 
    begin
    Write(outp, ' checked'); { change-xhtml }
-   GetCGIelement(CGIelement)
+   GetCGIElement(CGIElement)
    end;
 WriteLn(outp, cet);
 Write(outp, '<label for="q', questionNr, 'a', answerNr, '"');
@@ -726,13 +746,47 @@ WriteLn('</body>');
 WriteLn('</html>')
 end;
 
+procedure getQueryString;
+var i, len, code: word;
+begin
+CGI_QUERY_STRING := NIL;
+QUERY_STRING_POS := 0;
+
+if GetEnvironmentVariable('REQUEST_METHOD')='GET'
+  then begin
+       if GetEnvironmentVariable('QUERY_STRING')<>'' 
+         then begin
+              {$IfDef __GPC__}
+                { CString can be longer than TString }
+                new(CGI_QUERY_STRING, 
+                       CStringLength(CStringGetEnv('QUERY_STRING')));
+                CGI_QUERY_STRING^ := 
+                   CString2String(CStringGetEnv('QUERY_STRING'))
+              {$Else}
+                new(CGI_QUERY_STRING);
+                CGI_QUERY_STRING^ := GetEnvironmentVariable('QUERY_STRING')
+              {$EndIf}
+              end
+       end
+  else begin
+       if (GetEnvironmentVariable('REQUEST_METHOD')='POST') and 
+          (GetEnvironmentVariable('CONTENT_LENGTH')<>'')
+         then begin
+              val(GetEnvironmentVariable('CONTENT_LENGTH'), len, code);
+              new(CGI_QUERY_STRING {$IfDef __GPC__} ,len {$EndIf});
+              SetLength(CGI_QUERY_STRING^, len);
+              for i := 1 to len do
+                Read(CGI_QUERY_STRING^[i])
+              end
+       end
+end;
+
 procedure runQuiz;
 var MyQuiz: Pakfquiz;
 begin
+getQueryString;
 
-{ Method POST must be used 
-  (else CONTENT_LENGTH is undefined anyway) }
-if GetEnvironmentVariable('CONTENT_LENGTH')='' 
+if CGI_QUERY_STRING=NIL
    then MyQuiz := new(Pcgiquiz, init)    { query }
    else MyQuiz := new(Pcgianswer, init); { show answer }
 
