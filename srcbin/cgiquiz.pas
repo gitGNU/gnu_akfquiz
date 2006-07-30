@@ -123,8 +123,8 @@ var
 
 {$IfDef __GPC__}
   var 
-    CGI_QUERY_STRING: PString; {@@@ untested }
-    QUERY_STRING_POS: LongInt;
+    CGI_QUERY_STRING: PString;
+    QUERY_STRING_POS: Integer;
 {$Else}
   var 
     CGI_QUERY_STRING: PAnsiString;
@@ -722,11 +722,11 @@ WriteLn('<meta name="generator" content="'+AKFQuizName + ' ' +
 WriteLn;
 WriteLn('<style type="text/css">');
 WriteLn('<!--');
-WriteLn('body { color:black; background:#d8d0c8; margin:1ex 8%; }');
-WriteLn('h1 { color:#ffffdd; background:#605030; padding:12px;');
+WriteLn('body { color:black; background-color:#d8d0c8; margin:1ex 8%; }');
+WriteLn('h1 { color:#ffffdd; background-color:#605030; padding:12px;');
 WriteLn('     border:12px ridge; border-color:#605030; margin:1em 15%;');
 WriteLn('     text-align:center; font-weight:bold; }');
-WriteLn('.error { color:red; background:transparent;');
+WriteLn('.error { color:red; background-color:transparent;');
 WriteLn('         font-weight:bold; font-style:italic;}');
 WriteLn('-->');
 WriteLn('</style>');
@@ -769,14 +769,16 @@ if GetEnvironmentVariable('REQUEST_METHOD')='GET'
               end
        end
   else begin
-       if (GetEnvironmentVariable('REQUEST_METHOD')='POST') and 
-          (GetEnvironmentVariable('CONTENT_LENGTH')<>'')
+       if GetEnvironmentVariable('REQUEST_METHOD')='POST'
          then begin
               val(GetEnvironmentVariable('CONTENT_LENGTH'), len, code);
-              new(CGI_QUERY_STRING {$IfDef __GPC__} ,len {$EndIf});
-              SetLength(CGI_QUERY_STRING^, len);
-              for i := 1 to len do
-                Read(CGI_QUERY_STRING^[i])
+	      if (len>0) and (code=0) then
+	        begin
+                new(CGI_QUERY_STRING {$IfDef __GPC__} ,len {$EndIf});
+                SetLength(CGI_QUERY_STRING^, len);
+                for i := 1 to len do
+                  Read(CGI_QUERY_STRING^[i])
+		end
               end
        end
 end;
