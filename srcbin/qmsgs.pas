@@ -47,9 +47,11 @@ var lang : languages = english;
 var msgRTL : boolean = false;
 
 procedure setmsgconverter(p: Tconverter);
+procedure setmsgconv(display: DisplayType);
 procedure useSystemLanguage;
 
 function msg_GPL: mystring;
+function msg_noWarranty: mystring;
 function msg_contributions: mystring;
 function msg_advertisement: mystring;
 function msg_anykey(const key: string): mystring;
@@ -110,6 +112,15 @@ cnv := p;
 msgRTL := false
 end;
 
+procedure setmsgconv(display: DisplayType);
+begin
+case display of
+  ISOdisplay:  setmsgconverter(UTF8toISO1);
+  OEMdisplay:  setmsgconverter(UTF8toOEM);
+  UTF8display: setmsgconverter(noconversion);
+  end
+end;
+
 { Translators: }
 { if you need an apostrophe, use it twice like this: 'That''s it' }
 { use the function cnv if and only if you use non-ASCII chars }
@@ -125,6 +136,28 @@ begin
 case lang of
   deutsch : msg_GPL := 'GPL V2 oder neuer';
   otherwise msg_GPL := 'GPL v2 or later'
+  end
+end;
+
+function msg_noWarranty: mystring;
+begin
+case lang of
+  deutsch : msg_noWarranty := cnv(
+    'Dieses Programm wird ohne Gewährleistung geliefert, ' + nl 
+    + 'soweit dies gesetzlich zulässig ist.' + nl 
+    + 'Sie können es unter den Bedingungen der' + nl
+    + 'GNU General Public License weitergeben.'+ nl 
+    + 'Details dazu enthält die Datei COPYING.' + nl
+    + nl
+    + 'Quiz-Dateien sind von dieser Lizenz nicht betroffen.');
+  otherwise msg_noWarranty := 
+    'This program comes with NO WARRANTY,' + nl
+    + 'to the extent permitted by law.' + nl
+    + 'You may redistribute it under the terms of the ' + nl
+    + 'GNU General Public License;' + nl
+    + 'see the file named COPYING for details.' + nl
+    + nl
+    + 'Quiz-files are not affected by this license.';
   end
 end;
 

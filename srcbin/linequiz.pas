@@ -47,6 +47,8 @@
 program linequiz(input, output, stderr);
 uses uakfquiz, qsys, qmsgs;
 
+{ GNU compliant format }
+const PrgVersion = 'linequiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
 
 const MaxAnswers = 35;
 
@@ -459,20 +461,32 @@ end;
 
 {---------------------------------------------------------------------}
 
-procedure help;
+procedure version;
 begin
-WriteLn(AKFQuizName+', linequiz, version '+AKFQuizVersion);
+WriteLn(PrgVersion);
 WriteLn('(' + platform + ')');
 WriteLn('Copyright (C) ', AKFQuizCopyright);
+WriteLn('uses tables from GNU libiconv');
+WriteLn('Copyright (C) 1999-2001 Free Software Foundation, Inc.');
+WriteLn;
 WriteLn(msg_License, msg_GPL);
 {$IfDef Advertisement}
   WriteLn;
   WriteLn(msg_advertisement);
 {$EndIf}
 WriteLn;
+WriteLn(msg_noWarranty);
+Halt
+end;
+
+procedure help;
+begin
+WriteLn(PrgVersion);
+WriteLn;
 WriteLn('Syntax:');
 WriteLn('  linequiz [options] [file.akfquiz]');
 WriteLn('  linequiz -h | --help | /?');
+WriteLn('  linequiz --version');
 WriteLn;
 WriteLn('Options:');
 WriteLn('-l          more line-breaks');
@@ -502,15 +516,6 @@ if error<>0 then
    end
 end;
 
-procedure setmsgconv;
-begin
-case display of
-  ISOdisplay:  setmsgconverter(UTF8toISO1);
-  OEMdisplay:  setmsgconverter(UTF8toOEM);
-  UTF8display: setmsgconverter(noconversion);
-  end
-end;
-
 procedure parameters;
 var 
   i: integer;
@@ -532,14 +537,15 @@ while i<count do
     if p='-LFN' then
         begin setLFNsupport; continue end;
     if p='-OEM' then
-        begin display := OEMdisplay; setmsgconv; continue end;
+        begin display := OEMdisplay; setmsgconv(display); continue end;
     if (p='-LATIN1') or (p='-NOOEM') then
-        begin display := ISOdisplay; setmsgconv; continue end;
+        begin display := ISOdisplay; setmsgconv(display); continue end;
     if (p='-UTF8') or (p='-UTF-8') then
-        begin display := UTF8display; setmsgconv; continue end;
+        begin display := UTF8display; setmsgconv(display); continue end;
     if p='-W' then
         begin inc(i); setwidth(ParamStr(i)); continue end;
     if (p='-H') or (p='--HELP') or (p='/?') then help;
+    if (p='--VERSION') then version;
     if p[1]='-'    { "/" might be used in a path }
        then help { unknown parameter }
        else infile := ParamStr(i); { not Upcase }
@@ -587,10 +593,8 @@ var myexitcode : byte;
 
 begin { main }
 myexitcode := 0;
-display := ISOdisplay; { set a default }
-if checkOEMdisplay then display := OEMdisplay;
-if checkUTF8display then display := UTF8display;
-setmsgconv;
+display := checkdisplay; { set a default }
+setmsgconv(display);
 useSystemLanguage;
 useBeepSignals;
 parameters;

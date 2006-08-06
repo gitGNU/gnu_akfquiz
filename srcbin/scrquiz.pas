@@ -59,6 +59,9 @@ type keyset = set of char;
 type TscreenPos = {$IfDef FPC} byte; {$Else} word; {$EndIf}
 { Byte is a bad choice, but FPC insists on it }
 
+{ GNU compliant format }
+const PrgVersion = 'scrquiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
+
 const 
   Esc   = chr(27);
   Enter = chr(13);
@@ -888,22 +891,32 @@ end;
   end;
 {$EndIf}
 
-{ FPC has trouble with stderr when used with unit Crt }
-procedure help;
+procedure version;
 begin
-WriteLn(AKFQuizName + ', scrquiz, version ' + AKFQuizVersion);
+WriteLn(PrgVersion);
 WriteLn('(' + platform + ')');
-WriteLn('for using akfquiz files on a textconsole');
 WriteLn('Copyright (C) ', AKFQuizCopyright);
+WriteLn('uses tables from GNU libiconv');
+WriteLn('Copyright (C) 1999-2001 Free Software Foundation, Inc.');
+WriteLn;
 WriteLn(msg_License, msg_GPL);
 {$IfDef Advertisement}
   WriteLn;
   WriteLn(msg_advertisement);
 {$EndIf}
 WriteLn;
+WriteLn(msg_noWarranty);
+Halt
+end;
+
+procedure help;
+begin
+WriteLn(PrgVersion);
+WriteLn;
 WriteLn('Syntax:');
 WriteLn('  scrquiz [options] [inputfile]');
-WriteLn('  scrquiz [ -h | --help | /? ]');
+WriteLn('  scrquiz -h | --help | /?');
+WriteLn('  scrquiz --version');
 WriteLn;
 WriteLn('Options:');
 WriteLn('-s          no sound');
@@ -1024,15 +1037,6 @@ if (c=ExitKey) and not unstopable then
 askfile := searchQuizfileList(KeyToValue(c) + offset)
 end;
 
-procedure setmsgconv;
-begin
-case display of
-  ISOdisplay:  setmsgconverter(UTF8toISO1);
-  OEMdisplay:  setmsgconverter(UTF8toOEM);
-  UTF8display: setmsgconverter(noconversion)
-  end
-end;
-
 procedure parameters;
 var 
   i: integer;
@@ -1048,11 +1052,11 @@ while i<ParamCount do
   if p='-S' then
       begin DisableSignals; continue end;
   if p='-OEM' then
-      begin display := OEMdisplay; setmsgconv; continue end;
+      begin display := OEMdisplay; setmsgconv(display); continue end;
   if (p='-LATIN1') or (p='-NOOEM') then
-      begin display := ISOdisplay; setmsgconv; continue end;
+      begin display := ISOdisplay; setmsgconv(display); continue end;
   if (p='-UTF8') or (p='-UTF-8') then
-      begin display := UTF8display; setmsgconv; continue end;
+      begin display := UTF8display; setmsgconv(display); continue end;
   if (p='-1') then 
       begin if not unstopable then loop:=false; continue end;
   if (p='-P') or (p='/P') then 
@@ -1061,6 +1065,7 @@ while i<ParamCount do
   if (p='-D') then
      begin inc(i); { handled in qsys } continue end;
   if (p='-H') or (p='--HELP') or (p='/?') then help;
+  if (p='--VERSION') then version;
   if p[1]='-'    { "/" might be used in a path }
      then help { unknown parameter }
      else infile := ParamStr(i) { not Upcase }
@@ -1076,10 +1081,8 @@ unstopable := false;
 useSystemLanguage;
 useBeepSignals;
 
-display := ISOdisplay;
-if checkOEMdisplay then display := OEMdisplay;
-if checkUTF8display then display := UTF8display;
-setmsgconv;
+display := checkDisplay;
+setmsgconv(display);
 
 {$IfDef __GPC__}
   CRTInit;

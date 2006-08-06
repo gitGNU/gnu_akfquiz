@@ -246,6 +246,7 @@ function checkKOI8RU(const s: mystring): boolean;
 { check what the display supports }
 function checkOEMdisplay: boolean;
 function checkUTF8display: boolean;
+function checkDisplay: DisplayType;
 function getSystemLanguage: mystring;
 
 { procedures for signal variables }
@@ -997,10 +998,7 @@ while p<=length(s) do
   begin
   u := getUTF8Char(s, p);
   if u<=255 
-    then begin
-         if (not ISO8859ControlChar(u)) or (u=unknownChar)
-            then e := e + chr(u)
-         end
+    then e := e + chr(u)
     else e := e + chr(unknownChar)
   end;
 
@@ -1020,10 +1018,7 @@ while p<=length(s) do
   begin
   u := getUTF8Char(s, p);
   if u<=255 
-    then begin
-         if (not ISO8859ControlChar(u)) or (u=unknownChar)
-            then e := e + chr(u) { simply ignore replaced chars }
-         end
+    then e := e + chr(u) { simply ignore replaced chars }
     else 
       case u of
         $20AC : e := e + chr($A4); { euro }
@@ -1312,6 +1307,13 @@ begin
                      or (s='IBM850')or (s='IBM437')
                      or (s='850') or (s='437')
 {$EndIf}
+end;
+
+function checkDisplay: DisplayType;
+begin
+checkDisplay := ISOdisplay; { set a default }
+if checkOEMdisplay then checkDisplay := OEMdisplay;
+if checkUTF8display then checkDisplay := UTF8display;
 end;
 
 function IntTo2Str(i: LongInt): mystring;

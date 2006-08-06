@@ -39,6 +39,11 @@ uses
 {$EndIf}
 SysUtils, qsys;
 
+{$I config.inc}
+{$I template.inc}
+
+{ GNU compliant format }
+const PrgVersion = 'gtkquizchooser ('+ AKFQuizName + ') ' + AKFQuizVersion;
 
 var 
   wChooser: PGtkWidget;
@@ -47,21 +52,35 @@ var
 
 var allowNewQuiz: boolean = false;
 
-{$I config.inc}
-{$I template.inc}
+procedure version;
+begin
+WriteLn(PrgVersion);
+WriteLn('Copyright (C) 2006 AKFoerster');
+WriteLn('License: GPL v2 or later');
+WriteLn;
+WriteLn('This program comes with NO WARRANTY, to the extent permitted by law.');
+WriteLn('You may redistribute it under the terms of the GNU General Public License;');
+WriteLn('see the file named COPYING for details.');
+Halt
+end;
+
 
 procedure help;
 begin
-WriteLn(stderr, 'syntax:');
-WriteLn(stderr, '  gtkquizchooser [options] program');
-WriteLn(stderr);
-WriteLn(stderr, 'options:');
-WriteLn(stderr, '-d <dir>    starting directory (overrides QUIZPATH)');
-WriteLn(stderr, '-n | --new  allow new files (for use with an editor)');
-WriteLn(stderr, '            a new file will be created with a template');
-WriteLn(stderr);
-WriteLn(stderr, 'and GTK options supported');
-WriteLn(stderr);
+WriteLn(PrgVersion);
+WriteLn;
+WriteLn('Syntax:');
+WriteLn('  gtkquizchooser [options] program');
+WriteLn('  gtkquizchooser -h | --help | /?');
+WriteLn('  gtkquizchooser --version');
+WriteLn;
+WriteLn('options:');
+WriteLn('-d <dir>    starting directory (overrides QUIZPATH)');
+WriteLn('-n | --new  allow new files (for use with an editor)');
+WriteLn('            a new file will be created with a template');
+WriteLn;
+WriteLn('and GTK options supported');
+WriteLn;
 Halt
 end;
 
@@ -130,6 +149,7 @@ repeat
   inc(i);
   s := ParamStr(i);
   if (s='-h') or (s='--help') or (s='/?') then help;
+  if (s='--version') then version;
   if (s='-d') or (s='-D') then begin inc(i); continue end;
   if (s='-n') or (s='--new') then allowNewQuiz := true;
 until (s[1]<>'-') or (i>=ParamCount);

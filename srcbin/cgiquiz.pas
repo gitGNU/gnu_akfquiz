@@ -57,7 +57,8 @@ program cgiquiz(input, output); { aka "akfquiz.cgi" }
 {$EndIf} { __GPC__ }
 
 
-const PrgLine = AKFQuizName + ' CGI-Version: ' + AKFQuizVersion;
+{ GNU compliant format }
+const PrgVersion = 'cgiquiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
 
 const
   grRight = 'richtig.png';
@@ -165,11 +166,17 @@ repeat
 until next or (QUERY_STRING_POS >= Length(CGI_QUERY_STRING^))
 end;
 
-procedure showHelp;
+procedure version;
 var Browser: boolean;
 begin
 { is this called from a Browser? }
 Browser := (GetEnvironmentVariable('REQUEST_METHOD')<>'');
+
+if not Browser then 
+  begin
+  useSystemLanguage;
+  setmsgconv(checkDisplay)
+  end;
 
 if Browser then { send CGI Header }
   begin
@@ -179,47 +186,101 @@ if Browser then { send CGI Header }
   WriteLn;
   WriteLn('<html>');
   WriteLn('<head>');
-  WriteLn('<title>' + AKFQuizName + ': Status</title>');
+  WriteLn('<title>' + AKFQuizName + ': version</title>');
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
-  WriteLn('<h1>', AKFQuizName, '</h1>')
+  WriteLn('<h1>', AKFQuizName, '</h1>');
+  WriteLn
   end;
 
 { the text }
-WriteLn;
-WriteLn(PrgLine);
+WriteLn(PrgVersion);
 If Browser then WriteLn('<br>');
 Write('Copyright');
 If Browser then Write(' &copy; ') else Write(' (C) '); 
 WriteLn(AKFQuizCopyright);
 If Browser then WriteLn('<br>');
+WriteLn('uses tables from GNU libiconv');
+If Browser then WriteLn('<br>');
+Write('Copyright');
+If Browser then Write(' &copy; ') else Write(' (C) '); 
+WriteLn('1999-2001 Free Software Foundation, Inc.');
+If Browser then WriteLn('<br>');
 WriteLn(msg_License, msg_GPL);
 WriteLn;
-If Browser then WriteLn('<br><br>');
+If Browser then WriteLn('<pre>');
+WriteLn(msg_noWarranty);
+If Browser then WriteLn('</pre></body></html>');
+Halt
+end;
 
-WriteLn('Syntax:');
+
+procedure help;
+var 
+  Browser: boolean;
+  CGIBase: mystring;
+begin
+{ is this called from a Browser? }
+Browser := (GetEnvironmentVariable('REQUEST_METHOD')<>'');
+
+if Browser
+  then CGIBase := '<strong>http://'
+                  + GetEnvironmentVariable('HTTP_HOST')
+                  + GetEnvironmentVariable('SCRIPT_NAME')
+	          + '</strong>'
+  else CGIBase := 'http://example.org/cgi-bin/cgiquiz';
+
+if Browser then { send CGI Header }
+  begin
+  WriteLn('Content-Type: text/html; charset=UTF-8');
+  WriteLn;
+  WriteLn(HTMLDocType);
+  WriteLn;
+  WriteLn('<html>');
+  WriteLn('<head>');
+  WriteLn('<title>' + AKFQuizName + ': help</title>');
+  WriteLn('</head>');
+  WriteLn;
+  WriteLn('<body>');
+  WriteLn('<h1>', AKFQuizName, '</h1>');
+  WriteLn
+  end;
+
+{ the text }
+WriteLn(PrgVersion);
+if Browser then WriteLn('<br><br>');
+WriteLn;
+WriteLn('Usage:');
 If Browser 
   then begin
-       WriteLn('<br>');
-       Write  ('<strong>');
-       Write  ('http://',
-               GetEnvironmentVariable('HTTP_HOST'),
-               GetEnvironmentVariable('SCRIPT_NAME'),
-	       '</strong>');
-       WriteLn('/quizpath/');
-       WriteLn('<br>');
-       Write  ('<strong>');
-       Write  ('http://',
-               GetEnvironmentVariable('HTTP_HOST'),
-               GetEnvironmentVariable('SCRIPT_NAME'),
-	       '</strong>');
-       WriteLn('/quizpath/myquiz.akfquiz');
+       WriteLn('<dl><dt>Command line:</dt>');
+       WriteLn('<dd>');
+       WriteLn('cgiquiz [ --help | -h | /? ]<br>');
+       WriteLn('cgiquiz --version');
+       WriteLn('<br><br></dd>');
+       WriteLn('<dt>Browser:</dt>');
+       WriteLn('<dd>');  
+       WriteLn(CGIBase, '/--help<br>');
+       WriteLn(CGIBase, '/--version<br>');
+       WriteLn(CGIBase, '/quizpath/<br>');
+       WriteLn(CGIBase, '/quizpath/myquiz.akfquiz');
+       WriteLn(CGIBase, '/quizpath/myquiz.akfquiz?q1=2&q2=1&q5=2');
+       WriteLn('</dd></dl>');
        WriteLn('</body></html>')
        end
-  else begin
-       WriteLn('   http://example.org/cgi-bin/cgiquiz/quizpath/');
-       WriteLn('   http://example.org/cgi-bin/cgiquiz/quizpath/myquiz.akfquiz')
+  else begin { not Browser }
+       WriteLn;
+       WriteLn('Command line:');
+       WriteLn('  cgiquiz [ --help | -h | /? ]');
+       WriteLn('  cgiquiz --version');
+       WriteLn;
+       WriteLn('Browser:');
+       WriteLn('   ', CGIBase, '/--help');
+       WriteLn('   ', CGIBase, '/--version');
+       WriteLn('   ', CGIBase, '/quizpath/');
+       WriteLn('   ', CGIBase, '/quizpath/myquiz.akfquiz');
+       WriteLn('   ', CGIBase, '/quizpath/myquiz.akfquiz?q1=2&q2=1&q5=2')
        end;
 Halt
 end;
@@ -270,7 +331,7 @@ procedure errorHTMLfoot;
 begin
 WriteLn('</p>');
 WriteLn;
-WriteLn('<hr>', PrgLine);
+WriteLn('<hr>', PrgVersion);
 WriteLn('</body>');
 WriteLn('</html>')
 end;
@@ -718,6 +779,8 @@ WriteLn('<title>AKFQuiz</title>');
 WriteLn('<meta name="generator" content="'+AKFQuizName + ' ' +
           AKFQuizVersion+'">'); { change-xhtml }
 { the next instruction is also in the HTTP header }
+WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
+{ the next instruction is also in the HTTP header }
 { WriteLn('<meta http-equiv="Cache-control" content="no-cache">'); }
 WriteLn;
 WriteLn('<style type="text/css">');
@@ -797,14 +860,39 @@ MyQuiz^.process;
 dispose(MyQuiz, Done)
 end;
 
+procedure parameters;
+var 
+  i: integer;
+  count: integer;
+  p: mystring;
 begin
+count := ParamCount;
+i := 0;
+while i<count do
+    begin
+    inc(i);
+    p := makeUpcase(ParamStr(i));
+    if (p='-H') or (p='--HELP') or (p='/?') then help;
+    if (p='--VERSION') then version;
+    end
+end;
+
+
+begin
+parameters;
 useBrowserLanguage;
 
 CGI_PATH_INFO       := GetEnvironmentVariable('PATH_INFO');
 CGI_PATH_TRANSLATED := GetEnvironmentVariable('PATH_TRANSLATED');
 
-if (CGI_PATH_INFO='') or (CGI_PATH_TRANSLATED='')
-  then showHelp;
+if (CGI_PATH_INFO='') or (CGI_PATH_TRANSLATED='') then help;
+
+if (pos('/--help', CGI_PATH_INFO)<>0) 
+   or (pos('/-h', CGI_PATH_INFO)<>0) 
+   or (pos('/?', CGI_PATH_INFO)<>0)  
+    then help;
+
+if pos('/--version', CGI_PATH_INFO)<>0 then version;
 
 { Don't allow to use /.. for security reasons }
 { else someone could scan through the whole machine }

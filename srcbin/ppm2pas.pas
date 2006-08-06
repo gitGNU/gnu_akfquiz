@@ -42,6 +42,27 @@ var Buffer : pointer;
   var Comment : String(2048);
 {$EndIf}
 
+procedure version;
+begin
+WriteLn('ppm2pas 0.2');
+WriteLn('Copyright (C) 2006 AKFoerster');
+WriteLn('License: GPL v2 or later');
+WriteLn;
+WriteLn('This program comes with NO WARRANTY, to the extent permitted by law.');
+WriteLn('You may redistribute it under the terms of the GNU General Public License;');
+WriteLn('see the file named COPYING for details.');
+halt
+end;
+
+procedure help;
+begin
+WriteLn;
+WriteLn('Converts raw ppm files (P4-P6) into code for FreePascal');
+WriteLn;
+WriteLn('syntax: ppm2pas file constname');
+halt
+end;
+
 { strips from # comments }
 function stripcomment(x: string): shortstring;
 var i: integer;
@@ -181,11 +202,11 @@ end;
 
 begin
 Comment := '';
-if ParamCount<>2 then
-  begin
-  WriteLn(stderr, 'syntax: ppm2pas file constname');
-  halt
-  end;
+
+if ParamStr(1)='--help' then help;
+if ParamStr(1)='--version' then version;
+
+if ParamCount<>2 then help;
 
 LiesDatei(ParamStr(1));
 SchreibePas(ParamStr(2));

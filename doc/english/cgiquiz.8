@@ -9,9 +9,23 @@ cgiquiz \- CGI program for using AKFQuiz-files
 .B This manpage is under construction!
 
 .SH SYNTAX
-.BI "http://" "example.org/" "cgi-bin/cgiquiz" "/quizpath/quizfile.akfquiz"
+
+.SS Command line:
+
+.BI "cgiquiz [" --help | -h | /? ]
+.br
+.BI cgiquiz " --version"
+
+.SS Browser:
+.BI "http://" "example.org/" "cgi-bin/cgiquiz" "/--help"
+.br
+.BI "http://" "example.org/" "cgi-bin/cgiquiz" "/--version"
 .br
 .BI "http://" "example.org/" "cgi-bin/cgiquiz" "/quizpath/"
+.br
+.BI "http://" "example.org/" "cgi-bin/cgiquiz" "/quizpath/quizfile.akfquiz"
+.br
+.BI "http://" "example.org/" "cgi-bin/cgiquiz" "/quizpath/quizfile.akfquiz" "?q1=2&q2=1&q5=2"
 
 .SH DESCRIPTION
 

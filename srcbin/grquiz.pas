@@ -113,6 +113,9 @@ type TgrfImage = packed record
                 Image    : packed array[0..ScreenWidth*ScreenHeight] of word;
                 end;
 
+{ GNU compliant format }
+const PrgVersion = 'grquiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
+
 const TitleImageName = 'AKFoerster';
 
 const linespace = fontheight; { you may add something }
@@ -241,6 +244,10 @@ y := GetY;
 LockScreen;
 for i := 1 to s.length do
   begin
+  if s.content[i]=13 then continue;
+  if s.content[i]=10 then 
+    begin x := 0; inc(y, linespace); continue end;
+  
   ch := UnicodeToFont(s.content[i], unknownChar);
   for ly:=1 to fontheight do
     for lx:=0 to 7 do
@@ -268,6 +275,10 @@ if x=0 then x := MaxX-8;
 LockScreen;
 for i := s.length downto 1 do
   begin
+  if s.content[i]=13 then continue;
+  if s.content[i]=10 then 
+    begin x := MaxX-8; inc(y, linespace); continue end;
+  
   ch := UnicodeToFont(s.content[i], unknownChar);
   for ly:=1 to fontheight do
     for lx:=0 to 7 do
@@ -415,7 +426,7 @@ begin
   ShowTitleImage;
 {$EndIf} { NoTitleImage }
 
-GrfWriteLn(AKFQuizName+', grquiz, version '+AKFQuizVersion);
+GrfWriteLn(PrgVersion);
 GrfWriteLn('Copyright © '+AKFQuizCopyright+' <'+AKFQuizEmail+'>');
 GrLn;
 case lang of
@@ -431,28 +442,7 @@ GrfWriteLn(msg_contributions);
 GrfWriteLn('Italiano: Martin Guy, Dansk: Tommy Jensen');
 GrLn;
 GrfWriteLn(msg_License + msg_GPL);
-case lang of
-  deutsch : 
-    begin
-    GrfWriteLn('Dieses Programm wird ohne Gewährleistung geliefert,');
-    GrfWriteLn('soweit dies gesetzlich zulässig ist.');
-    GrfWriteLn('Sie können es unter den Bedingungen der');
-    GrfWriteLn('GNU General Public License weitergeben.');
-    GrfWriteLn('Details dazu enthält die Datei COPYING.');
-    GrLn;
-    GrfWriteLn('Quiz-Dateien sind von dieser Lizenz nicht betroffen.')
-    end;
-  otherwise
-    begin
-    GrfWriteLn('This program comes with NO WARRANTY, to the extent');
-    GrfWriteLn('permitted by law.');
-    GrfWriteLn('You may redistribute it under the terms of the');
-    GrfWriteLn('GNU General Public License;');
-    GrfWriteLn('see the file named COPYING for details.');
-    GrLn;
-    GrfWriteLn('Quiz-files are not affected by this license.')
-    end;
-end;
+GrfWriteLn(msg_noWarranty);
 GrLn;
 
 {$IfDef Advertisement}
@@ -1038,15 +1028,36 @@ end;
 
 {---------------------------------------------------------------------}
 
-procedure help;
+procedure version;
 begin
-WriteLn(AKFQuizName+', grquiz, version '+AKFQuizVersion);
+setmsgconv(checkDisplay);
+WriteLn(PrgVersion);
 WriteLn('(' + platform + ')');
 WriteLn('Copyright (C) ', AKFQuizCopyright);
-WriteLn(msg_License, msg_GPL);
+WriteLn('uses tables from GNU libiconv');
+WriteLn('Copyright (C) 1999-2001 Free Software Foundation, Inc.');
+WriteLn('uses font from the kbd package');
+WriteLn('Copyright (C) by the contributors to kbd');
 WriteLn;
+WriteLn(msg_License, msg_GPL);
+{$IfDef Advertisement}
+  WriteLn;
+  WriteLn(msg_advertisement);
+{$EndIf}
+WriteLn;
+WriteLn(msg_noWarranty);
+Halt
+end;
+
+procedure help;
+begin
+setmsgconv(checkDisplay);
+WriteLn(PrgVersion);
+WriteLn;
+WriteLn('Syntax:');
 WriteLn('  grquiz [options] [inputfile]');
-WriteLn('  grquiz [ -h | --help | /? ]');
+WriteLn('  grquiz -h | --help | /?');
+WriteLn('  grquiz --version');
 WriteLn;
 WriteLn('Options:');
 WriteLn('-f | --fullscreen  fullscreen mode (if supported)');
@@ -1100,6 +1111,7 @@ while i<ParamCount do
   if (p='-T') or (p='--title') then
      begin justTitle := true; continue end;
   if (p='-H') or (p='--HELP') or (p='/?') then help;
+  if (p='--VERSION') then version;
   if p[1]='-'    { "/" might be used in a path }
      then help { unknown parameter }
      else infile := ParamStr(i) { not Upcase }

@@ -47,6 +47,9 @@
 program mkquiz(input, output, stderr);
 uses uakfquiz, htmlquiz, qmsgs, qsys;
 
+{ GNU compliant format }
+const PrgVersion = 'mkquiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
+
 type TMode = (automode, makeindex);
 
 type
@@ -71,19 +74,35 @@ var
   modes : set of TMode;
   outpath : mystring;
   idxfile : text;
-    
+
+procedure version;
+begin
+WriteLn(PrgVersion);
+WriteLn('(' + platform + ')');
+WriteLn('Copyright (C) ', AKFQuizCopyright);
+WriteLn('uses tables from GNU libiconv');
+WriteLn('Copyright (C) 1999-2001 Free Software Foundation, Inc.');
+WriteLn;
+WriteLn;
+WriteLn(msg_License, msg_GPL);
+{$IfDef Advertisement}
+  WriteLn;
+  WriteLn(msg_advertisement);
+{$EndIf}
+WriteLn;
+WriteLn(msg_noWarranty);
+Halt
+end;
+
+
 procedure help;
 begin
-WriteLn;
-WriteLn(AKFQuizName + ', mkquiz, version ' + AKFQuizVersion);
-WriteLn('(' + platform + ')');
-WriteLn('creates HTML quiz-file for JavaScript');
-WriteLn('Copyright (C) ', AKFQuizCopyright);
-WriteLn(msg_License, msg_GPL);
+WriteLn(PrgVersion);
 WriteLn;
 WriteLn('Syntax:');
 WriteLn('  mkquiz [options] [input files]');
 WriteLn('  mkquiz -h | --help | /?');
+WriteLn('  mkquiz --version');
 WriteLn;
 WriteLn('Options:');
 WriteLn('-o <dir> | --out <dir>');
@@ -438,6 +457,7 @@ if count<>0 then
     inc(i);
     p := makeUpcase(ParamStr(i));
     if (p='-H') or (p='--HELP') or (p='/?') then help;
+    if (p='--VERSION') then version;
     if (p='-A') or (p='--AUTO') then 
         begin modes := modes + [automode]; continue end;
     if (p='-I') or (p='--INDEX') then 
@@ -485,6 +505,7 @@ begin
 outpath := '';
 modes := [];
 useSystemLanguage;
+setmsgconv(checkDisplay);
 
 processParameters;
 

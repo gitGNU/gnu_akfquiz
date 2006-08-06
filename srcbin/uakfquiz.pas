@@ -57,7 +57,7 @@ uses qsys, qmsgs;
 
 { please add your name, when you make changes }
 { You may not delete my name }
-const AKFQuizCopyright = 'AKFoerster';
+const AKFQuizCopyright = '2006 AKFoerster';
 
 { when you make changes, change the contact address to your one }
 const AKFQuizEmail = 'akfquiz@akfoerster.de';

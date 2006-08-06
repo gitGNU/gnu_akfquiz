@@ -37,6 +37,9 @@ program diaquiz(input, output, stderr);
   import uakfquiz; qmsgs; qsys; dialog;
 {$EndIf}
 
+{ GNU compliant format }
+const PrgVersion = 'diaquiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
+
 const MaxAnswers = 35;
 const AnswerKeys = [ '1'..'9', 'A'..'Z' ];
 
@@ -369,16 +372,34 @@ end;
 
 {---------------------------------------------------------------------}
 
+procedure version;
+begin
+setmsgconv(checkDisplay);
+WriteLn(PrgVersion);
+WriteLn('(' + platform + ')');
+WriteLn('Copyright (C) ', AKFQuizCopyright);
+WriteLn('uses tables from GNU libiconv');
+WriteLn('Copyright (C) 1999-2001 Free Software Foundation, Inc.');
+WriteLn;
+WriteLn(msg_License, msg_GPL);
+{$IfDef Advertisement}
+  WriteLn;
+  WriteLn(msg_advertisement);
+{$EndIf}
+WriteLn;
+WriteLn(msg_noWarranty);
+Halt
+end;
+
+
 procedure help;
 begin
-WriteLn(AKFQuizName+', diaquiz, version '+AKFQuizVersion);
-WriteLn('(' + platform + ')');
-WriteLn('Copyrigth (C) ', AKFQuizCopyright);
-WriteLn(msg_License, msg_GPL);
+WriteLn(PrgVersion);
 WriteLn;
 WriteLn('Syntax:');
 WriteLn('  diaquiz <file.akfquiz>');
 WriteLn('  diaquiz -h | --help | /?');
+WriteLn('  diaquiz --version');
 WriteLn;
 WriteLn('QUIZPATH: ', getQuizPath);
 Halt
@@ -387,11 +408,11 @@ end;
 procedure parameters;
 var p: mystring;
 begin
-p := makeUpcase(ParamStr(1));
+p := ParamStr(1);
+if (p='-h') or (p='--help') or (p='/?') then help;
+if (p='--version') then version;
 
-if (p='-h') or (p='--help') or (p='/?') 
-  then help
-  else infile := ParamStr(1)
+infile := p
 { if no parameter (infile='') it's handled later }
 end;
 
