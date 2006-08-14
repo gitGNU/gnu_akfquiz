@@ -464,9 +464,8 @@ end;
 procedure version;
 begin
 WriteLn(PrgVersion);
-WriteLn('(' + platform + ')');
+WriteLn;
 WriteLn('Copyright (C) ', AKFQuizCopyright);
-WriteLn('uses tables from GNU libiconv');
 WriteLn('Copyright (C) 1999-2001 Free Software Foundation, Inc.');
 WriteLn;
 WriteLn(msg_License, msg_GPL);
@@ -476,32 +475,35 @@ WriteLn(msg_License, msg_GPL);
 {$EndIf}
 WriteLn;
 WriteLn(msg_noWarranty);
+WriteLn;
+WriteLn('Written by Andreas K. Foerster');
 Halt
 end;
 
 procedure help;
 begin
-WriteLn(PrgVersion);
+WriteLn('Command-line quiz-program');
 WriteLn;
-WriteLn('Syntax:');
-WriteLn('  linequiz [options] [file.akfquiz]');
-WriteLn('  linequiz -h | --help | /?');
-WriteLn('  linequiz --version');
+WriteLn('Usage: linequiz [options] [file.akfquiz]');
+WriteLn(' or:   linequiz -h | --help | /?');
+WriteLn(' or:   linequiz --version');
 WriteLn;
 WriteLn('Options:');
-WriteLn('-l          more line-breaks');
-WriteLn('-s          no sound');
-WriteLn('-d <dir>    path to quizfiles');
-WriteLn('-w <width>  set maximum width of lines');
-WriteLn('-OEM        display has OEM (IBM850/IBM437) charset');
-WriteLn('-latin1     display has Latin1 charset');
-WriteLn('-UTF8       display has UTF-8 charset');
+WriteLn(' -l          more line-breaks');
+WriteLn(' -s          no sound');
+WriteLn(' -d <dir>    path to quizfiles');
+WriteLn(' -w <width>  set maximum width of lines');
+WriteLn(' -OEM        display has OEM (IBM850/IBM437) charset');
+WriteLn(' -latin1     display has Latin1 charset');
+WriteLn(' -UTF8       display has UTF-8 charset');
 {$IfDef FPC} {$IfDef Go32v2}
-WriteLn('-LFN        use long filenames (DOS only)');
+WriteLn(' -LFN        use long filenames (DOS only)');
 {$EndIf} {$EndIf}
 
 WriteLn;
 WriteLn('QUIZPATH: ', getQuizPath);
+WriteLn;
+WriteLn('Report bugs to <akfquiz@akfoerster.de>.');
 Halt
 end;
 

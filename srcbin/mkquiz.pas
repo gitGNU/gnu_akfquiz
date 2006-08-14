@@ -78,11 +78,9 @@ var
 procedure version;
 begin
 WriteLn(PrgVersion);
-WriteLn('(' + platform + ')');
-WriteLn('Copyright (C) ', AKFQuizCopyright);
-WriteLn('uses tables from GNU libiconv');
-WriteLn('Copyright (C) 1999-2001 Free Software Foundation, Inc.');
 WriteLn;
+WriteLn('Copyright (C) ', AKFQuizCopyright);
+WriteLn('Copyright (C) 1999-2001 Free Software Foundation, Inc.');
 WriteLn;
 WriteLn(msg_License, msg_GPL);
 {$IfDef Advertisement}
@@ -91,28 +89,26 @@ WriteLn(msg_License, msg_GPL);
 {$EndIf}
 WriteLn;
 WriteLn(msg_noWarranty);
+WriteLn;
+WriteLn('Written by Andreas K. Foerster');
 Halt
 end;
 
 
 procedure help;
 begin
-WriteLn(PrgVersion);
+WriteLn('creates HTML file with a quiz (needs akfquiz5.js)');
 WriteLn;
-WriteLn('Syntax:');
-WriteLn('  mkquiz [options] [input files]');
-WriteLn('  mkquiz -h | --help | /?');
-WriteLn('  mkquiz --version');
+WriteLn('Usage: mkquiz [options] [input files]');
+WriteLn(' or:   mkquiz -h | --help | /?');
+WriteLn(' or:   mkquiz --version');
 WriteLn;
 WriteLn('Options:');
-WriteLn('-o <dir> | --out <dir>');
-WriteLn('     directory for output files');
-WriteLn('-a | --auto');
-WriteLn('    process all quizfiles in current directory');
-WriteLn('-i | --index');
-WriteLn('    write an index.html for all files processed');
+WriteLn(' -o <dir>, --out <dir>  directory for output files');
+WriteLn(' -a, --auto             process all quizfiles in current directory');
+WriteLn(' -i, --index            write an index.html for all files processed');
 {$IfDef FPC} {$IfDef Go32v2}
-WriteLn('-LFN           use long filenames (DOS only)');
+WriteLn(' -LFN                   use long filenames (DOS only)');
 {$EndIf} {$EndIf}
 WriteLn;
 WriteLn('Default charset: '+def_charset);
@@ -122,6 +118,7 @@ WriteLn('Default charset: '+def_charset);
   {$EndIf}
 {$EndIf}
 WriteLn;
+WriteLn('Report bugs to <akfquiz@akfoerster.de>.');
 Halt
 end;
 

@@ -55,32 +55,36 @@ var allowNewQuiz: boolean = false;
 procedure version;
 begin
 WriteLn(PrgVersion);
+WriteLn;
 WriteLn('Copyright (C) 2006 AKFoerster');
+WriteLn;
 WriteLn('License: GPL v2 or later');
 WriteLn;
 WriteLn('This program comes with NO WARRANTY, to the extent permitted by law.');
 WriteLn('You may redistribute it under the terms of the GNU General Public License;');
 WriteLn('see the file named COPYING for details.');
+WriteLn;
+WriteLn('Written by Andreas K. Foerster');
 Halt
 end;
 
 
 procedure help;
 begin
-WriteLn(PrgVersion);
+WriteLn('GTK+ filechooser as frontend to AKFQuiz programs');
 WriteLn;
-WriteLn('Syntax:');
-WriteLn('  gtkquizchooser [options] program');
-WriteLn('  gtkquizchooser -h | --help | /?');
-WriteLn('  gtkquizchooser --version');
+WriteLn('Usage: gtkquizchooser [options] program');
+WriteLn(' or:   gtkquizchooser -h | --help | /?');
+WriteLn(' or:   gtkquizchooser --version');
 WriteLn;
-WriteLn('options:');
-WriteLn('-d <dir>    starting directory (overrides QUIZPATH)');
-WriteLn('-n | --new  allow new files (for use with an editor)');
-WriteLn('            a new file will be created with a template');
+WriteLn('Options:');
+WriteLn(' -d <dir>    starting directory (overrides QUIZPATH)');
+WriteLn(' -n, --new   allow new files (for use with an editor)');
+WriteLn('             a new file will be created with a template');
 WriteLn;
 WriteLn('and GTK options supported');
 WriteLn;
+WriteLn('Report bugs to <akfquiz@akfoerster.de>.');
 Halt
 end;
 

@@ -894,9 +894,8 @@ end;
 procedure version;
 begin
 WriteLn(PrgVersion);
-WriteLn('(' + platform + ')');
+WriteLn;
 WriteLn('Copyright (C) ', AKFQuizCopyright);
-WriteLn('uses tables from GNU libiconv');
 WriteLn('Copyright (C) 1999-2001 Free Software Foundation, Inc.');
 WriteLn;
 WriteLn(msg_License, msg_GPL);
@@ -906,32 +905,35 @@ WriteLn(msg_License, msg_GPL);
 {$EndIf}
 WriteLn;
 WriteLn(msg_noWarranty);
+WriteLn;
+WriteLn('Written by Andreas K. Foerster');
 Halt
 end;
 
 procedure help;
 begin
-WriteLn(PrgVersion);
+WriteLn('Quiz-program for the text-terminal or xterm');
 WriteLn;
-WriteLn('Syntax:');
-WriteLn('  scrquiz [options] [inputfile]');
-WriteLn('  scrquiz -h | --help | /?');
-WriteLn('  scrquiz --version');
+WriteLn('Usage: scrquiz [options] [inputfile]');
+WriteLn(' or:   scrquiz -h | --help | /?');
+WriteLn(' or:   scrquiz --version');
 WriteLn;
 WriteLn('Options:');
-WriteLn('-s          no sound');
-WriteLn('-d <dir>    path to quizfiles');
-WriteLn('-1          run just once');
-WriteLn('-p          unstopable (use with care!)');
-WriteLn('-OEM        display has OEM (IBM850/IBM437) charset');
-WriteLn('-latin1     display has Latin1 charset');
-WriteLn('-UTF8       display has UTF-8 charset');
+WriteLn(' -s          no sound');
+WriteLn(' -d <dir>    path to quizfiles');
+WriteLn(' -1          run just once');
+WriteLn(' -p          unstopable (use with care!)');
+WriteLn(' -OEM        display has OEM (IBM850/IBM437) charset');
+WriteLn(' -latin1     display has Latin1 charset');
+WriteLn(' -UTF8       display has UTF-8 charset');
 {$IfDef FPC} {$IfDef Go32v2}
-WriteLn('-lfn        use long filenames (DOS only)');
+WriteLn(' -lfn        use long filenames (DOS only)');
 {$EndIf} {$EndIf}
 
 WriteLn;
 WriteLn('QUIZPATH: ', getQuizPath);
+WriteLn;
+WriteLn('Report bugs to <akfquiz@akfoerster.de>.');
 Halt
 end;
 

@@ -45,13 +45,17 @@ var Buffer : pointer;
 procedure version;
 begin
 WriteLn('ppm2pas 0.2');
+WriteLn;
 WriteLn('Copyright (C) 2006 AKFoerster');
+WriteLn;
 WriteLn('License: GPL v2 or later');
 WriteLn;
 WriteLn('This program comes with NO WARRANTY, to the extent permitted by law.');
 WriteLn('You may redistribute it under the terms of the GNU General Public License;');
 WriteLn('see the file named COPYING for details.');
-halt
+WriteLn;
+WriteLn('Written by Andreas K. Foerster');
+Halt
 end;
 
 procedure help;
@@ -59,7 +63,9 @@ begin
 WriteLn;
 WriteLn('Converts raw ppm files (P4-P6) into code for FreePascal');
 WriteLn;
-WriteLn('syntax: ppm2pas file constname');
+WriteLn('Usage: ppm2pas file constname');
+WriteLn;
+WriteLn('Report bugs to <akfquiz@akfoerster.de>.');
 halt
 end;
 

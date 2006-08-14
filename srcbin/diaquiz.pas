@@ -376,9 +376,8 @@ procedure version;
 begin
 setmsgconv(checkDisplay);
 WriteLn(PrgVersion);
-WriteLn('(' + platform + ')');
+WriteLn;
 WriteLn('Copyright (C) ', AKFQuizCopyright);
-WriteLn('uses tables from GNU libiconv');
 WriteLn('Copyright (C) 1999-2001 Free Software Foundation, Inc.');
 WriteLn;
 WriteLn(msg_License, msg_GPL);
@@ -388,20 +387,23 @@ WriteLn(msg_License, msg_GPL);
 {$EndIf}
 WriteLn;
 WriteLn(msg_noWarranty);
+WriteLn;
+WriteLn('Written by Andreas K. Foerster');
 Halt
 end;
 
 
 procedure help;
 begin
-WriteLn(PrgVersion);
+WriteLn('Quiz program using Xdialog');
 WriteLn;
-WriteLn('Syntax:');
-WriteLn('  diaquiz <file.akfquiz>');
-WriteLn('  diaquiz -h | --help | /?');
-WriteLn('  diaquiz --version');
+WriteLn('Usage: diaquiz [file.akfquiz]');
+WriteLn(' or:   diaquiz -h | --help | /?');
+WriteLn(' or:   diaquiz --version');
 WriteLn;
 WriteLn('QUIZPATH: ', getQuizPath);
+WriteLn;
+WriteLn('Report bugs to <akfquiz@akfoerster.de>.');
 Halt
 end;
 

@@ -187,6 +187,7 @@ if Browser then { send CGI Header }
   WriteLn('<html>');
   WriteLn('<head>');
   WriteLn('<title>' + AKFQuizName + ': version</title>');
+  WriteLn('<meta name="robots" content="noindex">');
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
@@ -196,21 +197,23 @@ if Browser then { send CGI Header }
 
 { the text }
 WriteLn(PrgVersion);
-If Browser then WriteLn('<br>');
+WriteLn;
+If Browser then WriteLn('<br><br>');
 Write('Copyright');
 If Browser then Write(' &copy; ') else Write(' (C) '); 
 WriteLn(AKFQuizCopyright);
 If Browser then WriteLn('<br>');
-WriteLn('uses tables from GNU libiconv');
-If Browser then WriteLn('<br>');
 Write('Copyright');
 If Browser then Write(' &copy; ') else Write(' (C) '); 
 WriteLn('1999-2001 Free Software Foundation, Inc.');
-If Browser then WriteLn('<br>');
+If Browser then WriteLn('<br><br>');
+WriteLn;
 WriteLn(msg_License, msg_GPL);
 WriteLn;
 If Browser then WriteLn('<pre>');
 WriteLn(msg_noWarranty);
+WriteLn;
+WriteLn('Written by Andreas K. Foerster');
 If Browser then WriteLn('</pre></body></html>');
 Halt
 end;
@@ -240,6 +243,7 @@ if Browser then { send CGI Header }
   WriteLn('<html>');
   WriteLn('<head>');
   WriteLn('<title>' + AKFQuizName + ': help</title>');
+  WriteLn('<meta name="robots" content="noindex">');
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
@@ -248,18 +252,19 @@ if Browser then { send CGI Header }
   end;
 
 { the text }
-WriteLn(PrgVersion);
-if Browser then WriteLn('<br><br>');
-WriteLn;
-WriteLn('Usage:');
+
 If Browser 
   then begin
-       WriteLn('<dl><dt>Command line:</dt>');
+       WriteLn(PrgVersion);
+       WriteLn('<br><br>');
+       WriteLn('Quiz-program for the CGI interface of a webserver');
+       WriteLn('<br><br>');
+       WriteLn('<dl><dt>Usage:</dt>');
        WriteLn('<dd>');
        WriteLn('cgiquiz [ --help | -h | /? ]<br>');
        WriteLn('cgiquiz --version');
        WriteLn('<br><br></dd>');
-       WriteLn('<dt>Browser:</dt>');
+       WriteLn('<dt>Examples:</dt>');
        WriteLn('<dd>');  
        WriteLn(CGIBase, '/--help<br>');
        WriteLn(CGIBase, '/--version<br>');
@@ -267,20 +272,25 @@ If Browser
        WriteLn(CGIBase, '/quizpath/myquiz.akfquiz');
        WriteLn(CGIBase, '/quizpath/myquiz.akfquiz?q1=2&q2=1&q5=2');
        WriteLn('</dd></dl>');
+       WriteLn;
+       Write('Report bugs to <a href=');
+       WriteLn('"mailto:akfquiz@akfoerster.de">akfquiz@akfoerster.de</a>.');
        WriteLn('</body></html>')
        end
   else begin { not Browser }
+       WriteLn('Quiz-program for the CGI interface of a webserver');
        WriteLn;
-       WriteLn('Command line:');
-       WriteLn('  cgiquiz [ --help | -h | /? ]');
-       WriteLn('  cgiquiz --version');
+       WriteLn('Usage: cgiquiz [ --help | -h | /? ]');
+       WriteLn(' or:   cgiquiz --version');
        WriteLn;
-       WriteLn('Browser:');
-       WriteLn('   ', CGIBase, '/--help');
-       WriteLn('   ', CGIBase, '/--version');
-       WriteLn('   ', CGIBase, '/quizpath/');
-       WriteLn('   ', CGIBase, '/quizpath/myquiz.akfquiz');
-       WriteLn('   ', CGIBase, '/quizpath/myquiz.akfquiz?q1=2&q2=1&q5=2')
+       WriteLn('Examples:');
+       WriteLn(' > ', CGIBase, '/--help');
+       WriteLn(' > ', CGIBase, '/--version');
+       WriteLn(' > ', CGIBase, '/quizpath/');
+       WriteLn(' > ', CGIBase, '/quizpath/myquiz.akfquiz');
+       WriteLn(' > ', CGIBase, '/quizpath/myquiz.akfquiz?q1=2&q2=1&q5=2');
+       WriteLn;
+       WriteLn('Report bugs to <akfquiz@akfoerster.de>.')
        end;
 Halt
 end;
