@@ -4,9 +4,9 @@ AKFQuiz
 Copyright © 2003-2006 Andreas K. Förster <akfquiz@akfoerster.de>
 
 uses tables from GNU libiconv
-Copyright (C) 1999-2001 Free Software Foundation, Inc.
+Copyright © 1999-2001 Free Software Foundation, Inc.
 grquiz uses fonts from the kbd package
-Copyright (C) 2004 by the contributors to kbd
+Copyright © 2004 by the contributors to kbd
 
 AKFQuiz is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

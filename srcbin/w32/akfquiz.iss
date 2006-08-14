@@ -102,14 +102,16 @@ Source: "..\..\share\akfquiz\Linux-de.akfquiz"; DestDir: "{app}\share\akfquiz"; 
 Source: "..\..\share\akfquiz\Schokolade-de.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder
 Source: "..\..\share\akfquiz\Christentum-de.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder
 Source: "..\..\share\akfquiz\Landtechnik.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder
-Source: "..\..\share\akfquiz\GPL-Quiz-en.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder; Tasks: unfreequiz
-Source: "..\..\share\akfquiz\debian-en.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder; Tasks: unfreequiz
-Source: "..\..\share\akfquiz\Amerika-de.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder; Tasks: unfreequiz
+Source: "..\..\..\unfree\GPL-Quiz-en.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder; Tasks: unfreequiz
+Source: "..\..\..\unfree\debian-en.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder; Tasks: unfreequiz
+Source: "..\..\..\unfree\Amerika-de.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder; Tasks: unfreequiz
 Source: "..\..\html\*.*";     DestDir: "{app}\html";
-Source: "..\..\doc\*.*";      DestDir: "{app}\doc"; Flags: recursesubdirs
+Source: "..\..\doc\*.*";      DestDir: "{app}\doc";
+Source: "..\..\doc\english\*.*"; DestDir: "{app}\doc\english";
+Source: "..\..\doc\deutsch\*.*"; DestDir: "{app}\doc\deutsch";
 Source: "*.txt";              DestDir: "{app}\doc";
-Source: "de\template";        DestDir: "{app}\doc\deutsch";
-Source: "template";           DestDir: "{app}\doc\english";
+Source: "template";           DestDir: "{app}\doc\english"; DestName: "template";
+Source: "template-de";        DestDir: "{app}\doc\deutsch"; DestName: "template";
 ;Source: "AKFQuiz.ico";        DestDir: "{app}\src\w32"; Tasks: src
 ;Source: "*.rc";               DestDir: "{app}\src\w32"; Tasks: src
 ;Source: "..\quizstat";        DestDir: "{app}\src"; Tasks: src
