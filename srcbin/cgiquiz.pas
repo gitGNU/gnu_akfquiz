@@ -270,7 +270,7 @@ If Browser
        WriteLn(CGIBase, '/--version<br>');
        WriteLn(CGIBase, '/quizpath/<br>');
        WriteLn(CGIBase, '/quizpath/myquiz.akfquiz');
-       WriteLn(CGIBase, '/quizpath/myquiz.akfquiz?q1=2&q2=1&q5=2');
+       WriteLn(CGIBase, '/quizpath/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2');
        WriteLn('</dd></dl>');
        WriteLn;
        Write('Report bugs to <a href=');
