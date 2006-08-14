@@ -2,45 +2,43 @@
 # if you want to configure things, use the script configure 
 # and edit the Makefiles in srcbin
 
-VERSION=4.3.2
-SVERSION=432
+VERSION=@VERSION@
+SVERSION=@SVERSION@
+SYS=@SYS@
+ARCH=@ARCH@
 
-# Name of TARGET as used as extension for makefile in srcbin
-# can be: fpc, gpc, xw32, xarm
-TARGET=fpc
-SYS=Linux
-ARCH=x86
+SHELL = /bin/sh
 
 # all for POSIX machines with GTK+ and probably SDL installed
 default: all
 
 all:
-	$(MAKE) -C srcbin -f Makefile.$(TARGET)
+	$(MAKE) -C srcbin
 
 # just text-oriented programs
 most:
-	$(MAKE) -C srcbin -f Makefile.$(TARGET) most
+	$(MAKE) -C srcbin most
 
 # programs for windows (either native or cross-compilation)
 windows:
-	$(MAKE) -C srcbin -f Makefile.$(TARGET) windows
+	$(MAKE) -C srcbin windows
 
 # install for POSIX machines
 install:
-	$(MAKE) -C srcbin -f Makefile.$(TARGET) install
+	$(MAKE) -C srcbin install
 
 # reverse of install 
 uninstall:
-	$(MAKE) -C srcbin -f Makefile.$(TARGET) uninstall
+	$(MAKE) -C srcbin uninstall
 
 # install CGI program
 # please make sure the path is correctly set up!
 install-cgi:
-	$(MAKE) -C srcbin -f Makefile.$(TARGET) install-cgi
+	$(MAKE) -C srcbin install-cgi
 
 # shouldn't be used
 install-quizzes:
-	$(MAKE) -C srcbin -f Makefile.$(TARGET) install-quizzes
+	$(MAKE) -C srcbin install-quizzes
 
 doc: FORCE
 	$(MAKE) -C doc
@@ -55,20 +53,21 @@ pdf:
 	$(MAKE) -C doc pdf
 
 clean:
-	$(MAKE) -C srcbin -f Makefile.$(TARGET) clean
+	$(MAKE) -C srcbin clean
 	$(MAKE) -C doc clean
 	-rm -f *.old
 	-rm -f autopackage/*.old
 
 veryclean:
-	$(MAKE) -C srcbin -f Makefile.$(TARGET) veryclean
+	$(MAKE) -C srcbin veryclean
 	$(MAKE) -C doc clean
 	-rm -f *.old
 	-rm -f autopackage/*.old
 
 distclean:
-	$(MAKE) -C srcbin -f Makefile.$(TARGET) distclean
+	$(MAKE) -C srcbin distclean
 	$(MAKE) -C doc distclean
+	-rm -f Makefile
 	-rm -f *.old
 	-rm -f autopackage/*.old
 
@@ -136,7 +135,7 @@ pkg-mostbin: most
 
 # INNO Setup
 pkg-windows: html pdf
-	$(MAKE) -C srcbin -f Makefile.$(TARGET) veryclean
+	$(MAKE) -C srcbin veryclean
 	# export and convert textfiles
 	cp doc/COPYING srcbin/w32/COPYING.txt
 	cp doc/deutsch/COPYING.de srcbin/w32/COPYING.de.txt

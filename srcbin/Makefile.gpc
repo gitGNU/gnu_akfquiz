@@ -48,4 +48,6 @@ SOUNDOBJ=
 # only used on Windows platform
 #GUIFLAG=-mwindows
 
+SHELL = /bin/sh
+
 include common.mak

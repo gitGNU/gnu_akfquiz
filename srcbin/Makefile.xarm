@@ -28,6 +28,8 @@ NATIVEPFLAGS=-Sh -Sd
 IMAGEOBJ=
 SOUNDOBJ=
 
+SHELL = /bin/sh
+
 default: most
 
 include common.mak

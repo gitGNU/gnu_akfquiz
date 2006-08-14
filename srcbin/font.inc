@@ -26,7 +26,7 @@
   downloaded from http://www.kernel.org/pub/linux/utils/kbd/ 
   
   Maintainer of kbd: Andries Brouwer <aeb@cwi.nl>
-  Copyright by the contributors to kbd
+  Copyright (C) 2004 by the contributors to kbd
   H. Peter Anvin (hpa@nwu.edu), Pavel Zaboj (xzaboj@vse.cs),
   Sotiris Tsimbonis <tsimbonis@rosehill-1.irc.gr>
   and others

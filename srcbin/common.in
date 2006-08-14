@@ -1,0 +1,274 @@
+
+#####################################################################
+# change here:
+#####################################################################
+
+prefix      = @prefix@
+exec_prefix = $(prefix)
+datarootdir = $(prefix)/share
+datadir     = $(datarootdir)
+bindir      = $(exec_prefix)/bin
+icondir     = $(datarootdir)/pixmaps/
+docdir      = $(prefix)/share/doc/akfquiz
+getquiz     = $(bindir)/getquiz
+quizpath    = $(datadir)/akfquiz
+htmlpath    = $(quizpath)/html
+
+cgidir     = @cgidir@
+
+#mandir   = $(prefix)/man
+mandir    = $(datarootdir)/man
+man1dir   = $(mandir)/man1
+man5dir   = $(mandir)/man5
+man8dir   = $(mandir)/man8
+man1dedir = $(mandir)/de/man1
+man5dedir = $(mandir)/de/man5
+man8dedir = $(mandir)/de/man8
+
+INSTALL = install
+
+######################################################################
+
+# "all" is for Unix with all libraries
+all: scrquiz linequiz diaquiz mkquiz cgiquiz grquiz gtkquizchooser
+
+# "most" leaves some critical progs away
+most: scrquiz linequiz mkquiz cgiquiz diaquiz 
+
+# using FreePascal and DJGPP
+dos: scrquiz linequiz mkquiz # grquiz
+
+# compile for Windows
+windows: wquizchooser scrquiz linequiz mkquiz cgiquiz grquiz
+
+doc:
+	$(MAKE) -C ../doc 
+
+html:
+	$(MAKE) -C ../doc html
+
+txt:
+	$(MAKE) -C ../doc txt
+
+pdf:
+	$(MAKE) -C ../doc pdf
+
+mkquiz: mkquiz.pas qsys.pas qmsgs.pas uakfquiz.pas htmlquiz.pas
+	$(PC) $(PFLAGS) $(POPT) $(DEFINES) mkquiz.pas
+
+scrquiz: scrquiz.pas qsys.pas qmsgs.pas uakfquiz.pas
+	$(PC) $(PFLAGS) $(POPT) $(DEFINES) scrquiz.pas
+
+linequiz: linequiz.pas qsys.pas qmsgs.pas uakfquiz.pas
+	$(PC) $(PFLAGS) $(POPT) $(DEFINES) linequiz.pas
+
+cgiquiz: cgiquiz.pas uakfquiz.pas qmsgs.pas qsys.pas htmlquiz.pas
+	$(PC) $(PFLAGS) $(POPT) $(DEFINES) cgiquiz.pas
+
+introsnd.inc: introsnd.ub
+	bin2obj -c IntroSound -o introsnd.inc introsnd.ub
+
+infosnd.inc: infosnd.ub
+	bin2obj -c InfoSound -o infosnd.inc infosnd.ub
+
+errorsnd.inc: errorsnd.ub
+	bin2obj -c ErrorSound -o errorsnd.inc errorsnd.ub
+
+rightsnd.inc: rightsnd.ub
+	bin2obj -c RightSound -o rightsnd.inc rightsnd.ub
+
+wrongsnd.inc: wrongsnd.ub
+	bin2obj -c WrongSound -o wrongsnd.inc wrongsnd.ub
+
+neutralsnd.inc: neutralsnd.ub
+	bin2obj -c NeutralSound -o neutralsnd.inc neutralsnd.ub
+
+ppm2pas: ppm2pas.pas
+	$(NATIVEPC) $(NATIVEPFLAGS) $(DEFINES) ppm2pas.pas
+
+titimg.inc: titimg.ppm ppm2pas
+	./ppm2pas titimg.ppm TitleImage > titimg.inc
+
+titimg.o: titimg.ppm
+	binobj titimg.ppm titimg.o TitleImage
+
+quizhg.inc: quizhg.ppm ppm2pas
+	./ppm2pas quizhg.ppm AKFQuizHG > quizhg.inc
+
+quizhg.o: quizhg.ppm
+	binobj quizhg.ppm quizhg.o AKFQuizHg
+
+grquiz: grquiz.pas qsys.pas qmsgs.pas uakfquiz.pas clgrph.pas \
+        sdlgrph.pas sdlsnd.pas $(IMAGEOBJ) $(SOUNDOBJ) font.inc
+	-$(PC) $(PFLAGS) $(POPT) $(DEFINES) $(GUIFLAG) grquiz.pas
+
+diaquiz: diaquiz.pas qsys.pas qmsgs.pas uakfquiz.pas dialog.pas
+	$(PC) $(PFLAGS) $(POPT) $(DEFINES) diaquiz.pas
+
+# just for Unix, just FPC
+gtkquizchooser: gtkquizchooser.pas
+	-$(PC) $(PFLAGS) $(POPT) $(DEFINES) $(GUIFLAG) gtkquizchooser.pas
+
+# just for Windows, just FPC
+wquizchooser: w32/wquizchooser.pas
+	$(PC) $(PFLAGS) $(POPT) $(DEFINES) $(GUIFLAG) -FE. w32/wquizchooser.pas
+
+clean:
+	-rm -f *.o *.or *.a a.out *.gpi *.gpm *.ppu *.old *~
+	-rm -f *.aw *.ow *.owr *.ppw *.res
+	-rm -f *.AW *.OW *.OWR *.PPW *.RES
+	-$(MAKE) -C w32 clean
+
+veryclean: clean
+	-rm -f quizhg.inc titimg.inc ppm2pas
+	-rm -f errorsnd.inc infosnd.inc introsnd.inc rightsnd.inc \
+	       wrongsnd.inc neutralsnd.inc
+
+distclean: veryclean
+	-$(MAKE) -C w32 distclean
+	-rm -f mkquiz scrquiz cgiquiz akfquiz.cgi diaquiz linequiz \
+	       grquiz gtkquizchooser
+	-rm -f *.exe
+	-rm -f config.inc
+	-rm -f common.mak Makefile
+	-dos2unix ../share/akfquiz/*.akfquiz
+
+new: distclean
+
+# just for Unix
+install: all
+	@echo "*"
+	@echo "* creating directories"
+	@echo "*"
+	test -d $(DESTDIR)$(bindir)   || $(INSTALL) -d $(DESTDIR)$(bindir)
+	test -d $(DESTDIR)$(icondir)  || $(INSTALL) -d $(DESTDIR)$(icondir)
+	test -d $(DESTDIR)$(docdir)   || $(INSTALL) -d $(DESTDIR)$(docdir)
+	test -d $(DESTDIR)$(man1dir)  || $(INSTALL) -d $(DESTDIR)$(man1dir)
+	test -d $(DESTDIR)$(man5dir)  || $(INSTALL) -d $(DESTDIR)$(man5dir)
+	test -d $(DESTDIR)$(man8dir)  || $(INSTALL) -d $(DESTDIR)$(man8dir)
+	test -d $(DESTDIR)$(man1dedir)|| $(INSTALL) -d $(DESTDIR)$(man1dedir)
+	test -d $(DESTDIR)$(man5dedir)|| $(INSTALL) -d $(DESTDIR)$(man5dedir)
+	test -d $(DESTDIR)$(man8dedir)|| $(INSTALL) -d $(DESTDIR)$(man8dedir)
+	test -d $(DESTDIR)$(quizpath) || $(INSTALL) -d -m 1777 $(DESTDIR)$(quizpath)
+	test -d $(DESTDIR)$(htmlpath) || $(INSTALL) -d $(DESTDIR)$(htmlpath)
+	@echo "*"
+	@echo "* installing programs"
+	@echo "*"
+	$(INSTALL) -m 0755 -s mkquiz $(DESTDIR)$(bindir)
+	$(INSTALL) -m 0755 -s scrquiz $(DESTDIR)$(bindir)
+	$(INSTALL) -m 0755 -s diaquiz $(DESTDIR)$(bindir)
+	$(INSTALL) -m 0755 -s linequiz $(DESTDIR)$(bindir)
+	-$(INSTALL) -m 0755 -s grquiz $(DESTDIR)$(bindir)
+	#-$(INSTALL) -o root -m 4755 -s grquiz $(DESTDIR)$(bindir)
+	-$(INSTALL) -m 0755 gtkquizchooser $(DESTDIR)$(bindir)
+	$(INSTALL) -m 0755 akfquiz $(DESTDIR)$(bindir)
+	$(INSTALL) -m 0755 quizstat $(DESTDIR)$(bindir)
+	@echo "*"
+	@echo "* installing manpages"
+	@echo "*"
+	$(INSTALL) -m 0644 ../doc/english/mkquiz.1 $(DESTDIR)$(man1dir)
+	$(INSTALL) -m 0644 ../doc/english/scrquiz.1 $(DESTDIR)$(man1dir)
+	$(INSTALL) -m 0644 ../doc/english/grquiz.1 $(DESTDIR)$(man1dir)
+	$(INSTALL) -m 0644 ../doc/english/linequiz.1 $(DESTDIR)$(man1dir)
+	$(INSTALL) -m 0644 ../doc/english/gtkquizchooser.1 $(DESTDIR)$(man1dir)
+	$(INSTALL) -m 0644 ../doc/english/cgiquiz.8 $(DESTDIR)$(man8dir)
+	$(INSTALL) -m 0644 ../doc/english/akfquiz.5 $(DESTDIR)$(man5dir)
+	$(INSTALL) -m 0644 ../doc/deutsch/mkquiz.1 $(DESTDIR)$(man1dedir)
+	$(INSTALL) -m 0644 ../doc/deutsch/scrquiz.1 $(DESTDIR)$(man1dedir)
+	$(INSTALL) -m 0644 ../doc/deutsch/grquiz.1 $(DESTDIR)$(man1dedir)
+	$(INSTALL) -m 0644 ../doc/deutsch/linequiz.1 $(DESTDIR)$(man1dedir)
+	$(INSTALL) -m 0644 ../doc/deutsch/gtkquizchooser.1 $(DESTDIR)$(man1dedir)
+	$(INSTALL) -m 0644 ../doc/deutsch/akfquiz.5 $(DESTDIR)$(man5dedir)
+	@echo "*"
+	@echo "* installing Icon"
+	@echo "*"
+	$(INSTALL) -m 0644 AKFQuiz.xpm $(DESTDIR)$(icondir)
+	@echo "*"
+	@echo "* installing documentation"
+	@echo "*"
+	$(INSTALL) -m 0644 ../doc/COPYING $(DESTDIR)$(docdir)
+	$(INSTALL) -m 0644 ../doc/deutsch/COPYING.de $(DESTDIR)$(docdir)
+	$(INSTALL) -m 0644 ../doc/CHANGELOG $(DESTDIR)$(docdir)
+	$(INSTALL) -m 0644 ../doc/FAQ.html $(DESTDIR)$(docdir)
+	$(INSTALL) -m 0644 ../doc/TODO $(DESTDIR)$(docdir)
+	$(INSTALL) -m 0644 ../doc/english/template $(DESTDIR)$(docdir)/template-en
+	$(INSTALL) -m 0644 ../doc/deutsch/template $(DESTDIR)$(docdir)/template-de
+	$(INSTALL) -m 0644 ../doc/english/INSTALL $(DESTDIR)$(docdir)/INSTALL-en
+	$(INSTALL) -m 0644 ../doc/deutsch/INSTALL $(DESTDIR)$(docdir)/INSTALL-de
+	@echo "*"
+	@echo "* installing example quiz-files to $(DESTDIR)$(quizpath)"
+	@echo "*"
+	$(INSTALL) -m 0644 ../share/akfquiz/*.akfquiz $(DESTDIR)$(quizpath)
+	@echo "*"
+	@echo "* installing files needed for HTML to $(DESTDIR)$(htmlpath)"
+	@echo "*"
+	$(INSTALL) -m 0755 -d $(DESTDIR)$(htmlpath)
+	$(INSTALL) -m 0644 ../html/*.js ../html/*.png ../html/*.css $(DESTDIR)$(htmlpath)
+	$(INSTALL) -m 0644 ../html/schulnote.html $(DESTDIR)$(htmlpath)
+	@echo "*"
+	@echo "* creating getquiz"
+	@echo "*"
+	echo >  $(DESTDIR)$(getquiz) "#!/bin/sh"
+	echo >> $(DESTDIR)$(getquiz) "cp -i $(htmlpath)/* ."
+	chmod 755 $(DESTDIR)$(getquiz)
+	@echo "*"
+	@echo "* HINT: install the CGI program with 'make install-cgi'"
+	@echo "* the CGI-path ist configured to $(cgidir)"
+	@echo "*"
+
+install-cgi: cgiquiz
+	$(INSTALL) -d $(DESTDIR)$(cgidir)
+	$(INSTALL) -m 0755 -s cgiquiz $(DESTDIR)$(cgidir)
+
+# searches for Quizfiles and installs them as programs
+# just for Unix
+install-quizzes:
+	for quiz in ../quiz/*.akfquiz; \
+	  do \
+	  TARGET=$(DESTDIR)$(bindir)/$$(basename $$quiz .akfquiz); \
+	  echo '#! /usr/bin/env akfquiz' > $$TARGET; \
+	  echo >> $$TARGET; \
+	  cat $$quiz >> $$TARGET; \
+	  chmod 755 $$TARGET; \
+	  echo "$$TARGET installed"; \
+	done
+
+# just for Unix
+uninstall:
+	-rm $(DESTDIR)$(bindir)/mkquiz
+	-rm $(DESTDIR)$(bindir)/scrquiz
+	-rm $(DESTDIR)$(bindir)/linequiz
+	-rm $(DESTDIR)$(bindir)/diaquiz
+	-rm $(DESTDIR)$(bindir)/grquiz
+	-rm $(DESTDIR)$(bindir)/quizstat
+	-rm $(DESTDIR)$(bindir)/gtkquizchooser
+	-rm -f $(DESTDIR)$(bindir)/xgrquiz
+	-rm -f $(DESTDIR)$(bindir)/nscrquiz
+	-rm $(DESTDIR)$(getquiz)
+	-rm $(DESTDIR)$(bindir)/akfquiz
+	-rm $(DESTDIR)$(man1dir)/mkquiz.1
+	-rm $(DESTDIR)$(man1dir)/scrquiz.1
+	-rm $(DESTDIR)$(man1dir)/grquiz.1
+	-rm $(DESTDIR)$(man1dir)/linequiz.1
+	-rm $(DESTDIR)$(man1dir)/gtkquizchooser.1
+	-rm $(DESTDIR)$(man8dir)/cgiquiz.8
+	-rm $(DESTDIR)$(man5dir)/akfquiz.5
+	-rm $(DESTDIR)$(man1dedir)/mkquiz.1
+	-rm $(DESTDIR)$(man1dedir)/scrquiz.1
+	-rm $(DESTDIR)$(man1dedir)/grquiz.1
+	-rm $(DESTDIR)$(man1dedir)/linequiz.1
+	-rm $(DESTDIR)$(man1dedir)/gtkquizchooser.1
+	-rm $(DESTDIR)$(man8dedir)/cgiquiz.8
+	-rm $(DESTDIR)$(man5dedir)/akfquiz.5
+	-rm $(DESTDIR)$(icondir)/AKFQuiz.xpm
+	-rm -r $(DESTDIR)$(htmlpath)
+	-rm -r $(DESTDIR)$(quizpath)
+	-rm -r $(DESTDIR)$(docdir)
+
+pkg-dos: veryclean
+	move *.exe ..\..\bin
+	cd ..\..
+	-zip -9vr aqz$(SVERSION)-b.zip bin doc share
+	-zip -9vr aqz$(SVERSION)-s.zip source
+
+# End

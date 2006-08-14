@@ -56,7 +56,7 @@ with GPC either.
 
 type
 
-  ./configure --target=gpc
+  ./configure --with-gpc
   make 
   make clean
 
@@ -70,16 +70,16 @@ The configure script accepts the following parameters:
 --prefix=   where to install
 --cgipath=  where to install the CGI binary
 --variant=  Variant name
---target=   compile target  [*]
+--with-*    compiler to use [*]
 --arch=     CPU architecture (just a name for making packages)
 --sys=      system (just a name for making packages)
 
-[*] target may be
-fpc  - Free Pascal 2.0 or newer
-gpc  - GNU Pascal 20030303 or newer
-xarm - Free Pascal Cross-Compiler for Linux on ARM
-xw32 - Free Pascal Cross-Compiler for Windows 
-       (don't use it directly on Windows)
+[*] the compiler may be
+--with-fpc  - Free Pascal 2.0 or newer
+--with-gpc  - GNU Pascal 20030303 or newer
+--with-xarm - Free Pascal Cross-Compiler for Linux on ARM
+--with-xw32 - Free Pascal Cross-Compiler for Windows 
+              (don't use it directly on Windows)
 
 
 Windows Users:

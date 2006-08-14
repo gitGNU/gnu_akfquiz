@@ -7,6 +7,7 @@ HTMLFILES=mkquiz.html scrquiz.html grquiz.html akfquiz.html cgiquiz.html \
 PDFFILES=mkquiz.pdf scrquiz.pdf grquiz.pdf akfquiz.pdf cgiquiz.pdf \
          linequiz.pdf gtkquizchooser.pdf
 
+SHELL = /bin/sh
 
 all: txt html pdf
 

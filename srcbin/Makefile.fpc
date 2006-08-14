@@ -53,5 +53,7 @@ IMAGEOBJ=quizhg.inc hginfo.inc titimg.inc
 SOUNDOBJ=errorsnd.inc infosnd.inc introsnd.inc rightsnd.inc wrongsnd.inc \
          neutralsnd.inc
 
+SHELL = /bin/sh
+
 include common.mak
 
