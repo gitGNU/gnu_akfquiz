@@ -40,13 +40,22 @@ AMEN
 exit
 }
 
+warn() {
+  echo 1>&2 "$@"
+  }
+
+error() {
+  echo 1>&2 "error: $@"
+  exit 1
+  }
+  
 getcompiler() {
   # search for available compiler
   if which fpc
   then COMPILER=fpc
   elif which gpc
   then COMPILER=gpc
-  else echo 1>&2 "error: neither gpc nor fpc found"; exit 1
+  else error "neither gpc nor fpc found"
   fi
   }
 
@@ -61,7 +70,7 @@ convert_rc() {
     }
 
 notsupported() {
-  echo 1>&2 "not supported: $1"
+  warn "not supported: $1"
   }
 
 #####################################################################
@@ -80,8 +89,7 @@ do
   case "$1" in
     -h | --help)   help ;;
     --target=gpc | --target=fpc | --target=xw32 | --target=xarm)
-                   echo 1>&2 "old usage for --target no longer supported!"
-		   exit 1 ;;
+                   error "old usage for --target no longer supported!" ;;
     --srcdir=*)    notsupported --srcdir ;; # yet to be implemented
     --build=*)     notsupported --build ;; # yet to be implemented
     --host=*)      notsupported --host ;;  # yet to be implemented
@@ -101,7 +109,7 @@ do
     --variant=*)   VARIANT=-`echo "$1" | sed -e "s/--variant=\(.*\)/\1/"` ;;
     --arch=*)      ARCH=`echo "$1" | sed -e "s/--arch=\(.*\)/\1/"` ;;
     --sys=*)       SYS=`echo "$1" | sed -e "s/--sys=\(.*\)/\1/"` ;;
-    -*) echo 1>&2 "error: unknown parameter $1"; exit 1 ;;
+    -*) error "unknown parameter $1" ;;
     *) ;; # ignore for now
   esac
   shift
@@ -111,6 +119,12 @@ test -z "$COMPILER" && getcompiler
 
 test "$COMPILER" = "xarm" && ARCH=arm
 test "$COMPILER" = "xw32" && SYS=w32
+
+# check for needed tools
+case $COMPILER in
+  fpc|xarm|xw32) which bin2obj || error "fpc-utils needed" ;;
+  gpc) which binobj || error "binobj not found - should come with gpc" ;;
+esac
 
 VERSION=$MAINVERSION.$SUBVERSION.$REVISION
 SVERSION=$MAINVERSION$SUBVERSION$REVISION
