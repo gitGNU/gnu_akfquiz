@@ -117,8 +117,10 @@ WriteLn('Default charset: '+def_charset);
     WriteLn('LFN support: ', LFNsupport);
   {$EndIf}
 {$EndIf}
-WriteLn;
-WriteLn('Report bugs to <akfquiz@akfoerster.de>.');
+
+if BugMail <> ''
+  then begin WriteLn; WriteLn('Report bugs to <' + BugMail + '>.') end;
+
 Halt
 end;
 

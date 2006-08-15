@@ -83,8 +83,10 @@ WriteLn(' -n, --new   allow new files (for use with an editor)');
 WriteLn('             a new file will be created with a template');
 WriteLn;
 WriteLn('and GTK options supported');
-WriteLn;
-WriteLn('Report bugs to <akfquiz@akfoerster.de>.');
+
+if BugMail <> ''
+  then begin WriteLn; WriteLn('Report bugs to <' + BugMail + '>.') end;
+
 Halt
 end;
 

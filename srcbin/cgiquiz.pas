@@ -273,8 +273,9 @@ If Browser
        WriteLn(CGIBase, '/quizpath/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2');
        WriteLn('</dd></dl>');
        WriteLn;
-       Write('Report bugs to <a href=');
-       WriteLn('"mailto:akfquiz@akfoerster.de">akfquiz@akfoerster.de</a>.');
+       if BugMail<>'' then
+         WriteLn('Report bugs to <a href="mailto:' + BugMail + '">'
+                 + BugMail+'</a>.');
        WriteLn('</body></html>')
        end
   else begin { not Browser }
@@ -289,8 +290,10 @@ If Browser
        WriteLn(' > ', CGIBase, '/quizpath/');
        WriteLn(' > ', CGIBase, '/quizpath/myquiz.akfquiz');
        WriteLn(' > ', CGIBase, '/quizpath/myquiz.akfquiz?q1=2&q2=1&q5=2');
-       WriteLn;
-       WriteLn('Report bugs to <akfquiz@akfoerster.de>.')
+       
+       if BugMail <> '' then
+         begin WriteLn; WriteLn('Report bugs to <' + BugMail + '>.') end
+	 
        end;
 Halt
 end;

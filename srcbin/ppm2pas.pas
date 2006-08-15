@@ -64,9 +64,7 @@ WriteLn;
 WriteLn('Converts raw ppm files (P4-P6) into code for FreePascal');
 WriteLn;
 WriteLn('Usage: ppm2pas file constname');
-WriteLn;
-WriteLn('Report bugs to <akfquiz@akfoerster.de>.');
-halt
+Halt
 end;
 
 { strips from # comments }

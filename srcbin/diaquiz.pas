@@ -402,8 +402,10 @@ WriteLn(' or:   diaquiz -h | --help | /?');
 WriteLn(' or:   diaquiz --version');
 WriteLn;
 WriteLn('QUIZPATH: ', getQuizPath);
-WriteLn;
-WriteLn('Report bugs to <akfquiz@akfoerster.de>.');
+
+if BugMail <> ''
+  then begin WriteLn; WriteLn('Report bugs to <' + BugMail + '>.') end;
+
 Halt
 end;
 

@@ -18,6 +18,9 @@ REVISION=2
 VERSION=$MAINVERSION.$SUBVERSION.$REVISION
 SVERSION=$MAINVERSION$SUBVERSION$REVISION
 
+# either a E-Mail address, or empty
+BUGMAIL=bug-akfquiz@akfoerster.de
+
 #####################################################################
 # functions
 
@@ -140,6 +143,7 @@ SVERSION: $SVERSION
 COMPILER: $COMPILER
 SYS:      $SYS
 ARCH:     $ARCH
+BUGMAIL:  $BUGMAIL
 AMEN
 
 # change to default directory
@@ -163,6 +167,8 @@ cat > srcbin/config.inc <<AMEN
 
 const AKFQuizName = '$NAME$VARIANT';
 const AKFQuizVersion = '$VERSION';
+const BugMail = '$BUGMAIL';
+
 AMEN
 
 if [ -w ../autopackage/default.apspec ]
