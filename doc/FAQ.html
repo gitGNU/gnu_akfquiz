@@ -51,18 +51,6 @@ language and then translate it to my native language, than vice versa.
 </p>
 
 
-<p id="autopackage" class="question"><strong>
-I have installed AKFQuiz using the autopackage, but the programs don't 
-find any quizfiles.
-</strong></p>
-
-<p>
-Try to log out and log in again. Then the variable QUIZPATH should be 
-set.
-</p>
-
-
-
 <p id="extension" class="question"><strong> 
 What file-extension have AKFQuiz-files?
 </strong></p>
@@ -100,8 +88,7 @@ But if you intend to run your quiz just in one single environment, then
 don't bother about the others. 
 The number of questions is unlimited in any frontend so far.
 The number of possible answers is limited to 35 in the interactive 
-variants - a planned extension will limit it to 4, if you want to use 
-it - but you will of course not be forced to support it.
+variants.
 </p>
 
 <p>
@@ -160,14 +147,26 @@ possible.
 </p>
 
 <p id="contact" class="question"><strong>
-How can I get in contact with you?
+How can I get in contact with you? Where can I ask questions about 
+AKFQuiz?
 </strong></p>
 
 <p>
-Write to <a href="mailto:akfquiz@akfoerster.de">akfquiz@akfoerster.de</a>.
+For occasional questions there is a support forum at Savannah. Please 
+visit <a href="http://savannah.nongnu.org/support?group=akfquiz"
+>http://savannah.nongnu.org/support?group=akfquiz</a>.
 </p>
 
 <p>
+If you use AKFQuiz on a regular basis, you should subscribe to the 
+mailing-list "AKFQuiz-users". Please visit 
+<a href="http://lists.nongnu.org/mailman/listinfo/akfquiz-users"
+>http://lists.nongnu.org/mailman/listinfo/akfquiz-users</a>.
+</p>
+
+<p>
+If you want to contact me personally, write to 
+<a href="mailto:akfquiz@akfoerster.de">akfquiz@akfoerster.de</a>.
 Please put the term AKFQuiz into the subject line, so I can distinguish 
 it from spam more easily.
 </p>
@@ -233,7 +232,7 @@ Quizfiles are "interactive".
 Please note however, that these licenses are not necessarily compatible with
 the free software definition. This means, that they might be rejected by some
 software distributions. If you want to bundle the quizfile with the 
-software, then it <em>is</em> problably a good idea to publish it under 
+software, then it <em>is</em> probably a good idea to publish it under 
 the GPL.
 </p>
 
@@ -255,8 +254,9 @@ If you want a more detailed description, you could also use a
 <p><code>
 comment:<br />
 This work is licensed under the Creative Commons Attribution-ShareAlike 2.5
-License. To view a copy of this license, visit <a
-href="http://creativecommons.org/licenses/by-sa/2.5/">http://creativecommons.org/licenses/by-sa/2.5/</a>
+License. To view a copy of this license, visit 
+<a href="http://creativecommons.org/licenses/by-sa/2.5/"
+>http://creativecommons.org/licenses/by-sa/2.5/</a>
 or send a letter to Creative Commons, 543 Howard Street, 5th Floor, San
 Francisco, California, 94105, USA.
 </code></p>
@@ -299,7 +299,8 @@ May I publish my own version of AKFQuiz?
 <p>
 Yes, it's free software. You have to publish it under the same 
 license terms, which means you have to make the source code of your 
-version available. Of course you have to keep the copyright notice.
+version available. Of course you have to keep the copyright notice and 
+you should add your own.
 </p>
 
 <p>
@@ -375,7 +376,7 @@ The program is licensed under the GPL, not under a book about the GPL!
 I don't want to say, that your book says something wrong, but since a 
 book tries to make things easier to understand, it simplifies things. 
 But you cannot take these simplifications and say, that's what the GPL 
-says. Please read the GPL itselve!
+says. Please read the GPL itself!
 </p>
 
 <p id="moreGPL" class="question"><strong>
@@ -437,14 +438,12 @@ No. Grquiz may be the best choice for most people, but not for everybody.
 </p>
 
 <p> 
-Grquiz is the best choice for a desktop user, who lives in western
-Europe. But people, who want to use something interactively over the
+Grquiz is the best choice for a desktop user. 
+But people, who want to use something interactively over the
 network can't use grquiz, but scrquiz can be used via telnet or ssh.
 And scrquiz is more portable to other computers, it can even handle very
-small text-displays. Grquiz is also limited to western characters.
-Quizfiles for languages with other letters cannot be used with grquiz,
-but the system  may be configured in a way, that they can be used with
-scrquiz. Also scrquiz is probably the better choice for blind users -
+small text-displays.
+Also scrquiz is probably the better choice for blind users -
 although linequiz may be the best for them... 
 </p>
 
@@ -453,13 +452,7 @@ I get an error message, saying the a required SDL.DLL is missing.
 </strong></p>
 
 <p> 
-Then you are trying to use grquiz under ReactOs or Windows.
-You can get that needed file from <a
-href="http://www.libsdl.org/download-1.2.php">http://www.libsdl.org/download-1.2.php</a>.
-You need the "Runtime Library" for "Win32" (that can also be used on 
-ReactOS). Unpack the package and put the file SDL.DLL into your System32
-folder. That is depending on your system "C:\REACTOS\System32" or 
-"C:\Windows\System32" or "C:\WinNT\System32". 
+This should not happen anymore. Please update your AKFQuiz package.
 </p>
 
 <p id="ldd" class="question"><strong> 
@@ -600,7 +593,7 @@ Scrquiz sometimes hang.
 That's a known bug in older versions. It happens, when there is a long 
 expression without spaces in it, which doesn't fit in the display - for 
 example a long Internet-address.
-It's hopefilly fixed in 4.2.1.
+It's hopefully fixed in 4.2.1.
 </p>
 
 <p>
