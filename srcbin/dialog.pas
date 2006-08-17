@@ -8,6 +8,8 @@
 *
 * This unit was originally written for AKFQuiz
 *
+* $Id: dialog.pas,v 1.2 2006/08/17 08:27:58 akf Exp $
+*
 * Copyright (c) 2003-2004 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * This Unit is free software; you can redistribute it and/or modify

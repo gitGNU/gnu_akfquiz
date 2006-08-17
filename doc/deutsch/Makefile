@@ -1,3 +1,5 @@
+# $Id: Makefile,v 1.3 2006/08/17 08:27:58 akf Exp $
+
 TXTFILES=mkquiz.txt scrquiz.txt grquiz.txt akfquiz.txt cgiquiz.txt \
          linequiz.txt gtkquizchooser.txt
 

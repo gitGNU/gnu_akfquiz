@@ -2,6 +2,8 @@
 * ppm2pas
 * converts from a PPM (P6) file into FreePascal code
 *
+* $Id: ppm2pas.pas,v 1.5 2006/08/17 08:27:58 akf Exp $
+*
 * Copyright (c) 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal

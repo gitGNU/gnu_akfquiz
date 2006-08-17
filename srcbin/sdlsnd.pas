@@ -2,6 +2,8 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
+* $Id: sdlsnd.pas,v 1.2 2006/08/17 08:27:58 akf Exp $
+*
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal and SDL4FreePascal

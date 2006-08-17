@@ -1,6 +1,9 @@
 {
 * qsys (unit)
-* Copyright (c) 2004-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
+*
+* $Id: qsys.pas,v 1.3 2006/08/17 08:27:58 akf Exp $
+*
+* Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal or GNU-Pascal
 *

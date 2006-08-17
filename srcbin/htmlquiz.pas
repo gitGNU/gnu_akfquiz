@@ -1,5 +1,8 @@
 {
 * htmlquiz (unit)
+*
+* $Id: htmlquiz.pas,v 1.2 2006/08/17 08:27:58 akf Exp $
+*
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal or GNU-Pascal

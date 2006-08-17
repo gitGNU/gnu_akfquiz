@@ -1,3 +1,5 @@
+# $Id: Makefile,v 1.3 2006/08/17 08:27:58 akf Exp $
+
 SHELL = /bin/sh
 
 all: en de
@@ -25,6 +27,10 @@ clean:
 	$(MAKE) -C deutsch clean
 
 distclean: clean
+
+mostlyclean: clean
+
+maintainer-clean: clean
 
 new: distclean
 

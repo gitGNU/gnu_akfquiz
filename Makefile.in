@@ -1,9 +1,10 @@
+# $Id: Makefile.in,v 1.2 2006/08/17 08:27:58 akf Exp $
+#
 # this Makefile is just a glue to the others
 # if you want to configure things, use the script configure 
 # and edit the Makefiles in srcbin
 
 VERSION=@VERSION@
-SVERSION=@SVERSION@
 SYS=@SYS@
 ARCH=@ARCH@
 
@@ -27,6 +28,22 @@ windows:
 install:
 	$(MAKE) -C srcbin install
 
+# install for POSIX machines
+install-strip:
+	$(MAKE) -C srcbin install-strip
+
+# install for POSIX machines
+installdirs:
+	$(MAKE) -C srcbin installdirs
+
+#install-html:
+
+#install-dvi:
+
+#install-pdf:
+
+#install-ps:
+
 # reverse of install 
 uninstall:
 	$(MAKE) -C srcbin uninstall
@@ -43,6 +60,8 @@ install-quizzes:
 doc: FORCE
 	$(MAKE) -C doc
 
+#dvi:
+
 html: FORCE
 	$(MAKE) -C doc html
 
@@ -52,11 +71,17 @@ txt:
 pdf:
 	$(MAKE) -C doc pdf
 
+#ps:
+
 clean:
 	$(MAKE) -C srcbin clean
 	$(MAKE) -C doc clean
 	-rm -f *.old
 	-rm -f autopackage/*.old
+
+mostlyclean:
+	$(MAKE) -C srcbin mostlyclean
+	$(MAKE) -C doc mostlyclean
 
 veryclean:
 	$(MAKE) -C srcbin veryclean
@@ -71,17 +96,20 @@ distclean:
 	-rm -f *.old
 	-rm -f autopackage/*.old
 
-new: distclean
+maintainer-clean: distclean
+
+new: maintainer-clean
 
 config:
 	./configure
 
 
-
 # following targets are useful for my system
 # they need not fit your needs, so be careful!
 
-pkg: distclean
+pkg: dist
+
+dist: distclean
 	env GZIP=--best tar czvCf .. \
 	  ../akfquiz-$(VERSION).main.tar.gz \
 	      akfquiz/start \
@@ -97,7 +125,7 @@ pkg: distclean
 	      akfquiz/html/ \
 	      akfquiz/srcbin/
 
-pkg-bin: all
+dist-bin: all
 	env GZIP=--best tar czvCf .. \
 	  ../akfquiz-$(VERSION).bin.$(SYS).$(ARCH).tar.gz \
 	      akfquiz/start \
@@ -116,7 +144,7 @@ pkg-bin: all
 	      akfquiz/srcbin/quizstat \
 	      akfquiz/srcbin/akfquiz
 
-pkg-mostbin: most
+dist-mostbin: most
 	env GZIP=--best tar czvCf .. \
 	  ../akfquiz-$(VERSION).bin.$(SYS).$(ARCH).tar.gz \
 	      akfquiz/start \
@@ -134,7 +162,7 @@ pkg-mostbin: most
 	      akfquiz/srcbin/akfquiz
 
 # INNO Setup
-pkg-windows: html pdf
+dist-windows: html pdf
 	$(MAKE) -C srcbin veryclean
 	# export and convert textfiles
 	cp doc/COPYING srcbin/w32/COPYING.txt

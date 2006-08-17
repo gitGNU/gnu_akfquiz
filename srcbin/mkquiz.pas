@@ -6,6 +6,8 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
+* $Id: mkquiz.pas,v 1.5 2006/08/17 08:27:58 akf Exp $
+*
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: GNU-Pascal or FreePascal

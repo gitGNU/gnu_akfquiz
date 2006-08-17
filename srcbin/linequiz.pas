@@ -4,6 +4,8 @@
 * usable for blind users (braile line or speech synthesizer)
 * usable as backend for other applications
 *
+* $Id: linequiz.pas,v 1.5 2006/08/17 08:27:58 akf Exp $
+*
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal or GNU-Pascal 

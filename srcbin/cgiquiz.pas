@@ -7,6 +7,8 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
+* $Id: cgiquiz.pas,v 1.8 2006/08/17 08:27:58 akf Exp $
+*
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: GNU-Pascal or FreePascal

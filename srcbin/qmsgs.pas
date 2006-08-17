@@ -1,5 +1,8 @@
 {
 * qmsgs (unit)
+*
+* $Id: qmsgs.pas,v 1.3 2006/08/17 08:27:58 akf Exp $
+*
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Thanks to

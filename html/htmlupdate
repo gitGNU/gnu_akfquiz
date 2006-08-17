@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# $Id: htmlupdate,v 1.2 2006/08/17 08:27:58 akf Exp $
+
 cd $(dirname $0)
 
 ../srcbin/mkquiz --auto

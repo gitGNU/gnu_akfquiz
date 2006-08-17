@@ -1,8 +1,10 @@
+# $Id: common.in,v 1.2 2006/08/17 08:27:58 akf Exp $
 
 #####################################################################
 # change here:
 #####################################################################
 
+srcdir      = @srcdir@
 prefix      = @prefix@
 exec_prefix = $(prefix)
 datarootdir = $(prefix)/share
@@ -26,6 +28,8 @@ man5dedir = $(mandir)/de/man5
 man8dedir = $(mandir)/de/man8
 
 INSTALL = install
+VPATH = $(srcdir)
+SVERSION = @SVERSION@
 
 ######################################################################
 
@@ -119,6 +123,8 @@ clean:
 	-rm -f *.AW *.OW *.OWR *.PPW *.RES
 	-$(MAKE) -C w32 clean
 
+mostlyclean: clean
+
 veryclean: clean
 	-rm -f quizhg.inc titimg.inc ppm2pas
 	-rm -f errorsnd.inc infosnd.inc introsnd.inc rightsnd.inc \
@@ -133,10 +139,12 @@ distclean: veryclean
 	-rm -f common.mak Makefile
 	-dos2unix ../share/akfquiz/*.akfquiz
 
-new: distclean
+maintainer-clean: distclean
+
+new: maintainer-clean
 
 # just for Unix
-install: all
+installdirs:
 	@echo "*"
 	@echo "* creating directories"
 	@echo "*"
@@ -151,6 +159,9 @@ install: all
 	test -d $(DESTDIR)$(man8dedir)|| $(INSTALL) -d $(DESTDIR)$(man8dedir)
 	test -d $(DESTDIR)$(quizpath) || $(INSTALL) -d -m 1777 $(DESTDIR)$(quizpath)
 	test -d $(DESTDIR)$(htmlpath) || $(INSTALL) -d $(DESTDIR)$(htmlpath)
+
+# just for Unix
+install: all installdirs
 	@echo "*"
 	@echo "* installing programs"
 	@echo "*"
@@ -166,23 +177,23 @@ install: all
 	@echo "*"
 	@echo "* installing manpages"
 	@echo "*"
-	$(INSTALL) -m 0644 ../doc/english/mkquiz.1 $(DESTDIR)$(man1dir)
-	$(INSTALL) -m 0644 ../doc/english/scrquiz.1 $(DESTDIR)$(man1dir)
-	$(INSTALL) -m 0644 ../doc/english/grquiz.1 $(DESTDIR)$(man1dir)
-	$(INSTALL) -m 0644 ../doc/english/linequiz.1 $(DESTDIR)$(man1dir)
-	$(INSTALL) -m 0644 ../doc/english/gtkquizchooser.1 $(DESTDIR)$(man1dir)
-	$(INSTALL) -m 0644 ../doc/english/cgiquiz.8 $(DESTDIR)$(man8dir)
-	$(INSTALL) -m 0644 ../doc/english/akfquiz.5 $(DESTDIR)$(man5dir)
-	$(INSTALL) -m 0644 ../doc/deutsch/mkquiz.1 $(DESTDIR)$(man1dedir)
-	$(INSTALL) -m 0644 ../doc/deutsch/scrquiz.1 $(DESTDIR)$(man1dedir)
-	$(INSTALL) -m 0644 ../doc/deutsch/grquiz.1 $(DESTDIR)$(man1dedir)
-	$(INSTALL) -m 0644 ../doc/deutsch/linequiz.1 $(DESTDIR)$(man1dedir)
-	$(INSTALL) -m 0644 ../doc/deutsch/gtkquizchooser.1 $(DESTDIR)$(man1dedir)
-	$(INSTALL) -m 0644 ../doc/deutsch/akfquiz.5 $(DESTDIR)$(man5dedir)
+	-$(INSTALL) -m 0644 ../doc/english/mkquiz.1 $(DESTDIR)$(man1dir)
+	-$(INSTALL) -m 0644 ../doc/english/scrquiz.1 $(DESTDIR)$(man1dir)
+	-$(INSTALL) -m 0644 ../doc/english/grquiz.1 $(DESTDIR)$(man1dir)
+	-$(INSTALL) -m 0644 ../doc/english/linequiz.1 $(DESTDIR)$(man1dir)
+	-$(INSTALL) -m 0644 ../doc/english/gtkquizchooser.1 $(DESTDIR)$(man1dir)
+	-$(INSTALL) -m 0644 ../doc/english/cgiquiz.8 $(DESTDIR)$(man8dir)
+	-$(INSTALL) -m 0644 ../doc/english/akfquiz.5 $(DESTDIR)$(man5dir)
+	-$(INSTALL) -m 0644 ../doc/deutsch/mkquiz.1 $(DESTDIR)$(man1dedir)
+	-$(INSTALL) -m 0644 ../doc/deutsch/scrquiz.1 $(DESTDIR)$(man1dedir)
+	-$(INSTALL) -m 0644 ../doc/deutsch/grquiz.1 $(DESTDIR)$(man1dedir)
+	-$(INSTALL) -m 0644 ../doc/deutsch/linequiz.1 $(DESTDIR)$(man1dedir)
+	-$(INSTALL) -m 0644 ../doc/deutsch/gtkquizchooser.1 $(DESTDIR)$(man1dedir)
+	-$(INSTALL) -m 0644 ../doc/deutsch/akfquiz.5 $(DESTDIR)$(man5dedir)
 	@echo "*"
 	@echo "* installing Icon"
 	@echo "*"
-	$(INSTALL) -m 0644 AKFQuiz.xpm $(DESTDIR)$(icondir)
+	-$(INSTALL) -m 0644 AKFQuiz.xpm $(DESTDIR)$(icondir)
 	@echo "*"
 	@echo "* installing documentation"
 	@echo "*"
@@ -215,6 +226,8 @@ install: all
 	@echo "* HINT: install the CGI program with 'make install-cgi'"
 	@echo "* the CGI-path ist configured to $(cgidir)"
 	@echo "*"
+
+install-strip: install
 
 install-cgi: cgiquiz
 	$(INSTALL) -d $(DESTDIR)$(cgidir)
