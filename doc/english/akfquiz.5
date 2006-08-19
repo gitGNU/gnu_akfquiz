@@ -55,7 +55,7 @@ Lines before that keyword are ignored.
 .IP end
 The keyword end should be used at the end of a quiz-file. Lines after that 
 keyword will be ignored. So AKFQuiz files can be embedded in other 
-textoriented file formats.
+text-oriented file formats.
 
 .SS line-oriented keywords:
 
@@ -69,7 +69,7 @@ the
 - not the one, who made a quiz-file of it.
 
 .IP authorlink: 
-Link to the homepage of the autor, or the email adress. This should be 
+Link to the homepage of the author, or the email address. This should be 
 given in form of an URI, ie. with the protocol name. For example:
 .I http://akfoerster.de/
 or
@@ -101,7 +101,7 @@ the translator, if it is a translation.
 
 .IP charset:
 Which charset encoding is used. (The charset is not the font!)
-The default is US-ASCII any non-ASCII characte is filtered out.
+The default is US-ASCII any non-ASCII character is filtered out.
 
 supported: UTF-8, ISO-8859-1, ISO-8859-15, IBM850, Windows-1252, 
 US-ASCII
@@ -121,7 +121,7 @@ supported languages: en, de, da, it
 
 .IP rtl:
 can be set to "yes", "true" or "1". This means the main text is written 
-in a right-to-left language, eg. hebrew or arabic.
+in a right-to-left language, eg. Hebrew or Arabic.
 
 .B Experimental feature
 
@@ -158,7 +158,7 @@ be used by scripts.
 .I Example:
 assessmentlink: schulnote.html?
 
-This example-file calculates a school-mark (german school-system).
+This example-file calculates a school-mark (German school-system).
 It uses JavaScript. Of course you can also use CGI or PHP scripts.
 
 .IP htmlcode:
@@ -333,11 +333,11 @@ used as alternatives for different output formats.
 The Web based variants of AKFQuiz automatically recognize most URI 
 schemes when "htmlcode" is not set. 
 URIs may be surrounded by spaces or tabs or quote characters (") or 
-enclosed with <...>. When the URI doesn't start with a known protocal 
-idetifier, you can prepend it with "URI:" or "URL:", so you can have 
+enclosed with <...>. When the URI doesn't start with a known protocol 
+identifier, you can prepend it with "URI:" or "URL:", so you can have 
 relative addresses. Protocol identifiers must be given in lower case 
-letters, while the prefixes "URI:" or "URL:" mut be in upper case 
-letters. "URN:" can be used both, uper case or lower case.
+letters, while the prefixes "URI:" or "URL:" must be in upper case 
+letters. "URN:" can be used both, upper case or lower case.
 
 Images can be directly included into the webpage by using the prefix 
 "image:".
