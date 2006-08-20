@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.5 2006/08/17 08:27:58 akf Exp $
+# $Id: configure,v 1.6 2006/08/20 08:16:15 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -84,14 +84,27 @@ getcompiler() {
   fi
   }
 
-convert_rc() {
-  mv "$1" "$1.old"
-  sed < "$1.old" > "$1" \
+#convert_rc() {
+#  mv "$1" "$1.old"
+#  sed < "$1.old" > "$1" \
+#    -e "s/^\(FILEVERSION\).*/\1 $MAINVERSION, $SUBVERSION, $REVISION, 0/" \
+#    -e "s/^\(PRODUCTVERSION\).*/\1 $MAINVERSION, $SUBVERSION, $REVISION, 0/" \
+#    -e "s/\(.*VALUE \"FileVersion\", *\)\".*\"/\1\"$VERSION$VARIANT\"/" \
+#    -e "s/\(.*VALUE \"ProductName\", *\)\".*\"/\1\"$NAME\"/" \
+#    -e "s/\(.*VALUE \"ProductVersion\", *\)\".*\"/\1\"$VERSION$VARIANT\"/"
+#    }
+
+create_rc() {
+  sed < "srcbin/w32/rc.in" > "srcbin/w32/$1.rc" \
     -e "s/^\(FILEVERSION\).*/\1 $MAINVERSION, $SUBVERSION, $REVISION, 0/" \
     -e "s/^\(PRODUCTVERSION\).*/\1 $MAINVERSION, $SUBVERSION, $REVISION, 0/" \
+    -e "s/\(.*VALUE \"FileDescription\", *\)\".*\"/\1\"$2\"/" \
     -e "s/\(.*VALUE \"FileVersion\", *\)\".*\"/\1\"$VERSION$VARIANT\"/" \
-    -e "s/\(.*VALUE \"ProductName\", *\)\".*\"/\1\"$NAME\"/" \
-    -e "s/\(.*VALUE \"ProductVersion\", *\)\".*\"/\1\"$VERSION$VARIANT\"/"
+    -e "s/\(.*VALUE \"InternalName\", *\)\".*\"/\1\"$1\"/" \
+    -e "s/\(.*VALUE \"OriginalFilename\", *\)\".*\"/\1\"$1.exe\"/" \
+    -e "s/\(.*VALUE \"Comments\", *\)\".*\"/\1\"$3\"/" \
+    -e "s/\(.*VALUE \"ProductName\", *\)\".*\"/\1\"$NAME$VARIANT\"/" \
+    -e "s/\(.*VALUE \"ProductVersion\", *\)\".*\"/\1\"$VERSION\"/"
     }
 
 notsupported() {
@@ -214,9 +227,12 @@ sed < srcbin/w32/akfquiz.iss.old > srcbin/w32/akfquiz.iss \
     -e "s/^\(OutputBaseFileName=\).*/\1akfquiz$VARIANT-${VERSION}-w32/" \
     -e "s/^\(VersionInfoVersion=\).*/\1$VERSION/"
 
-convert_rc srcbin/w32/scrquiz.rc
-convert_rc srcbin/w32/mkquiz.rc
-convert_rc srcbin/w32/cgiquiz.rc
-convert_rc srcbin/w32/linequiz.rc
-convert_rc srcbin/w32/grquiz.rc
-convert_rc srcbin/w32/wquizchooser.rc
+create_rc scrquiz "scrquiz: AKFQuiz in text-mode" "ported from GNU\/Linux"
+create_rc mkquiz "mkquiz: make HTML quiz-file for JavaScript" \
+          "ported from GNU\/Linux"
+create_rc cgiquiz "cgiquiz: CGI program for AKFQuiz" "ported from GNU\/Linux"
+create_rc linequiz "linequiz: AKFQuiz line oriented" "ported from GNU\/Linux"
+create_rc grquiz "grquiz: AKFQuiz in graphic-mode" "ported from GNU\/Linux"
+create_rc wquizchooser "AKFQuiz quizchooser" \
+          "use gtkquizchooser for GTK+ environments"
+
