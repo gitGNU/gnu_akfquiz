@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.6 2006/08/20 08:16:15 akf Exp $
+# $Id: configure,v 1.7 2006/08/20 08:20:25 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -83,16 +83,6 @@ getcompiler() {
   else error "neither gpc nor fpc found"
   fi
   }
-
-#convert_rc() {
-#  mv "$1" "$1.old"
-#  sed < "$1.old" > "$1" \
-#    -e "s/^\(FILEVERSION\).*/\1 $MAINVERSION, $SUBVERSION, $REVISION, 0/" \
-#    -e "s/^\(PRODUCTVERSION\).*/\1 $MAINVERSION, $SUBVERSION, $REVISION, 0/" \
-#    -e "s/\(.*VALUE \"FileVersion\", *\)\".*\"/\1\"$VERSION$VARIANT\"/" \
-#    -e "s/\(.*VALUE \"ProductName\", *\)\".*\"/\1\"$NAME\"/" \
-#    -e "s/\(.*VALUE \"ProductVersion\", *\)\".*\"/\1\"$VERSION$VARIANT\"/"
-#    }
 
 create_rc() {
   sed < "srcbin/w32/rc.in" > "srcbin/w32/$1.rc" \
