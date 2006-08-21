@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.8 2006/08/21 08:55:34 akf Exp $
+# $Id: configure,v 1.9 2006/08/21 11:00:16 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -210,7 +210,7 @@ fi
 
 # Windows stuff
 
-sed < srcbin/w32/innosetup.in > srcbin/w32/akfquiz.iss \
+sed < srcbin/w32/innosetup.in > srcbin/w32/innosetup.iss \
     -e "s/^\(AppName=\).*/\1$NAME$VARIANT/" \
     -e "s/^\(AppVerName=\).*/\1$NAME$VARIANT $VERSION/" \
     -e "s/^\(OutputBaseFileName=\).*/\1akfquiz$VARIANT-${VERSION}-w32/" \

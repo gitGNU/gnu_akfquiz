@@ -94,19 +94,19 @@ Source: "..\scrquiz.exe";     DestDir: "{app}\bin";
 Source: "..\linequiz.exe";    DestDir: "{app}\bin";
 Source: "..\grquiz.exe";      DestDir: "{app}\bin";
 Source: "..\wquizchooser.exe";DestDir: "{app}\bin";
-Source: "..\..\..\SDL\SDL.dll";  DestDir: "{app}\bin";
-Source: "..\..\..\SDL\README-SDL.txt";DestDir: "{app}\doc";
+Source: "..\..\..\SDL\SDL.dll";  DestDir: "{app}\bin"; Flags: skipifsourcedoesntexist;
+Source: "..\..\..\SDL\README-SDL.txt";DestDir: "{app}\doc"; Flags: skipifsourcedoesntexist;
 Source: "AKFQuiz.ico";        DestDir: "{app}";
 Source: "..\cgiquiz.exe";     DestDir: "{app}\bin"; Tasks: cgi
 Source: "..\quizstat";        DestDir: "{app}\bin";
-Source: "..\..\share\akfquiz\Linux-en.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder
-Source: "..\..\share\akfquiz\Linux-de.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder
-Source: "..\..\share\akfquiz\Schokolade-de.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder
-Source: "..\..\share\akfquiz\Christentum-de.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder
-Source: "..\..\share\akfquiz\Landtechnik.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder
-Source: "..\..\..\unfree\GPL-Quiz-en.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder; Tasks: unfreequiz
-Source: "..\..\..\unfree\debian-en.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder; Tasks: unfreequiz
-Source: "..\..\..\unfree\Amerika-de.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder; Tasks: unfreequiz
+Source: "Linux-en.akfquiz";   DestDir: "{app}\share\akfquiz"; Flags: promptifolder
+Source: "Linux-de.akfquiz";   DestDir: "{app}\share\akfquiz"; Flags: promptifolder
+Source: "Schokolade-de.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder
+Source: "Christentum-de.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder
+Source: "Landtechnik.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder
+Source: "GPL-Quiz-en.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder skipifsourcedoesntexist; Tasks: unfreequiz
+Source: "debian-en.akfquiz";  DestDir: "{app}\share\akfquiz"; Flags: promptifolder skipifsourcedoesntexist; Tasks: unfreequiz
+Source: "Amerika-de.akfquiz"; DestDir: "{app}\share\akfquiz"; Flags: promptifolder skipifsourcedoesntexist; Tasks: unfreequiz
 Source: "..\..\html\*.*";     DestDir: "{app}\html";
 Source: "..\..\doc\*.*";      DestDir: "{app}\doc";
 Source: "..\..\doc\english\*.*"; DestDir: "{app}\doc\english";
