@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.3 2006/08/21 11:00:16 akf Exp $
+# $Id: Makefile.in,v 1.4 2006/08/22 09:46:54 akf Exp $
 #
 # this Makefile is just a glue to the others
 # if you want to configure things, use the script configure 
@@ -169,8 +169,8 @@ dist-windows: html pdf
 	cp doc/deutsch/COPYING.de srcbin/w32/COPYING.de.txt
 	cp share/akfquiz/*.akfquiz srcbin/w32/
 	-cp ../unfree/*.akfquiz srcbin/w32/
-	unix2dos srcbin/w32/*.txt
-	unix2dos srcbin/w32/*.akfquiz
+	-unix2dos srcbin/w32/*.txt
+	-unix2dos srcbin/w32/*.akfquiz
 	iscc srcbin/w32/innosetup.iss
 
 # under windows you could use MSYS or Cygwin for scripts
