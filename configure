@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.9 2006/08/21 11:00:16 akf Exp $
+# $Id: configure,v 1.10 2006/08/22 09:48:16 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -98,7 +98,7 @@ create_rc() {
     }
 
 notsupported() {
-  warn "not supported: $1"
+  warn "configure: warning: $1 not supported"
   }
 
 #####################################################################
@@ -133,6 +133,8 @@ do
     --xarm)        COMPILER=xarm ;;
     --enable-*)    ;; # ignore (see GNU Coding Standards)
     --prefix=*)    PREFIX=`echo "$1" | sed -e "s/--prefix=\(.*\)/\1/"` ;;
+    --mandir=*)    notsupported --mandir ;; # yet to be implemented
+    --infodir=*)   ;; # ignore
     --cgipath=*)   CGIPATH=`echo "$1" | sed -e "s/--cgipath=\(.*\)/\1/"` ;;
     --variant=*)   VARIANT=-`echo "$1" | sed -e "s/--variant=\(.*\)/\1/"` ;;
     --arch=*)      ARCH=`echo "$1" | sed -e "s/--arch=\(.*\)/\1/"` ;;
