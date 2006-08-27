@@ -1,4 +1,4 @@
-# $Id: common.in,v 1.3 2006/08/21 11:00:16 akf Exp $
+# $Id: common.in,v 1.4 2006/08/27 06:47:35 akf Exp $
 
 #####################################################################
 # change here:
@@ -229,7 +229,7 @@ install: all installdirs
 install-strip: install
 
 install-cgi: cgiquiz
-	$(INSTALL) -d $(DESTDIR)$(cgidir)
+	test -d $(DESTDIR)$(cgidir) || $(INSTALL) -d $(DESTDIR)$(cgidir)
 	$(INSTALL) -m 0755 -s cgiquiz $(DESTDIR)$(cgidir)
 
 # searches for Quizfiles and installs them as programs

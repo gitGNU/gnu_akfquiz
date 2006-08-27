@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.3 2006/08/17 08:27:58 akf Exp $
+* $Id: qmsgs.pas,v 1.4 2006/08/27 06:47:35 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -32,6 +32,7 @@
 
 {$IfDef FPC}
   {$Mode Delphi}
+  {$LongStrings on}
   {$Smartlink on}
 {$EndIf}
 

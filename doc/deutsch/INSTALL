@@ -2,6 +2,7 @@ AKFQuiz
 
 Homepage:
 http://akfoerster.de/akfquiz/de
+http://akfquiz.nongnu.org/
 
 Kontakt:
 akfquiz@akfoerster.de
@@ -89,7 +90,7 @@ Das Skript "configure" akzeptiert die folgenden Parameter:
 Windows-Benutzer:
 
 Um configure ausführen zu können, benötigen Sie eine Bourne Shell. 
-Sie können aber auch ohne diese versuchen, die Programme zu kompilieren.
+Es wurde mit der Umgebung MSys und MinGW getestet.
 Benutzen Sie "make windows". Benutzen Sie aber nicht "make install" oder
 "make install-cgi".
 

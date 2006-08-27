@@ -2,7 +2,7 @@
 * scrquiz   (was crtquiz)
 * screen/terminal oriented quiz program
 *
-* $Id: scrquiz.pas,v 1.5 2006/08/17 08:27:58 akf Exp $
+* $Id: scrquiz.pas,v 1.6 2006/08/27 06:47:35 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -42,6 +42,7 @@
 
 {$IfDef FPC}
   {$Mode Delphi}
+  {$LongStrings on}
 
   {$IfDef Win32}
     {$AppType Console}
@@ -961,6 +962,7 @@ case display of
   ISOdisplay:  cnv := UTF8toISO1;
   OEMdisplay:  cnv := UTF8toOEM;
   UTF8display: cnv := noconversion;
+  otherwise    cnv := noconversion;  
   end;
 
 if quizfileList=NIL then fillQuizfileList;

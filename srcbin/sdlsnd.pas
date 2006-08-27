@@ -2,7 +2,7 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
-* $Id: sdlsnd.pas,v 1.2 2006/08/17 08:27:58 akf Exp $
+* $Id: sdlsnd.pas,v 1.3 2006/08/27 06:47:35 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -24,6 +24,11 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 *}
+
+{$IfDef FPC}
+  {$Mode Delphi}
+  {$LongStrings on}
+{$EndIf}
 
 unit sdlsnd;
 

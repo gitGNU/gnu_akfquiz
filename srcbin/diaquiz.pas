@@ -2,7 +2,7 @@
 * diaquiz
 * quiz program based on "Xdialog"
 *
-* $Id: diaquiz.pas,v 1.5 2006/08/17 08:27:58 akf Exp $
+* $Id: diaquiz.pas,v 1.6 2006/08/27 06:47:35 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -25,6 +25,11 @@
 * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA
 *}
 
+{$IfDef FPC}
+  {$Mode Delphi}
+  {$LongStrings on}
+{$EndIf}
+
 {$R+} { Range checking }
 {$I-}
 
@@ -32,7 +37,6 @@ program diaquiz(input, output, stderr);
 
 {$IfDef FPC}
   uses uakfquiz, qmsgs, qsys, dialog, SysUtils;
-  {$LongStrings on}
 {$EndIf}
 
 {$IfDef __GPC__}

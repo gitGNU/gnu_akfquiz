@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.4 2006/08/22 09:46:54 akf Exp $
+# $Id: Makefile.in,v 1.5 2006/08/27 06:47:35 akf Exp $
 #
 # this Makefile is just a glue to the others
 # if you want to configure things, use the script configure 
@@ -7,6 +7,9 @@
 VERSION=@VERSION@
 SYS=@SYS@
 ARCH=@ARCH@
+
+# srcdir is not supported yet
+srcdir=@srcdir@
 
 SHELL = /bin/sh
 

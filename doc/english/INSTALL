@@ -2,6 +2,7 @@ AKFQuiz
 
 Homepage:
 http://akfoerster.de/akfquiz/
+http://akfquiz.nongnu.org/
 
 Contact:
 akfquiz@akfoerster.de
@@ -84,8 +85,8 @@ The configure script accepts the following parameters:
 
 Windows Users:
 
-The configure script needs a Bourne Shell. You may try to compile the 
-programs anyway with "make windows". Do not use "make install" or 
+The configure script needs a Bourne Shell. It is tested with MSys and 
+MinGW as environment. Use "make windows". Do not use "make install" or 
 "make install-cgi".
 
 

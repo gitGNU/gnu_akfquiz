@@ -2,7 +2,7 @@
 * clgrph (unit)
 * functions for the classical graph unit for grquiz
 *
-* $Id: clgrph.pas,v 1.2 2006/08/17 08:27:58 akf Exp $
+* $Id: clgrph.pas,v 1.3 2006/08/27 06:47:35 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -29,6 +29,11 @@
 
 { compatiblity definition }
 {$IfDef _WIN32} {$Define Win32} {$EndIf}
+
+{$IfDef FPC}
+  {$Mode Delphi}
+  {$LongStrings on}
+{$EndIf}
 
 {$IfDef FPC} {$IfDef Unix}
   {$Define FPCSVGALIB} { Under FPC + Unix SVGAlib is used }
