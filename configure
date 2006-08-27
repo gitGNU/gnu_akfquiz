@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.10 2006/08/22 09:48:16 akf Exp $
+# $Id: configure,v 1.11 2006/08/27 06:46:16 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -22,7 +22,8 @@
 # configure here:
 
 PREFIX=/usr/local
-CGIPATH=/usr/lib/cgi-bin
+CGIDIR=/usr/lib/cgi-bin
+EXAMDIR=/var/lib/akfquiz
 
 # for modified versions use a variant-name please
 #VARIANT=""
@@ -52,7 +53,8 @@ options:
   -h | --help
   --srcdir=
   --prefix=
-  --cgipath=
+  --cgidir=
+  --examdir=
   --variant=
   --arch=
   --sys=
@@ -118,7 +120,8 @@ do
     -h | --help)   help ;;
     --target=gpc | --target=fpc | --target=xw32 | --target=xarm)
                    error "old usage for --target no longer supported!" ;;
-    --srcdir=*)    SRCDIR=`echo "$1" | sed -e "s/--srcdir=\(.*\)/\1/"` ;;
+    #--srcdir=*)    SRCDIR=`echo "$1" | sed -e "s/--srcdir=\(.*\)/\1/"` ;;
+    --srcdir=*)    notsupported --srcdir ;; # yet to be implemented
     --build=*)     notsupported --build ;; # yet to be implemented
     --host=*)      notsupported --host ;;  # yet to be implemented
     --target=*)    notsupported --target ;; # yet to be implemented
@@ -134,8 +137,12 @@ do
     --enable-*)    ;; # ignore (see GNU Coding Standards)
     --prefix=*)    PREFIX=`echo "$1" | sed -e "s/--prefix=\(.*\)/\1/"` ;;
     --mandir=*)    notsupported --mandir ;; # yet to be implemented
-    --infodir=*)   ;; # ignore
-    --cgipath=*)   CGIPATH=`echo "$1" | sed -e "s/--cgipath=\(.*\)/\1/"` ;;
+    --infodir=*)    ;; # ignore - not used
+    --sysconfdir=*) ;; # ignore - not used
+    --libexecdir=*) ;; # ignore - not used
+    --cgidir=*)    CGIDIR=`echo "$1" | sed -e "s/--cgidir=\(.*\)/\1/"` ;;
+    --cgipath=*)   CGIDIR=`echo "$1" | sed -e "s/--cgipath=\(.*\)/\1/"` ;;
+    --examdir=*)   EXAMDIR=`echo "$1" | sed -e "s/--examdir=\(.*\)/\1/"` ;;
     --variant=*)   VARIANT=-`echo "$1" | sed -e "s/--variant=\(.*\)/\1/"` ;;
     --arch=*)      ARCH=`echo "$1" | sed -e "s/--arch=\(.*\)/\1/"` ;;
     --sys=*)       SYS=`echo "$1" | sed -e "s/--sys=\(.*\)/\1/"` ;;
@@ -162,25 +169,31 @@ esac
 VERSION=$MAINVERSION.$SUBVERSION.$REVISION
 SVERSION=$MAINVERSION$SUBVERSION$REVISION
 
+#if [ ! -r $SRCDIR/srcbin/uakfquiz.pas ]
+#then
+#  error cannot find sources in srcdir "$SRCDIR"
+#fi
+
 # show settings:
 cat << AMEN
-SRCDIR:   $SRCDIR (relative to srcbin/)
-PREFIX:   $PREFIX
-CGIPATH:  $CGIPATH
-NAME:     $NAME
-VARIANT:  $VARIANT
-VERSION:  $VERSION
-SVERSION: $SVERSION
-COMPILER: $COMPILER
-SYS:      $SYS
-ARCH:     $ARCH
-BUGMAIL:  $BUGMAIL
+prefix:   $PREFIX
+cgidir:   $CGIDIR
+EXAMDIR:  $EXAMDIR
+Name:     $NAME
+Variant:  $VARIANT
+Version:  $VERSION
+SVersion: $SVERSION
+Compiler: $COMPILER
+Sys:      $SYS
+Arch:     $ARCH
+BugMail:  $BUGMAIL
 AMEN
 
 # change to default directory
 cd $(dirname $0)
 
 sed < Makefile.in > Makefile \
+    -e "s%^\(srcdir *= *\).*%\1$SRCDIR%" \
     -e "s/ARCH=.*/ARCH=$ARCH/" \
     -e "s/SYS=.*/SYS=$SYS/" \
     -e "s/^\(VERSION *= *\).*/\1$VERSION/"
@@ -190,7 +203,7 @@ cp srcbin/Makefile.$COMPILER srcbin/Makefile
 sed < srcbin/common.in > srcbin/common.mak \
     -e "s%^\(srcdir *= *\).*%\1$SRCDIR%" \
     -e "s%^\(prefix *= *\).*%\1$PREFIX%" \
-    -e "s%^\(cgidir *= *\).*%\1$CGIPATH%" \
+    -e "s%^\(cgidir *= *\).*%\1$CGIDIR%" \
     -e "s/^\(SVERSION *= *\).*/\1$SVERSION/"
 
 cat > srcbin/config.inc <<AMEN
@@ -200,6 +213,7 @@ cat > srcbin/config.inc <<AMEN
 const AKFQuizName = '$NAME$VARIANT';
 const AKFQuizVersion = '$VERSION';
 const BugMail = '$BUGMAIL';
+const ExamDir = '$EXAMDIR';
 
 AMEN
 

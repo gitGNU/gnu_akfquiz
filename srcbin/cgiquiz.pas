@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.8 2006/08/17 08:27:58 akf Exp $
+* $Id: cgiquiz.pas,v 1.9 2006/08/27 06:46:16 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -39,6 +39,7 @@
 
 {$IfDef FPC}
   {$Mode Delphi}
+  {$LongStrings on}
 
   {$IfDef Win32}
     {$AppType Console}
@@ -46,6 +47,7 @@
 {$EndIf}
 
 {$I-}
+{$R+}
 {$X+}
 
 
@@ -100,6 +102,7 @@ type
       private
 	CGIElement : string255; { just one Element }
 	Home       : mystring;
+        Name       : string255;
 	AnsPoints  : pointsType;
 
       public
@@ -119,6 +122,7 @@ type
                              const ans: string); virtual;
     end;
 
+var ExamMode: boolean = false;
 
 var 
   CGI_PATH_INFO,
@@ -134,11 +138,21 @@ var
     QUERY_STRING_POS: LongInt;
 {$EndIf}
 
+function isLastElement: boolean;
+begin
+if CGI_QUERY_STRING=NIL
+  then isLastElement := true
+  else 
+   if QUERY_STRING_POS < Length(CGI_QUERY_STRING^)
+     then isLastElement := false
+     else isLastElement := true
+end;
+
 procedure GetCGIElement(var s: String255);
 var 
   i,err: integer;
   c, c1: char;
-  next: boolean;
+  nextElement: boolean;
 
   function getNextChar: char;
   begin
@@ -148,13 +162,11 @@ var
 
 begin { GetCGIElement }
 s := '';
-if (CGI_QUERY_STRING=NIL) or
-   (QUERY_STRING_POS>=Length(CGI_QUERY_STRING^))
-   then exit;
+if isLastElement then exit;
 
 repeat
   c := getNextChar;
-  next := (c='&'); { an encoded '&' doesn't hurt here yet }
+  nextElement := (c='&'); { an encoded '&' doesn't hurt here yet }
   if c='+' then c := ' ';
   if c='%' then { hexadecimal encoded }
     begin
@@ -164,8 +176,8 @@ repeat
     val('$'+c+c1, i, err); { convert them to an integer }
     c := chr(i) { and that integer to a char }
     end;
-  if not next then s := s + c
-until next or (QUERY_STRING_POS >= Length(CGI_QUERY_STRING^))
+  if not nextElement then s := s + c
+until nextElement or isLastElement
 end;
 
 procedure version;
@@ -321,6 +333,17 @@ if s='de' then lang := deutsch
              end
 end;
 
+{ prepare CGI_PATH_TRANSLATED when -exam or --exam is used }
+procedure prepareExam(l: integer);
+var s: mystring;
+begin
+ExamMode := true;
+
+s := CGI_PATH_INFO; 
+delete(s, 1, l);
+CGI_PATH_TRANSLATED := ExamDir + s
+end;
+
 { --------------------------------------------------------------------- }
 { Error handling procedures }
 
@@ -456,7 +479,13 @@ WriteLn(outp, '<form name="akfquiz" id="akfquiz" method="POST" action="',
 { remember the origin: }
 if GetEnvironmentVariable('HTTP_REFERER')<>'' then
   WriteLn(outp, '<input type="hidden" name="home" id="home" value="', 
-  	        GetEnvironmentVariable('HTTP_REFERER'), '"', cet)
+  	        GetEnvironmentVariable('HTTP_REFERER'), '"', cet);
+
+{ in ExamMode ask for Name }
+if ExamMode then
+  WriteLn(outp, '<div class="name"><label for="name">Name:</label> '
+    + '<input type="text" name="name" id="name" size="50" maxlength="100">'
+    + '</div>')
 end;
 
 procedure Tcgiquiz.StartQuiz;
@@ -542,15 +571,25 @@ if checkEOF then fail;
 
 AnsPoints := 0;
 Home := '';
+Name := '';
 
-GetCGIelement(CGIElement);
+repeat
+  GetCGIelement(CGIElement);
 
-if Pos('home=', CGIElement)=1 then
-  begin
-  Home := CGIElement;
-  Delete(Home, 1, length('home='));
-  GetCGIElement(CGIElement)
-  end
+  if Pos('home=', CGIElement)=1 then
+    begin
+    Home := CGIElement;
+    Delete(Home, 1, length('home='));
+    GetCGIElement(CGIElement)
+    end;
+  
+  if Pos('name=', CGIElement)=1 then
+    begin
+    Name := CGIElement;
+    Delete(Name, 1, length('name='));
+    GetCGIElement(CGIElement)
+    end
+until (CGIElement[1]='q') or isLastElement
 end;
 
 procedure Tcgianswer.StartForm;
@@ -568,21 +607,15 @@ noindex := true; { don't index - no matter what the input file says }
 
 inherited StartQuiz;
 
-{ conflicts with base }
-{
-WriteLn(outp, '<small>');
-WriteLn(outp, '<div align="center" class="resultlink">');
-WriteLn(outp, '<a href="#result">', msg_result, '</a>');
-WriteLn(outp, '</div>');
-}
-
 if Home<>'' then
   begin
-  WriteLn(outp, '<div align="center" class="home">');
+  WriteLn(outp, '<div align="center" class="home"><small>');
   WriteLn(outp, '<a href="', Home, '">', msg_back, '</a>');
-  WriteLn(outp, '</div>')
+  WriteLn(outp, '</small></div>')
   end;
-WriteLn(outp, '</small>')
+
+if Name<>'' then
+  WriteLn(outp, '<div class="name">Name: ', Name, '</div>')
 end;
 
 procedure Tcgianswer.processAnswer;
@@ -752,9 +785,9 @@ WriteLn(outp, '</form>');
 
 if Home<>'' then
   begin
-  WriteLn(outp, '<div align="center" class="home">');
+  WriteLn(outp, '<div align="center" class="home"><small>');
   WriteLn(outp, '<a href="', Home, '">', msg_back, '</a>');
-  WriteLn(outp, '</div>')
+  WriteLn(outp, '</small></div>')
   end
 end;
 
@@ -911,7 +944,10 @@ if pos('/--version', CGI_PATH_INFO)<>0 then version;
 
 { Don't allow to use /.. for security reasons }
 { else someone could scan through the whole machine }
-if Pos('/..', CGI_PATH_INFO)<>0 then Forbidden;
+if pos('/..', CGI_PATH_INFO)<>0 then Forbidden;
+
+if (pos('/--exam/', CGI_PATH_INFO)=1) then prepareExam(length('/--exam'));
+if (pos('/-exam/', CGI_PATH_INFO)=1)  then prepareExam(length('/-exam'));
 
 if isPath 
   then showList
