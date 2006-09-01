@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.9 2006/08/27 06:46:16 akf Exp $
+* $Id: cgiquiz.pas,v 1.10 2006/09/01 13:31:01 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -64,6 +64,8 @@ program cgiquiz(input, output); { aka "akfquiz.cgi" }
 { GNU compliant format }
 const PrgVersion = 'cgiquiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
 
+const ExamModeName = 'exam'; { abstract name for the URI }
+
 const
   grRight = 'richtig.png';
   grFalse = 'falsch.png';
@@ -84,6 +86,7 @@ type
 	procedure error;                         virtual;
 	procedure startForm;                     virtual;
         procedure headdata;                      virtual;
+	function  GeneratorName: mystring;       virtual;
         procedure StartQuiz;                     virtual;
         procedure EndQuiz;                       virtual;
 	procedure bottom;                        virtual;
@@ -127,6 +130,9 @@ var ExamMode: boolean = false;
 var 
   CGI_PATH_INFO,
   CGI_PATH_TRANSLATED: myString;
+  
+{ HTTP_HOST or SERVER_NAME or SERVER_ADDR }
+var ServerName: myString;
 
 {$IfDef __GPC__}
   var 
@@ -243,7 +249,7 @@ Browser := (GetEnvironmentVariable('REQUEST_METHOD')<>'');
 
 if Browser
   then CGIBase := '<strong>http://'
-                  + GetEnvironmentVariable('HTTP_HOST')
+                  + ServerName
                   + GetEnvironmentVariable('SCRIPT_NAME')
 	          + '</strong>'
   else CGIBase := 'http://example.org/cgi-bin/cgiquiz';
@@ -333,14 +339,14 @@ if s='de' then lang := deutsch
              end
 end;
 
-{ prepare CGI_PATH_TRANSLATED when -exam or --exam is used }
-procedure prepareExam(l: integer);
+{ prepare CGI_PATH_TRANSLATED when ExamModeName is used in the URI }
+procedure prepareExam;
 var s: mystring;
 begin
 ExamMode := true;
 
 s := CGI_PATH_INFO; 
-delete(s, 1, l);
+delete(s, 1, length('/'+ExamModeName));
 CGI_PATH_TRANSLATED := ExamDir + s
 end;
 
@@ -454,14 +460,17 @@ if started
   else FileError
 end;
 
+function Tcgiquiz.GeneratorName: mystring;
+begin
+GeneratorName := PrgVersion
+end;
+
 procedure Tcgiquiz.headdata;
 begin
 WriteLn(outp);
 if pos('http', DocumentURI)=1
   then WriteLn(outp, '<base href="', DocumentURI, '">')
-  else WriteLn(outp, '<base href="http://', 
-                       GetEnvironmentVariable('HTTP_HOST'),
-		       DocumentURI, '">');
+  else WriteLn(outp, '<base href="http://', ServerName, DocumentURI, '">');
 WriteLn(outp);
 
 inherited headdata
@@ -824,8 +833,8 @@ WriteLn;
 WriteLn('<html>');
 WriteLn('<head>');
 WriteLn('<title>AKFQuiz</title>');
-WriteLn('<meta name="generator" content="'+AKFQuizName + ' ' +
-          AKFQuizVersion+'">'); { change-xhtml }
+WriteLn('<meta name="generator" content="'
+         + PrgVersion + '">'); { change-xhtml }
 { the next instruction is also in the HTTP header }
 WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
 { the next instruction is also in the HTTP header }
@@ -930,6 +939,11 @@ begin
 parameters;
 useBrowserLanguage;
 
+{ get the ServerName with fallbacks }
+ServerName := GetEnvironmentVariable('HTTP_HOST');
+if ServerName = '' then ServerName := GetEnvironmentVariable('SERVER_NAME');
+if ServerName = '' then ServerName := GetEnvironmentVariable('SERVER_ADDR');
+
 CGI_PATH_INFO       := GetEnvironmentVariable('PATH_INFO');
 CGI_PATH_TRANSLATED := GetEnvironmentVariable('PATH_TRANSLATED');
 
@@ -946,8 +960,7 @@ if pos('/--version', CGI_PATH_INFO)<>0 then version;
 { else someone could scan through the whole machine }
 if pos('/..', CGI_PATH_INFO)<>0 then Forbidden;
 
-if (pos('/--exam/', CGI_PATH_INFO)=1) then prepareExam(length('/--exam'));
-if (pos('/-exam/', CGI_PATH_INFO)=1)  then prepareExam(length('/-exam'));
+if (pos('/'+ExamModeName+'/', CGI_PATH_INFO)=1) then prepareExam;
 
 if isPath 
   then showList
