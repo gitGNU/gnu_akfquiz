@@ -1,6 +1,8 @@
 4.3.2 (aug 2006)
 - all programs support --help and --version in a GNU compatible way
 - cgiquiz: from a browser use .../cgiquiz/--help
+- cgiquiz searches harder for the ServerName
+- cgiquiz/mkquiz: more precise "generator"-name
 - bugfix: diaquiz supports --help again
 - cgiquiz: methods GET and POST are both supported now + optimizations
 - CSS: background->background-color

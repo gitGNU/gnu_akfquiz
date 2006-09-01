@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.3 2006/08/27 06:47:35 akf Exp $
+* $Id: htmlquiz.pas,v 1.4 2006/09/01 13:31:50 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -65,6 +65,7 @@ type
 	function  handleURIs(const x: string): mystring;
         function  htmlconvert(const x: mystring): mystring; virtual;
         procedure headdata;                         virtual;
+	function  GeneratorName: mystring;          virtual;
         procedure StartQuiz;                        virtual;
         procedure putgraphic;                       virtual;
 	procedure showanswer(value: pointsType;
@@ -320,6 +321,11 @@ if CSS<>'' then
    WriteLn(outp, '<link rel="stylesheet" type="text/css" href="',CSS,'"', cet)
 end;
 
+function Thtmlquiz.GeneratorName: mystring;
+begin
+GeneratorName := AKFQuizName+' '+AKFQuizVersion
+end;
+
 procedure Thtmlquiz.StartQuiz;
 begin
 inherited StartQuiz;
@@ -331,13 +337,14 @@ Write(outp, '<html');
 if language<>''
    then Write(outp, ' lang="',language,'"');
 if RTL
-   then Write(outp, ' dir="rtl"');
+   then Write(outp, ' dir="rtl"')
+   else Write(outp, ' dir="ltr"');
 WriteLn(outp, '>');
 WriteLn(outp);
 WriteLn(outp, '<head>');
 WriteLn(outp);
-WriteLn(outp, '<meta name="generator" content="'+AKFQuizName+' '
-              +AKFQuizVersion+'"', cet);
+WriteLn(outp, '<meta name="generator" content="'
+              + GeneratorName + '"', cet);
 
 headdata;
 handleSettingsURIs;

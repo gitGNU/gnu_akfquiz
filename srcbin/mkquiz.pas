@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.6 2006/08/27 06:47:35 akf Exp $
+* $Id: mkquiz.pas,v 1.7 2006/09/01 13:31:50 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -58,6 +58,7 @@ type TMode = (automode, makeindex);
 type
   Tjavascriptquiz =
     object(Thtmlquiz)
+      function  GeneratorName: mystring;   virtual;
       procedure headdata;                  virtual;
       procedure StartQuiz;                 virtual;
       procedure putgraphic;                virtual;
@@ -141,6 +142,11 @@ quote := e
 end;
 
 { --------------------------------------------------------------------- }
+
+function Tjavascriptquiz.GeneratorName: mystring;
+begin
+GeneratorName := PrgVersion
+end;
 
 procedure Tjavascriptquiz.headdata;
 begin
@@ -352,8 +358,8 @@ WriteLn(idxfile, HTMLDocType);
 WriteLn(idxfile);
 WriteLn(idxfile, '<html>');
 WriteLn(idxfile, '<head>');
-WriteLn(idxfile, '<meta name="generator" content="'+
-                 AKFQuizName + ' ' + AKFQuizVersion+'">'); { change-xhtml }
+WriteLn(idxfile, '<meta name="generator" content="'
+                 + PrgVersion + '">'); { change-xhtml }
 WriteLn(idxfile, '<meta http-equiv="Content-Type" '+
                  'content="text/html; charset=UTF-8">');
 WriteLn(idxfile);
