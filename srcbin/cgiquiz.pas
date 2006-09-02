@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.10 2006/09/01 13:31:01 akf Exp $
+* $Id: cgiquiz.pas,v 1.11 2006/09/02 12:59:53 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -186,6 +186,14 @@ repeat
 until nextElement or isLastElement
 end;
 
+{ get the ServerName with fallbacks }
+procedure getServerName;
+begin
+ServerName := GetEnvironmentVariable('HTTP_HOST');
+if ServerName = '' then ServerName := GetEnvironmentVariable('SERVER_NAME');
+if ServerName = '' then ServerName := GetEnvironmentVariable('SERVER_ADDR')
+end;
+
 procedure version;
 var Browser: boolean;
 begin
@@ -248,10 +256,13 @@ begin
 Browser := (GetEnvironmentVariable('REQUEST_METHOD')<>'');
 
 if Browser
-  then CGIBase := '<strong>http://'
+  then begin
+       if ServerName='' then getServerName;
+       CGIBase := '<strong>http://'
                   + ServerName
                   + GetEnvironmentVariable('SCRIPT_NAME')
 	          + '</strong>'
+       end
   else CGIBase := 'http://example.org/cgi-bin/cgiquiz';
 
 if Browser then { send CGI Header }
@@ -288,14 +299,16 @@ If Browser
        WriteLn('<dd>');  
        WriteLn(CGIBase, '/--help<br>');
        WriteLn(CGIBase, '/--version<br>');
-       WriteLn(CGIBase, '/quizpath/<br>');
-       WriteLn(CGIBase, '/quizpath/myquiz.akfquiz');
-       WriteLn(CGIBase, '/quizpath/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2');
+       WriteLn(CGIBase, '/quizdir/<br>');
+       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz');
+       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2');
        WriteLn('</dd></dl>');
        WriteLn;
+       WriteLn('<p>The special quizdir "', ExamModeName, '" for exams'
+               + ' is mapped to "', ExamDir, '".</p>');
        if BugMail<>'' then
-         WriteLn('Report bugs to <a href="mailto:' + BugMail + '">'
-                 + BugMail+'</a>.');
+         WriteLn('<p>Report bugs to <a href="mailto:' + BugMail + '">'
+                 + BugMail+'</a>.</p>');
        WriteLn('</body></html>')
        end
   else begin { not Browser }
@@ -307,10 +320,12 @@ If Browser
        WriteLn('Examples:');
        WriteLn(' > ', CGIBase, '/--help');
        WriteLn(' > ', CGIBase, '/--version');
-       WriteLn(' > ', CGIBase, '/quizpath/');
-       WriteLn(' > ', CGIBase, '/quizpath/myquiz.akfquiz');
-       WriteLn(' > ', CGIBase, '/quizpath/myquiz.akfquiz?q1=2&q2=1&q5=2');
-       
+       WriteLn(' > ', CGIBase, '/quizdir/');
+       WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz');
+       WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz?q1=2&q2=1&q5=2');
+       WriteLn;
+       WriteLn('The special quizdir "', ExamModeName, '" for exams'
+               + ' is mapped to "', ExamDir, '".');
        if BugMail <> '' then
          begin WriteLn; WriteLn('Report bugs to <' + BugMail + '>.') end
 	 
@@ -346,7 +361,7 @@ begin
 ExamMode := true;
 
 s := CGI_PATH_INFO; 
-delete(s, 1, length('/'+ExamModeName));
+delete(s, 1, length('/' + ExamModeName));
 CGI_PATH_TRANSLATED := ExamDir + s
 end;
 
@@ -419,6 +434,29 @@ case lang of
   end;
 errorHTMLfoot;
 Halt(1)
+end;
+
+{ used when the user ommits a trailing slash, when it is needed }
+procedure MovedPermanently(const Location: myString);
+begin
+WriteLn('Status: 301 "Moved Permanently"');
+WriteLn('Location: ', Location);
+WriteLn('Content-Type: text/html; charset=UTF-8');
+WriteLn;
+WriteLn(HTMLDocType);
+WriteLn;
+WriteLn('<html>');
+WriteLn('<head>');
+WriteLn('<title>AKFQuiz: Moved Permanently</title>');
+WriteLn('</head>');
+WriteLn;
+WriteLn('<body>');
+WriteLn('<h1>Moved Permanently</h1>');
+WriteLn;
+WriteLn('<p>Please use the address <a href="', Location, '">',
+        Location, '</a> in the futrure.');
+ErrorHTMLfoot;
+Halt
 end;
 
 { --------------------------------------------------------------------- }
@@ -802,10 +840,22 @@ end;
 
 { --------------------------------------------------------------------- }
 
-function isPath: boolean;
+function isDirectory: boolean;
 begin
+{ It is a Directory, when there is a trailing slash. }
+{ When there is no trailing slash, but it is nethertheless a Directory,
+  then the browser must be redirected. The trailing slash is really 
+  needed for relative addresses to function. }
+
 { Directory-separator not system-specific here }
-isPath := (CGI_PATH_INFO[length(CGI_PATH_INFO)]='/')
+if CGI_PATH_INFO[length(CGI_PATH_INFO)] = '/'
+  then isDirectory := true
+  else begin
+       isDirectory := false;
+       if DirectoryExists(CGI_PATH_TRANSLATED) 
+         then MovedPermanently(GetEnvironmentVariable('SCRIPT_NAME')
+	                       + CGI_PATH_INFO + '/')
+       end
 end;
 
 procedure NoEntriesFound;
@@ -936,13 +986,10 @@ end;
 
 
 begin
-parameters;
 useBrowserLanguage;
+parameters;
 
-{ get the ServerName with fallbacks }
-ServerName := GetEnvironmentVariable('HTTP_HOST');
-if ServerName = '' then ServerName := GetEnvironmentVariable('SERVER_NAME');
-if ServerName = '' then ServerName := GetEnvironmentVariable('SERVER_ADDR');
+getServerName;
 
 CGI_PATH_INFO       := GetEnvironmentVariable('PATH_INFO');
 CGI_PATH_TRANSLATED := GetEnvironmentVariable('PATH_TRANSLATED');
@@ -960,9 +1007,14 @@ if pos('/--version', CGI_PATH_INFO)<>0 then version;
 { else someone could scan through the whole machine }
 if pos('/..', CGI_PATH_INFO)<>0 then Forbidden;
 
+{ Redirect /exam to /exam/ }
+if CGI_PATH_INFO = '/' + ExamModeName then 
+  MovedPermanently(GetEnvironmentVariable('SCRIPT_NAME')
+                   + '/' + ExamModeName + '/');
+
 if (pos('/'+ExamModeName+'/', CGI_PATH_INFO)=1) then prepareExam;
 
-if isPath 
+if isDirectory 
   then showList
   else runQuiz
 end.

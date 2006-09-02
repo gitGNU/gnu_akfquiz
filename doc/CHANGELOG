@@ -1,4 +1,5 @@
-4.3.2 (aug 2006)
+4.3.2
+- cgiquiz: a trailing slash can be ommited (but that's not recommended!)
 - all programs support --help and --version in a GNU compatible way
 - cgiquiz: from a browser use .../cgiquiz/--help
 - cgiquiz searches harder for the ServerName
