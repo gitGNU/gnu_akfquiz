@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.11 2006/09/02 12:59:53 akf Exp $
+* $Id: cgiquiz.pas,v 1.12 2006/09/07 15:41:36 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -123,7 +123,15 @@ type
 	function calculateAssessmentURI: mystring;
 	procedure showanswer(value: pointsType;
                              const ans: string); virtual;
+	procedure saveResult;
+        procedure EndQuiz;                       virtual;
     end;
+
+{$IfDef FPC}
+  type FormDataString = AnsiString;
+{$Else}
+  type FormDataString = String(10240);
+{$EndIf}
 
 var ExamMode: boolean = false;
 
@@ -134,22 +142,16 @@ var
 { HTTP_HOST or SERVER_NAME or SERVER_ADDR }
 var ServerName: myString;
 
-{$IfDef __GPC__}
-  var 
-    CGI_QUERY_STRING: PString;
-    QUERY_STRING_POS: Integer;
-{$Else}
-  var 
-    CGI_QUERY_STRING: PAnsiString;
-    QUERY_STRING_POS: LongInt;
-{$EndIf}
+var 
+  CGI_QUERY_STRING: FormDataString;
+  QUERY_STRING_POS: LongInt;
 
 function isLastElement: boolean;
 begin
-if CGI_QUERY_STRING=NIL
+if CGI_QUERY_STRING=''
   then isLastElement := true
   else 
-   if QUERY_STRING_POS < Length(CGI_QUERY_STRING^)
+   if QUERY_STRING_POS < Length(CGI_QUERY_STRING)
      then isLastElement := false
      else isLastElement := true
 end;
@@ -163,7 +165,7 @@ var
   function getNextChar: char;
   begin
   inc(QUERY_STRING_POS);
-  getNextChar := CGI_QUERY_STRING^[QUERY_STRING_POS]
+  getNextChar := CGI_QUERY_STRING[QUERY_STRING_POS]
   end;
 
 begin { GetCGIElement }
@@ -216,6 +218,8 @@ if Browser then { send CGI Header }
   WriteLn('<head>');
   WriteLn('<title>' + AKFQuizName + ': version</title>');
   WriteLn('<meta name="robots" content="noindex">');
+  WriteLn('<meta name="generator" content="'
+           + PrgVersion + '">'); { change-xhtml }
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
@@ -275,6 +279,8 @@ if Browser then { send CGI Header }
   WriteLn('<head>');
   WriteLn('<title>' + AKFQuizName + ': help</title>');
   WriteLn('<meta name="robots" content="noindex">');
+  WriteLn('<meta name="generator" content="'
+            + PrgVersion + '">'); { change-xhtml }
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
@@ -365,19 +371,35 @@ delete(s, 1, length('/' + ExamModeName));
 CGI_PATH_TRANSLATED := ExamDir + s
 end;
 
+procedure HTTPStatus(status: integer; message: string);
+begin
+{ CGI-Style: }
+WriteLn('Status: ', status, ' "', message, '"');
+
+{ HTTP-Style: (nph-mode, server-mode) }
+{ WriteLn('HTTP/1.0 ', status, ' ', message); }
+
+{ additional header data for a standalone server: }
+{ WriteLn('Server: ', PrgVersion);
+  WriteLn('Connection: close');
+}
+end;
+
 { --------------------------------------------------------------------- }
 { Error handling procedures }
 
-procedure errorHTMLhead(status: integer; s: string);
+procedure errorHTMLhead(status: integer; message: string);
 begin
-WriteLn('Status: ', status, ' "AKFQuiz: ', s, '"');
+HTTPStatus(status, message);
 WriteLn('Content-Type: text/html; charset=UTF-8');
 WriteLn;
 WriteLn(HTMLDocType);
 WriteLn;
 WriteLn('<html>');
 WriteLn('<head>');
-WriteLn('<title>AKFQuiz: ', msg_error, ' ', s, '</title>');
+WriteLn('<title>AKFQuiz: ', msg_error, ' ', message, '</title>');
+WriteLn('<meta name="generator" content="'
+         + PrgVersion + '">'); { change-xhtml }
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body style="background-color:red; color:white">');
@@ -439,7 +461,7 @@ end;
 { used when the user ommits a trailing slash, when it is needed }
 procedure MovedPermanently(const Location: myString);
 begin
-WriteLn('Status: 301 "Moved Permanently"');
+HTTPStatus(301, 'Moved Permanently');
 WriteLn('Location: ', Location);
 WriteLn('Content-Type: text/html; charset=UTF-8');
 WriteLn;
@@ -448,6 +470,8 @@ WriteLn;
 WriteLn('<html>');
 WriteLn('<head>');
 WriteLn('<title>AKFQuiz: Moved Permanently</title>');
+WriteLn('<meta name="generator" content="'
+         + PrgVersion + '">'); { change-xhtml }
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body>');
@@ -456,6 +480,14 @@ WriteLn;
 WriteLn('<p>Please use the address <a href="', Location, '">',
         Location, '</a> in the futrure.');
 ErrorHTMLfoot;
+Halt
+end;
+
+procedure RejectAnswer(s: string);
+begin
+HTTPStatus(204, s);
+{WriteLn('Content-Type: text/plain');} { needed? }
+WriteLn;
 Halt
 end;
 
@@ -517,11 +549,32 @@ end;
 procedure Tcgiquiz.StartForm;
 begin
 WriteLn(outp);
-WriteLn(outp, '<form name="akfquiz" id="akfquiz" method="POST" action="',
-              GetEnvironmentVariable('SCRIPT_NAME'), CGI_PATH_INFO, '">');
 
-{WriteLn(outp, '<form name="akfquiz" id="akfquiz" method="POST" action="',
-              '/cgi-bin/cgi-test.cgi', CGI_PATH_INFO, '">');}
+if not ExamMode 
+  then WriteLn(outp,
+          '<form name="akfquiz" id="akfquiz" method="POST" action="',
+          GetEnvironmentVariable('SCRIPT_NAME'), CGI_PATH_INFO, '">')
+  else begin { ExamMode }
+       { check if name-field is filled out }
+       WriteLn(outp, 
+         '<!-- JavaScript is not necessarily needed for this program -->');
+       WriteLn(outp, '<script type="text/javascript" language="JavaScript">');
+       WriteLn(outp, '<!--');
+       WriteLn(outp, 'function checkName() {');
+       WriteLn(outp, '  if (document.akfquiz.name.value == "") {');
+       WriteLn(outp, '    document.akfquiz.name.focus();');
+       WriteLn(outp, '    return false; }');
+       WriteLn(outp, '  else return true; }');
+       WriteLn(outp, '// -->');
+       WriteLn(outp, '</script>');
+       WriteLn(outp);
+       WriteLn(outp,
+          '<form name="akfquiz" id="akfquiz" method="POST" action="',
+          GetEnvironmentVariable('SCRIPT_NAME'), CGI_PATH_INFO, 
+	  '" onSubmit="return checkName()">')
+       end;
+
+WriteLn(outp);
 
 { remember the origin: }
 if GetEnvironmentVariable('HTTP_REFERER')<>'' then
@@ -593,10 +646,14 @@ end;
 procedure Tcgiquiz.bottom;
 begin
 WriteLn(outp, '<div align="center" class="buttons">');
+
 WriteLn(outp, '<input type="submit" accesskey="r" value="',
-              msg_result,'"', cet);
-WriteLn(outp, '<input type="reset" accesskey="n" value="',
-              msg_new, '"', cet);
+                msg_result,'"', cet);
+
+if not ExamMode 
+  then WriteLn(outp, '<input type="reset" accesskey="n" value="',
+                      msg_new, '"', cet);
+
 WriteLn(outp, '</div>');
 
 WriteLn(outp);
@@ -838,6 +895,50 @@ if Home<>'' then
   end
 end;
 
+procedure Tcgianswer.saveResult;
+var 
+  f: text;
+  dataline: mystring;
+  ResultStr: FormDataString;
+begin
+
+{ prepare output line to make write access as atomic as possible }
+if Name<>'' 
+  then dataline := Name
+  else dataline := 'anonymous'; { shouldn't happen }
+
+dataline := dataline + ':' + IntToStr(getPercentage) + '%';
+
+{ ResultStr := CGI_QUERY_STRING with "home" stripped }
+ResultStr := CGI_QUERY_STRING;
+if (pos('home=', ResultStr)=1) and (pos('&', ResultStr)<>0)
+  then Delete(ResultStr, 1, pos('&', ResultStr));
+
+Assign(f, stripext(CGI_PATH_TRANSLATED) + '.result');
+
+{$IfDef FPC}
+  Append(f);
+  if IOResult<>0 then Rewrite(f);
+{$Else}
+  Extend(f); { ISO-10206 }
+{$EndIf}
+
+WriteLn(f, dataline);
+WriteLn(f, ResultStr);
+WriteLn(f);
+Close(f);
+
+{ we are still in the body - at the end of the body }
+if IOResult<>0 then 
+  WriteLn(outp, '<p class="error">', msg_error, '</p>')
+end;
+
+procedure Tcgianswer.EndQuiz;
+begin
+{ if ExamMode then saveResult; } { not save yet @@@@}
+inherited EndQuiz
+end;
+
 { --------------------------------------------------------------------- }
 
 function isDirectory: boolean;
@@ -860,15 +961,15 @@ end;
 
 procedure NoEntriesFound;
 begin
-WriteLn('<p class="error">');
+WriteLn('<p align="center" class="error">');
 WriteLn(msg_noquizfound);
 WriteLn('</p>')
 end;
 
 procedure myshowentry(const dir, s: string);
 begin
-WriteLn('<a href="', s, '">');
-WriteLn(getQuizTitle(CGI_PATH_TRANSLATED + s), '</a><br>') { change-xhtml }
+WriteLn('<li><a href="', s, '">',
+        getQuizTitle(CGI_PATH_TRANSLATED + s), '</a></li>')
 end;
 
 procedure showList;
@@ -904,22 +1005,22 @@ WriteLn('</head>');
 WriteLn;
 WriteLn('<body>');
 WriteLn;
-WriteLn('<div align="center">');
-WriteLn('<h1>AKFQuiz</h1>');
+WriteLn('<h1 align="center">AKFQuiz</h1>');
 WriteLn;
+WriteLn('<ul>');
 found := ListEntries(CGI_PATH_TRANSLATED, quizext, myshowentry);
 if ListEntries(CGI_PATH_TRANSLATED, quizext2, myshowentry) 
    then found := true;
+WriteLn('</ul>');
 if not found then NoEntriesFound;
-WriteLn('</div>');
 WriteLn('</body>');
 WriteLn('</html>')
 end;
 
 procedure getQueryString;
-var i, len, code: word;
+var i, len, code: integer;
 begin
-CGI_QUERY_STRING := NIL;
+CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
 
 if GetEnvironmentVariable('REQUEST_METHOD')='GET'
@@ -927,14 +1028,11 @@ if GetEnvironmentVariable('REQUEST_METHOD')='GET'
        if GetEnvironmentVariable('QUERY_STRING')<>'' 
          then begin
               {$IfDef __GPC__}
-                { CString can be longer than TString }
-                new(CGI_QUERY_STRING, 
-                       CStringLength(CStringGetEnv('QUERY_STRING')));
-                CGI_QUERY_STRING^ := 
-                   CString2String(CStringGetEnv('QUERY_STRING'))
+                { normal GetEnv is limited in size }
+                CGI_QUERY_STRING := 
+		  CString2String(CStringGetEnv('QUERY_STRING'))
               {$Else}
-                new(CGI_QUERY_STRING);
-                CGI_QUERY_STRING^ := GetEnvironmentVariable('QUERY_STRING')
+                CGI_QUERY_STRING := GetEnvironmentVariable('QUERY_STRING')
               {$EndIf}
               end
        end
@@ -944,10 +1042,14 @@ if GetEnvironmentVariable('REQUEST_METHOD')='GET'
               val(GetEnvironmentVariable('CONTENT_LENGTH'), len, code);
 	      if (len>0) and (code=0) then
 	        begin
-                new(CGI_QUERY_STRING {$IfDef __GPC__} ,len {$EndIf});
-                SetLength(CGI_QUERY_STRING^, len);
+		{$IfNDef FPC}
+		  { should never happen, but... }
+		  if len > CGI_QUERY_STRING.Capacity
+		    then len := CGI_QUERY_STRING.Capacity;
+		{$EndIf}
+                SetLength(CGI_QUERY_STRING, len);
                 for i := 1 to len do
-                  Read(CGI_QUERY_STRING^[i])
+                  Read(CGI_QUERY_STRING[i])
 		end
               end
        end
@@ -958,9 +1060,14 @@ var MyQuiz: Pakfquiz;
 begin
 getQueryString;
 
-if CGI_QUERY_STRING=NIL
+if CGI_QUERY_STRING=''
    then MyQuiz := new(Pcgiquiz, init)    { query }
-   else MyQuiz := new(Pcgianswer, init); { show answer }
+   else begin
+        if ExamMode then { additional test, if name-field is empty }
+	  if (pos('name=&', CGI_QUERY_STRING)<>0)
+	       then rejectAnswer('No name given');
+        MyQuiz := new(Pcgianswer, init); { show answer }
+	end;
 
 if (IOResult<>0) or (MyQuiz=NIL) then NotFound;
 MyQuiz^.process;
