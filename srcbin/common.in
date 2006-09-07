@@ -1,4 +1,4 @@
-# $Id: common.in,v 1.4 2006/08/27 06:47:35 akf Exp $
+# $Id: common.in,v 1.5 2006/09/07 15:43:49 akf Exp $
 
 #####################################################################
 # change here:
@@ -86,6 +86,24 @@ wrongsnd.inc: wrongsnd.ub
 
 neutralsnd.inc: neutralsnd.ub
 	bin2obj -c NeutralSound -o neutralsnd.inc neutralsnd.ub
+
+introsnd.o: introsnd.ub
+	binobj introsnd.ub introsnd.o IntroSound
+
+infosnd.o: infosnd.ub
+	binobj infosnd.ub infosnd.o InfoSound
+
+errorsnd.o: errorsnd.ub
+	binobj errorsnd.ub errorsnd.o ErrorSound
+
+rightsnd.o: rightsnd.ub
+	binobj rightsnd.ub rightsnd.o RightSound
+
+wrongsnd.o: wrongsnd.ub
+	binobj wrongsnd.ub wrongsnd.o WrongSound
+
+neutralsnd.o: neutralsnd.ub
+	binobj neutralsnd.ub neutralsnd.o NeutralSound
 
 ppm2pas: ppm2pas.pas
 	$(NATIVEPC) $(NATIVEPFLAGS) $(DEFINES) ppm2pas.pas

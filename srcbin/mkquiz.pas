@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.7 2006/09/01 13:31:50 akf Exp $
+* $Id: mkquiz.pas,v 1.8 2006/09/07 15:43:49 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -340,9 +340,8 @@ end;
 
 procedure makeIndexEntry(const quizfile, htmlfile: string);
 begin
-WriteLn(idxfile, '<a href="', basename(htmlfile), '">');
-WriteLn(idxfile, getQuizTitle( quizfile ), 
-                 '</a><br>') { change-xhtml }
+WriteLn(idxfile, '<li><a href="', basename(htmlfile), '">',
+                 getQuizTitle( quizfile ), '</a></li>')
 end;
 
 procedure startIndex;
@@ -379,19 +378,22 @@ WriteLn(idxfile, '</head>');
 WriteLn(idxfile);
 WriteLn(idxfile, '<body>');
 WriteLn(idxfile);
-WriteLn(idxfile, '<div align="center">');
-WriteLn(idxfile, '<h1>AKFQuiz</h1>');
+WriteLn(idxfile, '<h1 align="center">AKFQuiz</h1>');
 WriteLn(idxfile);
+setmsgconverter(UTF8toHTML);
 WriteLn(idxfile, '<noscript><p class="error"><strong>');
 WriteLn(idxfile, UTF8toHTML(msg_noJS), ' <br>'); { change for xhtml }
 WriteLn(idxfile, UTF8toHTML(msg_notusable));
 WriteLn(idxfile, '</strong></p></noscript>');
-WriteLn(idxfile)
+setmsgconv(checkDisplay);
+WriteLn(idxfile);
+WriteLn(idxfile, '<ul>')
 end;
 
 procedure endIndex;
 begin
-WriteLn(idxfile, '</div>');
+WriteLn(idxfile, '</ul>');
+WriteLn(idxfile);
 WriteLn(idxfile, '</body>');
 WriteLn(idxfile, '</html>');
 close(idxfile);

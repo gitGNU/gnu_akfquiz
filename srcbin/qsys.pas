@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.3 2006/08/17 08:27:58 akf Exp $
+* $Id: qsys.pas,v 1.4 2006/09/07 15:43:49 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -68,12 +68,37 @@ interface
 
 {$EndIf} { __GPC__ }
 
+{$IfDef __GPC__}
+  type 
+    Uint8  = Cardinal attribute (Size =  8);
+    Uint16 = Cardinal attribute (Size = 16);
+    Sint16 = Integer  attribute (Size = 16);
+    Uint32 = Cardinal attribute (Size = 32);
+    Sint32 = Integer  attribute (Size = 32);
+    pByte  = ^Uint8;
+  
+  {$if __GPC_RELEASE__ < 20041218}
+    type CInteger = Integer;
+  {$EndIf} { __GPC_RELEASE__ }
+  
+{$Else} { not __GPC__ }
+
+  type 
+    CInteger = LongInt; { @@@ for 32-Bit systems }
+    CString  = PChar;
+    Uint8    = byte;
+    Uint16   = word;
+    Sint16   = SmallInt;
+    Uint32   = cardinal;
+    Sint32   = LongInt;
+    pByte    = ^Uint8;
+
+{$EndIf} { not __GPC__ }
+
 {$IfDef FPC}
     type mystring = ansistring; { Delphi dialect (unlimited length) }
-    type Int32 = LongInt;
 {$Else}
     type mystring = string(2048); { Extended Pascal }
-    type Int32 = integer attribute (size=32);
 {$EndIf}
 
 { strings are implemented differently in Pascal dialects. }
@@ -493,7 +518,7 @@ begin
 quizfileExists := FileExists(s) and not DirectoryExists(s)
 end;
 
-{ remove to last dot }
+{ remove to last dot, but leave the path information untouched }
 function stripext(const s: string): mystring;
 var i: integer;
 begin

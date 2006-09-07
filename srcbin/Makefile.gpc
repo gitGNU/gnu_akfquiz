@@ -1,6 +1,6 @@
-# Compile with GPC for the native machine
+# Compile with GPC for the native machine using libSDL
 
-# $Id: Makefile.gpc,v 1.4 2006/08/27 06:47:35 akf Exp $
+# $Id: Makefile.gpc,v 1.5 2006/09/07 15:43:49 akf Exp $
 
 # make further changes in common.mak
 
@@ -8,7 +8,6 @@
 #
 # Advertisement
 #          - print msg_advertisement line (qmsgs.pas)
-# GRXMouse - use GRX mouse (experimental!)
 # grNoEscKey,
 # scrNoEscKey
 #          - Esc key may cause troulble in some cases
@@ -30,21 +29,17 @@ POPT=-O2 -s
 NATIVEPC=$(PC)
 NATIVEPFLAGS=$(PFLAGS)
 
-# Needed for GRX with X11 output
-PFLAGS+=-L/usr/X11R6/lib
-#PFLAGS+=--unit-path=/usr/local/units
-
+DEFINES+=-D SDL
 #DEFINES+=-D Advertisement
 DEFINES+=-D scrNoEscKey
-DEFINES+=-D GRXMouse
 #DEFINES+=-dNoRelocation
 #DEFINES+=-D NoTitleImage
 #DEFINES+=-D grNoEscKey
 #DEFINES+=-D OEM
 #DEFINES+=-D NoProjectLink
 
-IMAGEOBJ=quizhg.o hginfo.inc titimg.o
-SOUNDOBJ=
+IMAGEOBJ=quizhg.inc hginfo.inc titimg.inc
+SOUNDOBJ=errorsnd.o infosnd.o introsnd.o rightsnd.o wrongsnd.o neutralsnd.o
 
 # only used on Windows platform
 #GUIFLAG=-mwindows

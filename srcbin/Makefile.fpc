@@ -1,6 +1,6 @@
 # Compile with FPC for the native machine
 
-# $Id: Makefile.fpc,v 1.3 2006/08/17 08:27:58 akf Exp $
+# $Id: Makefile.fpc,v 1.4 2006/09/07 15:43:49 akf Exp $
 
 # make further changes in common.mak
 
@@ -25,7 +25,7 @@
 
 # one program must be compiled for the native machine
 NATIVEPC=fpc
-NATIVEPFLAGS=-Sh -Sd
+NATIVEPFLAGS=
 
 # compile for the native machine as default
 PC=$(NATIVEPC)
@@ -36,8 +36,6 @@ POPT=-O2G -Xs -XX
 # additional optimization-flags for i386 machines
 # POPT+=-Op3
 
-# path to SDL4Freepascal
-PFLAGS+=-Fu../../SDL4Freepascal-1.2.0.0
 DEFINES+=-dSDL
 
 #DEFINES+=-dNoTitleImage

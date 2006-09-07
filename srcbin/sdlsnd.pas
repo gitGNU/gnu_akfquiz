@@ -2,11 +2,11 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
-* $Id: sdlsnd.pas,v 1.3 2006/08/27 06:47:35 akf Exp $
+* $Id: sdlsnd.pas,v 1.4 2006/09/07 15:43:49 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
-* Environment: FreePascal and SDL4FreePascal
+* Environment: FreePascal
 *
 * This file is part of AKFQuiz
 *
@@ -28,12 +28,13 @@
 {$IfDef FPC}
   {$Mode Delphi}
   {$LongStrings on}
+  {$PackRecords 4}
 {$EndIf}
 
 unit sdlsnd;
 
 interface
-uses qsys, SDL, SDL_Audio;
+uses qsys;
 
 { initializes SDL with Audio,
   if sub is true, then it is opened as subsystem }
@@ -41,15 +42,61 @@ procedure InitAudio(sub: boolean);
 procedure useSDLsounds; { also started from InitAudio }
 
 
-
 implementation
 
-{$I introsnd.inc}
-{$I rightsnd.inc}
-{$I wrongsnd.inc}
-{$I neutralsnd.inc}
-{$I errorsnd.inc}
-{$I infosnd.inc}
+{$IfDef __GPC__}
+  {$DEFINE cdecl attribute(cdecl)}
+  {$pointer-arithmetic}
+  {$L SDL}
+  
+  {$L introsnd.o}
+  {$L rightsnd.o}
+  {$L wrongsnd.o}
+  {$L neutralsnd.o}
+  {$L errorsnd.o}
+  {$L infosnd.o}
+  
+  { change the sizes here, if you exchange a soundfile }
+  var 
+    IntroSound:   array[1 .. 38208] of byte; external name 'IntroSound';
+    RightSound:   array[1 .. 13312] of byte; external name 'RightSound';
+    WrongSound:   array[1 .. 11456] of byte; external name 'WrongSound';
+    NeutralSound: array[1 ..  7424] of byte; external name 'NeutralSound';
+    ErrorSound:   array[1 ..  9216] of byte; external name 'ErrorSound';
+    InfoSound:    array[1 .. 16384] of byte; external name 'InfoSound';
+{$EndIf} { __GPC__ }
+
+{$IfDef FPC}
+  {$I introsnd.inc}
+  {$I rightsnd.inc}
+  {$I wrongsnd.inc}
+  {$I neutralsnd.inc}
+  {$I errorsnd.inc}
+  {$I infosnd.inc}
+{$EndIf}
+
+type
+  callbackproc = Pointer;
+
+type
+  pSDL_AudioSpec = ^SDL_AudioSpec;
+  SDL_AudioSpec = record
+    freq : CInteger;
+    format : Uint16;
+    channels : Uint8;
+    silence : Uint8;
+    samples : Uint16;
+    size : Uint32;
+    callback : callbackproc;
+    userdata : pointer;
+    end;
+
+{ various constands - just the ones used here }
+const 
+  SDL_INIT_VIDEO = $00000020;
+  SDL_INIT_AUDIO = $00000010;
+  SDL_MIX_MAXVOLUME = 128;
+  AUDIO_U8 = $0008;  { Unsigned 8-bit samples  }
 
 var 
   AudioAvailable : Boolean = false;
@@ -57,17 +104,34 @@ var
   sndPos  : pByte = NIL;
   sndlen  : LongInt = 0;
 
-{ I don't like the definition in SDL4Freepascal }
-function SDL_OpenAudio(var desired:SDL_AudioSpec; 
-                       obtained:pSDL_AudioSpec):longint;cdecl;
-		       external 'SDL';
+function SDL_Init(flags: Uint32): CInteger; cdecl; 
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_Init';
 
-procedure playSound(s: pByte; len: LongInt);
+function SDL_InitSubSystem(flags: Uint32): CInteger; cdecl; 
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_InitSubSystem';
+
+function SDL_OpenAudio(var desired: SDL_AudioSpec; 
+                       obtained: pSDL_AudioSpec): CInteger; cdecl;
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_OpenAudio';
+procedure SDL_LockAudio; cdecl; 
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_LockAudio';
+
+procedure SDL_UnlockAudio; cdecl; 
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_UnlockAudio';
+
+procedure SDL_PauseAudio(pause_on: CInteger); cdecl; 
+            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_PauseAudio';
+
+procedure SDL_MixAudio(dst: pByte; src: pByte;
+                       len: UInt32; volume: CInteger); cdecl; 
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_MixAudio';
+
+procedure playSound(s: pointer; len: LongInt);
 begin
 if AudioAvailable and (sndLen<=0) then
   begin
   SDL_LockAudio;
-  sndData := s;
+  sndData := pByte(s);
   sndPos  := sndData;
   sndLen  := len;
   SDL_UnLockAudio;
@@ -116,7 +180,7 @@ InfoSignal     := playInfoSound;
 ErrorSignal    := playErrorSound
 end;
 
-procedure fillAudio(var userdata; stream:pByte; len:LongInt);cdecl;
+procedure fillAudio(var userdata; stream:pByte; len: CInteger); cdecl;
 begin
 if sndlen>0 then 
   begin
@@ -132,8 +196,8 @@ var desired : SDL_AudioSpec;
 begin
 if sub
   then AudioAvailable := SDL_InitSubSystem(SDL_INIT_AUDIO)=0
-  else AudioAvailable := SDL_Init(SDL_INIT_AUDIO)=0;
-  
+  else AudioAvailable := SDL_Init(SDL_INIT_VIDEO or SDL_INIT_AUDIO)=0;
+
 if AudioAvailable then 
   begin
   with desired do

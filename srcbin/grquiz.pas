@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.5 2006/08/17 08:27:58 akf Exp $
+* $Id: grquiz.pas,v 1.6 2006/09/07 15:43:49 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -74,26 +74,39 @@ program grquiz(input, output, stderr);
 {$EndIf}
 
 {$IfDef __GPC__}
-  import uakfquiz; qmsgs; qsys; chconv; graph; grx; clgrph;
-  {$UnDef SDL}
+  import uakfquiz; qmsgs; qsys; chconv; 
+         {$IfDef SDL}
+	   sdlgrph; sdlsnd;
+	 {$Else}
+           graph; grx; clgrph;
+	   {$Define GRX}
+	 {$EndIf}
 {$EndIf}
 
-{$IfDef __GPC__}
-  {$L quizhg.o}
-  {$If __GPC_RELEASE__ >= 20030303}
-    var AKFQuizHg: array[0..$FFFF] of byte; external name 'AKFQuizHg';
-  {$Else} {@@@ FIXME: inermediate versions with other syntax }
-    var AKFQuizHg: asmname 'AKFQuizHg' array[0..$FFFF] of byte;
-  {$EndIf} { __GPC_RELEASE__ }
 
-  {$IfNDef NoTitleImage}
-    {$L titimg.o}
+{$IfDef __GPC__}
+  {$IfDef SDL}
+  
+  {$I quizhg.inc}
+  {$IfNDef NoTitleImage} {$I titimg.inc} {$EndIf}
+  
+  {$Else} { not SDL }
+    {$L quizhg.o}
     {$If __GPC_RELEASE__ >= 20030303}
-      var TitleImage:  array[0..$FFFF] of byte; external name 'TitleImage';
+      var AKFQuizHg: array[0..$FFFF] of byte; external name 'AKFQuizHg';
     {$Else} {@@@ FIXME: inermediate versions with other syntax }
-      var TitleImage: asmname 'TitleImage' array[0..$FFFF] of byte;
+      var AKFQuizHg: asmname 'AKFQuizHg' array[0..$FFFF] of byte;
     {$EndIf} { __GPC_RELEASE__ }
-  {$EndIf} { NoTitleImage }
+
+    {$IfNDef NoTitleImage}
+      {$L titimg.o}
+      {$If __GPC_RELEASE__ >= 20030303}
+        var TitleImage:  array[0..$FFFF] of byte; external name 'TitleImage';
+      {$Else} {@@@ FIXME: inermediate versions with other syntax }
+        var TitleImage: asmname 'TitleImage' array[0..$FFFF] of byte;
+      {$EndIf} { __GPC_RELEASE__ }
+    {$EndIf} { NoTitleImage }
+  {$EndIf} { not SDL }
 {$EndIf} { __GPC__ }
 
 {$IfDef FPC}
@@ -108,12 +121,13 @@ program grquiz(input, output, stderr);
 
 type keyset = set of char;
 
-type TgrfImage = packed record
-                Width    : longint;
-                Height   : longint;
-                reserved : longint;
-                Image    : packed array[0..ScreenWidth*ScreenHeight] of word;
-                end;
+type TgrfImage = 
+  packed record
+         Width    : Sint32;
+         Height   : Sint32;
+         reserved : Sint32;
+         Image    : array[0..ScreenWidth*ScreenHeight] of Uint16;
+         end;
 
 { GNU compliant format }
 const PrgVersion = 'grquiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
@@ -195,19 +209,9 @@ var
   justTitle  : boolean;
   usemouse   : boolean;
 
+
 procedure buildscreen;
-{$IfDef UsePalette}
-  var i: word;
-{$EndIf}
 begin
-
-{$IfDef UsePalette}
-  for i:=0 to MaxColor do
-      setRGBPalette(i, myPalette[i, RGBred],
-                       myPalette[i, RGBgreen],
-                       myPalette[i, RGBblue]);
-{$EndIf}
-
 drawBackground(AKFQuizHg);
 
 TextColor := GetPixel(TextColorX, TextColorY);
@@ -389,7 +393,7 @@ UnlockScreen;
 GrLn
 end;
 
-{$IfDef __GPC__}
+{$IfDef GRX}
 
   procedure getImageSize(protected var img; var width, height: integer);
   var maxval: integer;
@@ -415,7 +419,7 @@ end;
   begin
   getImageSize(TitleImage, width, height);
   ShowImage(MaxX-width, 0, TitleImage);
- 
+  
   MoveTo(MaxX-(width div 2)-(Length(TitleImageName) * 8 div 2), height+3);
   GrfWrite(TitleImageName);
   MoveTo(0, 0);
@@ -827,11 +831,11 @@ GrLn;
 answerMaxY := MaxY - (8*linespace);
 
 { enough space for at least starting the answer section? }
-if GetY>=answerMaxY then wait;
+if GetY >= answerMaxY then wait;
 
 answerNr := 0;
 readAnswer(value, s);
-while (s<>'') and (GetY<answerMaxY) and (answerNr<=MaxAnswers-1) do
+while (s <> '') and (GetY < answerMaxY) and (answerNr <= MaxAnswers-1) do
   begin
   ans := s;
   nextanswer;
@@ -854,7 +858,7 @@ while (s<>'') and (GetY<answerMaxY) and (answerNr<=MaxAnswers-1) do
         else s := '...' { Dummy }
   end;
 
-if s<>''
+if s <> ''
   then begin { more answers to be shown }
        nextanswer;
        AnsPoints[answerNr] := 0;
@@ -863,7 +867,7 @@ if s<>''
          else GrfWrite(ValueToKey(answerNr) + ') ' + msg_more);
        GrLn
        end
-  else if showdefault and (defanswer<>'') then { show default-Answer }
+  else if showdefault and (defanswer <> '') then { show default-Answer }
          begin
          ans := defanswer;
          nextanswer;
@@ -873,7 +877,7 @@ if s<>''
            else GrfWrite(ValueToKey(answerNr) + ') ');
          startpos := GetX;
 	 WriteQuizLn(format(ans, MaxLength-3, MaxLength-3));
-         while ans<>'' do
+         while ans <> '' do
            begin
            MoveTo(startpos, GetY);
 	   WriteQuizLn(format(ans, MaxLength-3, MaxLength-3))
@@ -881,7 +885,7 @@ if s<>''
          end; { if defanswer }
 
 { all answers shown already? }
-showAnswers := (s='')
+showAnswers := (s = '')
 end;
 
 procedure Tgrquiz.processAnswer;
@@ -908,7 +912,7 @@ var
   
   if not complete then { skip other answers }
     begin
-    repeat until readline='';
+    repeat until readline = '';
     complete := true
     end;
   
@@ -926,7 +930,7 @@ repeat
   GrfWrite('> ');
 
   maxKey := ValueToKey(answerNr);
-  if answerNr<10 
+  if answerNr < 10 
      then a := getAnswer([ '1'..maxKey, ExitKey ])
      else a := getAnswer([ '1'..'9', 'A'..maxKey, ExitKey ]);
 
@@ -934,7 +938,7 @@ repeat
 
   if not complete and (a=answerNr) { answer is "..."? }
      then ClearTextArea 
-     else if (a<>-1) and not quit 
+     else if (a <> -1) and not quit 
              then handleResult
 
 until complete or quit;
@@ -977,7 +981,7 @@ repeat
               { remove that key from valid keys }
               keys := keys - [ ValueToKey(a) ]
               end;
-  until a=-1;
+  until a = -1;
   if not complete and not quit then ClearTextArea
 until complete or quit;
 

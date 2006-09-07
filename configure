@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.11 2006/08/27 06:46:16 akf Exp $
+# $Id: configure,v 1.12 2006/09/07 15:43:49 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -58,8 +58,9 @@ options:
   --variant=
   --arch=
   --sys=
-  --with-gpc
   --with-fpc
+  --with-gpc
+  --with-grx
   --with-xw32
   --with-xarm
 AMEN
@@ -126,11 +127,13 @@ do
     --host=*)      notsupported --host ;;  # yet to be implemented
     --target=*)    notsupported --target ;; # yet to be implemented
     --with-gpc)    COMPILER=gpc ;;
+    --with-grx)    COMPILER=grx ;;
     --with-fpc)    COMPILER=fpc ;;
     --with-xw32)   COMPILER=xw32 ;;
     --with-xarm)   COMPILER=xarm ;;
     --with-*)      ;; # ignore (see GNU Coding Standards)
     --gpc)         COMPILER=gpc ;;
+    --grx)         COMPILER=grx ;;
     --fpc)         COMPILER=fpc ;;
     --xw32)        COMPILER=xw32 ;;
     --xarm)        COMPILER=xarm ;;
@@ -162,7 +165,7 @@ case $COMPILER in
   fpc|xarm|xw32) 
        echo "checking for bin2obj... "
        which bin2obj || error "fpc-utils needed" ;;
-  gpc) echo "checking for binobj... "
+  gpc|grx) echo "checking for binobj... "
        which binobj || error "binobj not found - should come with gpc" ;;
 esac
 

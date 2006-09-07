@@ -2,11 +2,11 @@
 * ppm2pas
 * converts from a PPM (P6) file into FreePascal code
 *
-* $Id: ppm2pas.pas,v 1.5 2006/08/17 08:27:58 akf Exp $
+* $Id: ppm2pas.pas,v 1.6 2006/09/07 15:43:49 akf Exp $
 *
 * Copyright (c) 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
-* Environment: FreePascal
+* Environment: FreePascal or GNU-Pascal
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,9 @@
 * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 *}
 
-program ppm2pas(input, output, stderr, f);
+program ppm2pas(input, output, stderr);
+
+{$IfDef __GPC__} import GPC; {$EndIf}
 
 {$I+}
 
@@ -34,12 +36,13 @@ type ImgInfo = record
 		  Image   : array[0..$FFFFFFF] of word;
 		  end;
 
-var Buffer : pointer;
+var Buffer : ^ImgInfo;
 
 {$IfDef FPC}
   const nl = LineEnding;
   var Comment : AnsiString;
 {$Else}
+  type shortstring = string(255);
   const nl = LineBreak;
   var Comment : String(2048);
 {$EndIf}
@@ -63,7 +66,7 @@ end;
 procedure help;
 begin
 WriteLn;
-WriteLn('Converts raw ppm files (P4-P6) into code for FreePascal');
+WriteLn('Converts raw ppm files (P4-P6) into code for Pascal');
 WriteLn;
 WriteLn('Usage: ppm2pas file constname');
 Halt
@@ -109,7 +112,7 @@ end;
 
 procedure LiesDatei(Datei: string);
 var f : text;
-    s : string;
+    s : shortstring;
     format: byte;
     x, y: longint;
     i : longint;
@@ -147,7 +150,7 @@ if (Format<>1) and (Format<>4) then { if not mono bitmap }
 
 GetMem(Buffer, (x*y*SizeOf(word))+12);
 
-With ImgInfo(Buffer^) do
+With Buffer^ do
   begin
   Width := x {$IfDef VER1_0} -1 {$EndIf};
   Height := y {$IfDef VER1_0} -1 {$EndIf};
@@ -157,7 +160,7 @@ With ImgInfo(Buffer^) do
 for i:=0 to x*y-1 do
     begin
     Read(f, r, g, b);
-    ImgInfo(Buffer^).Image[i] := 
+    Buffer^.Image[i] := 
         ((byte(r) shr 3) shl 11) or 
 	((byte(g) shr 2) shl 5) or 
 	(byte(b) shr 3);
@@ -170,7 +173,7 @@ procedure SchreibePas(name: string);
 var datasize: longInt;
     i : longint;
 begin
-With ImgInfo(Buffer^) do 
+With Buffer^ do 
   datasize := (Width {$IfDef VER1_0} +1 {$EndIf}) *
               (Height {$IfDef VER1_0} +1 {$EndIf});
 
@@ -184,22 +187,22 @@ if Comment<>'' then
   end;
 WriteLn('const ', name);
 WriteLn('        : packed record');
-WriteLn('             Width    : LongInt;');
-WriteLn('             Height   : LongInt;');
-WriteLn('             reserved : LongInt;');
-WriteLn('             Image    : array[0..',datasize-1,'] of word;');
+WriteLn('             Width    : Sint32;');
+WriteLn('             Height   : Sint32;');
+WriteLn('             reserved : Sint32;');
+WriteLn('             Image    : array[0..',datasize-1,'] of Uint16;');
 WriteLn('             end');
 
-With ImgInfo(Buffer^) do 
+With Buffer^ do 
    begin
    WriteLn('= (Width:',Width,'; Height:',Height,'; reserved:0;');
    WriteLn('Image:(');
-   Write('$',HexStr(Image[0],4));
+   Write(Image[0]);
    For i := 1 to datasize-1 do
       begin
       Write(',');
       if (i mod (72 div 6))=0 then WriteLn;
-      Write('$',HexStr(Image[i], 4));
+      Write(Image[i]);
       end;
    WriteLn('));');
    end;

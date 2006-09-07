@@ -37,12 +37,11 @@ Programme selber kompilieren.
  
 Free Pascal (FPC) 2.0.0 oder besser
 
-Sie benötigen das Haupt-Paket ("main") und SDL4Freepascal-1.2.0.0.
+Sie benötigen das Haupt-Paket ("main").
 Außerdem muss SDL-1.2 auf dem System installiert sein.
 
-Entpacken Sie das Haupt-Paket und SDL4Freepascal im selben Verzeichnis.
-Wechseln Sie in das neu erstellte Verzeichnis akfquiz/ und geben Sie 
-folgendes ein:
+Entpacken Sie das Haupt-Paket. Wechseln Sie in das neu erstellte 
+Verzeichnis akfquiz/ und geben Sie folgendes ein:
 
   ./configure
   make
@@ -53,17 +52,21 @@ Danach sollte es wie oben beschrieben benutzbar sein.
 
 GNU-Pascal (GPC) 20030303 oder besser.
 
-Um grquiz mit GPC zu kompilieren, muss die GRX Bibliothek mit aktivierter 
-GPC Unterstützung installiert sein. Wenn grquiz nicht kompiliert werden 
-kann, wird dieser Fehler in der Makefile ignoriert. Das Programm 
-gtkquizchooser kann mit GPC ebenfalls nicht kompiliert werden.
+Um grquiz mit GPC zu kompilieren, muss entweder die libSDL-1.2 oder die 
+GRX Bibliothek mit aktivierter GPC Unterstützung installiert sein. 
+Wenn grquiz nicht kompiliert werden kann, wird dieser Fehler in der 
+Makefile ignoriert. 
+Das Programm gtkquizchooser kann mit GPC nicht kompiliert werden.
 
 Wechseln Sie in das neu erstellte Verzeichnis akfquiz/ und geben Sie 
-folgendes ein:
+folgendes ein, wenn Sie die libSDL installiert haben:
 
   ./configure --with-gpc
   make
   make clean
+
+Wenn Sie die GRX Bibliothek installiert haben, sollten Sie 
+"./configure --with-grx" eingeben. Die libSDL ist vorzuziehen.
 
 Danach sollte es wie oben beschrieben benutzbar sein.
 
@@ -75,13 +78,14 @@ Das Skript "configure" akzeptiert die folgenden Parameter:
 --prefix=   wohin installiert werden soll
 --cgipath=  wohin das CGI Programm installiert werden soll
 --variant=  Name der Variante
---with-*    Compiler  [*]
+--with-*    Compiler ua. [*]
 --arch=     CPU-Architektur (nur ein Name für die Paket-Benennung)
 --sys=      System (nur ein Name für die Paket-Benennung)
 
 [*] Als Compiler kann folgendes angegeben werden:
 --with-fpc  - Free Pascal 2.0 oder besser
---with-gpc  - GNU Pascal 20030303 oder besser
+--with-gpc  - GNU Pascal 20030303 oder besser mit libSDL
+--with-grx  - GNU Pascal 20030303 oder besser mit GRX
 --with-xarm - Free Pascal Cross-Compiler für Linux auf ARM Prozessoren
 --with-xw32 - Free Pascal Cross-Compiler für Windows
               (nicht verwenden, wenn Sie direkt unter Windows kompilieren)
