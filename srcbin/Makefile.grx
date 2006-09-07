@@ -1,0 +1,54 @@
+# Compile with GPC for the native machine using the GRX library
+
+# $Id: Makefile.grx,v 1.1 2006/09/07 18:16:10 akf Exp $
+
+# make further changes in common.mak
+
+# Conditional Defines:
+#
+# Advertisement
+#          - print msg_advertisement line (qmsgs.pas)
+# GRXMouse - use GRX mouse (experimental!)
+# grNoEscKey,
+# scrNoEscKey
+#          - Esc key may cause troulble in some cases
+# NoHide   - scrquiz: don't hide the cursor 
+#            for FPC, no need to use it with GPC
+# OEM      - scrquiz: display has OEM charset (IBM437)
+#            (don't check the varable MM_CHARSET)
+# NoProjectLink
+#          - Omit the Link to the project's homepage
+#            (still remains in the Meta-data)
+
+PC=gpc --automake --executable-file-name
+
+# Flags for GNU-Pascal
+PFLAGS+=-Wall -Wno-identifier-case
+POPT=-O2 -s
+
+# no cross-compiling
+NATIVEPC=$(PC)
+NATIVEPFLAGS=$(PFLAGS)
+
+# Needed for GRX with X11 output
+PFLAGS+=-L/usr/X11R6/lib
+PFLAGS+=--unit-path=/usr/local/units
+
+#DEFINES+=-D Advertisement
+DEFINES+=-D scrNoEscKey
+DEFINES+=-D GRXMouse
+#DEFINES+=-dNoRelocation
+#DEFINES+=-D NoTitleImage
+#DEFINES+=-D grNoEscKey
+#DEFINES+=-D OEM
+#DEFINES+=-D NoProjectLink
+
+IMAGEOBJ=quizhg.o hginfo.inc titimg.o
+SOUNDOBJ=
+
+# only used on Windows platform
+#GUIFLAG=-mwindows
+
+SHELL = /bin/sh
+
+include common.mak
