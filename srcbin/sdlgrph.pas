@@ -2,9 +2,10 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.4 2006/09/07 15:43:49 akf Exp $
+* $Id: sdlgrph.pas,v 1.5 2006/09/08 05:34:51 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 1997-2004 Sam Lantinga
 *
 * Environment: FreePascal and SDL4FreePascal
 *
