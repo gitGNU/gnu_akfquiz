@@ -2,7 +2,7 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.5 2006/09/08 05:34:51 akf Exp $
+* $Id: sdlgrph.pas,v 1.6 2006/09/08 09:02:28 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -99,18 +99,11 @@ type SDL_Bool = LongBool;
 
 type
   pSDL_Color = ^SDL_Color;
-  SDL_Color =
-    record
-      r, g, b, unused : Uint8;
-      end;
+  SDL_Color = record r, g, b, unused : Uint8 end;
 
 type 
   pSDL_Rect = ^SDL_Rect;
-  SDL_Rect =
-    record
-    x, y : Sint16;
-    w, h : Uint16;
-    end;
+  SDL_Rect = record x, y : Sint16; w, h : Uint16 end;
 
 type
   pSDL_PixelFormat = ^SDL_PixelFormat;
@@ -243,12 +236,6 @@ function SDL_Init(flags: Uint32): CInteger; cdecl;
 	   
 procedure SDL_Quit; cdecl; external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_Quit';
 
-function SDL_InitSubSystem(flags: Uint32): CInteger; cdecl;
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_InitSubSystem';
-
-procedure SDL_QuitSubSystem(flags:Uint32); cdecl; 
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_QuitSubSystem';
-
 function SDL_SetVideoMode(width, height, bpp: CInteger; 
                           flags: Uint32): pSDL_Surface; cdecl;
 	   external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_SetVideoMode';
@@ -273,7 +260,8 @@ function SDL_CreateRGBSurface(flags: Uint32; width, height, depth: CInteger;
 function SDL_CreateRGBSurfaceFrom(pixels: pointer; 
               width, height, depth, pitch: CInteger;
               Rmask, Gmask, Bmask, Amask: Uint32): pSDL_Surface; cdecl; 
-		external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_CreateRGBSurfaceFrom';
+		external {$IfDef FPC}'SDL'{$EndIf} 
+		  name 'SDL_CreateRGBSurfaceFrom';
 
 function SDL_SetColors(surface: pSDL_Surface; 
                        colors: pointer; 
@@ -302,10 +290,6 @@ procedure SDL_FreeSurface(surface:pSDL_Surface); cdecl;
 
 function SDL_MapRGB(format: pSDL_PixelFormat; r, g, b: Uint8): Uint32; cdecl;
            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_MapRGB';
-
-function SDL_UpperBlit(src: pSDL_Surface; srcrect: pSDL_Rect; 
-                       dst: pSDL_Surface; dstrect:pSDL_Rect): CInteger; 
-           cdecl; external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_UpperBlit';
 
 function SDL_BlitSurface(src: pSDL_Surface; srcrect: pSDL_Rect; 
                          dst: pSDL_Surface; dstrect: pSDL_Rect): CInteger;

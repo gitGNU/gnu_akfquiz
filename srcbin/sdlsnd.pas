@@ -2,7 +2,7 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
-* $Id: sdlsnd.pas,v 1.5 2006/09/08 05:34:51 akf Exp $
+* $Id: sdlsnd.pas,v 1.6 2006/09/08 09:02:28 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -40,6 +40,10 @@ uses qsys;
 { initializes SDL with Audio,
   if sub is true, then it is opened as subsystem }
 procedure InitAudio(sub: boolean);
+
+{ closes the Audio-subsystem or all of SDL }
+procedure CloseAudio(sub: boolean);
+
 procedure useSDLsounds; { also started from InitAudio }
 
 
@@ -77,18 +81,15 @@ implementation
 {$EndIf}
 
 type
-  callbackproc = Pointer;
-
-type
   pSDL_AudioSpec = ^SDL_AudioSpec;
   SDL_AudioSpec = record
-    freq : CInteger;
-    format : Uint16;
+    freq     : CInteger;
+    format   : Uint16;
     channels : Uint8;
-    silence : Uint8;
-    samples : Uint16;
-    size : Uint32;
-    callback : callbackproc;
+    silence  : Uint8;
+    samples  : Uint16;
+    size     : Uint32;
+    callback : pointer;
     userdata : pointer;
     end;
 
@@ -111,9 +112,16 @@ function SDL_Init(flags: Uint32): CInteger; cdecl;
 function SDL_InitSubSystem(flags: Uint32): CInteger; cdecl; 
            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_InitSubSystem';
 
+procedure SDL_Quit; cdecl; 
+            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_Quit';
+
+procedure SDL_QuitSubSystem(flags: Uint32);
+            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_QuitSubSystem';
+
 function SDL_OpenAudio(var desired: SDL_AudioSpec; 
                        obtained: pSDL_AudioSpec): CInteger; cdecl;
            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_OpenAudio';
+
 procedure SDL_LockAudio; cdecl; 
            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_LockAudio';
 
@@ -129,6 +137,10 @@ procedure SDL_MixAudio(dst: pByte; src: pByte;
 
 procedure playSound(s: pointer; len: LongInt);
 begin
+{ only play, when no other sound is playing,
+  otherwise don't interrupt, don't wait, just forget it -
+  rationale: a human speaker doesn't interrupt himself }
+
 if AudioAvailable and (sndLen<=0) then
   begin
   SDL_LockAudio;
@@ -181,7 +193,8 @@ InfoSignal     := playInfoSound;
 ErrorSignal    := playErrorSound
 end;
 
-procedure fillAudio(var userdata; stream:pByte; len: CInteger); cdecl;
+{ This is the callback procedure }
+procedure fillAudio(var userdata; stream: pByte; len: CInteger); cdecl;
 begin
 if sndlen>0 then 
   begin
@@ -214,6 +227,13 @@ if AudioAvailable then
   AudioAvailable := SDL_OpenAudio(desired, NIL)=0;
   if AudioAvailable then useSDLsounds;
   end
+end;
+
+procedure CloseAudio(sub: boolean);
+begin
+if sub
+  then SDL_QuitSubSystem(SDL_INIT_AUDIO)
+  else SDL_Quit;
 end;
 
 end.
