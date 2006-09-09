@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.12 2006/09/07 15:41:36 akf Exp $
+* $Id: cgiquiz.pas,v 1.13 2006/09/09 15:26:18 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -303,8 +303,8 @@ If Browser
        WriteLn('<br><br></dd>');
        WriteLn('<dt>Examples:</dt>');
        WriteLn('<dd>');  
-       WriteLn(CGIBase, '/--help<br>');
-       WriteLn(CGIBase, '/--version<br>');
+       WriteLn(CGIBase, '?--help<br>');
+       WriteLn(CGIBase, '?--version<br>');
        WriteLn(CGIBase, '/quizdir/<br>');
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz');
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2');
@@ -324,8 +324,8 @@ If Browser
        WriteLn(' or:   cgiquiz --version');
        WriteLn;
        WriteLn('Examples:');
-       WriteLn(' > ', CGIBase, '/--help');
-       WriteLn(' > ', CGIBase, '/--version');
+       WriteLn(' > ', CGIBase, '?--help');
+       WriteLn(' > ', CGIBase, '?--version');
        WriteLn(' > ', CGIBase, '/quizdir/');
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz');
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz?q1=2&q2=1&q5=2');
@@ -1059,6 +1059,12 @@ procedure runQuiz;
 var MyQuiz: Pakfquiz;
 begin
 getQueryString;
+
+if (pos('--help', CGI_QUERY_STRING)<>0) 
+   or (pos('-h', CGI_QUERY_STRING)<>0) 
+    then help;
+
+if pos('--version', CGI_QUERY_STRING)<>0 then version;
 
 if CGI_QUERY_STRING=''
    then MyQuiz := new(Pcgiquiz, init)    { query }
