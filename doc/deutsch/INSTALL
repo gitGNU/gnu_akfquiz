@@ -74,13 +74,15 @@ Danach sollte es wie oben beschrieben benutzbar sein.
 Das Skript "configure":
 Das Skript "configure" akzeptiert die folgenden Parameter:
 
---help      zeigt eine kurze Hilfe an
---prefix=   wohin installiert werden soll
---cgipath=  wohin das CGI Programm installiert werden soll
---variant=  Name der Variante
---with-*    Compiler ua. [*]
---arch=     CPU-Architektur (nur ein Name für die Paket-Benennung)
---sys=      System (nur ein Name für die Paket-Benennung)
+--help            zeigt eine kurze Hilfe an
+--prefix=         wohin installiert werden soll
+--cgipath=        wohin das CGI Programm installiert werden soll
+--variant=        Name der Variante
+--with-*          Compiler ua. [*]
+--arch=           CPU-Architektur (nur ein Name für die Paket-Benennung)
+--sys=            System (nur ein Name für die Paket-Benennung)
+--enable-exam=no  ohne Exam-Modus
+--disable-exam    ohne Exam-Modus
 
 [*] Als Compiler kann folgendes angegeben werden:
 --with-fpc  - Free Pascal 2.0 oder besser

@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.13 2006/09/09 15:26:18 akf Exp $
+* $Id: cgiquiz.pas,v 1.14 2006/09/11 08:40:27 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -65,6 +65,9 @@ program cgiquiz(input, output); { aka "akfquiz.cgi" }
 const PrgVersion = 'cgiquiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
 
 const ExamModeName = 'exam'; { abstract name for the URI }
+
+{ for self-referring URIs }
+const protocol = 'http://';
 
 const
   grRight = 'richtig.png';
@@ -262,7 +265,8 @@ Browser := (GetEnvironmentVariable('REQUEST_METHOD')<>'');
 if Browser
   then begin
        if ServerName='' then getServerName;
-       CGIBase := '<strong>http://'
+       CGIBase := '<strong>'
+                  + protocol
                   + ServerName
                   + GetEnvironmentVariable('SCRIPT_NAME')
 	          + '</strong>'
@@ -310,8 +314,10 @@ If Browser
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2');
        WriteLn('</dd></dl>');
        WriteLn;
-       WriteLn('<p>The special quizdir "', ExamModeName, '" for exams'
-               + ' is mapped to "', ExamDir, '".</p>');
+       if ExamDir<>'' 
+         then WriteLn('<p>The special quizdir "', ExamModeName, '" for exams'
+                      + ' is mapped to "', ExamDir, '".</p>')
+	 else WriteLn('<p>Exam mode disabled.</p>');
        if BugMail<>'' then
          WriteLn('<p>Report bugs to <a href="mailto:' + BugMail + '">'
                  + BugMail+'</a>.</p>');
@@ -330,8 +336,10 @@ If Browser
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz');
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz?q1=2&q2=1&q5=2');
        WriteLn;
-       WriteLn('The special quizdir "', ExamModeName, '" for exams'
-               + ' is mapped to "', ExamDir, '".');
+       if ExamDir<>'' 
+         then WriteLn('The special quizdir "', ExamModeName, '" for exams'
+                      + ' is mapped to "', ExamDir, '".')
+	 else WriteLn('Exam mode disabled.');
        if BugMail <> '' then
          begin WriteLn; WriteLn('Report bugs to <' + BugMail + '>.') end
 	 
@@ -364,11 +372,14 @@ end;
 procedure prepareExam;
 var s: mystring;
 begin
-ExamMode := true;
+if ExamDir<>'' then
+  begin
+  ExamMode := true;
 
-s := CGI_PATH_INFO; 
-delete(s, 1, length('/' + ExamModeName));
-CGI_PATH_TRANSLATED := ExamDir + s
+  s := CGI_PATH_INFO; 
+  delete(s, 1, length('/' + ExamModeName));
+  CGI_PATH_TRANSLATED := ExamDir + s
+  end
 end;
 
 procedure HTTPStatus(status: integer; message: string);
@@ -538,9 +549,9 @@ end;
 procedure Tcgiquiz.headdata;
 begin
 WriteLn(outp);
-if pos('http', DocumentURI)=1
+if pos(protocol, DocumentURI)=1
   then WriteLn(outp, '<base href="', DocumentURI, '">')
-  else WriteLn(outp, '<base href="http://', ServerName, DocumentURI, '">');
+  else WriteLn(outp, '<base href="', protocol, ServerName, DocumentURI, '">');
 WriteLn(outp);
 
 inherited headdata
@@ -898,16 +909,14 @@ end;
 procedure Tcgianswer.saveResult;
 var 
   f: text;
-  dataline: mystring;
+  myname: mystring;
   ResultStr: FormDataString;
 begin
 
 { prepare output line to make write access as atomic as possible }
 if Name<>'' 
-  then dataline := Name
-  else dataline := 'anonymous'; { shouldn't happen }
-
-dataline := dataline + ':' + IntToStr(getPercentage) + '%';
+  then myname := Name
+  else myname := 'anonymous'; { shouldn't happen }
 
 { ResultStr := CGI_QUERY_STRING with "home" stripped }
 ResultStr := CGI_QUERY_STRING;
@@ -923,8 +932,9 @@ Assign(f, stripext(CGI_PATH_TRANSLATED) + '.result');
   Extend(f); { ISO-10206 }
 {$EndIf}
 
-WriteLn(f, dataline);
-WriteLn(f, ResultStr);
+{ make write-process as atomic as possible }
+WriteLn(f, myname + nl + IntToStr(getPercentage) + nl
+           + ResultStr);
 WriteLn(f);
 Close(f);
 
@@ -935,7 +945,7 @@ end;
 
 procedure Tcgianswer.EndQuiz;
 begin
-{ if ExamMode then saveResult; } { not save yet @@@@}
+if ExamMode then saveResult;
 inherited EndQuiz
 end;
 
@@ -954,7 +964,8 @@ if CGI_PATH_INFO[length(CGI_PATH_INFO)] = '/'
   else begin
        isDirectory := false;
        if DirectoryExists(CGI_PATH_TRANSLATED) 
-         then MovedPermanently(GetEnvironmentVariable('SCRIPT_NAME')
+         then MovedPermanently(protocol + ServerName
+	                       + GetEnvironmentVariable('SCRIPT_NAME')
 	                       + CGI_PATH_INFO + '/')
        end
 end;
@@ -1107,25 +1118,32 @@ getServerName;
 CGI_PATH_INFO       := GetEnvironmentVariable('PATH_INFO');
 CGI_PATH_TRANSLATED := GetEnvironmentVariable('PATH_TRANSLATED');
 
-if (CGI_PATH_INFO='') or (CGI_PATH_TRANSLATED='') then help;
+if (CGI_PATH_INFO='') or (CGI_PATH_TRANSLATED='') then 
+  MovedPermanently(protocol + Servername
+                   + GetEnvironmentVariable('SCRIPT_NAME') 
+		   + '?--help');
 
+{ deprecated method, but defined in GNU Coding Standards }
 if (pos('/--help', CGI_PATH_INFO)<>0) 
    or (pos('/-h', CGI_PATH_INFO)<>0) 
-   or (pos('/?', CGI_PATH_INFO)<>0)  
     then help;
-
 if pos('/--version', CGI_PATH_INFO)<>0 then version;
+
 
 { Don't allow to use /.. for security reasons }
 { else someone could scan through the whole machine }
 if pos('/..', CGI_PATH_INFO)<>0 then Forbidden;
 
-{ Redirect /exam to /exam/ }
-if CGI_PATH_INFO = '/' + ExamModeName then 
-  MovedPermanently(GetEnvironmentVariable('SCRIPT_NAME')
-                   + '/' + ExamModeName + '/');
+if ExamDir<>'' then
+  begin
+  { Redirect /exam to /exam/ }
+  if CGI_PATH_INFO = '/' + ExamModeName then 
+    MovedPermanently(protocol + ServerName
+                     + GetEnvironmentVariable('SCRIPT_NAME')
+                     + '/' + ExamModeName + '/');
 
-if (pos('/'+ExamModeName+'/', CGI_PATH_INFO)=1) then prepareExam;
+  if (pos('/'+ExamModeName+'/', CGI_PATH_INFO)=1) then prepareExam;
+  end;
 
 if isDirectory 
   then showList

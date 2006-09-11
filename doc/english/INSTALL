@@ -70,13 +70,15 @@ After that, it is ready to use, as described above.
 Using configure:
 The configure script accepts the following parameters:
 
---help      shows a short help
---prefix=   where to install
---cgipath=  where to install the CGI binary
---variant=  Variant name
---with-*    compiler to use [*]
---arch=     CPU architecture (just a name for making packages)
---sys=      system (just a name for making packages)
+--help            shows a short help
+--prefix=         where to install
+--cgipath=        where to install the CGI binary
+--variant=        Variant name
+--with-*          compiler to use [*]
+--arch=           CPU architecture (just a name for making packages)
+--sys=            system (just a name for making packages)
+--enable-exam=no  disables the exam-mode
+--disable-exam    disables the exam-mode
 
 [*] the compiler may be
 --with-fpc  - Free Pascal 2.0 or newer

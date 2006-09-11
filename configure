@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.12 2006/09/07 15:43:49 akf Exp $
+# $Id: configure,v 1.13 2006/09/11 08:40:27 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -63,6 +63,8 @@ options:
   --with-grx
   --with-xw32
   --with-xarm
+  --enable-exam=no
+  --disable-exam
 AMEN
 exit
 }
@@ -137,7 +139,13 @@ do
     --fpc)         COMPILER=fpc ;;
     --xw32)        COMPILER=xw32 ;;
     --xarm)        COMPILER=xarm ;;
+    --enable-exam=no) EXAMDIR="" ;;
+    --enable-exam=yes) ;; # default behaviour
+    --disable-exam)   EXAMDIR="" ;;
+    --disable-exam=yes) EXAMDIR="" ;;
+    --disable-exam=no) ;; # default behaviour
     --enable-*)    ;; # ignore (see GNU Coding Standards)
+    --disable-*)    ;; # ignore (see GNU Coding Standards)
     --prefix=*)    PREFIX=`echo "$1" | sed -e "s/--prefix=\(.*\)/\1/"` ;;
     --mandir=*)    notsupported --mandir ;; # yet to be implemented
     --infodir=*)    ;; # ignore - not used
@@ -160,6 +168,11 @@ test -z "$COMPILER" && getcompiler
 test "$COMPILER" = "xarm" && ARCH=arm
 test "$COMPILER" = "xw32" && SYS=w32
 
+# disable exam-mode on some systems
+case $SYS in
+  w32|mingw32) EXAMDIR="" ;;
+esac
+  
 # check for needed tools
 case $COMPILER in
   fpc|xarm|xw32) 
