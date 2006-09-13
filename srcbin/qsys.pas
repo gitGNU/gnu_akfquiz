@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.4 2006/09/07 15:43:49 akf Exp $
+* $Id: qsys.pas,v 1.5 2006/09/13 05:28:05 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -285,8 +285,11 @@ procedure SystemBeep;
 procedure DisableSignals;
 procedure useBeepSignals; { use system beeps (#7) }
 
-function ShowTime(sec: LongInt): mystring;
+{ show time from given seconds }
+function ShowTime(sec: LongInt): mystring; 
 function GetSecs: LongInt;
+
+function showDateTime: mystring;
 
 {$IfDef __GPC__}
   function IntToStr(i: LongInt): mystring;
@@ -1371,6 +1374,26 @@ begin
   GetSecs := GetMicroSecondTime div 1000000
 {$EndIf}
 end;
+
+{$IfDef FPC}
+
+  function showDateTime: mystring;
+  var s: mystring;
+  begin
+  DateTimeToString(s, 'yyyy-mm-dd, hh:nn:ss', now);
+  showDateTime := s
+  end;
+
+{$Else} { not FPC }
+
+  function showDateTime: mystring;
+  var t: TimeStamp;
+  begin
+  GetTimeStamp(t); { ISO-10206 }
+  showDateTime := FormatTime(t, '%F, %T') { GNU-Pascal }
+  end;
+
+{$EndIf} { not FPC }
 
 {$IfDef __GPC__}
   function IntToStr(i: LongInt): mystring;
