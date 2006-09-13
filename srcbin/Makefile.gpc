@@ -1,6 +1,6 @@
 # Compile with GPC for the native machine using libSDL
 
-# $Id: Makefile.gpc,v 1.5 2006/09/07 15:43:49 akf Exp $
+# $Id: Makefile.gpc,v 1.6 2006/09/13 05:26:44 akf Exp $
 
 # make further changes in common.mak
 
@@ -23,7 +23,7 @@ PC=gpc --automake --executable-file-name
 
 # Flags for GNU-Pascal
 PFLAGS+=-Wall -Wno-identifier-case
-POPT=-O2 -s
+POPT=-O3 -s
 
 # no cross-compiling
 NATIVEPC=$(PC)

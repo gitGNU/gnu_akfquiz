@@ -1,6 +1,6 @@
 # Compile with GPC for the native machine using the GRX library
 
-# $Id: Makefile.grx,v 1.1 2006/09/07 18:16:10 akf Exp $
+# $Id: Makefile.grx,v 1.2 2006/09/13 05:26:44 akf Exp $
 
 # make further changes in common.mak
 
@@ -24,7 +24,7 @@ PC=gpc --automake --executable-file-name
 
 # Flags for GNU-Pascal
 PFLAGS+=-Wall -Wno-identifier-case
-POPT=-O2 -s
+POPT=-O3 -s
 
 # no cross-compiling
 NATIVEPC=$(PC)
