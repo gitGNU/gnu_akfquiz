@@ -4,7 +4,7 @@
 * usable for blind users (braile line or speech synthesizer)
 * usable as backend for other applications
 *
-* $Id: linequiz.pas,v 1.6 2006/08/27 06:47:35 akf Exp $
+* $Id: linequiz.pas,v 1.7 2006/09/13 10:23:30 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -31,7 +31,7 @@
 {$IfDef _WIN32} {$Define Win32} {$EndIf}
 
 {$IfDef Win32}
-  {$R w32/linequiz}
+  {$R w32/linequiz.res}
 {$EndIf}
 
 {$IfDef FPC}

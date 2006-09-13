@@ -29,7 +29,7 @@
   {$Mode Delphi}
 {$EndIf}
 
-{$R wquizchooser}
+{$R wquizchooser.res}
 {$X+}
 
 program wquizchooser(o);

@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.13 2006/09/11 08:40:27 akf Exp $
+# $Id: configure,v 1.14 2006/09/13 10:23:30 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -170,7 +170,7 @@ test "$COMPILER" = "xw32" && SYS=w32
 
 # disable exam-mode on some systems
 case $SYS in
-  w32|mingw32) EXAMDIR="" ;;
+  w32|mingw32*|MINGW32*) EXAMDIR="" ;;
 esac
   
 # check for needed tools

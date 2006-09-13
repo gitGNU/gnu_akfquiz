@@ -1,6 +1,6 @@
 /* windows ressource file for GNU windres */
 
-AppIcon ICON "w32/AKFQuiz.ico"
+AppIcon ICON "AKFQuiz.ico"
 
 1 VERSIONINFO
 FILEVERSION @@@

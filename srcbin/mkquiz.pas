@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.8 2006/09/07 15:43:49 akf Exp $
+* $Id: mkquiz.pas,v 1.9 2006/09/13 10:23:30 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -33,7 +33,7 @@
 {$IfDef _WIN32} {$Define Win32} {$EndIf}
 
 {$IfDef Win32}
-  {$R w32/mkquiz}
+  {$R w32/mkquiz.res}
 {$EndIf}
 
 {$IfDef FPC}

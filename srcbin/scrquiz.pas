@@ -2,7 +2,7 @@
 * scrquiz   (was crtquiz)
 * screen/terminal oriented quiz program
 *
-* $Id: scrquiz.pas,v 1.6 2006/08/27 06:47:35 akf Exp $
+* $Id: scrquiz.pas,v 1.7 2006/09/13 10:23:30 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -37,7 +37,7 @@
 {$IfDef _WIN32} {$Define Win32} {$EndIf}
 
 {$IfDef Win32}
-  {$R w32/scrquiz}
+  {$R w32/scrquiz.res}
 {$EndIf}
 
 {$IfDef FPC}

@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.6 2006/09/07 15:43:49 akf Exp $
+* $Id: grquiz.pas,v 1.7 2006/09/13 10:23:30 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -31,7 +31,7 @@
 {$IfDef _WIN32} {$Define Win32} {$EndIf}
 
 {$IfDef Win32}
-  {$R w32/grquiz}
+  {$R w32/grquiz.res}
   {$UnDef Beeps} { important }
 {$EndIf}
 
