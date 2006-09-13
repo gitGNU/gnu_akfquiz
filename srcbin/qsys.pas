@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.5 2006/09/13 05:28:05 akf Exp $
+* $Id: qsys.pas,v 1.6 2006/09/13 16:18:00 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -197,7 +197,7 @@ function basename(const s: string): mystring;
 function getnextdir(var rest: mystring): mystring;
 function getquizpath: mystring;
 function getquizdir: mystring; { first dir from QUIZPATH }
-function useDirSeparator(const s: string): mystring;
+function addDirSeparator(const s: string): mystring;
 function getQuizTitle(const x: string): mystring;
 
 { searches quizfile: }
@@ -413,12 +413,12 @@ l := GetEnvironmentVariable('LANG');
 getSystemLanguage := l
 end;
 
-function useDirSeparator(const s: string): mystring;
+function addDirSeparator(const s: string): mystring;
 begin
 {$IfDef __GPC__}
-  useDirSeparator := ForceAddDirSeparator(s)
+  addDirSeparator := ForceAddDirSeparator(s)
 {$Else}
-  useDirSeparator := IncludeTrailingPathDelimiter(s)
+  addDirSeparator := IncludeTrailingPathDelimiter(s)
 {$EndIf}
 end;
 

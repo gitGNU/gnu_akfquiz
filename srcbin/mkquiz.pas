@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.9 2006/09/13 10:23:30 akf Exp $
+* $Id: mkquiz.pas,v 1.10 2006/09/13 16:18:00 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -484,7 +484,7 @@ if count<>0 then
          because it can be confused with -d in the other programs }
        begin
        inc(i);
-       outpath := useDirSeparator(ParamStr(i));
+       outpath := addDirSeparator(ParamStr(i));
        continue
        end;
     if p='-' then 
