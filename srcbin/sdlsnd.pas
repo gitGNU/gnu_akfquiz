@@ -2,7 +2,7 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
-* $Id: sdlsnd.pas,v 1.7 2006/09/13 08:00:44 akf Exp $
+* $Id: sdlsnd.pas,v 1.8 2006/09/13 10:40:39 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -78,8 +78,6 @@ implementation
   {$I neutralsnd.inc}
   {$I errorsnd.inc}
   {$I infosnd.inc}
-
-  {$LinkLib SDL}
 {$EndIf}
 
 type
@@ -109,33 +107,33 @@ var
   sndlen  : LongInt = 0;
 
 function SDL_Init(flags: Uint32): CInteger; cdecl; 
-           external name 'SDL_Init';
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_Init';
 
 function SDL_InitSubSystem(flags: Uint32): CInteger; cdecl; 
-           external name 'SDL_InitSubSystem';
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_InitSubSystem';
 
 procedure SDL_Quit; cdecl; 
-            external name 'SDL_Quit';
+            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_Quit';
 
 procedure SDL_QuitSubSystem(flags: Uint32); cdecl;
-            external name 'SDL_QuitSubSystem';
+            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_QuitSubSystem';
 
 function SDL_OpenAudio(var desired: SDL_AudioSpec; 
                        obtained: pSDL_AudioSpec): CInteger; cdecl;
-           external name 'SDL_OpenAudio';
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_OpenAudio';
 
 procedure SDL_LockAudio; cdecl; 
-           external name 'SDL_LockAudio';
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_LockAudio';
 
 procedure SDL_UnlockAudio; cdecl; 
-           external name 'SDL_UnlockAudio';
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_UnlockAudio';
 
 procedure SDL_PauseAudio(pause_on: CInteger); cdecl; 
-            external name 'SDL_PauseAudio';
+            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_PauseAudio';
 
 procedure SDL_MixAudio(dst: pByte; src: pByte;
                        len: UInt32; volume: CInteger); cdecl; 
-           external name 'SDL_MixAudio';
+           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_MixAudio';
 
 procedure playSound(s: pointer; len: LongInt);
 begin
