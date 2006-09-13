@@ -61,8 +61,8 @@ en.unfreequiz=also install non-free quiz-files
 de.unfreequiz=auch nicht freie Quiz-Dateien installieren
 ;en.installsrc=unpack source codes
 ;de.installsrc=Quell-Texte entpacken
-en.installcgi=unpack CGI program (no automatic installation!)
-de.installcgi=CGI Programm entpacken (keine automatische Installation!)
+;en.installcgi=unpack CGI program (no automatic installation!)
+;de.installcgi=CGI Programm entpacken (keine automatische Installation!)
 en.new=edit or create quiz
 de.new=Quiz bearbeiten oder erstellen
 en.Usage=Usage instructions
@@ -85,7 +85,7 @@ Type: files; Name: "{app}\doc\*.url"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 Name: "unfreequiz"; Description: "{cm:unfreequiz}"; GroupDescription: "{cm:addon}";
 Name: "edit"; Description: "{cm:edit}"; GroupDescription: "{cm:addon}";
-Name: "cgi"; Description: "{cm:installcgi}"; GroupDescription: "{cm:addon}"; Flags: unchecked;
+;Name: "cgi"; Description: "{cm:installcgi}"; GroupDescription: "{cm:addon}"; Flags: unchecked;
 ;Name: "src"; Description: "{cm:installsrc}"; GroupDescription: "{cm:addon}"; Flags: unchecked;
 
 [Files]
@@ -97,7 +97,7 @@ Source: "..\wquizchooser.exe";DestDir: "{app}\bin";
 Source: "..\..\..\SDL\SDL.dll";  DestDir: "{app}\bin"; Flags: skipifsourcedoesntexist;
 Source: "..\..\..\SDL\README-SDL.txt";DestDir: "{app}\doc"; Flags: skipifsourcedoesntexist;
 Source: "AKFQuiz.ico";        DestDir: "{app}";
-Source: "..\cgiquiz.exe";     DestDir: "{app}\bin"; Tasks: cgi
+;Source: "..\cgiquiz.exe";     DestDir: "{app}\bin"; Tasks: cgi
 Source: "..\quizstat";        DestDir: "{app}\bin";
 Source: "Linux-en.akfquiz";   DestDir: "{app}\share\akfquiz"; Flags: promptifolder
 Source: "Linux-de.akfquiz";   DestDir: "{app}\share\akfquiz"; Flags: promptifolder
@@ -144,13 +144,13 @@ Name: "{group}\{cm:doc}\PDF\akfquiz"; Filename: "{app}\doc\{cm:langdoc}\akfquiz.
 Name: "{group}\{cm:doc}\PDF\grquiz"; Filename: "{app}\doc\{cm:langdoc}\grquiz.pdf";
 Name: "{group}\{cm:doc}\PDF\scrquiz"; Filename: "{app}\doc\{cm:langdoc}\scrquiz.pdf";
 Name: "{group}\{cm:doc}\PDF\mkquiz";  Filename: "{app}\doc\{cm:langdoc}\mkquiz.pdf";
-Name: "{group}\{cm:doc}\PDF\cgiquiz"; Filename: "{app}\doc\{cm:langdoc}\cgiquiz.pdf";
+;Name: "{group}\{cm:doc}\PDF\cgiquiz"; Filename: "{app}\doc\{cm:langdoc}\cgiquiz.pdf"; Tasks: cgi;
 Name: "{group}\{cm:doc}\PDF\linequiz"; Filename: "{app}\doc\{cm:langdoc}\linequiz.pdf";
 Name: "{group}\{cm:doc}\HTML\akfquiz"; Filename: "{app}\doc\{cm:langdoc}\akfquiz.html";
 Name: "{group}\{cm:doc}\HTML\grquiz"; Filename: "{app}\doc\{cm:langdoc}\grquiz.html";
 Name: "{group}\{cm:doc}\HTML\scrquiz"; Filename: "{app}\doc\{cm:langdoc}\scrquiz.html";
 Name: "{group}\{cm:doc}\HTML\mkquiz";  Filename: "{app}\doc\{cm:langdoc}\mkquiz.html";
-Name: "{group}\{cm:doc}\HTML\cgiquiz"; Filename: "{app}\doc\{cm:langdoc}\cgiquiz.html";
+;Name: "{group}\{cm:doc}\HTML\cgiquiz"; Filename: "{app}\doc\{cm:langdoc}\cgiquiz.html"; Tasks: cgi;
 Name: "{group}\{cm:doc}\HTML\linequiz"; Filename: "{app}\doc\{cm:langdoc}\linequiz.html";
 ;Name: "{group}\{cm:quizfiles}"; Filename: "{app}\share\akfquiz\"; Flags: foldershortcut;
 ; WorkingDir for grquiz, because of stout.txt, stderr.txt
