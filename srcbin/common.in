@@ -1,4 +1,4 @@
-# $Id: common.in,v 1.5 2006/09/07 15:43:49 akf Exp $
+# $Id: common.in,v 1.6 2006/09/13 08:00:44 akf Exp $
 
 #####################################################################
 # change here:
@@ -152,6 +152,7 @@ distclean: veryclean
 	-$(MAKE) -C w32 distclean
 	-rm -f mkquiz scrquiz cgiquiz akfquiz.cgi diaquiz linequiz \
 	       grquiz gtkquizchooser
+	-rm -f SDL.dll
 	-rm -f *.exe
 	-rm -f config.inc
 	-rm -f common.mak Makefile
