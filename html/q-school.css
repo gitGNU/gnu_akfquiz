@@ -1,7 +1,7 @@
 /* akfquiz - styles for school-theme */
 /* this file is in the public domain */
 
-/* last revision for AKFQuiz 4.1.2 */
+/* last revision for AKFQuiz 4.3.2 */
 
 /* import special styles for printig: */
 @import url(q-print.css) print;
@@ -98,7 +98,10 @@ h1 {
 
   #metadata, .hint, .assessment {
      color:black;
-     background-color:#eeeeee;
+     background-color:#eee;
+     border-color:#eee;
+     border-style:outset;
+     border-width:medium;
      }
 
   .answer input {
