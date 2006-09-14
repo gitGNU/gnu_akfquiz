@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.6 2006/09/13 16:18:00 akf Exp $
+* $Id: qsys.pas,v 1.7 2006/09/14 09:13:07 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -255,6 +255,8 @@ function ISO1toHTML(const s: string): mystring;
 function UTF8toHTML(const s: string): mystring;
 function forceASCII(const s: string): mystring;
 function noconversion(const s: string): mystring;
+
+function csToUTF8(const cs, txt: mystring): mystring;
 
 { length of real characters in a UTF8 string }
 function UTF8Length(const s: string): LongInt;
@@ -1159,6 +1161,36 @@ while p<=length(s) do
   end;
 
 UTF8toOEM := e
+end;
+
+function csToUTF8(const cs, txt: mystring): mystring;
+begin
+csToUTF8 := txt; { default: no conversion }
+
+if checkISO(cs) then
+  case whichISO(cs) of
+     1: csToUTF8 := ISO1ToUTF8(txt);
+     2: csToUTF8 := ISO2ToUTF8(txt);
+     3: csToUTF8 := ISO3ToUTF8(txt);
+     4: csToUTF8 := ISO4ToUTF8(txt);
+     5: csToUTF8 := ISO5ToUTF8(txt);
+     6: csToUTF8 := ISO6ToUTF8(txt);
+     7: csToUTF8 := ISO7ToUTF8(txt);
+     8: csToUTF8 := ISO8ToUTF8(txt);
+     9: csToUTF8 := ISO9ToUTF8(txt);
+    10: csToUTF8 := ISO10ToUTF8(txt);
+    11: csToUTF8 := ISO11ToUTF8(txt);
+    13: csToUTF8 := ISO13ToUTF8(txt);
+    14: csToUTF8 := ISO14ToUTF8(txt);
+    15: csToUTF8 := ISO15ToUTF8(txt);
+    16: csToUTF8 := ISO16ToUTF8(txt);
+    otherwise csToUTF8 := txt;
+    end;
+ 
+if checkCP1252(cs) then csToUTF8 := CP1252toUTF8(txt);
+if checkOEM(cs)    then csToUTF8 := OEMtoUTF8(txt);
+if checkASCII(cs)  then csToUTF8 := forceASCII(txt);
+{ UTF8 needn't be checked }
 end;
 
 function UTF8Length(const s: string): LongInt;
