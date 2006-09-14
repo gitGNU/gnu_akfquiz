@@ -10,6 +10,24 @@ Please help to translate AkfQuiz to other languages
   deutsch:: 'GPL V2 oder neuer'
   english:: 'GPL v2 or later'
 
+ msg_noWarranty::
+    deutsch::
+     'Dieses Programm wird ohne Gewährleistung geliefert, '
+     'soweit dies gesetzlich zulässig ist.'
+     'Sie können es unter den Bedingungen der'
+     'GNU General Public License weitergeben.'
+     'Details dazu enthält die Datei COPYING.'
+     
+     'Quiz-Dateien sind von dieser Lizenz nicht betroffen.'
+    english:: 
+     'This program comes with NO WARRANTY,'
+     'to the extent permitted by law.'
+     'You may redistribute it under the terms of the '
+     'GNU General Public License;'
+     'see the file named COPYING for details.'
+    
+     'Quiz-files are not affected by this license.'
+
  msg_contributions::
   deutsch:: 'Beiträge:'
   english:: 'contributions:'
