@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.8 2006/09/14 19:02:11 akf Exp $
+* $Id: qsys.pas,v 1.9 2006/09/15 16:21:52 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -188,6 +188,7 @@ var quizfileList, quizfileListEnd : PquizfileList;
 
 function makeUpcase(x: string): mystring;
 function stripWhitespace(x: string): mystring;
+function StrToInt(s: string; fallback: integer): integer;
 function Min(a, b: LongInt): LongInt;
 function Max(a, b: LongInt): LongInt;
 { remove to last dot }
@@ -325,6 +326,15 @@ end;
 function Max(a, b: LongInt): LongInt;
 begin
 if a>b then Max := a else Max := b
+end;
+
+function StrToInt(s: string; fallback: integer): integer;
+var value, code: integer;
+begin
+val(s, value, code);
+if code=0 
+  then StrToInt := value
+  else StrToInt := fallback
 end;
 
 { removes leading and trailing spaces and tabs }
