@@ -1,4 +1,5 @@
 4.3.2
+- grquiz: non breaking space not visible anymore
 - SDL4Freepascal not needed anymore
 - grquiz: libSDL usable with gpc (GRX still also supported)
 - cgiquiz, mkquiz: change index format to <ul>
