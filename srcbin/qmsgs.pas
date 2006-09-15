@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.4 2006/08/27 06:47:35 akf Exp $
+* $Id: qmsgs.pas,v 1.5 2006/09/15 07:47:08 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -92,6 +92,8 @@ function msg_noJS: mystring;
 function msg_notusable: mystring;
 function msg_assessment: mystring;
 function msg_more: mystring;
+function msg_Results: mystring;
+function msg_showResults: mystring;
 
 
 Implementation
@@ -533,6 +535,22 @@ case lang of
   deutsch : msg_more := 'mehr...';
   english : msg_more := 'more...';
   otherwise  msg_more := '...'
+  end
+end;
+
+function msg_Results: mystring;
+begin
+case lang of
+  deutsch : msg_Results := 'Ergebnisse';
+  otherwise  msg_Results := 'Results'
+  end
+end;
+
+function msg_showResults: mystring;
+begin
+case lang of
+  deutsch : msg_showResults := 'Zeige Ergebnisse';
+  otherwise  msg_showResults := 'Show Results'
   end
 end;
 

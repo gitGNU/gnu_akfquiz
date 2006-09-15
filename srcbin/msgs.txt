@@ -226,3 +226,11 @@ Please help to translate AkfQuiz to other languages
   deutsch:: 'mehr...'
   english:: 'more...'
   otherwise:: '...'
+
+ msg_Results::
+  deutsch:: 'Ergebnisse'
+  english:: 'Results'
+
+ msg_showResults::
+  deutsch:: 'Zeige Ergebnisse'
+  english:: 'Show Results'
