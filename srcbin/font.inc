@@ -1,5 +1,5 @@
 {
-* $Id: font.inc,v 1.4 2006/08/17 08:27:58 akf Exp $
+* $Id: font.inc,v 1.5 2006/09/15 07:44:49 akf Exp $
 *
 * Copyright (c) 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright by the contributers to kbd
@@ -802,7 +802,8 @@ case ch of
    $0168 : UnicodeToFont := $09d;
    $016a : UnicodeToFont := $09e;
    $00df : UnicodeToFont := $09f;
-   $00a0, $2423 : UnicodeToFont := $0a0;
+   $00a0 : UnicodeToFont := $020;
+   $2423 : UnicodeToFont := $0a0;
    $0104 : UnicodeToFont := $0a1;
    $0138 : UnicodeToFont := $0a2;
    $0156 : UnicodeToFont := $0a3;
