@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.14 2006/09/11 08:40:27 akf Exp $
+* $Id: cgiquiz.pas,v 1.15 2006/09/15 19:03:49 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -34,7 +34,7 @@
 {$IfDef _WIN32} {$Define Win32} {$EndIf}
 
 {$IfDef Win32}
-  {$R w32/cgiquiz}
+  {$R w32/cgiquiz.res}
 {$EndIf}
 
 {$IfDef FPC}
@@ -54,10 +54,9 @@
 program cgiquiz(input, output); { aka "akfquiz.cgi" }
 
 {$IfDef __GPC__}
-  import uakfquiz; htmlquiz; qmsgs; qsys;
-         GPC (GetEnv => GetEnvironmentVariable); 
+  import uakfquiz; htmlquiz; qmsgs; qsys; GPC; 
 {$Else}
-    uses SysUtils, qsys, qmsgs, uakfquiz, htmlquiz;
+  uses SysUtils, qsys, qmsgs, uakfquiz, htmlquiz;
 {$EndIf} { __GPC__ }
 
 
@@ -68,6 +67,8 @@ const ExamModeName = 'exam'; { abstract name for the URI }
 
 { for self-referring URIs }
 const protocol = 'http://';
+
+const ResultExt = '.result';
 
 const
   grRight = 'richtig.png';
@@ -85,6 +86,7 @@ type
       public
         constructor init;
 	destructor Done;                         virtual;
+	procedure resetQuiz;                     virtual;
 	procedure HTTPdata;
 	procedure error;                         virtual;
 	procedure startForm;                     virtual;
@@ -106,10 +108,12 @@ type
   Tcgianswer =    
     object(Tcgiquiz)
       private
-	CGIElement : string255; { just one Element }
+	CGIElement : ShortString; { just one Element }
 	Home       : mystring;
+	save       : boolean;
         Name       : string255;
 	AnsPoints  : pointsType;
+	oldPercent : pointsType; { for sanity-check }
 
       public
         constructor init;
@@ -144,10 +148,32 @@ var
   
 { HTTP_HOST or SERVER_NAME or SERVER_ADDR }
 var ServerName: myString;
+var ScriptName: myString;
+
+{ for exam mode }
+var Cookie : ShortString = '';
+var passwd : ShortString = '';
+var defaultBaseURI : ShortString = '';
+var defaultCSS     : ShortString = '';
 
 var 
   CGI_QUERY_STRING: FormDataString;
   QUERY_STRING_POS: LongInt;
+
+procedure HTTPStatus(status: integer; message: string);
+begin
+{ CGI-Style: }
+if status <> 200 then
+  WriteLn('Status: ', status, ' "', message, '"');
+
+{ HTTP-Style: (nph-mode, server-mode) }
+{ WriteLn('HTTP/1.0 ', status, ' ', message); }
+
+{ additional header data for a standalone server: }
+{ WriteLn('Server: ', PrgVersion);
+  WriteLn('Connection: close');
+}
+end;
 
 function isLastElement: boolean;
 begin
@@ -159,7 +185,7 @@ if CGI_QUERY_STRING=''
      else isLastElement := true
 end;
 
-procedure GetCGIElement(var s: String255);
+procedure GetCGIElement(var s: ShortString);
 var 
   i,err: integer;
   c, c1: char;
@@ -191,19 +217,76 @@ repeat
 until nextElement or isLastElement
 end;
 
+function CGIfield(const CGIElement: ShortString): ShortString;
+var p : integer;
+begin
+p := pos('=', CGIElement);
+if p = 0 
+  then CGIfield := ''
+  else CGIfield := copy(CGIElement, 1, p-1)
+end;
+
+function CGIvalue(const CGIElement: ShortString): ShortString;
+var p : integer;
+begin
+p := pos('=', CGIElement);
+if p = 0 
+  then CGIvalue := ''
+  else CGIvalue := copy(CGIElement, p+1, length(CGIElement))
+end;
+
+function QueryLookup(item: ShortString): ShortString;
+var 
+  p: integer;
+  s: FormDataString;
+begin
+s := '';
+
+p := pos(item + '=', CGI_QUERY_STRING);
+if p <> 0 then { found }
+  begin
+  s := CGI_QUERY_STRING;
+  Delete(s, 1, p + length(item));
+  
+  p := pos('&', s);
+  if p <> 0 then { not last element }
+    s := copy(s, 1, p-1)
+  end;
+
+QueryLookup := s
+end;
+
+function CGIInfo(const s: string): mystring;
+begin
+{$IfDef FPC}
+  CGIInfo := GetEnvironmentVariable(s)
+{$Else}
+  CGIInfo := GetEnv(s)
+{$EndIf}
+end;
+
 { get the ServerName with fallbacks }
 procedure getServerName;
 begin
-ServerName := GetEnvironmentVariable('HTTP_HOST');
-if ServerName = '' then ServerName := GetEnvironmentVariable('SERVER_NAME');
-if ServerName = '' then ServerName := GetEnvironmentVariable('SERVER_ADDR')
+{ my version of "boa" doesn't set SERVER_NAME }
+ServerName := CGIInfo('SERVER_NAME');
+if ServerName = '' then ServerName := CGIInfo('HTTP_HOST');
+if ServerName = '' then ServerName := CGIInfo('SERVER_ADDR')
+end;
+
+function RemoteAddr: shortstring;
+var s: shortstring;
+begin
+s := CGIInfo('REMOTE_HOST'); { often not available }
+if s = '' then s := CGIInfo('REMOTE_ADDR');
+RemoteAddr := s
 end;
 
 procedure version;
 var Browser: boolean;
 begin
 { is this called from a Browser? }
-Browser := (GetEnvironmentVariable('REQUEST_METHOD')<>'');
+Browser := (CGIInfo('REQUEST_METHOD')<>'');
 
 if not Browser then 
   begin
@@ -213,6 +296,7 @@ if not Browser then
 
 if Browser then { send CGI Header }
   begin
+  HTTPStatus(200, 'OK');
   WriteLn('Content-Type: text/html; charset=UTF-8');
   WriteLn;
   WriteLn(HTMLDocType);
@@ -260,7 +344,7 @@ var
   CGIBase: mystring;
 begin
 { is this called from a Browser? }
-Browser := (GetEnvironmentVariable('REQUEST_METHOD')<>'');
+Browser := (CGIInfo('REQUEST_METHOD')<>'');
 
 if Browser
   then begin
@@ -268,13 +352,14 @@ if Browser
        CGIBase := '<strong>'
                   + protocol
                   + ServerName
-                  + GetEnvironmentVariable('SCRIPT_NAME')
+                  + CGIInfo('SCRIPT_NAME')
 	          + '</strong>'
        end
   else CGIBase := 'http://example.org/cgi-bin/cgiquiz';
 
 if Browser then { send CGI Header }
   begin
+  HTTPStatus(200, 'OK');
   WriteLn('Content-Type: text/html; charset=UTF-8');
   WriteLn;
   WriteLn(HTMLDocType);
@@ -352,7 +437,7 @@ procedure useBrowserLanguage;
 var s: myString;
 begin
 { first just analyze the first language }
-s := copy(GetEnvironmentVariable('HTTP_ACCEPT_LANGUAGE'), 1, 2);
+s := copy(CGIInfo('HTTP_ACCEPT_LANGUAGE'), 1, 2);
 
 if s='de' then lang := deutsch
   else if s='it' then lang := italiano
@@ -360,40 +445,12 @@ if s='de' then lang := deutsch
       else if s='en' then lang := english
         else begin 
              { first language unknown - check for others: }
-             s := GetEnvironmentVariable('HTTP_ACCEPT_LANGUAGE');
+             s := CGIInfo('HTTP_ACCEPT_LANGUAGE');
   	     if pos('de', s)<>0 then lang := deutsch
 	       else if pos('it', s)<>0 then lang := italiano
 	         else if pos('da', s)<>0 then lang := dansk
 	  	   else lang := english
              end
-end;
-
-{ prepare CGI_PATH_TRANSLATED when ExamModeName is used in the URI }
-procedure prepareExam;
-var s: mystring;
-begin
-if ExamDir<>'' then
-  begin
-  ExamMode := true;
-
-  s := CGI_PATH_INFO; 
-  delete(s, 1, length('/' + ExamModeName));
-  CGI_PATH_TRANSLATED := ExamDir + s
-  end
-end;
-
-procedure HTTPStatus(status: integer; message: string);
-begin
-{ CGI-Style: }
-WriteLn('Status: ', status, ' "', message, '"');
-
-{ HTTP-Style: (nph-mode, server-mode) }
-{ WriteLn('HTTP/1.0 ', status, ' ', message); }
-
-{ additional header data for a standalone server: }
-{ WriteLn('Server: ', PrgVersion);
-  WriteLn('Connection: close');
-}
 end;
 
 { --------------------------------------------------------------------- }
@@ -413,7 +470,7 @@ WriteLn('<meta name="generator" content="'
          + PrgVersion + '">'); { change-xhtml }
 WriteLn('</head>');
 WriteLn;
-WriteLn('<body style="background-color:red; color:white">');
+WriteLn('<body style="background-color:#a00; color:white">');
 WriteLn('<h1>', msg_error, '</h1>');
 WriteLn;
 Write('<p>')
@@ -440,8 +497,19 @@ procedure CannotOpen;
 begin
 errorHTMLhead(404, 'cannot open file');
 case lang of 
-  deutsch : WriteLn('Fehler: kann "',CGI_PATH_INFO,'" nicht öffnen');
+  deutsch : WriteLn('Fehler: kann "',CGI_PATH_INFO,'" nicht &ouml;ffnen');
   otherwise WriteLn('Error: cannot open "', CGI_PATH_INFO, '"')
+  end;
+errorHTMLfoot;
+Halt(1)
+end;
+
+procedure SetupError;
+begin
+errorHTMLhead(409, 'setup error');
+case lang of 
+  deutsch : WriteLn('Fehler: AKFQuiz nicht richtig eingerichtet');
+  otherwise WriteLn('Error: AKFQuiz not set up correctly')
   end;
 errorHTMLfoot;
 Halt(1)
@@ -451,8 +519,8 @@ procedure Forbidden;
 begin
 errorHTMLhead(403, 'request forbidden');
 case lang of
-  deutsch : WriteLn('Fehler: keine Berechtigung diesen Pfad zu benutzen');
-  otherwise WriteLn('Error: you don''t have permission to enter this path')
+  deutsch : WriteLn('Fehler: keine Berechtigung');
+  otherwise WriteLn('Error: no permission')
   end;
 errorHTMLfoot;
 Halt(1)
@@ -518,6 +586,7 @@ DocumentURI := copy(DocumentURI, 1, i);
 { empty string '' stands for stdout }
 inherited Init(CGI_PATH_TRANSLATED, '');
 if checkEOF then fail
+
 end;
 
 destructor Tcgiquiz.Done;
@@ -526,8 +595,23 @@ inherited Done;
 if (IOResult<>0) or not started then CannotOpen
 end;
 
+procedure Tcgiquiz.resetQuiz;
+begin
+inherited resetQuiz;
+
+baseURI := defaultBaseURI;
+
+{ make sure, that it ends with a / }
+if baseURI <> '' then
+  if baseURI[length(baseURI)] <> '/'
+    then baseURI := baseURI + '/';
+
+CSS := defaultCSS
+end;
+
 procedure Tcgiquiz.HTTPdata;
 begin
+HTTPStatus(200, 'OK');
 WriteLn(outp, 'Content-Type: text/html; charset=', charset);
 if language<>'' then
   WriteLn(outp, 'Content-Language: ', language);
@@ -564,7 +648,7 @@ WriteLn(outp);
 if not ExamMode 
   then WriteLn(outp,
           '<form name="akfquiz" id="akfquiz" method="POST" action="',
-          GetEnvironmentVariable('SCRIPT_NAME'), CGI_PATH_INFO, '">')
+          ScriptName, CGI_PATH_INFO, '">')
   else begin { ExamMode }
        { check if name-field is filled out }
        WriteLn(outp, 
@@ -581,28 +665,32 @@ if not ExamMode
        WriteLn(outp);
        WriteLn(outp,
           '<form name="akfquiz" id="akfquiz" method="POST" action="',
-          GetEnvironmentVariable('SCRIPT_NAME'), CGI_PATH_INFO, 
+          ScriptName, CGI_PATH_INFO, 
 	  '" onSubmit="return checkName()">')
        end;
 
 WriteLn(outp);
 
 { remember the origin: }
-if GetEnvironmentVariable('HTTP_REFERER')<>'' then
-  WriteLn(outp, '<input type="hidden" name="home" id="home" value="', 
-  	        GetEnvironmentVariable('HTTP_REFERER'), '"', cet);
+if CGIInfo('HTTP_REFERER')<>'' then
+  WriteLn(outp, '<input type="hidden" name="home" value="', 
+  	        CGIInfo('HTTP_REFERER'), '"', cet);
 
-{ in ExamMode ask for Name }
+{ in ExamMode set save-flag and ask for Name }
+{ the order is important }
 if ExamMode then
+  begin
+  WriteLn(outp, '<input type="hidden" name="save" value="yes">');
   WriteLn(outp, '<div class="name"><label for="name">Name:</label> '
     + '<input type="text" name="name" id="name" size="50" maxlength="100">'
     + '</div>')
+  end
 end;
 
 procedure Tcgiquiz.StartQuiz;
 begin
-if BaseURI<>'' then DocumentURI := BaseURI;
-if (CSS<>'') and (pos('/',CSS)=0) then CSS := DocumentURI + CSS;
+if BaseURI <> '' then DocumentURI := BaseURI;
+if (CSS <> '') and (pos('/', CSS) = 0) then CSS := DocumentURI + CSS;
 
 HTTPdata;
 inherited StartQuiz;
@@ -686,24 +774,18 @@ if checkEOF then fail;
 
 AnsPoints := 0;
 Home := '';
+save := false;
 Name := '';
+oldPercent := -1;
 
 repeat
   GetCGIelement(CGIElement);
 
-  if Pos('home=', CGIElement)=1 then
-    begin
-    Home := CGIElement;
-    Delete(Home, 1, length('home='));
-    GetCGIElement(CGIElement)
-    end;
-  
-  if Pos('name=', CGIElement)=1 then
-    begin
-    Name := CGIElement;
-    Delete(Name, 1, length('name='));
-    GetCGIElement(CGIElement)
-    end
+  if CGIfield(CGIElement) = 'home' then Home := CGIvalue(CGIElement);
+  if CGIfield(CGIElement) = 'percent' then 
+    oldPercent := StrToInt(CGIvalue(CGIElement), -1);
+  if CGIElement = 'save=yes' then save := true;
+  if CGIfield(CGIElement) = 'name' then Name := CGIvalue(CGIElement);
 until (CGIElement[1]='q') or isLastElement
 end;
 
@@ -846,6 +928,10 @@ if Points > 0
   then WriteLn(outp, msg_sol4, getPercentage, '%.')
   else if not neutral then WriteLn(outp, msg_sol5);
 
+{ sanity-check with oldPercent }
+if (oldPercent >= 0) and (getPercentage <> oldPercent) then
+  WriteLn('<p class="error">', msg_Error, '</p>');
+  
 WriteLn(outp, '</strong>');
 
 WriteLn(outp, '</div>');
@@ -909,21 +995,34 @@ end;
 procedure Tcgianswer.saveResult;
 var 
   f: text;
-  myname: mystring;
+  i: integer;
+  myname,
+  FileName : mystring;
   ResultStr: FormDataString;
 begin
 
 { prepare output line to make write access as atomic as possible }
 if Name<>'' 
-  then myname := Name
+  then myname := csToUTF8(charset, Name)
   else myname := 'anonymous'; { shouldn't happen }
 
-{ ResultStr := CGI_QUERY_STRING with "home" stripped }
-ResultStr := CGI_QUERY_STRING;
-if (pos('home=', ResultStr)=1) and (pos('&', ResultStr)<>0)
-  then Delete(ResultStr, 1, pos('&', ResultStr));
+myname := myname + ' (' + RemoteAddr + ')';
 
-Assign(f, stripext(CGI_PATH_TRANSLATED) + '.result');
+FileName := CGI_PATH_INFO;
+Delete(FileName, 1, length('/' + ExamModeName + '/'));
+
+{ ResultStr := CGI_QUERY_STRING from name= }
+ResultStr := CGI_QUERY_STRING;
+i := pos('name=', ResultStr);
+if i <> 0 then Delete(ResultStr, 1, pred(i));
+{ add percent= for sanity-check }
+ResultStr := 'percent=' + IntToStr(getPercentage) + '&' + ResultStr;
+
+{ collect the all data }
+ResultStr := showDateTime + nl + myname + nl + IntToStr(getPercentage) 
+                 + nl + FileName + '?' + ResultStr + nl + nl;
+
+Assign(f, stripext(CGI_PATH_TRANSLATED) + ResultExt);
 
 {$IfDef FPC}
   Append(f);
@@ -932,10 +1031,8 @@ Assign(f, stripext(CGI_PATH_TRANSLATED) + '.result');
   Extend(f); { ISO-10206 }
 {$EndIf}
 
-{ make write-process as atomic as possible }
-WriteLn(f, myname + nl + IntToStr(getPercentage) + nl
-           + ResultStr);
-WriteLn(f);
+{ keep write-process as atomic as possible }
+Write(f, ResultStr);
 Close(f);
 
 { we are still in the body - at the end of the body }
@@ -945,7 +1042,7 @@ end;
 
 procedure Tcgianswer.EndQuiz;
 begin
-if ExamMode then saveResult;
+if save then saveResult;
 inherited EndQuiz
 end;
 
@@ -964,10 +1061,48 @@ if CGI_PATH_INFO[length(CGI_PATH_INFO)] = '/'
   else begin
        isDirectory := false;
        if DirectoryExists(CGI_PATH_TRANSLATED) 
-         then MovedPermanently(protocol + ServerName
-	                       + GetEnvironmentVariable('SCRIPT_NAME')
+         then MovedPermanently(protocol + ServerName + ScriptName
 	                       + CGI_PATH_INFO + '/')
        end
+end;
+
+procedure CommonHtmlStart(const title: string);
+begin
+WriteLn('Content-Type: text/html; charset=UTF-8');
+WriteLn('Cache-control: no-cache');
+WriteLn;
+WriteLn(HTMLDocType);
+WriteLn;
+WriteLn('<html>');
+WriteLn('<head>');
+WriteLn('<title>', title, '</title>');
+WriteLn('<meta name="generator" content="'
+         + PrgVersion + '">'); { change-xhtml }
+{ the next instruction is also in the HTTP header }
+WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
+WriteLn;
+WriteLn('<style type="text/css">');
+WriteLn('<!--');
+WriteLn('html { color:black; background-color:#d8d0c8; }');
+WriteLn('body { margin:1ex 8%; }');
+WriteLn('h1 { color:#ffffdd; background-color:#605030; padding:12px;');
+WriteLn('     border:8px outset; border-color:#605030; margin:1em 15%;');
+WriteLn('     text-align:center; font-weight:bold; }');
+WriteLn('.error { color:red; font-weight:bold; font-style:italic;}');
+WriteLn('-->');
+WriteLn('</style>');
+WriteLn('</head>');
+WriteLn;
+WriteLn('<body>');
+WriteLn;
+WriteLn('<h1 align="center">', title, '</h1>');
+WriteLn
+end;
+
+procedure CommonHtmlEnd;
+begin
+WriteLn('</body>');
+WriteLn('</html>')
 end;
 
 procedure NoEntriesFound;
@@ -977,7 +1112,7 @@ WriteLn(msg_noquizfound);
 WriteLn('</p>')
 end;
 
-procedure myshowentry(const dir, s: string);
+procedure ListShowEntry(const dir, s: string);
 begin
 WriteLn('<li><a href="', s, '">',
         getQuizTitle(CGI_PATH_TRANSLATED + s), '</a></li>')
@@ -986,46 +1121,205 @@ end;
 procedure showList;
 var found: boolean;
 begin
-{ the Quiz-titles are recoded to UTF-8 }
-WriteLn('Content-Type: text/html; charset=UTF-8');
-WriteLn('Cache-control: no-cache');
-WriteLn;
-WriteLn(HTMLDocType);
-WriteLn;
-WriteLn('<html>');
-WriteLn('<head>');
-WriteLn('<title>AKFQuiz</title>');
-WriteLn('<meta name="generator" content="'
-         + PrgVersion + '">'); { change-xhtml }
-{ the next instruction is also in the HTTP header }
-WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
-{ the next instruction is also in the HTTP header }
-{ WriteLn('<meta http-equiv="Cache-control" content="no-cache">'); }
-WriteLn;
-WriteLn('<style type="text/css">');
-WriteLn('<!--');
-WriteLn('body { color:black; background-color:#d8d0c8; margin:1ex 8%; }');
-WriteLn('h1 { color:#ffffdd; background-color:#605030; padding:12px;');
-WriteLn('     border:12px ridge; border-color:#605030; margin:1em 15%;');
-WriteLn('     text-align:center; font-weight:bold; }');
-WriteLn('.error { color:red; background-color:transparent;');
-WriteLn('         font-weight:bold; font-style:italic;}');
-WriteLn('-->');
-WriteLn('</style>');
-WriteLn('</head>');
-WriteLn;
-WriteLn('<body>');
-WriteLn;
-WriteLn('<h1 align="center">AKFQuiz</h1>');
-WriteLn;
+HTTPStatus(200, 'OK');
+CommonHtmlStart('AKFQuiz');
 WriteLn('<ul>');
-found := ListEntries(CGI_PATH_TRANSLATED, quizext, myshowentry);
-if ListEntries(CGI_PATH_TRANSLATED, quizext2, myshowentry) 
+found := ListEntries(CGI_PATH_TRANSLATED, quizext, ListShowEntry);
+if ListEntries(CGI_PATH_TRANSLATED, quizext2, ListShowEntry) 
    then found := true;
 WriteLn('</ul>');
 if not found then NoEntriesFound;
-WriteLn('</body>');
-WriteLn('</html>')
+WriteLn('<hr><p><a href="?m=results">', msg_showResults, '</a></p>');
+CommonHtmlEnd;
+Halt
+end;
+
+procedure saveExamConfig;
+var 
+  f: text;
+  CGIElement: ShortString;
+begin
+{ passwd is the only setting, which must not be empty }
+{ so if passwd is not given, we have to try to get it from the query }
+if passwd = '' then 
+  repeat
+    GetCGIelement(CGIElement);
+
+    if CGIfield(CGIElement) = 'baseURI' then 
+      defaultBaseURI := CGIvalue(CGIElement);
+    if CGIfield(CGIElement) = 'CSS' then defaultCSS := CGIvalue(CGIElement);
+    if CGIfield(CGIElement) = 'passwd' then passwd := CGIvalue(CGIElement);
+  until isLastElement;
+
+Assign(f, useDirSeparator(ExamDir) + 'config');
+Rewrite(f);
+WriteLn(f, defaultBaseURI);
+WriteLn(f, defaultCSS);
+WriteLn(f, passwd);
+close(f);
+if IOResult<>0 then SetupError;
+
+HTTPStatus(200, 'OK');
+WriteLn('Set-Cookie: passwd="' + passwd + '"; Version="1";');
+CommonHtmlStart('AKFQuiz: Configuration saved');
+WriteLn('<p>Configuration saved</p>');
+WriteLn('<p><a href="?m=results">', msg_showResults, '</a></p>');
+CommonHtmlEnd;
+Halt
+end;
+
+procedure configureExamMode; {@@@}
+begin
+HTTPStatus(200, 'OK');
+CommonHtmlStart('AKFQuiz: Configuration');
+WriteLn('<form method="POST" action="',
+          ScriptName, CGI_PATH_INFO, '">');
+WriteLn('<div>');
+WriteLn('<input type="hidden" name="m" value="saveconfig">');
+
+WriteLn('default BaseURI: ');
+WriteLn('<input type="text" name="baseURI" value="/akfquiz" '
+        + 'size="12" maxlength="255">');
+WriteLn('<br>');
+
+WriteLn('default Layout: ');
+WriteLn('<input type="text" name="CSS" value="q-school.css" '
+        + 'size="12" maxlength="255">');
+WriteLn('<br>');
+
+WriteLn('New password: ');
+WriteLn('<input type="password" name="passwd" '
+        + 'size="12" maxlength="12">');
+WriteLn('<br>');
+
+WriteLn('<input type="submit"><input type="reset">');
+WriteLn('</div>');
+WriteLn('</form>');
+CommonHtmlEnd;
+Halt
+end;
+
+procedure readExamConfig;
+var f: text;
+begin
+if not ExamMode then exit;
+
+Assign(f, useDirSeparator(ExamDir) + 'config');
+Reset(f);
+ReadLn(f, defaultBaseURI);
+ReadLn(f, defaultCSS);
+ReadLn(f, passwd);
+close(f);
+
+if (IOResult<>0) or (passwd = '') then configureExamMode
+end;
+
+procedure askForPassword;
+begin
+HTTPStatus(200, 'OK');
+CommonHtmlStart('AKFQuiz: Password');
+WriteLn('<form method="POST" action="',
+          ScriptName, CGI_PATH_INFO, '">');
+WriteLn('<div>');
+WriteLn('<input type="hidden" name="m" value="results">');
+WriteLn('Password: ');
+WriteLn('<input type="password" name="passwd" '
+        + 'size="12" maxlength="12">');
+WriteLn('<input type="submit"><input type="reset">');
+WriteLn('</div>');
+WriteLn('</form>');
+CommonHtmlEnd;
+Halt
+end;
+
+function PasswdCookie: boolean;
+begin
+PasswdCookie := (pos('passwd="' + passwd + '"', Cookie) <> 0)
+end;
+
+procedure RequireAuthorization;
+var qpasswd : ShortString;
+begin
+if passwd = '' then readExamConfig; { shouldn't happen here }
+
+{ Is passwd not in the Cookie? }
+if not PasswdCookie then
+  begin
+  qpasswd := QueryLookup('passwd');
+  if qpasswd = '' then askForPassword;
+  if qpasswd <> passwd then Forbidden
+  end
+end;
+
+procedure ResultListShowEntry(const dir, s: string);
+begin
+WriteLn('<li><a href="', s, '">', stripext(s), '</a></li>')
+end;
+
+procedure showResultList;
+var found: boolean;
+begin
+RequireAuthorization;
+HTTPStatus(200, 'OK');
+
+{ passwd known, but not yet in the Cookie -> set Cookie }
+if (not PasswdCookie) and (passwd<>'') then
+  WriteLn('Set-Cookie: passwd="' + passwd + '"; Version="1";');
+
+CommonHtmlStart('AKFQuiz: ' + msg_Results);
+WriteLn('<ul>');
+found := ListEntries(CGI_PATH_TRANSLATED, ResultExt, ResultListShowEntry);
+WriteLn('</ul>');
+if not found then NoEntriesFound;
+CommonHtmlEnd;
+Halt
+end;
+
+procedure showResults; { for given file }
+var 
+  f: text;
+  percent: integer;
+  date, name: mystring;
+  FormData: FormDataString;
+begin
+HTTPStatus(200, 'OK');
+CommonHtmlStart('AKFQuiz: ' + msg_Results);
+
+WriteLn;
+WriteLn('<p><a href="', ScriptName, '/', ExamModeName, '/?m=results">', 
+        msg_back, '</a></p>');
+WriteLn('<hr>');
+
+Assign(f, CGI_PATH_TRANSLATED);
+reset(f);
+
+repeat
+  ReadLn(f, date);
+  ReadLn(f, name);
+  ReadLn(f, percent);
+  ReadLn(f, FormData);
+  ReadLn(f);
+  
+  WriteLn('<div>');
+  WriteLn(date, ', ');
+  WriteLn('<a href="', FormData, '"'); 
+  WriteLn('>', name, '</a>, ', percent, '%');
+  WriteLn('</div>');
+  WriteLn; 
+until EOF(f);
+
+close(f);
+
+if IOResult<>0 then 
+  WriteLn('<p class="error">', msg_error, '</p>');
+
+WriteLn('<hr>');
+WriteLn('<p><a href="', ScriptName, '/', ExamModeName, '/?m=results">', 
+        msg_back, '</a></p>');
+WriteLn;
+
+CommonHtmlEnd;
+Halt
 end;
 
 procedure getQueryString;
@@ -1034,9 +1328,9 @@ begin
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
 
-if GetEnvironmentVariable('REQUEST_METHOD')='GET'
+if CGIInfo('REQUEST_METHOD')='GET'
   then begin
-       if GetEnvironmentVariable('QUERY_STRING')<>'' 
+       if CGIInfo('QUERY_STRING')<>'' 
          then begin
               {$IfDef __GPC__}
                 { normal GetEnv is limited in size }
@@ -1048,9 +1342,9 @@ if GetEnvironmentVariable('REQUEST_METHOD')='GET'
               end
        end
   else begin
-       if GetEnvironmentVariable('REQUEST_METHOD')='POST'
+       if CGIInfo('REQUEST_METHOD')='POST'
          then begin
-              val(GetEnvironmentVariable('CONTENT_LENGTH'), len, code);
+              val(CGIInfo('CONTENT_LENGTH'), len, code);
 	      if (len>0) and (code=0) then
 	        begin
 		{$IfNDef FPC}
@@ -1063,20 +1357,17 @@ if GetEnvironmentVariable('REQUEST_METHOD')='GET'
                   Read(CGI_QUERY_STRING[i])
 		end
               end
-       end
+       end;
+
+if (pos('--help', CGI_QUERY_STRING)<>0) 
+    or (pos('-h', CGI_QUERY_STRING)<>0) 
+     then help;
+if pos('--version', CGI_QUERY_STRING)<>0 then version
 end;
 
 procedure runQuiz;
 var MyQuiz: Pakfquiz;
 begin
-getQueryString;
-
-if (pos('--help', CGI_QUERY_STRING)<>0) 
-   or (pos('-h', CGI_QUERY_STRING)<>0) 
-    then help;
-
-if pos('--version', CGI_QUERY_STRING)<>0 then version;
-
 if CGI_QUERY_STRING=''
    then MyQuiz := new(Pcgiquiz, init)    { query }
    else begin
@@ -1089,6 +1380,35 @@ if CGI_QUERY_STRING=''
 if (IOResult<>0) or (MyQuiz=NIL) then NotFound;
 MyQuiz^.process;
 dispose(MyQuiz, Done)
+end;
+
+procedure checkActions; {@@@}
+begin 
+if ExamMode then
+  begin
+  if pos('m=results', CGI_QUERY_STRING)<>0 then showResultList;
+  if pos('m=saveconfig', CGI_QUERY_STRING)<>0 then saveExamConfig;
+  end;
+
+showList
+end;
+
+{ prepare CGI_PATH_TRANSLATED when ExamModeName is used in the URI }
+procedure prepareExam;
+var s: mystring;
+begin
+if ExamDir<>'' then { if Exam mode isn't disabled }
+  begin
+  ExamMode := true;
+
+  s := CGI_PATH_INFO; 
+  delete(s, 1, length('/' + ExamModeName));
+  CGI_PATH_TRANSLATED := ExamDir + s;
+  
+  if pos('m=saveconfig', CGI_QUERY_STRING)<>0 
+    then saveExamConfig
+    else readExamConfig
+  end
 end;
 
 procedure parameters;
@@ -1114,14 +1434,14 @@ useBrowserLanguage;
 parameters;
 
 getServerName;
+ScriptName := CGIInfo('SCRIPT_NAME');
 
-CGI_PATH_INFO       := GetEnvironmentVariable('PATH_INFO');
-CGI_PATH_TRANSLATED := GetEnvironmentVariable('PATH_TRANSLATED');
+CGI_PATH_INFO       := CGIInfo('PATH_INFO');
+CGI_PATH_TRANSLATED := CGIInfo('PATH_TRANSLATED');
+Cookie := CGIInfo('HTTP_COOKIE');
 
-if (CGI_PATH_INFO='') or (CGI_PATH_TRANSLATED='') then 
-  MovedPermanently(protocol + Servername
-                   + GetEnvironmentVariable('SCRIPT_NAME') 
-		   + '?--help');
+if (CGI_PATH_INFO='') or (CGI_PATH_TRANSLATED='') then
+  MovedPermanently(protocol + Servername + ScriptName + '?--help');
 
 { deprecated method, but defined in GNU Coding Standards }
 if (pos('/--help', CGI_PATH_INFO)<>0) 
@@ -1134,18 +1454,22 @@ if pos('/--version', CGI_PATH_INFO)<>0 then version;
 { else someone could scan through the whole machine }
 if pos('/..', CGI_PATH_INFO)<>0 then Forbidden;
 
-if ExamDir<>'' then
+getQueryString;
+
+if ExamDir<>'' then { if exam-mode is enabled }
   begin
   { Redirect /exam to /exam/ }
   if CGI_PATH_INFO = '/' + ExamModeName then 
-    MovedPermanently(protocol + ServerName
-                     + GetEnvironmentVariable('SCRIPT_NAME')
+    MovedPermanently(protocol + ServerName + ScriptName
                      + '/' + ExamModeName + '/');
 
   if (pos('/'+ExamModeName+'/', CGI_PATH_INFO)=1) then prepareExam;
   end;
 
 if isDirectory 
-  then showList
-  else runQuiz
+  then checkActions
+  else { concrete file }
+    if ExamMode and (pos(ResultExt, CGI_PATH_INFO)<>0)
+      then showResults { for file }
+      else runQuiz
 end.
