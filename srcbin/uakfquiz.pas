@@ -1,7 +1,7 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.4 2006/08/27 06:47:35 akf Exp $
+* $Id: uakfquiz.pas,v 1.5 2006/09/15 16:20:35 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -746,7 +746,7 @@ while not checkEOF and not quit do
       (pos('BASEURL:',e)=1) or
       (pos('HAUPTURI:',e)=1) or
       (pos('HAUPTURL:',e)=1) 
-          then begin baseURI := getvalue(s);
+          then begin baseURI := getvaluefb(s, baseURI);
                      { make sure, that it ends with a / }
 	             if baseURI<>'' then 
                         if baseURI[length(baseURI)]<>'/'
@@ -763,7 +763,7 @@ while not checkEOF and not quit do
       (pos('AUSWERTUNGLINK:',e)=1) then assessmentURI:=getvalue(s);
    if (pos('CSS:',e)=1) or
       (pos('LAYOUT:',e)=1)
-          then CSS:=getvalue(s);
+          then CSS:=getvaluefb(s, CSS);
    if (pos('NOINDEX:',e)=1)  
           then noindex := getboolvalue(s);
    if (pos('KEYWORDS:',e)=1)  or
