@@ -26,6 +26,8 @@ h1 {
 
 .comment {
      clear:both;
+     margin-top:1ex;
+     padding:.5ex;
      font-family:sans-serif;
      }
 
@@ -57,7 +59,10 @@ h1 {
 
 .assessment {
      clear:both;
+     margin-top:1ex;
+     padding:.5ex;
      text-align:center;
+     font-family:sans-serif;
      }
 
 .error {
@@ -83,7 +88,7 @@ h1 {
 @media screen {
   html {
      color:#0000aa; /* inc */
-     background-color:white; /* if graphic not available */
+     /* background-color:white; */ /* if graphic not available */
      background-image:url(school.png);
      }
 
