@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.15 2006/09/15 19:03:49 akf Exp $
+* $Id: cgiquiz.pas,v 1.16 2006/09/16 07:46:57 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1271,6 +1271,9 @@ WriteLn('<ul>');
 found := ListEntries(CGI_PATH_TRANSLATED, ResultExt, ResultListShowEntry);
 WriteLn('</ul>');
 if not found then NoEntriesFound;
+
+WriteLn('<p><a href="', ScriptName, '/', ExamModeName, '/">', 
+        msg_back, '</a></p>');
 CommonHtmlEnd;
 Halt
 end;
@@ -1282,6 +1285,7 @@ var
   date, name: mystring;
   FormData: FormDataString;
 begin
+RequireAuthorization;
 HTTPStatus(200, 'OK');
 CommonHtmlStart('AKFQuiz: ' + msg_Results);
 
