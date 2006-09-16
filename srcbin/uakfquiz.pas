@@ -1,7 +1,7 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.5 2006/09/15 16:20:35 akf Exp $
+* $Id: uakfquiz.pas,v 1.6 2006/09/16 13:31:47 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -849,7 +849,9 @@ end;
 
 function Takfquiz.getPercentage: integer;
 begin
-getpercentage := round(max(Points,0)*100/MaxPoints)
+if MaxPoints <= 0 
+  then getPercentage := 0
+  else getpercentage := round(max(Points,0)*100/MaxPoints)
 end;
 
 function Takfquiz.getTitle: mystring;

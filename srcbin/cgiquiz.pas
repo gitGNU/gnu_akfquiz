@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.16 2006/09/16 07:46:57 akf Exp $
+* $Id: cgiquiz.pas,v 1.17 2006/09/16 13:31:47 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -916,25 +916,28 @@ end;
 procedure Tcgianswer.evaluate;
 var s: mystring;
 begin
-WriteLn(outp);
-WriteLn(outp, '<hr', cet);
-WriteLn(outp);
-WriteLn(outp, '<div align="center" class="result"><strong>');
-WriteLn(outp, '<a name="result" id="result"></a>');
+if MaxPoints > 0 then
+  begin
+  WriteLn(outp);
+  WriteLn(outp, '<hr', cet);
+  WriteLn(outp);
+  WriteLn(outp, '<div align="center" class="result"><strong>');
+  WriteLn(outp, '<a name="result" id="result"></a>');
 
-WriteLn(outp, msg_sol1, Points, msg_sol2,
-              MaxPoints, msg_sol3, BR);
-if Points > 0
-  then WriteLn(outp, msg_sol4, getPercentage, '%.')
-  else if not neutral then WriteLn(outp, msg_sol5);
+  WriteLn(outp, msg_sol1, Points, msg_sol2,
+                MaxPoints, msg_sol3, BR);
+  if Points > 0
+    then WriteLn(outp, msg_sol4, getPercentage, '%.')
+    else if not neutral then WriteLn(outp, msg_sol5);
 
-{ sanity-check with oldPercent }
-if (oldPercent >= 0) and (getPercentage <> oldPercent) then
-  WriteLn('<p class="error">', msg_Error, '</p>');
+  { sanity-check with oldPercent }
+  if (oldPercent >= 0) and (getPercentage <> oldPercent) then
+    WriteLn('<p class="error">', msg_Error, '</p>');
   
-WriteLn(outp, '</strong>');
+  WriteLn(outp, '</strong>');
 
-WriteLn(outp, '</div>');
+  WriteLn(outp, '</div>');
+  end;
 
 s := calculateAssessmentURI;
 if s<>'' then
@@ -1168,7 +1171,7 @@ CommonHtmlEnd;
 Halt
 end;
 
-procedure configureExamMode; {@@@}
+procedure configureExamMode;
 begin
 HTTPStatus(200, 'OK');
 CommonHtmlStart('AKFQuiz: Configuration');
@@ -1386,12 +1389,12 @@ MyQuiz^.process;
 dispose(MyQuiz, Done)
 end;
 
-procedure checkActions; {@@@}
+procedure checkActions;
 begin 
 if ExamMode then
   begin
   if pos('m=results', CGI_QUERY_STRING)<>0 then showResultList;
-  if pos('m=saveconfig', CGI_QUERY_STRING)<>0 then saveExamConfig;
+  if pos('m=saveconfig', CGI_QUERY_STRING)<>0 then saveExamConfig
   end;
 
 showList
