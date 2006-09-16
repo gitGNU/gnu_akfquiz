@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.17 2006/09/16 13:31:47 akf Exp $
+* $Id: cgiquiz.pas,v 1.18 2006/09/16 15:33:16 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -932,7 +932,7 @@ if MaxPoints > 0 then
 
   { sanity-check with oldPercent }
   if (oldPercent >= 0) and (getPercentage <> oldPercent) then
-    WriteLn('<p class="error">', msg_Error, '</p>');
+    WriteLn(outp, '<p class="error">', msg_Error, '</p>');
   
   WriteLn(outp, '</strong>');
 
