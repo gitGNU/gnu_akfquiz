@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.19 2006/09/20 06:41:57 akf Exp $
+* $Id: cgiquiz.pas,v 1.20 2006/09/20 09:24:41 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1394,21 +1394,22 @@ end; { getQueryString }
 procedure runQuiz;
 var MyQuiz: Pakfquiz;
 begin
+
+{ additional tests }
+if ExamMode and (CGI_QUERY_STRING<>'') then
+  begin
+  { GET method requires authorization }
+  if (RequestMethod=GET) and (not PasswdCookie) then Forbidden;
+
+  { name-field is empty }
+  if (pos('name=&', CGI_QUERY_STRING)<>0)
+    then rejectAnswer('No name given')
+  end;
+
+
 if CGI_QUERY_STRING=''
    then MyQuiz := new(Pcgiquiz, init)    { query }
-   else begin
-        if ExamMode then { additional tests }
-          begin
-          { GET method requires authorization }
-          if RequestMethod<>POST then RequireAuthorization;
-
-          { name-field is empty }
-          if (pos('name=&', CGI_QUERY_STRING)<>0)
-            then rejectAnswer('No name given')
-          end;
-
-        MyQuiz := new(Pcgianswer, init); { show answer }
-	end;
+   else MyQuiz := new(Pcgianswer, init); { show answer }
 
 if (IOResult<>0) or (MyQuiz=NIL) then NotFound;
 MyQuiz^.process;
