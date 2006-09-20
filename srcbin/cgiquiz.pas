@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.18 2006/09/16 15:33:16 akf Exp $
+* $Id: cgiquiz.pas,v 1.19 2006/09/20 06:41:57 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -140,7 +140,11 @@ type
   type FormDataString = String(10240);
 {$EndIf}
 
-var ExamMode: boolean = false;
+type TRequestMethod = (METHOD_UNKNOWN, HEAD, GET, POST);
+
+var 
+  ExamMode: boolean = false;
+  RequestMethod : TRequestMethod = METHOD_UNKNOWN;
 
 var 
   CGI_PATH_INFO,
@@ -676,11 +680,8 @@ if CGIInfo('HTTP_REFERER')<>'' then
   WriteLn(outp, '<input type="hidden" name="home" value="', 
   	        CGIInfo('HTTP_REFERER'), '"', cet);
 
-{ in ExamMode set save-flag and ask for Name }
-{ the order is important }
 if ExamMode then
   begin
-  WriteLn(outp, '<input type="hidden" name="save" value="yes">');
   WriteLn(outp, '<div class="name"><label for="name">Name:</label> '
     + '<input type="text" name="name" id="name" size="50" maxlength="100">'
     + '</div>')
@@ -774,9 +775,11 @@ if checkEOF then fail;
 
 AnsPoints := 0;
 Home := '';
-save := false;
 Name := '';
 oldPercent := -1;
+
+{ if ExamMode and RequestMethod=POST then save else don't }
+save := (ExamMode and (RequestMethod=POST));
 
 repeat
   GetCGIelement(CGIElement);
@@ -784,7 +787,6 @@ repeat
   if CGIfield(CGIElement) = 'home' then Home := CGIvalue(CGIElement);
   if CGIfield(CGIElement) = 'percent' then 
     oldPercent := StrToInt(CGIvalue(CGIElement), -1);
-  if CGIElement = 'save=yes' then save := true;
   if CGIfield(CGIElement) = 'name' then Name := CGIvalue(CGIElement);
 until (CGIElement[1]='q') or isLastElement
 end;
@@ -933,10 +935,8 @@ if MaxPoints > 0 then
   { sanity-check with oldPercent }
   if (oldPercent >= 0) and (getPercentage <> oldPercent) then
     WriteLn(outp, '<p class="error">', msg_Error, '</p>');
-  
-  WriteLn(outp, '</strong>');
 
-  WriteLn(outp, '</div>');
+  WriteLn(outp, '</strong></div>');
   end;
 
 s := calculateAssessmentURI;
@@ -1132,7 +1132,8 @@ if ListEntries(CGI_PATH_TRANSLATED, quizext2, ListShowEntry)
    then found := true;
 WriteLn('</ul>');
 if not found then NoEntriesFound;
-WriteLn('<hr><p><a href="?m=results">', msg_showResults, '</a></p>');
+if ExamMode then
+  WriteLn('<hr><p><a href="?m=results">', msg_showResults, '</a></p>');
 CommonHtmlEnd;
 Halt
 end;
@@ -1330,47 +1331,65 @@ Halt
 end;
 
 procedure getQueryString;
-var i, len, code: integer;
-begin
-CGI_QUERY_STRING := '';
-QUERY_STRING_POS := 0;
 
-if CGIInfo('REQUEST_METHOD')='GET'
-  then begin
-       if CGIInfo('QUERY_STRING')<>'' 
-         then begin
-              {$IfDef __GPC__}
-                { normal GetEnv is limited in size }
-                CGI_QUERY_STRING := 
-		  CString2String(CStringGetEnv('QUERY_STRING'))
-              {$Else}
-                CGI_QUERY_STRING := GetEnvironmentVariable('QUERY_STRING')
-              {$EndIf}
-              end
-       end
-  else begin
-       if CGIInfo('REQUEST_METHOD')='POST'
-         then begin
-              val(CGIInfo('CONTENT_LENGTH'), len, code);
-	      if (len>0) and (code=0) then
-	        begin
-		{$IfNDef FPC}
-		  { should never happen, but... }
-		  if len > CGI_QUERY_STRING.Capacity
-		    then len := CGI_QUERY_STRING.Capacity;
-		{$EndIf}
-                SetLength(CGI_QUERY_STRING, len);
-                for i := 1 to len do
-                  Read(CGI_QUERY_STRING[i])
-		end
-              end
-       end;
+  procedure getRequestMethod; { subprocess to getQueryString }
+  var method: ShortString; 
+  begin
+  RequestMethod := METHOD_UNKNOWN;
+
+  method := CGIInfo('REQUEST_METHOD');
+  if method = 'HEAD' then RequestMethod := HEAD;
+  if method = 'GET'  then RequestMethod := GET;
+  if method = 'POST' then RequestMethod := POST
+  end;
+
+  procedure useGetMethod; { subprocess to getQueryString }
+  begin
+  CGI_QUERY_STRING := '';
+  if CGIInfo('QUERY_STRING')<>'' 
+     then begin
+          {$IfDef __GPC__}
+             { normal GetEnv is limited in size }
+             CGI_QUERY_STRING := 
+                CString2String(CStringGetEnv('QUERY_STRING'))
+           {$Else}
+              CGI_QUERY_STRING := GetEnvironmentVariable('QUERY_STRING')
+           {$EndIf}
+           end
+  end;
+
+  procedure usePostMethod; { subprocess to getQueryString }
+  var i, len, code: integer;
+  begin
+  CGI_QUERY_STRING := '';
+  val(CGIInfo('CONTENT_LENGTH'), len, code);
+  if (len>0) and (code=0) then
+     begin
+     {$IfNDef FPC}
+        if len > CGI_QUERY_STRING.Capacity { should never happen, but... }
+          then len := CGI_QUERY_STRING.Capacity;
+     {$EndIf}
+     SetLength(CGI_QUERY_STRING, len);
+     for i := 1 to len do Read(CGI_QUERY_STRING[i])
+     end
+  end;
+
+begin { getQueryString }
+getRequestMethod;
+
+case RequestMethod of
+  GET  : useGetMethod;
+  POST : usePostMethod;
+  otherwise CGI_QUERY_STRING := ''
+  end;
+
+QUERY_STRING_POS := 0;
 
 if (pos('--help', CGI_QUERY_STRING)<>0) 
     or (pos('-h', CGI_QUERY_STRING)<>0) 
      then help;
 if pos('--version', CGI_QUERY_STRING)<>0 then version
-end;
+end; { getQueryString }
 
 procedure runQuiz;
 var MyQuiz: Pakfquiz;
@@ -1378,9 +1397,16 @@ begin
 if CGI_QUERY_STRING=''
    then MyQuiz := new(Pcgiquiz, init)    { query }
    else begin
-        if ExamMode then { additional test, if name-field is empty }
-	  if (pos('name=&', CGI_QUERY_STRING)<>0)
-	       then rejectAnswer('No name given');
+        if ExamMode then { additional tests }
+          begin
+          { GET method requires authorization }
+          if RequestMethod<>POST then RequireAuthorization;
+
+          { name-field is empty }
+          if (pos('name=&', CGI_QUERY_STRING)<>0)
+            then rejectAnswer('No name given')
+          end;
+
         MyQuiz := new(Pcgianswer, init); { show answer }
 	end;
 
@@ -1445,7 +1471,7 @@ ScriptName := CGIInfo('SCRIPT_NAME');
 
 CGI_PATH_INFO       := CGIInfo('PATH_INFO');
 CGI_PATH_TRANSLATED := CGIInfo('PATH_TRANSLATED');
-Cookie := CGIInfo('HTTP_COOKIE');
+Cookie              := CGIInfo('HTTP_COOKIE');
 
 if (CGI_PATH_INFO='') or (CGI_PATH_TRANSLATED='') then
   MovedPermanently(protocol + Servername + ScriptName + '?--help');
