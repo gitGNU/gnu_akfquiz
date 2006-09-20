@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.5 2006/09/15 07:47:08 akf Exp $
+* $Id: qmsgs.pas,v 1.6 2006/09/20 06:43:42 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -54,13 +54,14 @@ procedure setmsgconverter(p: Tconverter);
 procedure setmsgconv(display: DisplayType);
 procedure useSystemLanguage;
 
+function msg_homepage: mystring;
 function msg_GPL: mystring;
 function msg_noWarranty: mystring;
 function msg_contributions: mystring;
 function msg_advertisement: mystring;
-function msg_anykey(const key: string): mystring;
 function msg_noquizfound: mystring;
 function msg_filenotfound: mystring;
+function msg_anykey(const key: string): mystring;
 function msg_quiz: mystring;
 function msg_author: mystring;
 function msg_authorURI: mystring;
@@ -79,8 +80,8 @@ function msg_sol3: mystring;
 function msg_sol4: mystring;
 function msg_sol5: mystring;
 function msg_timeout: mystring;
-function msg_timelimit: mystring;
 function msg_time: mystring;
+function msg_timelimit: mystring;
 function msg_error: mystring;
 function msg_fileerror: mystring;
 function msg_result: mystring;
@@ -131,6 +132,17 @@ end;
 { if you need an apostrophe, use it twice like this: 'That''s it' }
 { use the function cnv if and only if you use non-ASCII chars }
 
+
+{ Address, where to get the source code }
+{ When you make changes, please provide the address where your version
+  of source-code is published }
+function msg_homepage: mystring;
+begin
+case lang of
+  deutsch : msg_homepage := 'http://akfoerster.de/akfquiz/de';
+  otherwise msg_homepage := 'http://akfquiz.nongnu.org/';
+  end
+end;
 
 function msg_GPL: mystring;
 begin

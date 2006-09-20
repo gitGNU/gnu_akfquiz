@@ -6,6 +6,10 @@ Please help to translate AkfQuiz to other languages
 
 ----
 
+ msg_homepage::
+   deutsch:: 'http://akfoerster.de/akfquiz/de'
+   english:: 'http://akfquiz.nongnu.org/'
+ 
  msg_GPL::
   deutsch:: 'GPL V2 oder neuer'
   english:: 'GPL v2 or later'

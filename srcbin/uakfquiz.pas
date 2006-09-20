@@ -1,7 +1,7 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.6 2006/09/16 13:31:47 akf Exp $
+* $Id: uakfquiz.pas,v 1.7 2006/09/20 06:43:42 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -65,11 +65,6 @@ const AKFQuizCopyright = '2006 AKFoerster';
 
 { when you make changes, change the contact address to your one }
 const AKFQuizEmail = 'akfquiz@akfoerster.de';
-
-{ Address, where to get the source code }
-{ When you make changes, please provide the address where your version
-  of source-code is published }
-const Homepage = 'http://akfoerster.de/akfquiz/';
 
 
 { some default values }

@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.4 2006/09/01 13:31:50 akf Exp $
+* $Id: htmlquiz.pas,v 1.5 2006/09/20 06:43:42 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -401,7 +401,7 @@ begin
   WriteLn(outp);
   WriteLn(outp, '<div align="right" dir="ltr" class="made"><small>');
     WriteLn(outp, msg_made, ' <a '+
-      'href="', Homepage, '" target="_blank">'+
+      'href="', msg_homepage, '" target="_blank">'+
            AKFQuizName + '</a>');
   WriteLn(outp, '</small></div>');
 {$EndIf}

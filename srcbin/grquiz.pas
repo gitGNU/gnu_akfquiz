@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.7 2006/09/13 10:23:30 akf Exp $
+* $Id: grquiz.pas,v 1.8 2006/09/20 06:43:41 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -455,9 +455,7 @@ GrLn;
   GrfWriteLn(msg_advertisement);
 {$EndIf}
 
-if lang=deutsch 
-  then GrfWrite(Homepage+'de')
-  else GrfWrite(Homepage);
+GrfWrite(msg_homepage);
 
 IntroSignal;
 
