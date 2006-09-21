@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.6 2006/09/20 06:43:42 akf Exp $
+* $Id: qmsgs.pas,v 1.7 2006/09/21 08:40:30 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -95,6 +95,9 @@ function msg_assessment: mystring;
 function msg_more: mystring;
 function msg_Results: mystring;
 function msg_showResults: mystring;
+function msg_name: mystring;
+function msg_passwd: mystring;
+function msg_newpasswd: mystring;
 
 
 Implementation
@@ -139,7 +142,7 @@ end;
 function msg_homepage: mystring;
 begin
 case lang of
-  deutsch : msg_homepage := 'http://akfoerster.de/akfquiz/de';
+  deutsch : msg_homepage := 'http://akfoerster.de/akfquiz/index.de.html';
   otherwise msg_homepage := 'http://akfquiz.nongnu.org/';
   end
 end;
@@ -563,6 +566,30 @@ begin
 case lang of
   deutsch : msg_showResults := 'Zeige Ergebnisse';
   otherwise  msg_showResults := 'Show Results'
+  end
+end;
+
+function msg_name: mystring;
+begin
+case lang of
+  deutsch :  msg_name := 'Name: ';
+  otherwise  msg_name := 'Name: ';
+  end
+end;
+
+function msg_passwd: mystring;
+begin
+case lang of
+  deutsch :  msg_passwd := 'Passwort';
+  otherwise  msg_passwd := 'Password';
+  end
+end;
+
+function msg_newpasswd: mystring;
+begin
+case lang of
+  deutsch :  msg_newpasswd := 'Neues Passwort';
+  otherwise  msg_newpasswd := 'New Password';
   end
 end;
 

@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.20 2006/09/20 09:24:41 akf Exp $
+* $Id: cgiquiz.pas,v 1.21 2006/09/21 08:40:30 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -682,7 +682,8 @@ if CGIInfo('HTTP_REFERER')<>'' then
 
 if ExamMode then
   begin
-  WriteLn(outp, '<div class="name"><label for="name">Name:</label> '
+  WriteLn(outp, '<div class="name"><label for="name">', msg_name, 
+    '</label>'
     + '<input type="text" name="name" id="name" size="50" maxlength="100">'
     + '</div>')
   end
@@ -814,7 +815,7 @@ if Home<>'' then
   end;
 
 if Name<>'' then
-  WriteLn(outp, '<div class="name">Name: ', Name, '</div>')
+  WriteLn(outp, '<div class="name">', msg_name, Name, '</div>')
 end;
 
 procedure Tcgianswer.processAnswer;
@@ -892,7 +893,7 @@ if rtl
   else Write(outp, ' style="float:right; vertical-align:text-bottom;"');
 
 if AnsPoints = thisMaxPoints
-   then WriteLn(outp, ' alt="- ', msg_right, 
+   then WriteLn(outp, '  alt="- ', msg_right, 
                       ' -" src="', DocumentURI+grRight+'"', cet)
    else WriteLn(outp, ' alt="- ', msg_wrong, 
                       ' -" src="', DocumentURI+grFalse+'"', cet);
@@ -1091,6 +1092,7 @@ WriteLn('body { margin:1ex 8%; }');
 WriteLn('h1 { color:#ffffdd; background-color:#605030; padding:12px;');
 WriteLn('     border:8px outset; border-color:#605030; margin:1em 15%;');
 WriteLn('     text-align:center; font-weight:bold; }');
+WriteLn('.made { text-align:right; font-size:small }');
 WriteLn('.error { color:red; font-weight:bold; font-style:italic;}');
 WriteLn('-->');
 WriteLn('</style>');
@@ -1104,6 +1106,9 @@ end;
 
 procedure CommonHtmlEnd;
 begin
+WriteLn;
+WriteLn('<hr><div align="right" class="made"><a href="', msg_homepage, 
+        '" target="_top">' + AKFQuizName + '</a></div>');
 WriteLn('</body>');
 WriteLn('</html>')
 end;
@@ -1191,7 +1196,7 @@ WriteLn('<input type="text" name="CSS" value="q-school.css" '
         + 'size="12" maxlength="255">');
 WriteLn('<br>');
 
-WriteLn('New password: ');
+WriteLn(msg_newpasswd, ': ');
 WriteLn('<input type="password" name="passwd" '
         + 'size="12" maxlength="12">');
 WriteLn('<br>');
@@ -1221,12 +1226,12 @@ end;
 procedure askForPassword;
 begin
 HTTPStatus(200, 'OK');
-CommonHtmlStart('AKFQuiz: Password');
+CommonHtmlStart('AKFQuiz: ' + msg_passwd);
 WriteLn('<form method="POST" action="',
           ScriptName, CGI_PATH_INFO, '">');
 WriteLn('<div>');
 WriteLn('<input type="hidden" name="m" value="results">');
-WriteLn('Password: ');
+WriteLn(msg_passwd, ': ');
 WriteLn('<input type="password" name="passwd" '
         + 'size="12" maxlength="12">');
 WriteLn('<input type="submit"><input type="reset">');

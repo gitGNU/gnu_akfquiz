@@ -7,7 +7,7 @@ Please help to translate AkfQuiz to other languages
 ----
 
  msg_homepage::
-   deutsch:: 'http://akfoerster.de/akfquiz/de'
+   deutsch:: 'http://akfoerster.de/akfquiz/index.de.html'
    english:: 'http://akfquiz.nongnu.org/'
  
  msg_GPL::
@@ -238,3 +238,16 @@ Please help to translate AkfQuiz to other languages
  msg_showResults::
   deutsch:: 'Zeige Ergebnisse'
   english:: 'Show Results'
+
+ msg_name::
+  deutsch:: 'Name: '
+  english:: 'Name: '
+
+ msg_passwd::
+  deutsch:: 'Passwort'
+  english:: 'Password'
+
+ msg_newpasswd::
+  deutsch:: 'Neues Passwort'
+  english:: 'New Password'
+
