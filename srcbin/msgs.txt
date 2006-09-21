@@ -251,3 +251,6 @@ Please help to translate AkfQuiz to other languages
   deutsch:: 'Neues Passwort'
   english:: 'New Password'
 
+ msg_reconfigure::
+  deutsch:: 'Umkonfigurieren'
+  english:: 'Reconfigure'

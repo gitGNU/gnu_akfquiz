@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.7 2006/09/21 08:40:30 akf Exp $
+* $Id: qmsgs.pas,v 1.8 2006/09/21 17:06:44 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -98,6 +98,7 @@ function msg_showResults: mystring;
 function msg_name: mystring;
 function msg_passwd: mystring;
 function msg_newpasswd: mystring;
+function msg_reconfigure: mystring;
 
 
 Implementation
@@ -590,6 +591,14 @@ begin
 case lang of
   deutsch :  msg_newpasswd := 'Neues Passwort';
   otherwise  msg_newpasswd := 'New Password';
+  end
+end;
+
+function msg_reconfigure: mystring;
+begin
+case lang of
+  deutsch :  msg_reconfigure := 'Umkonfigurieren';
+  otherwise  msg_reconfigure := 'Reconfigure';
   end
 end;
 

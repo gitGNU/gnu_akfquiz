@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.21 2006/09/21 08:40:30 akf Exp $
+* $Id: cgiquiz.pas,v 1.22 2006/09/21 17:06:44 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1143,6 +1143,27 @@ CommonHtmlEnd;
 Halt
 end;
 
+procedure unacceptableNewPasswd;
+begin
+HTTPStatus(200, 'OK');
+CommonHtmlStart('unacceptable new Password');
+WriteLn('<p>Sorry, but you may only use letters of the latin alphabet or '
+        + 'numbers in a password.</p>');
+WriteLn('<p><a href="', ScriptName, CGI_PATH_INFO, '">',
+        msg_back, '</p>');
+CommonHtmlEnd;
+Halt
+end;
+
+procedure checkNewPasswd;
+const passwdChars = ['A' .. 'Z', 'a' .. 'z', '0', '1' .. '9'];
+var i: integer;
+begin
+for i := 1 to length(passwd) do
+  if not (passwd[i] in passwdChars)
+    then unacceptableNewPasswd
+end;
+
 procedure saveExamConfig;
 var 
   f: text;
@@ -1159,6 +1180,8 @@ if passwd = '' then
     if CGIfield(CGIElement) = 'CSS' then defaultCSS := CGIvalue(CGIElement);
     if CGIfield(CGIElement) = 'passwd' then passwd := CGIvalue(CGIElement);
   until isLastElement;
+
+checkNewPasswd;
 
 Assign(f, useDirSeparator(ExamDir) + 'config');
 Rewrite(f);
@@ -1179,6 +1202,14 @@ end;
 
 procedure configureExamMode;
 begin
+{ if nothing set yet, give some defaults }
+{ only the passwd has to be non-empty }
+if passwd = '' then
+  begin
+  defaultBaseURI := '/akfquiz';
+  defaultCSS := 'q-school.css'
+  end;
+
 HTTPStatus(200, 'OK');
 CommonHtmlStart('AKFQuiz: Configuration');
 WriteLn('<form method="POST" action="',
@@ -1187,18 +1218,18 @@ WriteLn('<div>');
 WriteLn('<input type="hidden" name="m" value="saveconfig">');
 
 WriteLn('default BaseURI: ');
-WriteLn('<input type="text" name="baseURI" value="/akfquiz" '
-        + 'size="12" maxlength="255">');
+WriteLn('<input type="text" name="baseURI" value="', defaultBaseURI,
+        '" size="12" maxlength="255">');
 WriteLn('<br>');
 
 WriteLn('default Layout: ');
-WriteLn('<input type="text" name="CSS" value="q-school.css" '
-        + 'size="12" maxlength="255">');
+WriteLn('<input type="text" name="CSS" value="', defaultCSS, 
+        '" size="12" maxlength="255">');
 WriteLn('<br>');
 
 WriteLn(msg_newpasswd, ': ');
-WriteLn('<input type="password" name="passwd" '
-        + 'size="12" maxlength="12">');
+WriteLn('<input type="password" name="passwd" value="', passwd,
+        '" size="12" maxlength="12">');
 WriteLn('<br>');
 
 WriteLn('<input type="submit"><input type="reset">');
@@ -1281,6 +1312,7 @@ found := ListEntries(CGI_PATH_TRANSLATED, ResultExt, ResultListShowEntry);
 WriteLn('</ul>');
 if not found then NoEntriesFound;
 
+WriteLn('<p><a href="?m=reconfigure">', msg_reconfigure, '</a></p>');
 WriteLn('<p><a href="', ScriptName, '/', ExamModeName, '/">', 
         msg_back, '</a></p>');
 CommonHtmlEnd;
@@ -1426,6 +1458,8 @@ begin
 if ExamMode then
   begin
   if pos('m=results', CGI_QUERY_STRING)<>0 then showResultList;
+  if pos('m=reconfigure', CGI_QUERY_STRING)<>0 then 
+    if passwdCookie then configureExamMode else Forbidden;
   if pos('m=saveconfig', CGI_QUERY_STRING)<>0 then saveExamConfig
   end;
 
