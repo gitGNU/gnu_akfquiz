@@ -1,4 +1,4 @@
-# $Id: common.in,v 1.8 2006/09/13 16:16:19 akf Exp $
+# $Id: common.in,v 1.9 2006/09/21 08:46:15 akf Exp $
 
 #####################################################################
 # change here:
@@ -34,7 +34,7 @@ SVERSION = @SVERSION@
 ######################################################################
 
 # "all" is for Unix with all libraries
-all: scrquiz linequiz diaquiz mkquiz cgiquiz grquiz gtkquizchooser
+all: scrquiz linequiz diaquiz mkquiz cgiquiz grquiz
 
 # "most" leaves some critical progs away
 most: scrquiz linequiz mkquiz cgiquiz diaquiz 
@@ -43,7 +43,7 @@ most: scrquiz linequiz mkquiz cgiquiz diaquiz
 dos: scrquiz linequiz mkquiz # grquiz
 
 # compile for Windows
-windows: w32res wquizchooser scrquiz linequiz mkquiz grquiz
+windows: w32res scrquiz linequiz mkquiz grquiz
 
 doc:
 	$(MAKE) -C ../doc 
@@ -127,17 +127,9 @@ grquiz: grquiz.pas qsys.pas qmsgs.pas uakfquiz.pas clgrph.pas \
 diaquiz: diaquiz.pas qsys.pas qmsgs.pas uakfquiz.pas dialog.pas
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) diaquiz.pas
 
-# just for Unix, just FPC
-gtkquizchooser: gtkquizchooser.pas
-	-$(PC) $(PFLAGS) $(POPT) $(DEFINES) $(GUIFLAG) gtkquizchooser.pas
-
 # just for Windows
 w32res:
 	$(MAKE) -C w32 w32res
-
-# just for Windows, just FPC
-wquizchooser: w32/wquizchooser.pas
-	$(PC) $(PFLAGS) $(POPT) $(DEFINES) $(GUIFLAG) -FE. w32/wquizchooser.pas
 
 clean:
 	-rm -f *.o *.or *.a a.out *.gpi *.gpm *.ppu *.old *~
@@ -154,8 +146,7 @@ veryclean: clean
 
 distclean: veryclean
 	-$(MAKE) -C w32 distclean
-	-rm -f mkquiz scrquiz cgiquiz akfquiz.cgi diaquiz linequiz \
-	       grquiz gtkquizchooser
+	-rm -f mkquiz scrquiz cgiquiz akfquiz.cgi diaquiz linequiz grquiz
 	-rm -f SDL.dll
 	-rm -f *.exe
 	-rm -f config.inc
@@ -193,7 +184,6 @@ install: all installdirs
 	$(INSTALL) -m 0755 -s linequiz $(DESTDIR)$(bindir)
 	-$(INSTALL) -m 0755 -s grquiz $(DESTDIR)$(bindir)
 	#-$(INSTALL) -o root -m 4755 -s grquiz $(DESTDIR)$(bindir)
-	-$(INSTALL) -m 0755 gtkquizchooser $(DESTDIR)$(bindir)
 	$(INSTALL) -m 0755 akfquiz $(DESTDIR)$(bindir)
 	$(INSTALL) -m 0755 quizstat $(DESTDIR)$(bindir)
 	@echo "*"
@@ -203,14 +193,12 @@ install: all installdirs
 	-$(INSTALL) -m 0644 ../doc/english/scrquiz.1 $(DESTDIR)$(man1dir)
 	-$(INSTALL) -m 0644 ../doc/english/grquiz.1 $(DESTDIR)$(man1dir)
 	-$(INSTALL) -m 0644 ../doc/english/linequiz.1 $(DESTDIR)$(man1dir)
-	-$(INSTALL) -m 0644 ../doc/english/gtkquizchooser.1 $(DESTDIR)$(man1dir)
 	-$(INSTALL) -m 0644 ../doc/english/cgiquiz.8 $(DESTDIR)$(man8dir)
 	-$(INSTALL) -m 0644 ../doc/english/akfquiz.5 $(DESTDIR)$(man5dir)
 	-$(INSTALL) -m 0644 ../doc/deutsch/mkquiz.1 $(DESTDIR)$(man1dedir)
 	-$(INSTALL) -m 0644 ../doc/deutsch/scrquiz.1 $(DESTDIR)$(man1dedir)
 	-$(INSTALL) -m 0644 ../doc/deutsch/grquiz.1 $(DESTDIR)$(man1dedir)
 	-$(INSTALL) -m 0644 ../doc/deutsch/linequiz.1 $(DESTDIR)$(man1dedir)
-	-$(INSTALL) -m 0644 ../doc/deutsch/gtkquizchooser.1 $(DESTDIR)$(man1dedir)
 	-$(INSTALL) -m 0644 ../doc/deutsch/akfquiz.5 $(DESTDIR)$(man5dedir)
 	@echo "*"
 	@echo "* installing Icon"
@@ -276,7 +264,6 @@ uninstall:
 	-rm $(DESTDIR)$(bindir)/diaquiz
 	-rm $(DESTDIR)$(bindir)/grquiz
 	-rm $(DESTDIR)$(bindir)/quizstat
-	-rm $(DESTDIR)$(bindir)/gtkquizchooser
 	-rm -f $(DESTDIR)$(bindir)/xgrquiz
 	-rm -f $(DESTDIR)$(bindir)/nscrquiz
 	-rm $(DESTDIR)$(getquiz)
@@ -285,14 +272,12 @@ uninstall:
 	-rm $(DESTDIR)$(man1dir)/scrquiz.1
 	-rm $(DESTDIR)$(man1dir)/grquiz.1
 	-rm $(DESTDIR)$(man1dir)/linequiz.1
-	-rm $(DESTDIR)$(man1dir)/gtkquizchooser.1
 	-rm $(DESTDIR)$(man8dir)/cgiquiz.8
 	-rm $(DESTDIR)$(man5dir)/akfquiz.5
 	-rm $(DESTDIR)$(man1dedir)/mkquiz.1
 	-rm $(DESTDIR)$(man1dedir)/scrquiz.1
 	-rm $(DESTDIR)$(man1dedir)/grquiz.1
 	-rm $(DESTDIR)$(man1dedir)/linequiz.1
-	-rm $(DESTDIR)$(man1dedir)/gtkquizchooser.1
 	-rm $(DESTDIR)$(man8dedir)/cgiquiz.8
 	-rm $(DESTDIR)$(man5dedir)/akfquiz.5
 	-rm $(DESTDIR)$(icondir)/AKFQuiz.xpm

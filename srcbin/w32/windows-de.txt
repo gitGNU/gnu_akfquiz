@@ -1,6 +1,6 @@
 AKFQuiz
 
-Windows-Portierung des GNU/Linux Programm-Paketes AKFQuiz.
+Teilweise Portierung des GNU/Linux Programm-Paketes AKFQuiz.
 
 DEINSTALLIEREN SIE ALTE VERSIONEN VON AKFQUIZ BEVOR SIE EINE 
 NEUE VERSION INSTALLIEREN!
@@ -19,7 +19,7 @@ kann.
 
 Eine CGI-Variante, cgiquiz, kann auf einem Web-Server installiert 
 werden, um Übungsaufgaben über das Internet oder ein lokales Netzwerk 
-anzubieten.
+anzubieten (nich enthalten).
 
 Oder man benutzt mkquiz, mit dem man eine HTML-Datei mit JavaScript 
 erstellen kann. Diese kann man dann über jeden beliebigen 
@@ -38,9 +38,6 @@ http://www.gnu.ftp.uni-erlangen.de/philosophy/
 Kontakt in Europa:
 http://www.fsfeurope.org/
 
-CGI
-
-ACHTUNG: Das CGI-Programm wird noch nicht automatisch installiert.
 
 Sonstiges:
 

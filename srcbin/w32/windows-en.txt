@@ -1,6 +1,6 @@
 AKFQuiz for Windows
 
-Windows-port of the GNU/Linux program-package AKFQuiz.
+Partial port of the GNU/Linux program-package AKFQuiz.
 
 PLEASE UNINSTALL OLDER VERSIONS OF AKFQUIZ BEFORE YOU INSTALL
 A NEW VERSION!
@@ -15,7 +15,7 @@ is also a line oriented variant, linequiz, which can be used as a
 backend.
 
 A CGI-variant, cgiquiz, can be installed on a Web server to 
-offer exercises via Internet or a local network.
+offer exercises via Internet or a local network (not included).
 
 Or you can use mkquiz, which generates an HTML-file for to use with 
 JavaScript. Those can then be published using any deliberate web-space 
@@ -33,10 +33,6 @@ http://www.fsf.org/philosophy/
 
 Contact in Europe:
 http://www.fsfeurope.org/
-
-CGI
-
-ATTENTION: The CGI-program will not be automatically installed yet. 
 
 
 other hints:
@@ -64,7 +60,7 @@ http://gnuwin32.sourceforge.net/packages/mawk.htm
 
 
 The most actual version of AKFQuiz can be found on the Internet:
-http://www.akfoerster.de/akfquiz/
+http://akfquiz.nongnu.org/
 
 For the installer for Windows I use Inno Setup by Jordan Russell
 http://innosetup.com

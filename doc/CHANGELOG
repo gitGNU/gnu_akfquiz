@@ -1,4 +1,5 @@
 4.3.2
+- removed gtkquizchooser and wquizchooser
 - bugfix: Maxpoitnts=0 (surveys) handled correctly
 - grquiz: non breaking space not visible anymore
 - SDL4Freepascal not needed anymore

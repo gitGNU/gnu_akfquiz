@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.14 2006/09/13 10:23:30 akf Exp $
+# $Id: configure,v 1.15 2006/09/21 08:46:15 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -254,6 +254,3 @@ create_rc mkquiz "mkquiz: make HTML quiz-file for JavaScript" \
 create_rc cgiquiz "cgiquiz: CGI program for AKFQuiz" "ported from GNU\/Linux"
 create_rc linequiz "linequiz: AKFQuiz line oriented" "ported from GNU\/Linux"
 create_rc grquiz "grquiz: AKFQuiz in graphic-mode" "ported from GNU\/Linux"
-create_rc wquizchooser "AKFQuiz quizchooser" \
-          "use gtkquizchooser for GTK+ environments"
-
