@@ -9,8 +9,7 @@ wquizchooser:
 %.res: %.rc
 	windres -i $< -o $@
 
-w32res: cgiquiz.res grquiz.res linequiz.res mkquiz.res \
-        scrquiz.res wquizchooser.res
+w32res: cgiquiz.res grquiz.res linequiz.res mkquiz.res scrquiz.res 
 
 mostlyclean:
 	-rm -f *.or *.o *.ow *.old
