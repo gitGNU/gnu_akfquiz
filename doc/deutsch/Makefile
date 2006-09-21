@@ -1,13 +1,13 @@
-# $Id: Makefile,v 1.3 2006/08/17 08:27:58 akf Exp $
+# $Id: Makefile,v 1.4 2006/09/21 10:56:40 akf Exp $
 
 TXTFILES=mkquiz.txt scrquiz.txt grquiz.txt akfquiz.txt cgiquiz.txt \
-         linequiz.txt gtkquizchooser.txt
+         linequiz.txt
 
 HTMLFILES=mkquiz.html scrquiz.html grquiz.html akfquiz.html cgiquiz.html \
-          linequiz.html gtkquizchooser.html
+          linequiz.html
 
 PDFFILES=mkquiz.pdf scrquiz.pdf grquiz.pdf akfquiz.pdf cgiquiz.pdf \
-         linequiz.pdf gtkquizchooser.pdf
+         linequiz.pdf
 
 SHELL = /bin/sh
 
@@ -38,9 +38,6 @@ cgiquiz.html: cgiquiz.8
 linequiz.html: linequiz.1
 	groff -man -Thtml linequiz.1 > linequiz.html
 
-gtkquizchooser.html: gtkquizchooser.1
-	groff -man -Thtml gtkquizchooser.1 > gtkquizchooser.html
-
 mkquiz.txt: mkquiz.1
 	groff -man -Tlatin1 mkquiz.1 | col -bx > mkquiz.txt
 
@@ -59,9 +56,6 @@ cgiquiz.txt: cgiquiz.8
 linequiz.txt: linequiz.1
 	groff -man -Tlatin1 linequiz.1 | col -bx > linequiz.txt
 
-gtkquizchooser.txt: gtkquizchooser.1
-	groff -man -Tlatin1 gtkquizchooser.1 | col -bx > gtkquizchooser.txt
-
 mkquiz.pdf: mkquiz.1
 	groff -man -Tps mkquiz.1 | ps2pdf - mkquiz.pdf
 
@@ -79,9 +73,6 @@ cgiquiz.pdf: cgiquiz.8
 
 linequiz.pdf: linequiz.1
 	groff -man -Tps linequiz.1 | ps2pdf - linequiz.pdf
-
-gtkquizchooser.pdf: gtkquizchooser.1
-	groff -man -Tps gtkquizchooser.1 | ps2pdf - gtkquizchooser.pdf
 
 
 # End
