@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.22 2006/09/21 17:06:44 akf Exp $
+* $Id: cgiquiz.pas,v 1.23 2006/09/24 10:49:13 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1455,12 +1455,15 @@ end;
 
 procedure checkActions;
 begin 
+{ be careful not to open up exploitable loopholes here! }
+
 if ExamMode then
   begin
   if pos('m=results', CGI_QUERY_STRING)<>0 then showResultList;
   if pos('m=reconfigure', CGI_QUERY_STRING)<>0 then 
     if passwdCookie then configureExamMode else Forbidden;
-  if pos('m=saveconfig', CGI_QUERY_STRING)<>0 then saveExamConfig
+  if pos('m=saveconfig', CGI_QUERY_STRING)<>0 then 
+    if RequestMethod = POST then saveExamConfig else Forbidden
   end;
 
 showList
@@ -1478,7 +1481,8 @@ if ExamDir<>'' then { if Exam mode isn't disabled }
   delete(s, 1, length('/' + ExamModeName));
   CGI_PATH_TRANSLATED := ExamDir + s;
   
-  if pos('m=saveconfig', CGI_QUERY_STRING)<>0 
+  if (pos('m=saveconfig', CGI_QUERY_STRING)<>0) and 
+     (RequestMethod=POST) { to avoid exloids }
     then saveExamConfig
     else readExamConfig
   end
