@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.24 2006/09/24 14:01:55 akf Exp $
+* $Id: cgiquiz.pas,v 1.25 2006/09/24 18:07:28 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -70,7 +70,7 @@ const protocol = 'http://';
 
 { for the exam-mode }
 const ResultExt = '.result';
-const configFileName = '.config';
+const examConfigFileName = '.config';
 
 const
   grRight = 'richtig.png';
@@ -1185,7 +1185,7 @@ if passwd = '' then
 
 checkNewPasswd;
 
-Assign(f, useDirSeparator(ExamDir) + configFileName);
+Assign(f, useDirSeparator(ExamDir) + examConfigFileName);
 Rewrite(f);
 WriteLn(f, defaultBaseURI);
 WriteLn(f, defaultCSS);
@@ -1246,7 +1246,7 @@ var f: text;
 begin
 if not ExamMode then exit;
 
-Assign(f, useDirSeparator(ExamDir) + configFileName);
+Assign(f, useDirSeparator(ExamDir) + examConfigFileName);
 Reset(f);
 ReadLn(f, defaultBaseURI);
 ReadLn(f, defaultCSS);
