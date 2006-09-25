@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.15 2006/09/21 08:46:15 akf Exp $
+# $Id: configure,v 1.16 2006/09/25 17:33:34 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -81,10 +81,10 @@ error() {
 getcompiler() {
   # search for available compiler
   echo "checking for fpc or gpc..."
-  if which fpc
-  then COMPILER=fpc
-  elif which gpc
+  if which gpc
   then COMPILER=gpc
+  elif which fpc
+  then COMPILER=fpc
   else error "neither gpc nor fpc found"
   fi
   }
