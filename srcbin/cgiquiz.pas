@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.25 2006/09/24 18:07:28 akf Exp $
+* $Id: cgiquiz.pas,v 1.26 2006/09/27 10:59:30 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1152,9 +1152,14 @@ CommonHtmlStart('unacceptable new Password');
 WriteLn('<p>Sorry, but you may only use letters of the latin alphabet or '
         + 'numbers in a password.</p>');
 WriteLn('<p><a href="', ScriptName, CGI_PATH_INFO, '">',
-        msg_back, '</p>');
+        msg_back, '</a></p>');
 CommonHtmlEnd;
 Halt
+end;
+
+function PasswdCookie: boolean;
+begin
+PasswdCookie := (pos('passwd="' + passwd + '"', Cookie) <> 0)
 end;
 
 procedure checkNewPasswd;
@@ -1171,17 +1176,19 @@ var
   f: text;
   CGIElement: ShortString;
 begin
-{ passwd is the only setting, which must not be empty }
-{ so if passwd is not given, we have to try to get it from the query }
-if passwd = '' then 
-  repeat
-    GetCGIelement(CGIElement);
+{ a new passwd is only acceptable, when there is none yet
+  or the user is correctly authorized with the old passwd }
+if passwd <> '' then if not PasswdCookie then Forbidden;
 
-    if CGIfield(CGIElement) = 'baseURI' then 
-      defaultBaseURI := CGIvalue(CGIElement);
-    if CGIfield(CGIElement) = 'CSS' then defaultCSS := CGIvalue(CGIElement);
-    if CGIfield(CGIElement) = 'passwd' then passwd := CGIvalue(CGIElement);
-  until isLastElement;
+{ always get the new passwd from the query }
+repeat
+  GetCGIelement(CGIElement);
+
+  if CGIfield(CGIElement) = 'baseURI' then 
+    defaultBaseURI := CGIvalue(CGIElement);
+  if CGIfield(CGIElement) = 'CSS' then defaultCSS := CGIvalue(CGIElement);
+  if CGIfield(CGIElement) = 'passwd' then passwd := CGIvalue(CGIElement);
+until isLastElement;
 
 checkNewPasswd;
 
@@ -1194,7 +1201,8 @@ close(f);
 if IOResult<>0 then SetupError;
 
 HTTPStatus(200, 'OK');
-WriteLn('Set-Cookie: passwd="' + passwd + '"; Version="1";');
+{ Session-Cookie, deleted when browser is closed }
+WriteLn('Set-Cookie: passwd="' + passwd + '"; Discard; Version="1";');
 CommonHtmlStart('AKFQuiz: Configuration saved');
 WriteLn('<p>Configuration saved</p>');
 WriteLn('<p><a href="?m=results">', msg_showResults, '</a></p>');
@@ -1253,7 +1261,12 @@ ReadLn(f, defaultCSS);
 ReadLn(f, passwd);
 close(f);
 
-if (IOResult<>0) or (passwd = '') then configureExamMode
+if IOResult<>0 then
+  begin
+  passwd := '';
+  defaultBaseURI := '';
+  defaultCSS := ''
+  end
 end;
 
 procedure askForPassword;
@@ -1274,16 +1287,15 @@ CommonHtmlEnd;
 Halt
 end;
 
-function PasswdCookie: boolean;
-begin
-PasswdCookie := (pos('passwd="' + passwd + '"', Cookie) <> 0)
-end;
-
 procedure RequireAuthorization;
 var qpasswd : ShortString;
 begin
-if passwd = '' then readExamConfig; { shouldn't happen here }
-
+if passwd = '' then  { shouldn't happen here }
+  begin
+  readExamConfig;
+  if passwd = '' then configureExamMode
+  end;
+  
 { Is passwd not in the Cookie? }
 if not PasswdCookie then
   begin
@@ -1291,6 +1303,20 @@ if not PasswdCookie then
   if qpasswd = '' then askForPassword;
   if qpasswd <> passwd then Forbidden
   end
+end;
+
+procedure Logout;
+begin
+HTTPStatus(200, 'OK');
+{ Expiration-date in the past deletes a cookie }
+WriteLn('Set-Cookie: passwd=""; expires=Thu, 1-Jan-1970 00:00:00 GMT; '
+        + 'Discard; Version="1";');
+CommonHtmlStart('AKFQuiz: ' + msg_loggedout);
+WriteLn('<h2>', msg_loggedout, '</h2>');
+WriteLn('<p><a href="', ScriptName, CGI_PATH_INFO, '">', msg_back, 
+        '</a></p>');
+CommonHtmlEnd;
+Halt
 end;
 
 procedure ResultListShowEntry(const dir, s: string);
@@ -1306,7 +1332,7 @@ HTTPStatus(200, 'OK');
 
 { passwd known, but not yet in the Cookie -> set Cookie }
 if (not PasswdCookie) and (passwd<>'') then
-  WriteLn('Set-Cookie: passwd="' + passwd + '"; Version="1";');
+  WriteLn('Set-Cookie: passwd="' + passwd + '"; Discard; Version="1";');
 
 CommonHtmlStart('AKFQuiz: ' + msg_Results);
 WriteLn('<ul>');
@@ -1315,6 +1341,7 @@ WriteLn('</ul>');
 if not found then NoEntriesFound;
 
 WriteLn('<p><a href="?m=reconfigure">', msg_reconfigure, '</a></p>');
+WriteLn('<p><a href="?m=logout">', msg_logout, '</a></p>');
 WriteLn('<p><a href="', ScriptName, '/', ExamModeName, '/">', 
         msg_back, '</a></p>');
 CommonHtmlEnd;
@@ -1464,6 +1491,7 @@ if ExamMode then
   if pos('m=results', CGI_QUERY_STRING)<>0 then showResultList;
   if pos('m=reconfigure', CGI_QUERY_STRING)<>0 then 
     if passwdCookie then configureExamMode else Forbidden;
+  if pos('m=logout', CGI_QUERY_STRING)<>0 then Logout;
   if pos('m=saveconfig', CGI_QUERY_STRING)<>0 then 
     if RequestMethod = POST then saveExamConfig else Forbidden
   end;
@@ -1482,11 +1510,12 @@ if ExamDir<>'' then { if Exam mode isn't disabled }
   s := CGI_PATH_INFO; 
   delete(s, 1, length('/' + ExamModeName));
   CGI_PATH_TRANSLATED := ExamDir + s;
+  readExamConfig;
   
   if (pos('m=saveconfig', CGI_QUERY_STRING)<>0) and 
-     (RequestMethod=POST) { to avoid exloids }
-    then saveExamConfig
-    else readExamConfig
+     (RequestMethod=POST) { to make exloids harder }
+    then saveExamConfig;
+  if passwd = '' then configureExamMode
   end
 end;
 

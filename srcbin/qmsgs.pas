@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.9 2006/09/24 10:47:29 akf Exp $
+* $Id: qmsgs.pas,v 1.10 2006/09/27 10:59:30 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -99,6 +99,8 @@ function msg_name: mystring;
 function msg_passwd: mystring;
 function msg_newpasswd: mystring;
 function msg_reconfigure: mystring;
+function msg_logout: mystring;
+function msg_loggedout: mystring;
 
 
 Implementation
@@ -599,6 +601,22 @@ begin
 case lang of
   deutsch :  msg_reconfigure := 'Umkonfigurieren';
   otherwise  msg_reconfigure := 'Reconfigure';
+  end
+end;
+
+function msg_logout: mystring;
+begin
+case lang of
+  deutsch :  msg_logout := 'Abmelden';
+  otherwise  msg_logout := 'Log out';
+  end
+end;
+
+function msg_loggedout: mystring;
+begin
+case lang of
+  deutsch :  msg_loggedout := 'Abgemeldet';
+  otherwise  msg_loggedout := 'Logged out';
   end
 end;
 
