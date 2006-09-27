@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.8 2006/09/20 06:43:41 akf Exp $
+* $Id: grquiz.pas,v 1.9 2006/09/27 15:09:13 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -224,7 +224,7 @@ end;
 
 procedure initializeGraphics;
 begin
-initializeGraphicMode(AKFQuizName+' '+AKFQuizVersion, 'AKFQuiz', fullscreen);
+initializeGraphicMode(PrgVersion, AKFQuizName, fullscreen); 
 setExitKey(ExitKey);
 
 buildscreen;
