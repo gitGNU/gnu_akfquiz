@@ -1,10 +1,10 @@
 /* akfquiz - styles for blue theme */
 /* this file is in the public domain */
 
-/* last revision for AKFQuiz 4.1.2 */
+/* last revision for AKFQuiz 4.3.2 */
 
 /* import special styles for printig: */
-@import url(q-print.css) print;
+@import url(q-print.css);
 
 /* common to all media */
 h1, .result { 
@@ -70,23 +70,21 @@ h1, .result {
      }
 
   h1, .result { 
-     color:#ffffdd;
-     background-color:#000055;
-     text-align:center;
-     font-weight:bold;
-     border:12px ridge;
-     border-color:#5555AA;
+     border:thick outset;
      padding:12px;
      margin:1em 15%;
+     color:#ffffdd;
+     background-color:#000055;
+     border-color:#5555AA;
      }
 
   .hint, .assessment {
+     border:thick inset;
+     font-weight:bold;
+     padding:1ex;
      color:#ffffdd;
      background-color:#000055;
-     font-weight:bold;
-     border:12px ridge;
      border-color:#5555AA;
-     padding:1ex;
      }
 
   .resultlink, .home { text-align:center; }
@@ -110,7 +108,7 @@ h1, .result {
      background-color:#ddd;
      color:black;
      }
-     
+
   .buttons { 
      margin-top:2em;
      margin-bottom:2em;
@@ -120,11 +118,5 @@ h1, .result {
   .buttons input {
      color:#ffffdd;
      background-color:#000055;
-     }
-
-  .made {
-     font-family:sans-serif;
-     font-size:x-small;
-     text-align:right;
      }
 }

@@ -1,8 +1,9 @@
 /* akfquiz - styles for printing */
 /* this file is in the public domain */
 
-/* last revision for AKFQuiz 4.1.2 */
+/* last revision for AKFQuiz 4.3.2 */
 
+@media print {
   html {
      color:black;
      background-color:white;
@@ -100,3 +101,4 @@
      font-size:x-small;
      text-align:right;
      }
+}

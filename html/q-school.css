@@ -4,7 +4,7 @@
 /* last revision for AKFQuiz 4.3.2 */
 
 /* import special styles for printig: */
-@import url(q-print.css) print;
+@import url(q-print.css);
 
 /* common to all media */
 html {
@@ -102,11 +102,11 @@ h1 {
      }
 
   #metadata, .comment, .hint, .assessment {
+     border-style:outset;
+     border-width:medium;
      color:black;
      background-color:#eee;
      border-color:#eee;
-     border-style:outset;
-     border-width:medium;
      }
 
   .answer input {
