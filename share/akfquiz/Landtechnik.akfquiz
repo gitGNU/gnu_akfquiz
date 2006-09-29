@@ -1,4 +1,4 @@
-AKFQuiz 4.3.0 oder höher
+AKFQuiz 4.3.2 oder höher
 
 # Copyright © 2006 Simon Niederwinkler
 #
@@ -21,7 +21,7 @@ Bearbeitet:
 Lizenz:         GPL v2 oder neuer
 LizenzURI:      http://www.gnu.org/licenses/gpl.html
 Sprache:        de
-Zeichensatz:    WINDOWS-1252
+Kodierung:      WINDOWS-1252
 HauptURI:
 NoIndex:        ja
 Neutral:        nein

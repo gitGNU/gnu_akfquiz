@@ -1,4 +1,4 @@
-AKFQuiz 4.3.0 oder höher
+AKFQuiz 4.3.2 oder höher
 
 # Copyright © 2005-2006 Andreas K. Förster <akfquiz@akfoerster.de>
 #
@@ -20,7 +20,7 @@ Bearbeitet:
 Lizenz:         GPL Version 2 oder neuer
 LizenzURI:      http://www.gnu.org/licenses/gpl.html
 Sprache:	de
-Zeichensatz:    UTF-8
+Kodierung:      UTF-8
 RTL:            nein
 BiDi:           ja
 HauptURI:

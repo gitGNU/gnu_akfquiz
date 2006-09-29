@@ -1,4 +1,4 @@
-AKFQuiz 4.3.0 or higher
+AKFQuiz 4.3.2 or higher
 
 # Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 #
@@ -19,7 +19,7 @@ authorlink:  mailto:akfquiz@akfoerster.de
 edited:
 license:     GPL v2 or later
 licenseLink: http://www.gnu.org/licenses/gpl.html
-charset:     US-ASCII
+encoding:    US-ASCII
 language:    en
 layout:      q-school.css
 default:     don't know

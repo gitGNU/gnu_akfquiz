@@ -1,7 +1,7 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.7 2006/09/20 06:43:42 akf Exp $
+* $Id: uakfquiz.pas,v 1.8 2006/09/29 18:53:09 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -719,7 +719,9 @@ while not checkEOF and not quit do
    if (pos('TRANSLATOR:',e)=1) or
       (pos('UEBERSETZER:',e)=1) 
           then translator:=getvalue(s);
-   if (pos('CHARSET:',e)=1) or
+   if (pos('ENCODING:',e)=1) or
+      (pos('CHARSET:',e)=1) or
+      (pos('KODIERUNG:',e)=1) or
       (pos('ZEICHENSATZ:',e)=1) 
           then setcharset(getvaluefb(s, def_charset));
    if (pos('RTL:',e)=1) 

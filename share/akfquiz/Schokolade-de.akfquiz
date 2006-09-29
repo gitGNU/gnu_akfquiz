@@ -1,4 +1,4 @@
-AKFQuiz 4.3.0 oder höher
+AKFQuiz 4.3.2 oder höher
 
 # Copyright © 2005 Yvonne Wittenbreder-Molloisch
 #
@@ -21,7 +21,7 @@ Lizenz:          GPL Version 2 oder neuer
 LizenzLink:      http://www.gnu.org/licenses/gpl.html
 StandardAntwort: Weiß ich nicht
 Sprache:         de
-Zeichensatz:     ISO-8859-1
+Kodierung:       ISO-8859-1
 Neutral:         nein
 AuswertungsURI:  
 HauptURI:

@@ -1,4 +1,4 @@
-AKFQuiz 4.3.0 oder höher
+AKFQuiz 4.3.2 oder höher
 
 # Copyright © 2003-2006 Andreas K. Förster <akfquiz@akfoerster.de>
 #
@@ -19,7 +19,7 @@ AutorLink:       mailto:akfquiz@akfoerster.de
 Bearbeitet:
 Lizenz:          GPL v2 oder neuer
 LizenzURI:       http://www.gnu.org/licenses/gpl.html
-Zeichensatz:     ISO-8859-1
+Kodierung:       ISO-8859-1
 Sprache:         de
 Layout:          q-school.css
 StandardAntwort: weiß ich nicht
