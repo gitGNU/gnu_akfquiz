@@ -1,7 +1,9 @@
 4.3.2
+- cgiquiz: new exam-mode
 - removed gtkquizchooser and wquizchooser
 - bugfix: Maxpoitnts=0 (surveys) handled correctly
 - grquiz: non breaking space not visible anymore
+- grquiz: changed window-title
 - SDL4Freepascal not needed anymore
 - grquiz: libSDL usable with gpc (GRX still also supported)
 - cgiquiz, mkquiz: change index format to <ul>
