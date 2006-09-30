@@ -3,6 +3,8 @@ These PNG image files were made by AKFoerster.
 
 With this I put them in the public-domain.
 You may use them for whatever you want.
+
+$Id: pngdata.inc,v 1.2 2006/09/30 07:56:53 akf Exp $
 }
 
 Const

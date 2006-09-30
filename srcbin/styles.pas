@@ -1,6 +1,8 @@
 { akfquiz - style sheet data }
 { this file is in the public domain }
 
+{ $Id: styles.pas,v 1.2 2006/09/30 07:56:53 akf Exp $ }
+
 unit styles;
 
 Interface
