@@ -1,5 +1,7 @@
 4.3.2
+- new keywords "encoding:", "Kodierung:" replace "charset:", "Zeichensatz:"
 - cgiquiz: new exam-mode
+- cgiquiz: graphics and some stylesheets included (easier setup)
 - removed gtkquizchooser and wquizchooser
 - bugfix: Maxpoitnts=0 (surveys) handled correctly
 - grquiz: non breaking space not visible anymore

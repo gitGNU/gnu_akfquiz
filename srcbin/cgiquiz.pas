@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.26 2006/09/27 10:59:30 akf Exp $
+* $Id: cgiquiz.pas,v 1.27 2006/09/30 07:53:19 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -54,11 +54,10 @@
 program cgiquiz(input, output); { aka "akfquiz.cgi" }
 
 {$IfDef __GPC__}
-  import uakfquiz; htmlquiz; qmsgs; qsys; GPC; 
+  import uakfquiz; htmlquiz; qmsgs; qsys; styles; GPC; 
 {$Else}
-  uses SysUtils, qsys, qmsgs, uakfquiz, htmlquiz;
+  uses SysUtils, qsys, qmsgs, uakfquiz, htmlquiz, styles;
 {$EndIf} { __GPC__ }
-
 
 { GNU compliant format }
 const PrgVersion = 'cgiquiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
@@ -72,9 +71,12 @@ const protocol = 'http://';
 const ResultExt = '.result';
 const examConfigFileName = '.config';
 
+{ just used internally, so you might change the names }
 const
-  grRight = 'richtig.png';
-  grFalse = 'falsch.png';
+  grRight = '/richtig.png';
+  grFalse = '/falsch.png';
+
+{$I pngdata.inc}
 
 type
   Pcgiquiz = ^Tcgiquiz;
@@ -88,7 +90,6 @@ type
       public
         constructor init;
 	destructor Done;                         virtual;
-	procedure resetQuiz;                     virtual;
 	procedure HTTPdata;
 	procedure error;                         virtual;
 	procedure startForm;                     virtual;
@@ -159,8 +160,6 @@ var ScriptName: myString;
 { for exam mode }
 var Cookie : ShortString = '';
 var passwd : ShortString = '';
-var defaultBaseURI : ShortString = '';
-var defaultCSS     : ShortString = '';
 
 var 
   CGI_QUERY_STRING: FormDataString;
@@ -409,6 +408,9 @@ If Browser
          then WriteLn('<p>The special quizdir "', ExamModeName, '" for exams'
                       + ' is mapped to "', ExamDir, '".</p>')
 	 else WriteLn('<p>Exam mode disabled.</p>');
+       WriteLn;
+       WriteLn('<p>The following layouts are included in the binary:<br>');
+       WriteLn('"q-school.css", "q-brown.css", "q-blue.css"</p>');
        if BugMail<>'' then
          WriteLn('<p>Report bugs to <a href="mailto:' + BugMail + '">'
                  + BugMail+'</a>.</p>');
@@ -431,6 +433,10 @@ If Browser
          then WriteLn('The special quizdir "', ExamModeName, '" for exams'
                       + ' is mapped to "', ExamDir, '".')
 	 else WriteLn('Exam mode disabled.');
+       WriteLn;
+       WriteLn('The following layouts are included in the binary:');
+       WriteLn('"q-school.css", "q-brown.css", "q-blue.css"');
+       
        if BugMail <> '' then
          begin WriteLn; WriteLn('Report bugs to <' + BugMail + '>.') end
 	 
@@ -601,20 +607,6 @@ inherited Done;
 if (IOResult<>0) or not started then CannotOpen
 end;
 
-procedure Tcgiquiz.resetQuiz;
-begin
-inherited resetQuiz;
-
-baseURI := defaultBaseURI;
-
-{ make sure, that it ends with a / }
-if baseURI <> '' then
-  if baseURI[length(baseURI)] <> '/'
-    then baseURI := baseURI + '/';
-
-CSS := defaultCSS
-end;
-
 procedure Tcgiquiz.HTTPdata;
 begin
 HTTPStatus(200, 'OK');
@@ -694,7 +686,8 @@ end;
 procedure Tcgiquiz.StartQuiz;
 begin
 if BaseURI <> '' then DocumentURI := BaseURI;
-if (CSS <> '') and (pos('/', CSS) = 0) then CSS := DocumentURI + CSS;
+if (CSS <> '') and (pos('/', CSS) = 0) then 
+  CSS := ScriptName + '/' + CSS;
 
 HTTPdata;
 inherited StartQuiz;
@@ -896,9 +889,9 @@ if rtl
 
 if AnsPoints = thisMaxPoints
    then WriteLn(outp, '  alt="- ', msg_right, 
-                      ' -" src="', DocumentURI+grRight+'"', cet)
+                      ' -" src="', ScriptName + grRight+'"', cet)
    else WriteLn(outp, ' alt="- ', msg_wrong, 
-                      ' -" src="', DocumentURI+grFalse+'"', cet);
+                      ' -" src="', ScriptName + grFalse+'"', cet);
 WriteLn(outp, '</strong>'); { for non-graphical browsers }
 
 Write(outp, '<div class="points">');
@@ -1183,19 +1176,13 @@ if passwd <> '' then if not PasswdCookie then Forbidden;
 { always get the new passwd from the query }
 repeat
   GetCGIelement(CGIElement);
-
-  if CGIfield(CGIElement) = 'baseURI' then 
-    defaultBaseURI := CGIvalue(CGIElement);
-  if CGIfield(CGIElement) = 'CSS' then defaultCSS := CGIvalue(CGIElement);
-  if CGIfield(CGIElement) = 'passwd' then passwd := CGIvalue(CGIElement);
+  if CGIfield(CGIElement) = 'passwd' then passwd := CGIvalue(CGIElement)
 until isLastElement;
 
 checkNewPasswd;
 
 Assign(f, useDirSeparator(ExamDir) + examConfigFileName);
 Rewrite(f);
-WriteLn(f, defaultBaseURI);
-WriteLn(f, defaultCSS);
 WriteLn(f, passwd);
 close(f);
 if IOResult<>0 then SetupError;
@@ -1212,14 +1199,6 @@ end;
 
 procedure configureExamMode;
 begin
-{ if nothing set yet, give some defaults }
-{ only the passwd has to be non-empty }
-if passwd = '' then
-  begin
-  defaultBaseURI := '/akfquiz';
-  defaultCSS := 'q-school.css'
-  end;
-
 HTTPStatus(200, 'OK');
 CommonHtmlStart('AKFQuiz: Configuration');
 WriteLn('<form method="POST" action="',
@@ -1227,17 +1206,7 @@ WriteLn('<form method="POST" action="',
 WriteLn('<div>');
 WriteLn('<input type="hidden" name="m" value="saveconfig">');
 
-WriteLn('default BaseURI: ');
-WriteLn('<input type="text" name="baseURI" value="', defaultBaseURI,
-        '" size="12" maxlength="255">');
-WriteLn('<br>');
-
-WriteLn('default Layout: ');
-WriteLn('<input type="text" name="CSS" value="', defaultCSS, 
-        '" size="12" maxlength="255">');
-WriteLn('<br>');
-
-WriteLn(msg_newpasswd, ': ');
+Write(msg_newpasswd, ': ');
 WriteLn('<input type="password" name="passwd" value="', passwd,
         '" size="12" maxlength="12">');
 WriteLn('<br>');
@@ -1256,17 +1225,10 @@ if not ExamMode then exit;
 
 Assign(f, useDirSeparator(ExamDir) + examConfigFileName);
 Reset(f);
-ReadLn(f, defaultBaseURI);
-ReadLn(f, defaultCSS);
 ReadLn(f, passwd);
 close(f);
 
-if IOResult<>0 then
-  begin
-  passwd := '';
-  defaultBaseURI := '';
-  defaultCSS := ''
-  end
+if IOResult<>0 then passwd := ''
 end;
 
 procedure askForPassword;
@@ -1519,6 +1481,68 @@ if ExamDir<>'' then { if Exam mode isn't disabled }
   end
 end;
 
+procedure showImage(const img; size: integer);
+type TcharArray = array[1..MaxInt] of char;
+var i: integer;
+begin
+HTTPStatus(200, 'OK');
+WriteLn('Content-Type: image/png');
+WriteLn('Content-Length: ', size);
+WriteLn;
+for i := 1 to size do Write(TcharArray(img)[i]);
+Halt
+end;
+
+procedure getSchoolLayout;
+begin
+HTTPStatus(200, 'OK');
+WriteLn('Content-Type: text/css');
+WriteLn;
+StyleSchool;
+StylePrint;
+Halt
+end;
+
+procedure getBlueLayout;
+begin
+HTTPStatus(200, 'OK');
+WriteLn('Content-Type: text/css');
+WriteLn;
+StyleColor(1);
+StylePrint;
+Halt
+end;
+
+procedure getBrownLayout;
+begin
+HTTPStatus(200, 'OK');
+WriteLn('Content-Type: text/css');
+WriteLn;
+StyleColor(2);
+StylePrint;
+Halt
+end;
+
+procedure lookForStaticPages;
+begin
+{ deprecated method, but defined in GNU Coding Standards }
+if (pos('/--help', CGI_PATH_INFO)<>0) 
+   or (pos('/-h', CGI_PATH_INFO)<>0) 
+    then help;
+if pos('/--version', CGI_PATH_INFO)<>0 then version;
+
+{ static data links }
+if CGI_PATH_INFO = grRight then 
+  showImage(rightImageData, sizeof(rightImageData));
+if CGI_PATH_INFO = grFalse then 
+  showImage(falseImageData, sizeof(falseImageData));
+if CGI_PATH_INFO = '/school.png' then 
+  showImage(schoolImageData, sizeof(schoolImageData));
+if CGI_PATH_INFO = '/q-school.css' then getSchoolLayout;
+if CGI_PATH_INFO = '/q-brown.css' then getBrownLayout;
+if CGI_PATH_INFO = '/q-blue.css' then getBlueLayout;
+end;
+
 procedure parameters;
 var 
   i: integer;
@@ -1526,6 +1550,7 @@ var
   p: mystring;
 begin
 count := ParamCount;
+
 i := 0;
 while i<count do
     begin
@@ -1533,7 +1558,11 @@ while i<count do
     p := makeUpcase(ParamStr(i));
     if (p='-H') or (p='--HELP') or (p='/?') then help;
     if (p='--VERSION') then version;
-    end
+    end;
+
+{ if not called from browser and unknown parameters are there,
+  then print help }
+if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 
@@ -1551,16 +1580,12 @@ Cookie              := CGIInfo('HTTP_COOKIE');
 if (CGI_PATH_INFO='') or (CGI_PATH_TRANSLATED='') then
   MovedPermanently(protocol + Servername + ScriptName + '?--help');
 
-{ deprecated method, but defined in GNU Coding Standards }
-if (pos('/--help', CGI_PATH_INFO)<>0) 
-   or (pos('/-h', CGI_PATH_INFO)<>0) 
-    then help;
-if pos('/--version', CGI_PATH_INFO)<>0 then version;
-
+lookForStaticPages;
 
 { Don't allow to use /.. for security reasons }
 { else someone could scan through the whole machine }
 if pos('/..', CGI_PATH_INFO)<>0 then Forbidden;
+
 
 getQueryString;
 
