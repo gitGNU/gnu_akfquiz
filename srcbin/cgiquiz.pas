@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.27 2006/09/30 07:53:19 akf Exp $
+* $Id: cgiquiz.pas,v 1.28 2006/10/01 17:04:53 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -502,7 +502,7 @@ begin
 errorHTMLhead(404, 'file not found');
 WriteLn(msg_filenotfound);
 errorHTMLfoot;
-Halt(1)
+Halt
 end;
 
 procedure CannotOpen;
@@ -513,7 +513,7 @@ case lang of
   otherwise WriteLn('Error: cannot open "', CGI_PATH_INFO, '"')
   end;
 errorHTMLfoot;
-Halt(1)
+Halt
 end;
 
 procedure SetupError;
@@ -524,7 +524,7 @@ case lang of
   otherwise WriteLn('Error: AKFQuiz not set up correctly')
   end;
 errorHTMLfoot;
-Halt(1)
+Halt
 end;
 
 procedure Forbidden;
@@ -535,7 +535,7 @@ case lang of
   otherwise WriteLn('Error: no permission')
   end;
 errorHTMLfoot;
-Halt(1)
+Halt
 end;
 
 procedure FileError;
@@ -546,7 +546,7 @@ case lang of
   otherwise WriteLn('Error in file "', CGI_PATH_INFO, '"')
   end;
 errorHTMLfoot;
-Halt(1)
+Halt
 end;
 
 { used when the user ommits a trailing slash, when it is needed }
@@ -1068,7 +1068,13 @@ end;
 procedure CommonHtmlStart(const title: string);
 begin
 WriteLn('Content-Type: text/html; charset=UTF-8');
+
+{ Don't cache these pages
+  different program react on different of these settings }
 WriteLn('Cache-control: no-cache');
+WriteLn('Pragma: no-cache');
+WriteLn('Expires: 0');
+
 WriteLn;
 WriteLn(HTMLDocType);
 WriteLn;
@@ -1525,6 +1531,9 @@ end;
 
 procedure lookForStaticPages;
 begin
+{ all these resources can and should be kept in the 
+  (browser or proxy) cache }
+
 { deprecated method, but defined in GNU Coding Standards }
 if (pos('/--help', CGI_PATH_INFO)<>0) 
    or (pos('/-h', CGI_PATH_INFO)<>0) 
