@@ -1,7 +1,7 @@
 .\" Process this file with
 .\" groff -man -Tlatin1 akfquiz.cgi.8
 .\"
-.TH "cgiquiz" 8 "4.2.0" AKFQuiz
+.TH "cgiquiz" 8 "4.3.2" AKFQuiz
 
 .SS NAME
 cgiquiz \- CGI program for using AKFQuiz-files
@@ -30,12 +30,6 @@ cgiquiz \- CGI program for using AKFQuiz-files
 .SH DESCRIPTION
 
 cgiquiz lets you use a quiz from an easy to write text-file.
-
-It needs also the files "richtig.png" and "falsch.png", and probably a given 
-CSS file. These files have to be either in the same directory as the 
-AKFQuiz-file, or you can use the keyword
-.I baseURI
-in the quiz-file.
 
 The format of the input file is described in 
 .IR akfquiz (5).
@@ -106,8 +100,6 @@ For example:
 or
 .br
 .I http://example.org/cgi-bin/cgiquiz/~user/
-.br
-You must not leave the trailing "/" away.
 
 .SH DIAGNOSTICS
 
@@ -115,7 +107,7 @@ You must not leave the trailing "/" away.
 
 The program should even then always produce correct HTML code.
 Error messages are written into the code. So you can easily find the 
-position of the errors, by looking at the result with a browser.
+position of the errors by looking at the result with a browser.
 
 If the program cannot interpret the input data at all, it outputs 
 nothing, or it creates an empty file.
@@ -145,21 +137,7 @@ the automatic indexer doesn't show any subdirectories.
 The environment variable QUIZPATH as used by the other parts of AKFQuiz 
 has no influence on the CGI program.
 
-This program doesn't execute any external programs and it doesn't 
-write anything to disk. It only reads the file or directory given in 
-the URI.
-
-.SH FILES
-
-The following files must be in the same directory as the quizfile:
-
-.IP "richtig.png, falsch.png"
-needed graphic-files
-.P
-
-If you mentioned a CSS-file in the quizfile, it also has to be in the 
-same directory. It might be, that this CSS-file again needs other 
-files.
+This program doesn't execute any external programs. 
 
 .SH LICENSE
 
