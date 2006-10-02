@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.9 2006/09/15 16:21:52 akf Exp $
+* $Id: qsys.pas,v 1.10 2006/10/02 16:41:44 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -604,7 +604,9 @@ repeat
   e := makeUpcase(s);
   if (pos('TITLE:', e)<>0) or
      (pos('TITEL:', e)<>0) then title := getvalue(s);
-  if (pos('CHARSET:',e)=1) or
+  if (pos('ENCODING:',e)=1) or
+     (pos('KODIERUNG:',e)=1) or
+     (pos('CHARSET:',e)=1) or
      (pos('ZEICHENSATZ:',e)=1) then charset := getvalue(s)
 until ((title<>'') and (charset<>'')) or EOF(inp) or (IOResult<>0);
 close(inp);
@@ -615,7 +617,7 @@ if title<>''
     begin
     if charset='' 
       then charset:='US-ASCII'
-      else charset := makeUpcase(charset);             
+      else charset := makeUpcase(charset);
     if checkASCII(charset)  then title := forceASCII(title);
     if checkISO(charset)    then title := ISO1ToUTF8(title);
     if checkCP1252(charset) then title := CP1252ToUTF8(title);
