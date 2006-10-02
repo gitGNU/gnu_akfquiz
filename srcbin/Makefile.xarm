@@ -1,6 +1,6 @@
 # use FPC Cross-Compiler for Linux on ARM devices
 
-# $Id: Makefile.xarm,v 1.4 2006/10/02 12:49:32 akf Exp $
+# $Id: Makefile.xarm,v 1.5 2006/10/02 14:11:25 akf Exp $
 
 # Edit this file for Compiler-specific configuration
 # make further changes in common.mak
@@ -20,7 +20,6 @@ NATIVEPFLAGS=-Sh -Sd
 
 #DEFINES+=-dAdvertisement
 #DEFINES+=-dSdlSoundForAll
-#DEFINES+=-dGTK2
 #DEFINES+=-dNoHide
 #DEFINES+=-dscrNoEscKey
 #DEFINES+=-dgrNoEscKey
@@ -33,6 +32,6 @@ SOUNDOBJ=
 
 SHELL = /bin/sh
 
-default: most
+all: most
 
 include common.mak

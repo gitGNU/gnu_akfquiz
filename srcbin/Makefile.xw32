@@ -1,6 +1,6 @@
 # use FPC Cross-Compiler for windows
 
-# $Id: Makefile.xw32,v 1.5 2006/10/02 12:49:32 akf Exp $
+# $Id: Makefile.xw32,v 1.6 2006/10/02 14:11:25 akf Exp $
 
 # Edit this file for Compiler-specific configuration
 # make further changes in common.mak
@@ -24,7 +24,6 @@ DEFINES+=-dSDL
 DEFINES+=-dAdvertisement
 #DEFINES+=-dSdlSoundForAll
 #DEFINES+=-dNoTitleImage
-#DEFINES+=-dGTK2
 #DEFINES+=-dNoHide
 #DEFINES+=-dscrNoEscKey
 #DEFINES+=-dgrNoEscKey
@@ -38,7 +37,7 @@ SOUNDOBJ=errorsnd.inc infosnd.inc introsnd.inc rightsnd.inc wrongsnd.inc \
 
 SHELL = /bin/sh
 
-default: windows
+all: windows
 
 include common.mak
 

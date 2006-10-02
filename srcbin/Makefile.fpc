@@ -1,6 +1,6 @@
 # Compile with FPC for the native machine
 
-# $Id: Makefile.fpc,v 1.5 2006/10/02 12:49:32 akf Exp $
+# $Id: Makefile.fpc,v 1.6 2006/10/02 14:11:25 akf Exp $
 
 # make further changes in common.mak
 
@@ -15,7 +15,6 @@
 #            because it may cause trouble with FPC on some terminals
 #            automatically set for BSD systems
 # SDL      - use SDL
-# GTK2     - use GTK2 instead of GTK 1.2 in gtkquizchooser
 # OEM      - scrquiz: display has OEM charset (IBM437)
 #            (don't check the varable MM_CHARSET)
 # grNoEscKey,
@@ -45,7 +44,6 @@ DEFINES+=-dSDL
 #DEFINES+=-dNoTitleImage
 #DEFINES+=-dAdvertisement
 #DEFINES+=-dNoRelocation
-#DEFINES+=-dGTK2
 #DEFINES+=-dNoHide
 #DEFINES+=-dscrNoEscKey
 #DEFINES+=-dgrNoEscKey
@@ -58,5 +56,7 @@ SOUNDOBJ=errorsnd.inc infosnd.inc introsnd.inc rightsnd.inc wrongsnd.inc \
          neutralsnd.inc
 
 SHELL = /bin/sh
+
+all: unix
 
 include common.mak

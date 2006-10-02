@@ -1,6 +1,6 @@
 # Compile with GPC for the native machine using libSDL
 
-# $Id: Makefile.gpc,v 1.7 2006/10/02 12:49:32 akf Exp $
+# $Id: Makefile.gpc,v 1.8 2006/10/02 14:11:25 akf Exp $
 
 # make further changes in common.mak
 
@@ -49,5 +49,7 @@ SOUNDOBJ=errorsnd.o infosnd.o introsnd.o rightsnd.o wrongsnd.o neutralsnd.o
 #GUIFLAG=-mwindows
 
 SHELL = /bin/sh
+
+all: unix
 
 include common.mak
