@@ -4,7 +4,7 @@
 * usable for blind users (braile line or speech synthesizer)
 * usable as backend for other applications
 *
-* $Id: linequiz.pas,v 1.7 2006/09/13 10:23:30 akf Exp $
+* $Id: linequiz.pas,v 1.8 2006/10/02 12:49:32 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -48,7 +48,11 @@
 {$R+} { Range checking }
 
 program linequiz(input, output, stderr);
-uses uakfquiz, qsys, qmsgs;
+uses uakfquiz, qsys, qmsgs
+{$IfDef SdlSoundForAll}
+  , sdlsnd
+{$EndIf}
+;
 
 { GNU compliant format }
 const PrgVersion = 'linequiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
@@ -603,8 +607,16 @@ myexitcode := 0;
 display := checkdisplay; { set a default }
 setmsgconv(display);
 useSystemLanguage;
-useBeepSignals;
+
+{$IfDef SdlSoundForAll}
+  InitAudio(false);
+{$Else}
+  useBeepSignals;
+{$EndIf}
+
 parameters;
+
+IntroSignal;
 
 if infile='' then infile := askfile;
 if infile='' then Halt;

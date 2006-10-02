@@ -2,7 +2,7 @@
 * scrquiz   (was crtquiz)
 * screen/terminal oriented quiz program
 *
-* $Id: scrquiz.pas,v 1.7 2006/09/13 10:23:30 akf Exp $
+* $Id: scrquiz.pas,v 1.8 2006/10/02 12:49:32 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -53,7 +53,11 @@
 {$IfDef BSD} {$Define NoHide} {$EndIf}
 
 program scrquiz(input, output);
-uses qsys, qmsgs, uakfquiz, crt;
+uses qsys, qmsgs, uakfquiz, crt
+{$IfDef SdlSoundForAll}
+  ,sdlsnd
+{$EndIf}
+;
 
 {$I-}
 
@@ -1087,7 +1091,12 @@ myexitcode := 0;
 loop := true;
 unstopable := false;
 useSystemLanguage;
-useBeepSignals;
+
+{$IfDef SdlSoundForAll}
+  InitAudio(false);
+{$Else}
+  useBeepSignals;
+{$EndIf}
 
 display := checkDisplay;
 setmsgconv(display);

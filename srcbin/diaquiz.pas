@@ -2,7 +2,7 @@
 * diaquiz
 * quiz program based on "Xdialog"
 *
-* $Id: diaquiz.pas,v 1.6 2006/08/27 06:47:35 akf Exp $
+* $Id: diaquiz.pas,v 1.7 2006/10/02 12:49:32 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -36,11 +36,18 @@
 program diaquiz(input, output, stderr);
 
 {$IfDef FPC}
-  uses uakfquiz, qmsgs, qsys, dialog, SysUtils;
+  uses uakfquiz, qmsgs, qsys, dialog, SysUtils
+  {$IfDef SdlSoundForAll}
+    ,sdlsnd
+  {$EndIf}
+  ;
 {$EndIf}
 
 {$IfDef __GPC__}
   import uakfquiz; qmsgs; qsys; dialog;
+    {$IfDef SdlSoundForAll}
+    sdlsnd;
+    {$EndIf}
 {$EndIf}
 
 { GNU compliant format }
@@ -243,13 +250,21 @@ if (value>0) and not quit then
   myPoints := AnsPoints[value];
   inc(Points, myPoints);
   
+  if neutral then NeutralSignal;
+  
   if not neutral then
     begin
     if myPoints > 0 
-      then msgbox_a(msg_right + '\n\n' +
+      then begin
+           RightSignal;
+           msgbox_a(msg_right + '\n\n' +
                     '('+msg_points + IntToStr(myPoints)+')')
-      else msgbox_a(msg_wrong + '\n\n' +
+           end
+      else begin
+           FalseSignal;
+           msgbox_a(msg_wrong + '\n\n' +
                     '('+msg_points + IntToStr(myPoints)+')')
+	   end
     end
   end
 end;
@@ -311,14 +326,22 @@ while answer<>'' do
   inc(myPoints, thisPoints)
   end;
 
+if neutral then NeutralSignal;
+
 { right or wrong }
 if not neutral then
   begin
   if myPoints > 0 
-     then msgbox_a(msg_right + '\n\n' +
+     then begin
+          RightSignal;
+          msgbox_a(msg_right + '\n\n' +
                    '('+msg_points + IntToStr(myPoints)+')')
-     else msgbox_a(msg_wrong + '\n\n' +
+          end
+     else begin
+          FalseSignal;
+          msgbox_a(msg_wrong + '\n\n' +
                    '('+msg_points + IntToStr(myPoints)+')')
+          end
   end
 end;
 
@@ -356,6 +379,7 @@ if not evaluated and not quit and (MaxPoints<>0) then
                 IntToStr(getPercentage) + '%.\n'
     else if not neutral then txt := txt + msg_sol5 + '\n';
   txt := txt + msg_time + ShowTime(GetSecs - StartTime);
+  InfoSignal;
   msgbox_a(txt);
   quit := DialogCode<>0
   end;
@@ -438,8 +462,15 @@ var myexitcode : byte;
 begin { main }
 myexitcode := 0;
 useSystemLanguage;
+
+{$IfDef SdlSoundForAll}
+  InitAudio(false);
+{$EndIf}
+
 parameters;
+
 InitDialog;
+IntroSignal;
 
 quiz.Init(infile);
 quiz.process;

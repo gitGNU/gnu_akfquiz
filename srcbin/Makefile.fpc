@@ -1,6 +1,6 @@
 # Compile with FPC for the native machine
 
-# $Id: Makefile.fpc,v 1.4 2006/09/07 15:43:49 akf Exp $
+# $Id: Makefile.fpc,v 1.5 2006/10/02 12:49:32 akf Exp $
 
 # make further changes in common.mak
 
@@ -8,10 +8,13 @@
 #
 # Advertisement
 #          - print msg_advertisement line (qmsgs.pas)
+# SdlSoundForAll
+#          - SDL sound for scrquiz, diaquiz, linequiz
+#            (grquiz always gets Sound, when SDL is defined)
 # NoHide   - scrquiz: don't hide the cursor 
 #            because it may cause trouble with FPC on some terminals
 #            automatically set for BSD systems
-# SDL      - use SDL4FreePascal (else SVGAlib is used for Unix)
+# SDL      - use SDL
 # GTK2     - use GTK2 instead of GTK 1.2 in gtkquizchooser
 # OEM      - scrquiz: display has OEM charset (IBM437)
 #            (don't check the varable MM_CHARSET)
@@ -38,6 +41,7 @@ POPT=-O2G -Xs -XX
 
 DEFINES+=-dSDL
 
+#DEFINES+=-dSdlSoundForAll
 #DEFINES+=-dNoTitleImage
 #DEFINES+=-dAdvertisement
 #DEFINES+=-dNoRelocation

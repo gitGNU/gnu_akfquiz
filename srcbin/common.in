@@ -1,4 +1,4 @@
-# $Id: common.in,v 1.10 2006/09/30 07:53:19 akf Exp $
+# $Id: common.in,v 1.11 2006/10/02 12:49:32 akf Exp $
 
 #####################################################################
 # change here:
@@ -57,19 +57,6 @@ txt:
 pdf:
 	$(MAKE) -C ../doc pdf
 
-mkquiz: mkquiz.pas qsys.pas qmsgs.pas uakfquiz.pas htmlquiz.pas
-	$(PC) $(PFLAGS) $(POPT) $(DEFINES) mkquiz.pas
-
-scrquiz: scrquiz.pas qsys.pas qmsgs.pas uakfquiz.pas
-	$(PC) $(PFLAGS) $(POPT) $(DEFINES) scrquiz.pas
-
-linequiz: linequiz.pas qsys.pas qmsgs.pas uakfquiz.pas
-	$(PC) $(PFLAGS) $(POPT) $(DEFINES) linequiz.pas
-
-cgiquiz: cgiquiz.pas uakfquiz.pas qmsgs.pas qsys.pas htmlquiz.pas \
-         styles.pas pngdata.inc
-	$(PC) $(PFLAGS) $(POPT) $(DEFINES) cgiquiz.pas
-
 introsnd.inc: introsnd.ub
 	bin2obj -c IntroSound -o introsnd.inc introsnd.ub
 
@@ -125,7 +112,23 @@ grquiz: grquiz.pas qsys.pas qmsgs.pas uakfquiz.pas clgrph.pas \
         sdlgrph.pas sdlsnd.pas $(IMAGEOBJ) $(SOUNDOBJ) font.inc
 	-$(PC) $(PFLAGS) $(POPT) $(DEFINES) $(GUIFLAG) grquiz.pas
 
-diaquiz: diaquiz.pas qsys.pas qmsgs.pas uakfquiz.pas dialog.pas
+mkquiz: mkquiz.pas qsys.pas qmsgs.pas uakfquiz.pas htmlquiz.pas
+	$(PC) $(PFLAGS) $(POPT) $(DEFINES) mkquiz.pas
+
+scrquiz: scrquiz.pas qsys.pas qmsgs.pas uakfquiz.pas \
+         sdlsnd.pas $(SOUNDOBJ)
+	$(PC) $(PFLAGS) $(POPT) $(DEFINES) scrquiz.pas
+
+linequiz: linequiz.pas qsys.pas qmsgs.pas uakfquiz.pas \
+          sdlsnd.pas $(SOUNDOBJ)
+	$(PC) $(PFLAGS) $(POPT) $(DEFINES) linequiz.pas
+
+cgiquiz: cgiquiz.pas uakfquiz.pas qmsgs.pas qsys.pas htmlquiz.pas \
+         styles.pas pngdata.inc
+	$(PC) $(PFLAGS) $(POPT) $(DEFINES) cgiquiz.pas
+
+diaquiz: diaquiz.pas qsys.pas qmsgs.pas uakfquiz.pas dialog.pas \
+         sdlsnd.pas $(SOUNDOBJ)
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) diaquiz.pas
 
 # just for Windows

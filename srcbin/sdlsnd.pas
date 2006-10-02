@@ -2,7 +2,7 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
-* $Id: sdlsnd.pas,v 1.9 2006/10/02 10:07:51 akf Exp $
+* $Id: sdlsnd.pas,v 1.10 2006/10/02 12:49:32 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -42,7 +42,7 @@ uses qsys;
 procedure InitAudio(sub: boolean);
 
 { closes the Audio-subsystem or all of SDL }
-procedure CloseAudio(sub: boolean);
+procedure CloseAudio;
 
 procedure useSDLsounds; { also started from InitAudio }
 
@@ -100,11 +100,13 @@ const
   SDL_MIX_MAXVOLUME = 128;
   AUDIO_U8 = $0008;  { Unsigned 8-bit samples  }
 
-var 
-  AudioAvailable : Boolean = false;
+var
+  isSubSystem: boolean = false; { is it initialzed as subsystem? }
+  AudioAvailable : boolean = false;
   sndData : pByte = NIL;
   sndPos  : pByte = NIL;
   sndlen  : LongInt = 0;
+
 
 function SDL_Init(flags: Uint32): CInteger; cdecl; 
            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_Init';
@@ -208,9 +210,10 @@ end;
 procedure InitAudio(sub: boolean); 
 var desired : SDL_AudioSpec;
 begin
-if sub
+isSubSystem := sub;
+if isSubSystem
   then AudioAvailable := SDL_InitSubSystem(SDL_INIT_AUDIO)=0
-  else AudioAvailable := SDL_Init(SDL_INIT_VIDEO or SDL_INIT_AUDIO)=0;
+  else AudioAvailable := SDL_Init(SDL_INIT_AUDIO)=0;
 
 if AudioAvailable then 
   begin
@@ -229,11 +232,23 @@ if AudioAvailable then
   end
 end;
 
-procedure CloseAudio(sub: boolean);
+procedure CloseAudio;
 begin
-if sub
-  then SDL_QuitSubSystem(SDL_INIT_AUDIO)
-  else SDL_Quit
+{ SDL_Quit might already be called... }
+
+if AudioAvailable then
+  if isSubSystem
+    then SDL_QuitSubSystem(SDL_INIT_AUDIO)
+    else SDL_Quit;
+
+DisableSignals;
+AudioAvailable := false
 end;
+
+Initialization
+
+Finalization
+
+  CloseAudio
 
 end.

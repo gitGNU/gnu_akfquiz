@@ -1,6 +1,6 @@
 # use FPC Cross-Compiler for windows
 
-# $Id: Makefile.xw32,v 1.4 2006/09/07 15:43:49 akf Exp $
+# $Id: Makefile.xw32,v 1.5 2006/10/02 12:49:32 akf Exp $
 
 # Edit this file for Compiler-specific configuration
 # make further changes in common.mak
@@ -22,6 +22,7 @@ POPT+=-Op3
 DEFINES+=-dSDL
 
 DEFINES+=-dAdvertisement
+#DEFINES+=-dSdlSoundForAll
 #DEFINES+=-dNoTitleImage
 #DEFINES+=-dGTK2
 #DEFINES+=-dNoHide

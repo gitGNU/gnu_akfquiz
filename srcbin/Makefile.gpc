@@ -1,11 +1,14 @@
 # Compile with GPC for the native machine using libSDL
 
-# $Id: Makefile.gpc,v 1.6 2006/09/13 05:26:44 akf Exp $
+# $Id: Makefile.gpc,v 1.7 2006/10/02 12:49:32 akf Exp $
 
 # make further changes in common.mak
 
 # Conditional Defines:
 #
+# SdlSoundForAll
+#          - SDL sound for scrquiz, diaquiz, linequiz
+#            (grquiz always gets Sound, when SDL is defined)
 # Advertisement
 #          - print msg_advertisement line (qmsgs.pas)
 # grNoEscKey,
@@ -30,6 +33,7 @@ NATIVEPC=$(PC)
 NATIVEPFLAGS=$(PFLAGS)
 
 DEFINES+=-D SDL
+#DEFINES+=-D SdlSoundForAll
 #DEFINES+=-D Advertisement
 DEFINES+=-D scrNoEscKey
 #DEFINES+=-dNoRelocation
