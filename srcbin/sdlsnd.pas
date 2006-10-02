@@ -2,12 +2,12 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
-* $Id: sdlsnd.pas,v 1.8 2006/09/13 10:40:39 akf Exp $
+* $Id: sdlsnd.pas,v 1.9 2006/10/02 10:07:51 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
 *
-* Environment: FreePascal
+* Environment: GNU Pascal or FreePascal
 *
 * This file is part of AKFQuiz
 *
@@ -221,11 +221,11 @@ if AudioAvailable then
     channels := 1;
     samples  := 1024;
     userdata := NIL;
-    callback := Addr(fillAudio);
+    callback := Addr(fillAudio)
     end;
 
   AudioAvailable := SDL_OpenAudio(desired, NIL)=0;
-  if AudioAvailable then useSDLsounds;
+  if AudioAvailable then useSDLsounds
   end
 end;
 
@@ -233,7 +233,7 @@ procedure CloseAudio(sub: boolean);
 begin
 if sub
   then SDL_QuitSubSystem(SDL_INIT_AUDIO)
-  else SDL_Quit;
+  else SDL_Quit
 end;
 
 end.

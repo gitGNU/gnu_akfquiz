@@ -2,12 +2,12 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.8 2006/09/13 10:40:39 akf Exp $
+* $Id: sdlgrph.pas,v 1.9 2006/10/02 10:07:51 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
 *
-* Environment: FreePascal and SDL4FreePascal
+* Environment: GNU Pascal or Free Pascal
 *
 * This file is part of AKFQuiz
 *
@@ -116,7 +116,7 @@ type
       Rshift, Gshift, Bshift, Ashift : Uint8;
       Rmask, Gmask, Bmask, Amask : Uint32;
       colorkey : Uint32;
-      alpha : Uint8;
+      alpha : Uint8
       end;
 
 type
@@ -135,7 +135,7 @@ type
       locked: Uint32;
       map : pointer;
       format_version: CInteger;
-      refcount : CInteger;
+      refcount : CInteger
       end;
 
 
@@ -144,7 +144,7 @@ type SDL_keysym =
        scancode : Uint8;
        sym : CInteger;
        modifier : CInteger;
-       unicode : Uint16;
+       unicode : Uint16
        end;
 
 type SDL_KeyboardEvent = 
@@ -152,7 +152,7 @@ type SDL_KeyboardEvent =
        eventtype : Uint8;
        which : Uint8;
        state : Uint8;
-       keysym : SDL_keysym;
+       keysym : SDL_keysym
        end;
 
 type SDL_MouseMotionEvent = 
@@ -162,7 +162,7 @@ type SDL_MouseMotionEvent =
        state : Uint8;
        x, y : Uint16;
        xrel : Sint16;
-       yrel : Sint16;
+       yrel : Sint16
        end;
 
 type SDL_MouseButtonEvent = 
@@ -171,7 +171,7 @@ type SDL_MouseButtonEvent =
        which : Uint8;
        button : Uint8;
        state : Uint8;
-       x, y : Uint16;
+       x, y : Uint16
        end;
 
 type 
@@ -182,7 +182,7 @@ type
          0 : ( eventtype : Uint8 );
          2 : ( key : SDL_KeyboardEvent );
          3 : ( motion : SDL_MouseMotionEvent );
-         4 : ( button : SDL_MouseButtonEvent );
+         4 : ( button : SDL_MouseButtonEvent )
         end;
 
 const
@@ -495,7 +495,7 @@ rect.x := x+taRect.x;
 rect.y := y+taRect.y;
 
 SDL_BlitSurface(image, NIL, screen, addr(rect));
-SDL_FreeSurface(image);
+SDL_FreeSurface(image)
 end;
 
 procedure drawBackground(const img);
@@ -670,7 +670,7 @@ with SDL_KeyboardEvent(event).keysym do
         $017E : c := chr($B8); { z with caron }
         $0152 : c := chr($BC); { ligature OE }
         $0153 : c := chr($BD); { ligature oe }
-        $0178 : c := chr($BE); { Y with diaeresis }
+        $0178 : c := chr($BE) { Y with diaeresis }
         end;
 
   if unicode=0 then
@@ -681,7 +681,7 @@ with SDL_KeyboardEvent(event).keysym do
        (SDLK_KP0+1) .. (SDLK_KP0+9) : 
                   c := chr(ord('1') + sym - SDLK_KP0 - 1);
        SDLK_KP_Enter : c := chr(13);
-       SDLK_EURO : c:=chr($A4); { ISO-8859-15 }
+       SDLK_EURO : c:=chr($A4) { ISO-8859-15 }
        end;
 
   { Alt + Enter => switchfullscreen }
@@ -727,6 +727,6 @@ Initialization
 
 Finalization
 
-  endGraphics;
+  endGraphics
 
 end.
