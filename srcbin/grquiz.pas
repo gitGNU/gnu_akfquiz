@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.10 2006/10/02 12:49:32 akf Exp $
+* $Id: grquiz.pas,v 1.11 2006/10/03 11:49:16 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -434,7 +434,7 @@ begin
 {$EndIf} { NoTitleImage }
 
 GrfWriteLn(PrgVersion);
-GrfWriteLn('Copyright © '+AKFQuizCopyright+' <'+AKFQuizEmail+'>');
+GrfWriteLn('Copyright © ' + AKFQuizCopyright);
 GrLn;
 case lang of
   deutsch : GrfWriteLn('Beenden: '+ExitKeyName

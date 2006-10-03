@@ -6,6 +6,7 @@
 - bugfix: Maxpoitnts=0 (surveys) handled correctly
 - grquiz: non breaking space not visible anymore
 - grquiz: changed window-title
+- grquiz: removed my personal address from the title page
 - SDL4Freepascal not needed anymore
 - grquiz: libSDL usable with gpc (GRX still also supported)
 - cgiquiz, mkquiz: change index format to <ul>

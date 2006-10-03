@@ -1,7 +1,7 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.8 2006/09/29 18:53:09 akf Exp $
+* $Id: uakfquiz.pas,v 1.9 2006/10/03 11:49:16 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -62,9 +62,6 @@ uses qsys, qmsgs;
 { please add your name, when you make changes }
 { You may not delete my name }
 const AKFQuizCopyright = '2006 AKFoerster';
-
-{ when you make changes, change the contact address to your one }
-const AKFQuizEmail = 'akfquiz@akfoerster.de';
 
 
 { some default values }
