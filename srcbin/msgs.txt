@@ -254,3 +254,15 @@ Please help to translate AkfQuiz to other languages
  msg_reconfigure::
   deutsch:: 'Umkonfigurieren'
   english:: 'Reconfigure'
+
+ msg_logout::
+  deutsch:: 'Abmelden'
+  english:: 'Log out'
+
+ msg_loggedout::
+  deutsch:: 'Abgemeldet'
+  english:: 'Logged out'
+
+ msg_inconsistent::
+  deutsch:: 'Das Ergebnis entspricht nicht dem ursprünglichem Ergebnis'
+  english:: 'the result is not the same as the original result'

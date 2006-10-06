@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.10 2006/09/27 10:59:30 akf Exp $
+* $Id: qmsgs.pas,v 1.11 2006/10/06 08:03:44 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -101,6 +101,7 @@ function msg_newpasswd: mystring;
 function msg_reconfigure: mystring;
 function msg_logout: mystring;
 function msg_loggedout: mystring;
+function msg_inconsistent: mystring;
 
 
 Implementation
@@ -617,6 +618,16 @@ begin
 case lang of
   deutsch :  msg_loggedout := 'Abgemeldet';
   otherwise  msg_loggedout := 'Logged out';
+  end
+end;
+
+function msg_inconsistent: mystring;
+begin
+case lang of
+  deutsch :  msg_inconsistent := 
+        cnv('Das Ergebnis entspricht nicht dem ursprünglichem Ergebnis');
+  otherwise  msg_inconsistent := 
+          'the result is not the same as the original result';
   end
 end;
 
