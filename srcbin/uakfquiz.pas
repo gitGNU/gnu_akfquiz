@@ -1,7 +1,7 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.9 2006/10/03 11:49:16 akf Exp $
+* $Id: uakfquiz.pas,v 1.10 2006/10/06 11:32:10 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -946,4 +946,8 @@ if TimeLimit>0
   else checkTimeout := false
 end;
 
+var ident : ShortString;
+
+begin
+ident := '$Id: uakfquiz.pas,v 1.10 2006/10/06 11:32:10 akf Exp $'
 end.

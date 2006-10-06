@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.10 2006/10/02 16:41:44 akf Exp $
+* $Id: qsys.pas,v 1.11 2006/10/06 11:32:10 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1447,8 +1447,11 @@ end;
 {$EndIf}
 
 
+var ident : ShortString;
+
 INITIALIZATION
 
+  ident := '$Id: qsys.pas,v 1.11 2006/10/06 11:32:10 akf Exp $';
   disableSignals; { initializes Signals }
   
   quizfileList := NIL;

@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.29 2006/10/06 08:03:44 akf Exp $
+* $Id: cgiquiz.pas,v 1.30 2006/10/06 11:32:10 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1574,8 +1574,11 @@ while i<count do
 if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
+var ident : ShortString;
 
 begin
+ident := '$Id: cgiquiz.pas,v 1.30 2006/10/06 11:32:10 akf Exp $';
+
 useBrowserLanguage;
 parameters;
 

@@ -2,7 +2,7 @@
 * scrquiz   (was crtquiz)
 * screen/terminal oriented quiz program
 *
-* $Id: scrquiz.pas,v 1.8 2006/10/02 12:49:32 akf Exp $
+* $Id: scrquiz.pas,v 1.9 2006/10/06 11:32:10 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1085,8 +1085,11 @@ while i<ParamCount do
 end;
 
 var myexitcode : byte;
+var ident : ShortString;
 
 begin { main }
+ident := '$Id: scrquiz.pas,v 1.9 2006/10/06 11:32:10 akf Exp $';
+
 myexitcode := 0;
 loop := true;
 unstopable := false;

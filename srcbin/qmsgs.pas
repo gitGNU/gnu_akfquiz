@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.11 2006/10/06 08:03:44 akf Exp $
+* $Id: qmsgs.pas,v 1.12 2006/10/06 11:32:10 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -631,4 +631,8 @@ case lang of
   end
 end;
 
+var ident : ShortString;
+
+begin
+ident := '$Id: qmsgs.pas,v 1.12 2006/10/06 11:32:10 akf Exp $'
 end.

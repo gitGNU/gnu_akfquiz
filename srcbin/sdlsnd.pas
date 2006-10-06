@@ -2,7 +2,7 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
-* $Id: sdlsnd.pas,v 1.10 2006/10/02 12:49:32 akf Exp $
+* $Id: sdlsnd.pas,v 1.11 2006/10/06 11:32:10 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -245,7 +245,11 @@ DisableSignals;
 AudioAvailable := false
 end;
 
+var ident : ShortString;
+
 Initialization
+
+  ident := '$Id: sdlsnd.pas,v 1.11 2006/10/06 11:32:10 akf Exp $'
 
 Finalization
 

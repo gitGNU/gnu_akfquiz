@@ -8,7 +8,7 @@
 *
 * This unit was originally written for AKFQuiz
 *
-* $Id: dialog.pas,v 1.2 2006/08/17 08:27:58 akf Exp $
+* $Id: dialog.pas,v 1.3 2006/10/06 11:32:10 akf Exp $
 *
 * Copyright (c) 2003-2004 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -399,4 +399,8 @@ begin
 dselect(default, autosize, autosize, answer)
 end;
 
+var ident : string[255];
+
+begin
+ident := '$Id: dialog.pas,v 1.3 2006/10/06 11:32:10 akf Exp $'
 end.

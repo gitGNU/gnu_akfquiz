@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.11 2006/09/14 19:02:11 akf Exp $
+* $Id: mkquiz.pas,v 1.12 2006/10/06 11:32:10 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -511,7 +511,11 @@ if automode in modes then runautomode;
 if makeindex in modes then endIndex
 end;
 
+var ident : ShortString;
+
 begin
+ident := '$Id: mkquiz.pas,v 1.12 2006/10/06 11:32:10 akf Exp $';
+
 outpath := '';
 modes := [];
 useSystemLanguage;
