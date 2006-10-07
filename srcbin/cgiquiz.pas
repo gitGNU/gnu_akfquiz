@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.32 2006/10/07 11:20:10 akf Exp $
+* $Id: cgiquiz.pas,v 1.33 2006/10/07 13:51:32 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -72,6 +72,8 @@ const ResultExt = '.result';
 const examConfigFileName = '.config';
 
 { just used internally, so you might change the names }
+{ for standard-compliant browsers the extension needn't be given, 
+  but for IE }
 const
   grRight = '/richtig.png';
   grFalse = '/falsch.png';
@@ -646,8 +648,8 @@ headBaseURI;
 
 { prefetch is a Mozilla specific feature, but it doesn't interfere with 
   the official HTML-standards }
-WriteLn(outp, '<link rel="prefetch" href="', grRight, '">');
-WriteLn(outp, '<link rel="prefetch" href="', grFalse, '">');
+WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grRight, '">');
+WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grFalse, '">');
 
 inherited headdata
 end;
@@ -1601,7 +1603,7 @@ end;
 var ident : ShortString;
 
 begin
-ident := '$Id: cgiquiz.pas,v 1.32 2006/10/07 11:20:10 akf Exp $';
+ident := '$Id: cgiquiz.pas,v 1.33 2006/10/07 13:51:32 akf Exp $';
 
 useBrowserLanguage;
 parameters;
