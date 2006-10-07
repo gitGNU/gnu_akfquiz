@@ -1,7 +1,9 @@
 4.3.2
+- usage of CVS-Id information
 - new keywords "encoding:", "Kodierung:" replace "charset:", "Zeichensatz:"
 - cgiquiz: new exam-mode
 - cgiquiz: graphics and some stylesheets included (easier setup)
+- cgiquiz: graphics are prefetched if the browser supports it
 - removed gtkquizchooser and wquizchooser
 - bugfix: Maxpoitnts=0 (surveys) handled correctly
 - grquiz: non breaking space not visible anymore

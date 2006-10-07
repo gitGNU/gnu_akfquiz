@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.30 2006/10/06 11:32:10 akf Exp $
+* $Id: cgiquiz.pas,v 1.31 2006/10/07 07:49:00 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -93,6 +93,7 @@ type
 	procedure HTTPdata;
 	procedure error;                         virtual;
 	procedure startForm;                     virtual;
+        procedure headBaseURI;
         procedure headdata;                      virtual;
 	function  GeneratorName: mystring;       virtual;
         procedure StartQuiz;                     virtual;
@@ -120,6 +121,7 @@ type
 
       public
         constructor init;
+        procedure headdata;                      virtual;
 	procedure startForm;                     virtual;
         procedure startQuiz;                     virtual;
 	procedure putgraphic;                    virtual;
@@ -628,13 +630,24 @@ begin
 GeneratorName := PrgVersion
 end;
 
-procedure Tcgiquiz.headdata;
+procedure Tcgiquiz.headBaseURI;
 begin
 WriteLn(outp);
 if pos(protocol, DocumentURI)=1
   then WriteLn(outp, '<base href="', DocumentURI, '">')
   else WriteLn(outp, '<base href="', protocol, ServerName, DocumentURI, '">');
 WriteLn(outp);
+end;
+
+{ Tcgianswer doesn't automatically inherit this! }
+procedure Tcgiquiz.headdata;
+begin
+headBaseURI;
+
+{ prefetch is a Mozilla specific feature, but it doesn't interfere with 
+  the official HTML-standards }
+WriteLn('<link rel="prefetch" href="', grRight, '">');
+WriteLn('<link rel="prefetch" href="', grFalse, '">');
 
 inherited headdata
 end;
@@ -785,6 +798,14 @@ repeat
     oldPercent := StrToInt(CGIvalue(CGIElement), -1);
   if CGIfield(CGIElement) = 'name' then Name := CGIvalue(CGIElement);
 until (CGIElement[1]='q') or isLastElement
+end;
+
+procedure Tcgianswer.headdata;
+begin
+headBaseURI;
+
+{ avoid inheriting the special data introduced in Tcgiquiz }
+Thtmlquiz.headdata
 end;
 
 procedure Tcgianswer.StartForm;
@@ -1491,6 +1512,9 @@ procedure showImage(const img; size: integer);
 type TcharArray = array[1..MaxInt] of char;
 var i: integer;
 begin
+{ should be kept in the chache }
+{ these images are prefetched (if the browser supports it) }
+
 HTTPStatus(200, 'OK');
 WriteLn('Content-Type: image/png');
 WriteLn('Content-Length: ', size);
@@ -1531,8 +1555,8 @@ end;
 
 procedure lookForStaticPages;
 begin
-{ all these resources can and should be kept in the 
-  (browser or proxy) cache }
+{ all these resources can and should be kept in the cache
+  (browser or proxy cache) }
 
 { deprecated method, but defined in GNU Coding Standards }
 if (pos('/--help', CGI_PATH_INFO)<>0) 
@@ -1577,7 +1601,7 @@ end;
 var ident : ShortString;
 
 begin
-ident := '$Id: cgiquiz.pas,v 1.30 2006/10/06 11:32:10 akf Exp $';
+ident := '$Id: cgiquiz.pas,v 1.31 2006/10/07 07:49:00 akf Exp $';
 
 useBrowserLanguage;
 parameters;
