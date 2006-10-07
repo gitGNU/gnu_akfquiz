@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.33 2006/10/07 13:51:32 akf Exp $
+* $Id: cgiquiz.pas,v 1.34 2006/10/07 15:53:14 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1510,6 +1510,13 @@ if ExamDir<>'' then { if Exam mode isn't disabled }
   end
 end;
 
+procedure pleaseCacheHttpHeader;
+begin
+{ both cache-control headers mean: please chache me! }
+WriteLn('Cache-Control: public');
+WriteLn('Cache-Control: max-age=', 60*60*24); { 24 hours }
+end;
+
 procedure showImage(const img; size: integer);
 type TcharArray = array[1..MaxInt] of char;
 var i: integer;
@@ -1520,7 +1527,9 @@ begin
 HTTPStatus(200, 'OK');
 WriteLn('Content-Type: image/png');
 WriteLn('Content-Length: ', size);
+pleaseCacheHttpHeader;
 WriteLn;
+
 for i := 1 to size do Write(TcharArray(img)[i]);
 Halt
 end;
@@ -1529,6 +1538,7 @@ procedure getSchoolLayout;
 begin
 HTTPStatus(200, 'OK');
 WriteLn('Content-Type: text/css');
+pleaseCacheHttpHeader;
 WriteLn;
 StyleSchool;
 StylePrint;
@@ -1539,6 +1549,7 @@ procedure getBlueLayout;
 begin
 HTTPStatus(200, 'OK');
 WriteLn('Content-Type: text/css');
+pleaseCacheHttpHeader;
 WriteLn;
 StyleColor(1);
 StylePrint;
@@ -1549,6 +1560,7 @@ procedure getBrownLayout;
 begin
 HTTPStatus(200, 'OK');
 WriteLn('Content-Type: text/css');
+pleaseCacheHttpHeader;
 WriteLn;
 StyleColor(2);
 StylePrint;
@@ -1603,7 +1615,7 @@ end;
 var ident : ShortString;
 
 begin
-ident := '$Id: cgiquiz.pas,v 1.33 2006/10/07 13:51:32 akf Exp $';
+ident := '$Id: cgiquiz.pas,v 1.34 2006/10/07 15:53:14 akf Exp $';
 
 useBrowserLanguage;
 parameters;
