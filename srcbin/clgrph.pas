@@ -2,7 +2,7 @@
 * clgrph (unit)
 * functions for the classical graph unit for grquiz
 *
-* $Id: clgrph.pas,v 1.4 2006/10/06 11:32:10 akf Exp $
+* $Id: clgrph.pas,v 1.5 2006/10/10 10:48:33 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -68,13 +68,13 @@ procedure initializeGraphicMode(const title, short: string;
 procedure LockScreen;
 procedure UnlockScreen;
 procedure setExitKey(ExitKey: char);
-procedure answerStarts(ans: word);
-procedure answerEnds(ans: word);
+procedure answerStarts(ans: cardinal);
+procedure answerEnds(ans: cardinal);
 function  GetKey: char;
 procedure showimage(x, y: Integer; var img);
 procedure drawBackground(var img);
 procedure defineTextArea(x1, y1, x2, y2: TscreenPos; useTextArea: boolean);
-procedure setColors(foreground, background: word);
+procedure setColors(foreground, background: cardinal);
 function GetRGBColor(r, g, b: byte): LongInt;
 procedure clearTextarea;
 procedure endGraphics;
@@ -114,14 +114,14 @@ begin end;
 procedure setExitKey(ExitKey: char);
 begin end;
 
-procedure answerStarts(ans: word);
+procedure answerStarts(ans: cardinal);
 begin 
 {$IfDef GRXMouse}
   answerposition[ans].f := GetY
 {$EndIf}
 end;
 
-procedure answerEnds(ans: word);
+procedure answerEnds(ans: cardinal);
 begin 
 {$IfDef GRXMouse}
   answerposition[ans].t := GetY
@@ -140,7 +140,7 @@ begin
 {$EndIf}
 end;
 
-procedure setColors(foreground, background: word);
+procedure setColors(foreground, background: cardinal);
 begin
 SetColor(foreground);
 SetBkColor(background);
@@ -358,7 +358,7 @@ var ident: ShortString;
 
 Initialization
 
-  ident := '$Id: clgrph.pas,v 1.4 2006/10/06 11:32:10 akf Exp $';
+  ident := '$Id: clgrph.pas,v 1.5 2006/10/10 10:48:33 akf Exp $';
   TextArea := NIL;
   TextAreaSize := 0;
   graphicActive := false;

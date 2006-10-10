@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.12 2006/10/06 11:32:10 akf Exp $
+* $Id: grquiz.pas,v 1.13 2006/10/10 10:48:33 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -578,7 +578,7 @@ while (entry<>NIL) and (not okay) do
   if (c=maxkey) and ((entry<>NIL) or (offset<>0)) then { more...}
     begin
     okay := false;
-    offset := offset + Nr - 1;
+    offset := word(offset + Nr - 1);
     Nr := 1;
     ClearTextArea;
     if entry=NIL then { start from the beginning }
@@ -1131,7 +1131,7 @@ var myexitcode : byte;
 var ident : ShortString;
 
 begin { main }
-ident := '$Id: grquiz.pas,v 1.12 2006/10/06 11:32:10 akf Exp $';
+ident := '$Id: grquiz.pas,v 1.13 2006/10/10 10:48:33 akf Exp $';
 
 {$IfDef FPCSVGALIB}
   { space after messages from SVGALib }

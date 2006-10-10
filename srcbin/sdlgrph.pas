@@ -2,7 +2,7 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.10 2006/10/06 11:32:10 akf Exp $
+* $Id: sdlgrph.pas,v 1.11 2006/10/10 10:48:33 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -48,7 +48,7 @@ procedure initializeGraphicMode(const title, short: string;
 procedure endGraphics;
 procedure LockScreen;
 procedure UnlockScreen;
-procedure setColors(foreground, background: Uint16);
+procedure setColors(foreground, background: cardinal);
 procedure PutPixel(x, y: TscreenPos; color: Uint16);
 function  GetPixel(x, y: TscreenPos): Uint16;
 procedure showimage(x, y: Integer; const img);
@@ -67,8 +67,8 @@ procedure setExitKey(c: char);
 function GetKey: char;
 
 procedure showmouse(on: boolean);
-procedure answerStarts(ans: word);
-procedure answerEnds(ans: word);
+procedure answerStarts(ans: cardinal);
+procedure answerEnds(ans: cardinal);
 
 
 implementation
@@ -331,12 +331,12 @@ begin
 if mustlock then SDL_UnlockSurface(screen)
 end;
 
-procedure answerStarts(ans: word);
+procedure answerStarts(ans: cardinal);
 begin
 answerposition[ans].f := ypos
 end;
 
-procedure answerEnds(ans: word);
+procedure answerEnds(ans: cardinal);
 begin 
 answerposition[ans].t := ypos
 end;
@@ -458,7 +458,7 @@ if graphicActive then
   end
 end;
 
-procedure setColors(foreground, background: Uint16);
+procedure setColors(foreground, background: cardinal);
 begin end;
 
 function GetRGBColor(r, g, b: byte): Uint16;
@@ -720,7 +720,7 @@ var ident : ShortString;
 
 Initialization
 
-  ident := '$Id: sdlgrph.pas,v 1.10 2006/10/06 11:32:10 akf Exp $';
+  ident := '$Id: sdlgrph.pas,v 1.11 2006/10/10 10:48:33 akf Exp $';
 
   textarea      := NIL;
   screen        := NIL;

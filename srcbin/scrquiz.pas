@@ -2,7 +2,7 @@
 * scrquiz   (was crtquiz)
 * screen/terminal oriented quiz program
 *
-* $Id: scrquiz.pas,v 1.9 2006/10/06 11:32:10 akf Exp $
+* $Id: scrquiz.pas,v 1.10 2006/10/10 10:48:33 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -63,7 +63,7 @@ uses qsys, qmsgs, uakfquiz, crt
 
 type keyset = set of char;
 
-type TscreenPos = {$IfDef FPC} byte; {$Else} word; {$EndIf}
+type TscreenPos = {$IfDef FPC} byte; {$Else} cardinal; {$EndIf}
 { Byte is a bad choice, but FPC insists on it }
 
 { GNU compliant format }
@@ -113,7 +113,7 @@ var MaxLength, MaxHeight: TscreenPos;
 var display: DisplayType;
 
 { Line count after last wait }
-var LineCnt: word;
+var LineCnt: cardinal;
 
 type 
   Tscrquiz = 
@@ -232,7 +232,7 @@ end;
 procedure centered(x: string);
 begin
 if length(x) > MaxLength then x := copy(x, 1, MaxLength);
-GotoXY( (MaxLength div 2) - (Length(x) div 2), WhereY);
+GotoXY( TscreenPos((MaxLength div 2) - (Length(x) div 2)), WhereY);
 Write(x);
 Ln
 end;
@@ -253,10 +253,10 @@ wide := ScrWidth >= 80;
 
 { draw shadow }
 TextAttr := LShadow;
-y := WhereY + 1;
+y := TscreenPos(WhereY + 1);
 if wide 
-  then x := (ScrWidth div 2) - (Length(s)+1) 
-  else x := ((ScrWidth div 2) - (Length(s) div 2)+1);
+  then x := TscreenPos((ScrWidth div 2) - (Length(s)+1))
+  else x := TscreenPos((ScrWidth div 2) - (Length(s) div 2)+1);
 
 for i := 1 to Length(s) do
   begin
@@ -271,10 +271,10 @@ for i := 1 to Length(s) do
 
 { draw foreground }
 TextAttr := LColor;
-y := WhereY - 1;
+y := TscreenPos(WhereY - 1);
 if wide 
-  then x := (ScrWidth div 2) - (Length(s)+1) 
-  else x := ((ScrWidth div 2) - (Length(s) div 2)+1);
+  then x := TscreenPos((ScrWidth div 2) - (Length(s)+1))
+  else x := TscreenPos((ScrWidth div 2) - (Length(s) div 2)+1);
 
 for i := 1 to Length(s) do
   begin
@@ -386,17 +386,24 @@ if topborder=2
        end;
 
 { wider visible border }
-window(sideborder+1, topborder, ScrWidth-sideborder, ScrHeight-bottomborder);
+window(TscreenPos(sideborder+1), 
+       topborder, 
+       TscreenPos(ScrWidth-sideborder), 
+       TscreenPos(ScrHeight-bottomborder));
+
 TextColor(TxtColor);
 TextBackground(TxtBackground);
 ClrScr;
 { real window }
 if sideborder<>0 then inc(sideborder);
-window(sideborder+1, topborder, ScrWidth-sideborder, ScrHeight-bottomborder);
+window(TscreenPos(sideborder+1), 
+       topborder, 
+       TscreenPos(ScrWidth-sideborder), 
+       TscreenPos(ScrHeight-bottomborder));
 { one column wider than MaxLength, to avoid automatic linebreaks }
 
-MaxLength := ScrWidth - (2*sideborder) - 1; { see comment above }
-MaxHeight := ScrHeight - topborder - bottomborder - 1;
+MaxLength := TscreenPos(ScrWidth - (2*sideborder) - 1); { see comment above }
+MaxHeight := TscreenPos(ScrHeight - topborder - bottomborder - 1);
 LineCnt   := 0
 end;
 
@@ -875,8 +882,8 @@ end;
   begin
   GetWindow(x1, y1, x2, y2);
   
-  ScrWidth  := word(x2-x1+1);
-  ScrHeight := word(y2-y1+1);
+  ScrWidth  := TscreenPos(x2-x1+1);
+  ScrHeight := TscreenPos(y2-y1+1);
 
   MaxLength := x2-x1+1;
   MaxHeight := y2-y1+1
@@ -887,8 +894,8 @@ end;
   procedure FetchScreenSize;
   begin
   { like in Borland (Turbo) Pascal }
-  ScrWidth  := Lo(WindMax) - Lo(WindMin) + 1;
-  ScrHeight := Hi(WindMax) - Hi(WindMin) + 1;
+  ScrWidth  := TscreenPos(Lo(WindMax) - Lo(WindMin) + 1);
+  ScrHeight := TscreenPos(Hi(WindMax) - Hi(WindMin) + 1);
 
   { If nothing else works, use constants }
   { ScrWidth := 80; ScrHeight := 25; }
@@ -974,7 +981,7 @@ entry := quizfileList;
 
 { leave enough space at the bottom 
   also for "more..." }
-fileMaxY := MaxHeight - 3;
+fileMaxY := TscreenPos(MaxHeight - 3);
 
 { no entries }
 if entry=NIL then 
@@ -1088,7 +1095,7 @@ var myexitcode : byte;
 var ident : ShortString;
 
 begin { main }
-ident := '$Id: scrquiz.pas,v 1.9 2006/10/06 11:32:10 akf Exp $';
+ident := '$Id: scrquiz.pas,v 1.10 2006/10/10 10:48:33 akf Exp $';
 
 myexitcode := 0;
 loop := true;
