@@ -1,18 +1,18 @@
 # use FPC Cross-Compiler for windows
 
-# $Id: Makefile.xw32,v 1.6 2006/10/02 14:11:25 akf Exp $
+# $Id: Makefile.xw32,v 1.7 2006/10/10 16:21:11 akf Exp $
 
 # Edit this file for Compiler-specific configuration
 # make further changes in common.mak
 
 # one program must be compiled for the native machine
 NATIVEPC=fpc
-NATIVEPFLAGS=-Sh -Sd
+NATIVEPFLAGS=
 
 # Cross-Compiling to Windows
 # use "make windows"
 PC=ppc386
-PFLAGS=-Sh -Sd -Twin32 -XPi586-mingw32msvc- -Xd
+PFLAGS=-Twin32 -XPi586-mingw32msvc- -Xd
 
 POPT=-O2G -Xs -XX
 
@@ -20,7 +20,6 @@ POPT=-O2G -Xs -XX
 POPT+=-Op3
 
 DEFINES+=-dSDL
-
 DEFINES+=-dAdvertisement
 #DEFINES+=-dSdlSoundForAll
 #DEFINES+=-dNoTitleImage

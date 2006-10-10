@@ -1,23 +1,20 @@
 # use FPC Cross-Compiler for Linux on ARM devices
 
-# $Id: Makefile.xarm,v 1.5 2006/10/02 14:11:25 akf Exp $
+# $Id: Makefile.xarm,v 1.6 2006/10/10 16:21:11 akf Exp $
 
 # Edit this file for Compiler-specific configuration
 # make further changes in common.mak
 
 # Cross-Compiling to GNU/Linux on ARM processors
 PC=ppcarm
-PFLAGS=-Sh -Sd -XParm-linux- -Xd -Fl/usr/local/share/arm-libs
+PFLAGS=-XParm-linux- -Xd
 POPT=-O2g -Xs -XX
 
 # one program must be compiled for the native machine
 NATIVEPC=fpc
 NATIVEPFLAGS=-Sh -Sd
 
-# path to SDL4Freepascal
-#PFLAGS+=-Fu../../SDL4Freepascal-1.2.0.0
 #DEFINES+=-dSDL
-
 #DEFINES+=-dAdvertisement
 #DEFINES+=-dSdlSoundForAll
 #DEFINES+=-dNoHide
