@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.13 2006/10/10 10:48:33 akf Exp $
+* $Id: grquiz.pas,v 1.14 2006/10/10 19:02:49 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -151,7 +151,7 @@ const
 
 {$IFDEF grNoEscKey}
   const
-    const MaxAnswers = 25; { Q is reserved }
+    MaxAnswers = 25; { Q is reserved }
     ExitKey = 'Q'; { capital letter! }
     ExitKeyName = '['+ExitKey+']';
 {$Else}
@@ -1131,7 +1131,7 @@ var myexitcode : byte;
 var ident : ShortString;
 
 begin { main }
-ident := '$Id: grquiz.pas,v 1.13 2006/10/10 10:48:33 akf Exp $';
+ident := '$Id: grquiz.pas,v 1.14 2006/10/10 19:02:49 akf Exp $';
 
 {$IfDef FPCSVGALIB}
   { space after messages from SVGALib }
