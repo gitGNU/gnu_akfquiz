@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.13 2006/10/11 06:26:23 akf Exp $
+* $Id: qmsgs.pas,v 1.14 2006/10/11 17:04:38 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -625,12 +625,12 @@ function msg_inconsistent: mystring;
 begin
 case lang of
   deutsch :  msg_inconsistent := 
-        cnv('Das Ergebnis entspricht nicht dem ursprünglichem Ergebnis');
+        cnv('Das Ergebnis entspricht nicht dem ursprünglichen Ergebnis');
   otherwise  msg_inconsistent := 
           'the result is not the same as the original result';
   end
 end;
 
 begin
-ident('$Id: qmsgs.pas,v 1.13 2006/10/11 06:26:23 akf Exp $')
+ident('$Id: qmsgs.pas,v 1.14 2006/10/11 17:04:38 akf Exp $')
 end.

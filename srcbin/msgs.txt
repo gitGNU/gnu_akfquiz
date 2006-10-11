@@ -264,5 +264,5 @@ Please help to translate AkfQuiz to other languages
   english:: 'Logged out'
 
  msg_inconsistent::
-  deutsch:: 'Das Ergebnis entspricht nicht dem ursprünglichem Ergebnis'
+  deutsch:: 'Das Ergebnis entspricht nicht dem ursprünglichen Ergebnis'
   english:: 'the result is not the same as the original result'
