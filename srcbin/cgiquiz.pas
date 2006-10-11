@@ -7,7 +7,7 @@
 * and optionally a given CSS file in the same directory with 
 * the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.35 2006/10/11 06:26:22 akf Exp $
+* $Id: cgiquiz.pas,v 1.36 2006/10/11 16:54:16 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -77,6 +77,7 @@ const examConfigFileName = '.config';
 const
   grRight = '/richtig.png';
   grFalse = '/falsch.png';
+  grIcon  = '/akfquiz-icon.png';
 
 {$I pngdata.inc}
 
@@ -316,11 +317,15 @@ if Browser then { send CGI Header }
   WriteLn('<meta name="robots" content="noindex">');
   WriteLn('<meta name="generator" content="'
            + PrgVersion + '">'); { change-xhtml }
+  WriteLn('<link rel="icon" type="image/png" href="', 
+              ScriptName, grIcon + '">');
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
   WriteLn('<h1>', AKFQuizName, '</h1>');
-  WriteLn
+  WriteLn;
+  WriteLn('<img alt="[Icon]" width="32" height="32" src="',
+    ScriptName, grIcon + '"><br>');
   end;
 
 { the text }
@@ -379,6 +384,8 @@ if Browser then { send CGI Header }
   WriteLn('<meta name="robots" content="noindex">');
   WriteLn('<meta name="generator" content="'
             + PrgVersion + '">'); { change-xhtml }
+  WriteLn('<link rel="icon" type="image/png" href="', 
+              ScriptName, grIcon + '">');
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
@@ -390,6 +397,8 @@ if Browser then { send CGI Header }
 
 If Browser 
   then begin
+       WriteLn('<img alt="[Icon]" width="32" height="32" src="',
+             ScriptName, grIcon + '"><br>');
        WriteLn(PrgVersion);
        WriteLn('<br><br>');
        WriteLn('Quiz-program for the CGI interface of a webserver');
@@ -484,6 +493,8 @@ WriteLn('<head>');
 WriteLn('<title>AKFQuiz: ', msg_error, ' ', message, '</title>');
 WriteLn('<meta name="generator" content="'
          + PrgVersion + '">'); { change-xhtml }
+WriteLn('<link rel="icon" type="image/png" href="', 
+            ScriptName, grIcon + '">');	 
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body style="background-color:#a00; color:white">');
@@ -646,10 +657,13 @@ procedure Tcgiquiz.headdata;
 begin
 headBaseURI;
 
+WriteLn(outp, '<link rel="icon" type="image/png" href="', 
+                ScriptName, grIcon + '">');
+
 { prefetch is a Mozilla specific feature, but it doesn't interfere with 
   the official HTML-standards }
-WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grRight, '">');
-WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grFalse, '">');
+WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grRight + '">');
+WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grFalse + '">');
 
 inherited headdata
 end;
@@ -805,6 +819,9 @@ end;
 procedure Tcgianswer.headdata;
 begin
 headBaseURI;
+
+WriteLn(outp, '<link rel="icon" type="image/png" href="', 
+                ScriptName, grIcon + '">');
 
 { avoid inheriting the special data introduced in Tcgiquiz }
 Thtmlquiz.headdata
@@ -1109,6 +1126,8 @@ WriteLn('<meta name="generator" content="'
 { the next instruction is also in the HTTP header }
 WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
 WriteLn;
+WriteLn('<link rel="icon" type="image/png" href="', 
+              ScriptName, grIcon + '">');
 WriteLn('<style type="text/css">');
 WriteLn('<!--');
 WriteLn('html { color:black; background-color:#d8d0c8; }');
@@ -1581,12 +1600,20 @@ if pos('/--version', CGI_PATH_INFO)<>0 then version;
 { static data links }
 if CGI_PATH_INFO = grRight then 
   showImage(rightImageData, sizeof(rightImageData));
+
 if CGI_PATH_INFO = grFalse then 
   showImage(falseImageData, sizeof(falseImageData));
+
+if CGI_PATH_INFO = grIcon then 
+  showImage(AKFQuizIcon, sizeof(AKFQuizIcon));
+
 if CGI_PATH_INFO = '/school.png' then 
   showImage(schoolImageData, sizeof(schoolImageData));
+
 if CGI_PATH_INFO = '/q-school.css' then getSchoolLayout;
+
 if CGI_PATH_INFO = '/q-brown.css' then getBrownLayout;
+
 if CGI_PATH_INFO = '/q-blue.css' then getBlueLayout;
 end;
 
@@ -1613,13 +1640,13 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.35 2006/10/11 06:26:22 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.36 2006/10/11 16:54:16 akf Exp $');
 
 useBrowserLanguage;
-parameters;
-
-getServerName;
 ScriptName := CGIInfo('SCRIPT_NAME');
+getServerName;
+
+parameters;
 
 CGI_PATH_INFO       := CGIInfo('PATH_INFO');
 CGI_PATH_TRANSLATED := CGIInfo('PATH_TRANSLATED');
