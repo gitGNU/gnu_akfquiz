@@ -2,7 +2,7 @@
 * ppm2pas
 * converts from a PPM (P6) file into FreePascal code
 *
-* $Id: ppm2pas.pas,v 1.7 2006/10/06 11:32:10 akf Exp $
+* $Id: ppm2pas.pas,v 1.8 2006/10/11 06:26:23 akf Exp $
 *
 * Copyright (c) 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -209,10 +209,12 @@ With Buffer^ do
 WriteLn;
 end;
 
-var ident : String[255];
+procedure ident(const s: string);
+begin
+end;
 
 begin
-ident := '$Id: ppm2pas.pas,v 1.7 2006/10/06 11:32:10 akf Exp $';
+ident('$Id: ppm2pas.pas,v 1.8 2006/10/11 06:26:23 akf Exp $');
 
 Comment := '';
 

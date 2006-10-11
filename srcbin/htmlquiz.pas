@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.6 2006/10/06 11:32:10 akf Exp $
+* $Id: htmlquiz.pas,v 1.7 2006/10/11 06:26:23 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -560,8 +560,6 @@ begin
 checkTimeout := false
 end;
 
-var ident : ShortString;
-
 begin
-ident := '$Id: htmlquiz.pas,v 1.6 2006/10/06 11:32:10 akf Exp $'
+ident('$Id: htmlquiz.pas,v 1.7 2006/10/11 06:26:23 akf Exp $')
 end.

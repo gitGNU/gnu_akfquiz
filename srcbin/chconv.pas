@@ -1,7 +1,7 @@
 {
 * chsys (unit)
 *
-* $Id: chconv.pas,v 1.3 2006/10/06 11:32:10 akf Exp $
+* $Id: chconv.pas,v 1.4 2006/10/11 06:26:22 akf Exp $
 *
 * Copyright (c) 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -601,8 +601,10 @@ if c>=#$80
   else CP850toUnicode := ord(c)
 end;
 
-var ident : String[255];
+procedure ident(const s: string);
+begin
+end;
 
 begin
-ident := '$Id: chconv.pas,v 1.3 2006/10/06 11:32:10 akf Exp $'
+ident('$Id: chconv.pas,v 1.4 2006/10/11 06:26:22 akf Exp $')
 end.

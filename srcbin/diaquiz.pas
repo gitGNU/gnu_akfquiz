@@ -2,7 +2,7 @@
 * diaquiz
 * quiz program based on "Xdialog"
 *
-* $Id: diaquiz.pas,v 1.8 2006/10/06 11:32:10 akf Exp $
+* $Id: diaquiz.pas,v 1.9 2006/10/11 06:26:23 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -458,10 +458,9 @@ end;
 
 
 var myexitcode : byte;
-var ident : ShortString;
 
 begin { main }
-ident := '$Id: diaquiz.pas,v 1.8 2006/10/06 11:32:10 akf Exp $';
+ident('$Id: diaquiz.pas,v 1.9 2006/10/11 06:26:23 akf Exp $');
 myexitcode := 0;
 useSystemLanguage;
 

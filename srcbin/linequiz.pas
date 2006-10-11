@@ -4,7 +4,7 @@
 * usable for blind users (braile line or speech synthesizer)
 * usable as backend for other applications
 *
-* $Id: linequiz.pas,v 1.9 2006/10/06 11:32:10 akf Exp $
+* $Id: linequiz.pas,v 1.10 2006/10/11 06:26:23 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -601,10 +601,9 @@ askfile := s
 end;
 
 var myexitcode : byte;
-var ident : ShortString;
 
 begin { main }
-ident := '$Id: linequiz.pas,v 1.9 2006/10/06 11:32:10 akf Exp $';
+ident('$Id: linequiz.pas,v 1.10 2006/10/11 06:26:23 akf Exp $');
 
 myexitcode := 0;
 display := checkdisplay; { set a default }

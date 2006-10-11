@@ -2,7 +2,7 @@
 * clgrph (unit)
 * functions for the classical graph unit for grquiz
 *
-* $Id: clgrph.pas,v 1.5 2006/10/10 10:48:33 akf Exp $
+* $Id: clgrph.pas,v 1.6 2006/10/11 06:26:22 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -354,11 +354,9 @@ if graphicActive then
   end
 end;
 
-var ident: ShortString;
-
 Initialization
 
-  ident := '$Id: clgrph.pas,v 1.5 2006/10/10 10:48:33 akf Exp $';
+  ident('$Id: clgrph.pas,v 1.6 2006/10/11 06:26:22 akf Exp $');
   TextArea := NIL;
   TextAreaSize := 0;
   graphicActive := false;

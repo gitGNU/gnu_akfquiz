@@ -2,7 +2,7 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.11 2006/10/10 10:48:33 akf Exp $
+* $Id: sdlgrph.pas,v 1.12 2006/10/11 06:26:23 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -716,11 +716,9 @@ until c<>chr(0);
 GetKey := c
 end;
 
-var ident : ShortString;
-
 Initialization
 
-  ident := '$Id: sdlgrph.pas,v 1.11 2006/10/10 10:48:33 akf Exp $';
+  ident('$Id: sdlgrph.pas,v 1.12 2006/10/11 06:26:23 akf Exp $');
 
   textarea      := NIL;
   screen        := NIL;

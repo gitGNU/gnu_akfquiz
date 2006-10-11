@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.11 2006/10/06 11:32:10 akf Exp $
+* $Id: qsys.pas,v 1.12 2006/10/11 06:26:23 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -293,6 +293,8 @@ function ShowTime(sec: LongInt): mystring;
 function GetSecs: LongInt;
 
 function showDateTime: mystring;
+
+procedure ident(const s: string);
 
 {$IfDef __GPC__}
   function IntToStr(i: LongInt): mystring;
@@ -1446,12 +1448,15 @@ end;
   end;
 {$EndIf}
 
+{ dummy function, just to keep the string from beeing stripped }
+procedure ident(const s: string);
+begin
+end;
 
-var ident : ShortString;
 
 INITIALIZATION
 
-  ident := '$Id: qsys.pas,v 1.11 2006/10/06 11:32:10 akf Exp $';
+  ident('$Id: qsys.pas,v 1.12 2006/10/11 06:26:23 akf Exp $');
   disableSignals; { initializes Signals }
   
   quizfileList := NIL;

@@ -1,7 +1,7 @@
 { akfquiz - style sheet data }
 { this file is in the public domain }
 
-{ $Id: styles.pas,v 1.3 2006/10/06 11:32:10 akf Exp $ }
+{ $Id: styles.pas,v 1.4 2006/10/11 06:26:23 akf Exp $ }
 
 unit styles;
 
@@ -157,8 +157,10 @@ case color of
 WriteLn('}')
 end; { StyleColor }
 
-var ident : String[255];
+procedure ident(const s: string);
+begin
+end;
 
 begin
-ident := '$Id: styles.pas,v 1.3 2006/10/06 11:32:10 akf Exp $'
+ident('$Id: styles.pas,v 1.4 2006/10/11 06:26:23 akf Exp $')
 end.
