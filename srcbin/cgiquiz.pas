@@ -1,13 +1,10 @@
 {
-* cgiquiz (aka "akfquiz.cgi")
+* cgiquiz
 * CGI/1.1 runtime for a quiz from a simplified input script
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
-* Needs the files "falsch.png", "richtig.png",
-* and optionally a given CSS file in the same directory with 
-* the input file or in a directory set by "baseURI:"
 *
-* $Id: cgiquiz.pas,v 1.36 2006/10/11 16:54:16 akf Exp $
+* $Id: cgiquiz.pas,v 1.37 2006/10/12 12:08:44 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1640,7 +1637,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.36 2006/10/11 16:54:16 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.37 2006/10/12 12:08:44 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
