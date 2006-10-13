@@ -1,9 +1,13 @@
 Hohe Priotität:
-- Timeout(?)
-- mehr Zeichensatz-Konverter
-- akfexam für Prüfungen (cgiquiz?)
+- Debian Pakete
+- Dokumentation im Texinfo (Docbook?) Format
+- cgiquiz: Möglichkeit für die Ausgabe reiner Quiz-Dateien
+    ?type=application/x-akfquiz, ?type=text/plain
+- cgiquiz: inetd-Modus, Server-Modus, (Fast-CGI?)
+- grquiz: verschiedene Fenstergrößen
 
 Niedere Priorität:
+- Timeout(?)
 - Umstellung auf XHTML (?)
 - Fragen mit Freiform-Eingabe
 - Typtest mit Typen array['A'..'Z'] of LongInt
