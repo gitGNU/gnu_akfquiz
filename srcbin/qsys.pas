@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.12 2006/10/11 06:26:23 akf Exp $
+* $Id: qsys.pas,v 1.13 2006/10/13 07:36:18 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -49,7 +49,6 @@ interface
   import GPC (GetEnv => GetEnvironmentVariable,
               FSearch => FileSearch,
 	      FExpand => ExpandFilename,
-	      DirFromPath => ExtractFilePath,
               DirSeparator => DirectorySeparator,
               LineBreak => LineEnding);
          chconv;
@@ -194,11 +193,12 @@ function Max(a, b: LongInt): LongInt;
 { remove to last dot }
 function stripext(const s: string): mystring;
 
-function basename(const s: string): mystring;
 function getnextdir(var rest: mystring): mystring;
 function getquizpath: mystring;
 function getquizdir: mystring; { first dir from QUIZPATH }
 function useDirSeparator(const s: string): mystring;
+function basename(const s: string): mystring;
+function dirname(const s: string): mystring;
 function getQuizTitle(const x: string): mystring;
 
 { searches quizfile: }
@@ -436,6 +436,24 @@ begin
 {$EndIf}
 end;
 
+function basename(const s: string): mystring;
+begin
+{$IfDef __GPC__}
+  basename := NameExtFromPath(s)
+{$Else}
+  basename := ExtractFileName(s)
+{$EndIf}
+end;
+
+function dirname(const s: string): mystring;
+begin
+{$IfDef __GPC__}
+  dirname := DirFromPath(s)
+{$Else}
+  dirname := ExtractFilePath(s)
+{$EndIf}
+end;
+
 {$IfDef NoRelocation}
 
   function getprefix: mystring;
@@ -459,7 +477,7 @@ end;
     else begin
          if pos(DirectorySeparator, s)=0 { no directory given }
            then s := searchExecutable(s);
-         getprefix := ExpandFileName(ExtractFilePath(s)+'..')
+         getprefix := ExpandFileName(dirname(s)+'..')
          end
   end;
  
@@ -540,19 +558,10 @@ function stripext(const s: string): mystring;
 var i: integer;
 begin
 i:=length(s);
-while (i>1) and (s[i]<>'.') do i := i - 1;
+while (i>1) and (s[i]<>'.') do dec(i);
 dec(i);
 if i>1 then stripext := copy(s, 1, i)
        else stripext := s
-end;
-
-function basename(const s: string): mystring;
-begin
-{$IfDef __GPC__}
-  basename := NameExtFromPath(s)
-{$Else}
-  basename := ExtractFileName(s)
-{$EndIf}
 end;
 
 {$IfDef __GPC__}
@@ -1456,7 +1465,7 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.12 2006/10/11 06:26:23 akf Exp $');
+  ident('$Id: qsys.pas,v 1.13 2006/10/13 07:36:18 akf Exp $');
   disableSignals; { initializes Signals }
   
   quizfileList := NIL;
