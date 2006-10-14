@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.14 2006/10/11 17:04:38 akf Exp $
+* $Id: qmsgs.pas,v 1.15 2006/10/14 08:52:10 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -99,6 +99,8 @@ function msg_name: mystring;
 function msg_passwd: mystring;
 function msg_newpasswd: mystring;
 function msg_reconfigure: mystring;
+function msg_login: mystring;
+function msg_loggedin: mystring;
 function msg_logout: mystring;
 function msg_loggedout: mystring;
 function msg_inconsistent: mystring;
@@ -605,6 +607,22 @@ case lang of
   end
 end;
 
+function msg_login: mystring;
+begin
+case lang of
+  deutsch :  msg_login := 'Als Lehrer anmelden';
+  otherwise  msg_login := 'Log in as teacher';
+  end
+end;
+
+function msg_loggedin: mystring;
+begin
+case lang of
+  deutsch :  msg_loggedin := 'Anmeldung erlogreich';
+  otherwise  msg_loggedin := 'Login successfull';
+  end
+end;
+
 function msg_logout: mystring;
 begin
 case lang of
@@ -632,5 +650,5 @@ case lang of
 end;
 
 begin
-ident('$Id: qmsgs.pas,v 1.14 2006/10/11 17:04:38 akf Exp $')
+ident('$Id: qmsgs.pas,v 1.15 2006/10/14 08:52:10 akf Exp $')
 end.

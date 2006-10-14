@@ -255,6 +255,14 @@ Please help to translate AkfQuiz to other languages
   deutsch:: 'Umkonfigurieren'
   english:: 'Reconfigure'
 
+ msg_login::
+  deutsch:: 'Als Lehrer anmelden'
+  english:: 'Log in as teacher'
+
+  msg_loggedin::
+  deutsch:: 'Anmeldung erlogreich'
+  english:: 'Login successfull'
+
  msg_logout::
   deutsch:: 'Abmelden'
   english:: 'Log out'

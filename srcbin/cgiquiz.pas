@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.37 2006/10/12 12:08:44 akf Exp $
+* $Id: cgiquiz.pas,v 1.38 2006/10/14 08:52:10 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -48,7 +48,7 @@
 {$X+}
 
 
-program cgiquiz(input, output); { aka "akfquiz.cgi" }
+program cgiquiz(input, output);
 
 {$IfDef __GPC__}
   import uakfquiz; htmlquiz; qmsgs; qsys; styles; GPC; 
@@ -182,6 +182,12 @@ if status <> 200 then
 }
 end;
 
+procedure closeHttpHead;
+begin
+WriteLn;
+if RequestMethod = HEAD then Halt
+end;
+
 function isLastElement: boolean;
 begin
 if CGI_QUERY_STRING=''
@@ -194,7 +200,7 @@ end;
 
 procedure GetCGIElement(var s: ShortString);
 var 
-  i,err: integer;
+  i,ignore: integer;
   c, c1: char;
   nextElement: boolean;
 
@@ -217,7 +223,7 @@ repeat
     { read 2 hex-chars }
     c  := getNextChar;
     c1 := getNextChar;
-    val('$'+c+c1, i, err); { convert them to an integer }
+    val('$'+c+c1, i, ignore); { convert them to an integer }
     c := chr(i) { and that integer to a char }
     end;
   if not nextElement then s := s + c
@@ -301,11 +307,12 @@ if not Browser then
   setmsgconv(checkDisplay)
   end;
 
-if Browser then { send CGI Header }
+if Browser then { send HTTP Header }
   begin
   HTTPStatus(200, 'OK');
   WriteLn('Content-Type: text/html; charset=UTF-8');
-  WriteLn;
+  closeHttpHead;
+  
   WriteLn(HTMLDocType);
   WriteLn;
   WriteLn('<html>');
@@ -316,13 +323,15 @@ if Browser then { send CGI Header }
            + PrgVersion + '">'); { change-xhtml }
   WriteLn('<link rel="icon" type="image/png" href="', 
               ScriptName, grIcon + '">');
+  WriteLn('<link rel="stylesheet" type="text/css" href="', 
+           ScriptName, '/q-brown.css">');
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
   WriteLn('<h1>', AKFQuizName, '</h1>');
   WriteLn;
   WriteLn('<img alt="[Icon]" width="32" height="32" src="',
-    ScriptName, grIcon + '"><br>');
+    ScriptName, grIcon + '">');
   end;
 
 { the text }
@@ -368,11 +377,13 @@ if Browser
        end
   else CGIBase := 'http://example.org/cgi-bin/cgiquiz';
 
-if Browser then { send CGI Header }
+if Browser then { send HTTP Header }
   begin
   HTTPStatus(200, 'OK');
   WriteLn('Content-Type: text/html; charset=UTF-8');
-  WriteLn;
+  closeHttpHead;
+
+  
   WriteLn(HTMLDocType);
   WriteLn;
   WriteLn('<html>');
@@ -383,6 +394,8 @@ if Browser then { send CGI Header }
             + PrgVersion + '">'); { change-xhtml }
   WriteLn('<link rel="icon" type="image/png" href="', 
               ScriptName, grIcon + '">');
+  WriteLn('<link rel="stylesheet" type="text/css" href="', 
+           ScriptName, '/q-brown.css">');
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
@@ -395,7 +408,7 @@ if Browser then { send CGI Header }
 If Browser 
   then begin
        WriteLn('<img alt="[Icon]" width="32" height="32" src="',
-             ScriptName, grIcon + '"><br>');
+             ScriptName, grIcon + '">');
        WriteLn(PrgVersion);
        WriteLn('<br><br>');
        WriteLn('Quiz-program for the CGI interface of a webserver');
@@ -482,12 +495,13 @@ procedure errorHTMLhead(status: integer; message: string);
 begin
 HTTPStatus(status, message);
 WriteLn('Content-Type: text/html; charset=UTF-8');
-WriteLn;
+closeHttpHead;
+
 WriteLn(HTMLDocType);
 WriteLn;
 WriteLn('<html>');
 WriteLn('<head>');
-WriteLn('<title>AKFQuiz: ', msg_error, ' ', message, '</title>');
+WriteLn('<title>', AKFQuizName, ': ', msg_error, ' ', message, '</title>');
 WriteLn('<meta name="generator" content="'
          + PrgVersion + '">'); { change-xhtml }
 WriteLn('<link rel="icon" type="image/png" href="', 
@@ -532,8 +546,8 @@ procedure SetupError;
 begin
 errorHTMLhead(409, 'setup error');
 case lang of 
-  deutsch : WriteLn('Fehler: AKFQuiz nicht richtig eingerichtet');
-  otherwise WriteLn('Error: AKFQuiz not set up correctly')
+  deutsch : WriteLn('Fehler: ', AKFQuizName, ' nicht richtig eingerichtet');
+  otherwise WriteLn('Error: ', AKFQuizName, ' not set up correctly')
   end;
 errorHTMLfoot;
 Halt
@@ -567,12 +581,13 @@ begin
 HTTPStatus(301, 'Moved Permanently');
 WriteLn('Location: ', Location);
 WriteLn('Content-Type: text/html; charset=UTF-8');
-WriteLn;
+closeHttpHead;
+
 WriteLn(HTMLDocType);
 WriteLn;
 WriteLn('<html>');
 WriteLn('<head>');
-WriteLn('<title>AKFQuiz: Moved Permanently</title>');
+WriteLn('<title>', AKFQuizName, ': Moved Permanently</title>');
 WriteLn('<meta name="generator" content="'
          + PrgVersion + '">'); { change-xhtml }
 WriteLn('</head>');
@@ -581,7 +596,7 @@ WriteLn('<body>');
 WriteLn('<h1>Moved Permanently</h1>');
 WriteLn;
 WriteLn('<p>Please use the address <a href="', Location, '">',
-        Location, '</a> in the futrure.');
+        Location, '</a> in the future.');
 ErrorHTMLfoot;
 Halt
 end;
@@ -590,7 +605,7 @@ procedure RejectAnswer(s: string);
 begin
 HTTPStatus(204, s);
 {WriteLn('Content-Type: text/plain');} { needed? }
-WriteLn;
+closeHttpHead;
 Halt
 end;
 
@@ -625,7 +640,8 @@ HTTPStatus(200, 'OK');
 WriteLn(outp, 'Content-Type: text/html; charset=', charset);
 if language<>'' then
   WriteLn(outp, 'Content-Language: ', language);
-WriteLn(outp)
+WriteLn(outp);
+if RequestMethod=HEAD then Halt
 end;
 
 procedure Tcgiquiz.error;
@@ -671,7 +687,7 @@ WriteLn(outp);
 
 if not ExamMode 
   then WriteLn(outp,
-          '<form name="akfquiz" id="akfquiz" method="POST" action="',
+          '<form name="akfquiz" id="akfquiz" method="GET" action="',
           ScriptName, CGI_PATH_INFO, '">')
   else begin { ExamMode }
        { check if name-field is filled out }
@@ -1047,7 +1063,7 @@ myname := myname + ' (' + RemoteAddr + ')';
 FileName := CGI_PATH_INFO;
 Delete(FileName, 1, length('/' + ExamModeName + '/'));
 
-{ ResultStr := CGI_QUERY_STRING from name= }
+{ ResultStr := CGI_QUERY_STRING, starting from name= }
 ResultStr := CGI_QUERY_STRING;
 i := pos('name=', ResultStr);
 if i <> 0 then Delete(ResultStr, 1, pred(i));
@@ -1111,8 +1127,8 @@ WriteLn('Content-Type: text/html; charset=UTF-8');
 WriteLn('Cache-control: no-cache');
 WriteLn('Pragma: no-cache');
 WriteLn('Expires: 0');
+closeHttpHead;
 
-WriteLn;
 WriteLn(HTMLDocType);
 WriteLn;
 WriteLn('<html>');
@@ -1125,17 +1141,8 @@ WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
 WriteLn;
 WriteLn('<link rel="icon" type="image/png" href="', 
               ScriptName, grIcon + '">');
-WriteLn('<style type="text/css">');
-WriteLn('<!--');
-WriteLn('html { color:black; background-color:#d8d0c8; }');
-WriteLn('body { margin:1ex 8%; }');
-WriteLn('h1 { color:#ffffdd; background-color:#605030; padding:12px;');
-WriteLn('     border:8px outset; border-color:#605030; margin:1em 15%;');
-WriteLn('     text-align:center; font-weight:bold; }');
-WriteLn('.made { text-align:right; font-size:small }');
-WriteLn('.error { color:red; font-weight:bold; font-style:italic;}');
-WriteLn('-->');
-WriteLn('</style>');
+WriteLn('<link rel="stylesheet" type="text/css" href="', 
+           ScriptName, '/q-brown.css">');
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body>');
@@ -1151,6 +1158,18 @@ WriteLn('<hr><div align="right" class="made"><a href="', msg_homepage,
         '" target="_top">' + AKFQuizName + '</a></div>');
 WriteLn('</body>');
 WriteLn('</html>')
+end;
+
+function loggedIn: boolean;
+begin
+loggedIn := 
+  (passwd <> '') and 
+  (pos('passwd="' + passwd + '"', Cookie) <> 0)
+end;
+
+procedure RequireAuthorization;
+begin
+if not loggedIn then Forbidden
 end;
 
 procedure NoEntriesFound;
@@ -1170,7 +1189,7 @@ procedure showList;
 var found: boolean;
 begin
 HTTPStatus(200, 'OK');
-CommonHtmlStart('AKFQuiz');
+CommonHtmlStart(AKFQuizName);
 WriteLn('<ul>');
 found := ListEntries(CGI_PATH_TRANSLATED, quizext, ListShowEntry);
 if ListEntries(CGI_PATH_TRANSLATED, quizext2, ListShowEntry) 
@@ -1178,26 +1197,28 @@ if ListEntries(CGI_PATH_TRANSLATED, quizext2, ListShowEntry)
 WriteLn('</ul>');
 if not found then NoEntriesFound;
 if ExamMode then
-  WriteLn('<hr><p><a href="?m=results">', msg_showResults, '</a></p>');
+  if loggedIn 
+    then begin
+         WriteLn('<hr><ul>');
+	 WriteLn('<li><a href="results">', msg_showResults, '</a></li>');
+	 WriteLn('<li><a href="logout">', msg_logout, '</a></li>');
+	 WriteLn('</ul>')
+	 end
+    else WriteLn('<hr><ul><li><a href="login">', msg_login, '</a></li></ul>');
 CommonHtmlEnd;
 Halt
 end;
 
-procedure unacceptableNewPasswd;
+procedure unacceptableNewPasswd; {@@@}
 begin
 HTTPStatus(200, 'OK');
 CommonHtmlStart('unacceptable new Password');
 WriteLn('<p>Sorry, but you may only use letters of the latin alphabet or '
         + 'numbers in a password.</p>');
-WriteLn('<p><a href="', ScriptName, CGI_PATH_INFO, '">',
+WriteLn('<p><a href="reconfigure">',
         msg_back, '</a></p>');
 CommonHtmlEnd;
 Halt
-end;
-
-function PasswdCookie: boolean;
-begin
-PasswdCookie := (pos('passwd="' + passwd + '"', Cookie) <> 0)
 end;
 
 procedure checkNewPasswd;
@@ -1214,9 +1235,13 @@ var
   f: text;
   CGIElement: ShortString;
 begin
+
+{ for security reasons only the POST method is allowed here }
+if RequestMethod <> POST then Forbidden;
+
 { a new passwd is only acceptable, when there is none yet
   or the user is correctly authorized with the old passwd }
-if passwd <> '' then if not PasswdCookie then Forbidden;
+if passwd <> '' then if not loggedIn then Forbidden;
 
 { always get the new passwd from the query }
 repeat
@@ -1235,9 +1260,9 @@ if IOResult<>0 then SetupError;
 HTTPStatus(200, 'OK');
 { Session-Cookie, deleted when browser is closed }
 WriteLn('Set-Cookie: passwd="' + passwd + '"; Discard; Version="1";');
-CommonHtmlStart('AKFQuiz: Configuration saved');
+CommonHtmlStart(AKFQuizName + ': Configuration saved');
 WriteLn('<p>Configuration saved</p>');
-WriteLn('<p><a href="?m=results">', msg_showResults, '</a></p>');
+WriteLn('<p><a href="results">', msg_showResults, '</a></p>');
 CommonHtmlEnd;
 Halt
 end;
@@ -1245,12 +1270,9 @@ end;
 procedure configureExamMode;
 begin
 HTTPStatus(200, 'OK');
-CommonHtmlStart('AKFQuiz: Configuration');
-WriteLn('<form method="POST" action="',
-          ScriptName, CGI_PATH_INFO, '">');
+CommonHtmlStart(AKFQuizName + ': Configuration');
+WriteLn('<form method="POST" action="saveconfig">');
 WriteLn('<div>');
-WriteLn('<input type="hidden" name="m" value="saveconfig">');
-
 Write(msg_newpasswd, ': ');
 WriteLn('<input type="password" name="passwd" value="', passwd,
         '" size="12" maxlength="12">');
@@ -1261,6 +1283,12 @@ WriteLn('</div>');
 WriteLn('</form>');
 CommonHtmlEnd;
 Halt
+end;
+
+procedure reconfigureExamMode;
+begin
+RequireAuthorization;
+configureExamMode
 end;
 
 procedure readExamConfig;
@@ -1276,51 +1304,51 @@ close(f);
 if IOResult<>0 then passwd := ''
 end;
 
-procedure askForPassword;
+procedure Login;
 begin
 HTTPStatus(200, 'OK');
-CommonHtmlStart('AKFQuiz: ' + msg_passwd);
-WriteLn('<form method="POST" action="',
-          ScriptName, CGI_PATH_INFO, '">');
+CommonHtmlStart(AKFQuizName + ': ' + msg_passwd);
+WriteLn('<form method="POST" action="login2">');
 WriteLn('<div>');
-WriteLn('<input type="hidden" name="m" value="results">');
 WriteLn(msg_passwd, ': ');
 WriteLn('<input type="password" name="passwd" '
         + 'size="12" maxlength="12">');
-WriteLn('<input type="submit"><input type="reset">');
+WriteLn('<input type="submit">');
 WriteLn('</div>');
 WriteLn('</form>');
 CommonHtmlEnd;
 Halt
 end;
 
-procedure RequireAuthorization;
+procedure Login2;
 var qpasswd : ShortString;
 begin
-if passwd = '' then  { shouldn't happen here }
-  begin
-  readExamConfig;
-  if passwd = '' then configureExamMode
-  end;
-  
-{ Is passwd not in the Cookie? }
-if not PasswdCookie then
-  begin
-  qpasswd := QueryLookup('passwd');
-  if qpasswd = '' then askForPassword;
-  if qpasswd <> passwd then Forbidden
-  end
+{ security: never accept a password via GET! }
+if RequestMethod <> POST then Forbidden;
+
+qpasswd := QueryLookup('passwd');
+if qpasswd <> passwd then Forbidden;
+
+HTTPStatus(200, 'OK');
+WriteLn('Set-Cookie: passwd="' + qpasswd + '"; Discard; Version="1";');
+CommonHtmlStart(AKFQuizName + ': ' + msg_loggedin);
+WriteLn(msg_loggedin);
+WriteLn('<p><a href="results">', msg_showResults, '</a></p>');
+WriteLn;
+CommonHtmlEnd;
+Halt
 end;
 
 procedure Logout;
 begin
+{ not security critical }
 HTTPStatus(200, 'OK');
 { Expiration-date in the past deletes a cookie }
 WriteLn('Set-Cookie: passwd=""; expires=Thu, 1-Jan-1970 00:00:00 GMT; '
         + 'Discard; Version="1";');
-CommonHtmlStart('AKFQuiz: ' + msg_loggedout);
+CommonHtmlStart(AKFQuizName + ': ' + msg_loggedout);
 WriteLn('<h2>', msg_loggedout, '</h2>');
-WriteLn('<p><a href="', ScriptName, CGI_PATH_INFO, '">', msg_back, 
+WriteLn('<p><a href="', ScriptName, '/' + ExamModeName + '/">', msg_back, 
         '</a></p>');
 CommonHtmlEnd;
 Halt
@@ -1336,21 +1364,21 @@ var found: boolean;
 begin
 RequireAuthorization;
 HTTPStatus(200, 'OK');
+CommonHtmlStart(AKFQuizName + ': ' + msg_Results);
 
-{ passwd known, but not yet in the Cookie -> set Cookie }
-if (not PasswdCookie) and (passwd<>'') then
-  WriteLn('Set-Cookie: passwd="' + passwd + '"; Discard; Version="1";');
-
-CommonHtmlStart('AKFQuiz: ' + msg_Results);
 WriteLn('<ul>');
-found := ListEntries(CGI_PATH_TRANSLATED, ResultExt, ResultListShowEntry);
+found := ListEntries(dirname(CGI_PATH_TRANSLATED), 
+                     ResultExt, 
+		     ResultListShowEntry);
 WriteLn('</ul>');
 if not found then NoEntriesFound;
 
-WriteLn('<p><a href="?m=reconfigure">', msg_reconfigure, '</a></p>');
-WriteLn('<p><a href="?m=logout">', msg_logout, '</a></p>');
-WriteLn('<p><a href="', ScriptName, '/', ExamModeName, '/">', 
-        msg_back, '</a></p>');
+WriteLn('<hr><ul>');
+WriteLn('<li><a href="reconfigure">', msg_reconfigure, '</a></li>');
+WriteLn('<li><a href="logout">', msg_logout, '</a></li>');
+WriteLn('<li><a href="', ScriptName, '/' + ExamModeName + '/">', 
+        msg_back, '</a></li>');
+WriteLn('</ul>');
 CommonHtmlEnd;
 Halt
 end;
@@ -1364,10 +1392,10 @@ var
 begin
 RequireAuthorization;
 HTTPStatus(200, 'OK');
-CommonHtmlStart('AKFQuiz: ' + msg_Results);
+CommonHtmlStart(AKFQuizName + ': ' + msg_Results);
 
 WriteLn;
-WriteLn('<p><a href="', ScriptName, '/', ExamModeName, '/?m=results">', 
+WriteLn('<p><a href="results">', 
         msg_back, '</a></p>');
 WriteLn('<hr>');
 
@@ -1395,7 +1423,7 @@ if IOResult<>0 then
   WriteLn('<p class="error">', msg_error, '</p>');
 
 WriteLn('<hr>');
-WriteLn('<p><a href="', ScriptName, '/', ExamModeName, '/?m=results">', 
+WriteLn('<p><a href="results">', 
         msg_back, '</a></p>');
 WriteLn;
 
@@ -1413,7 +1441,8 @@ procedure getQueryString;
   method := CGIInfo('REQUEST_METHOD');
   if method = 'HEAD' then RequestMethod := HEAD;
   if method = 'GET'  then RequestMethod := GET;
-  if method = 'POST' then RequestMethod := POST
+  if method = 'POST' then RequestMethod := POST;
+  { @@@ if method = METHOD_UNKNOWN then ... }
   end;
 
   procedure useGetMethod; { subprocess to getQueryString }
@@ -1472,7 +1501,7 @@ begin
 if ExamMode and (CGI_QUERY_STRING<>'') then
   begin
   { GET method requires authorization }
-  if (RequestMethod=GET) and (not PasswdCookie) then Forbidden;
+  if (RequestMethod=GET) and (not loggedIn) then Forbidden;
 
   { name-field is empty }
   if (pos('name=&', CGI_QUERY_STRING)<>0)
@@ -1490,20 +1519,18 @@ dispose(MyQuiz, Done)
 end;
 
 procedure checkActions;
-begin 
+begin
 { be careful not to open up exploitable loopholes here! }
 
 if ExamMode then
   begin
-  if pos('m=results', CGI_QUERY_STRING)<>0 then showResultList;
-  if pos('m=reconfigure', CGI_QUERY_STRING)<>0 then 
-    if passwdCookie then configureExamMode else Forbidden;
-  if pos('m=logout', CGI_QUERY_STRING)<>0 then Logout;
-  if pos('m=saveconfig', CGI_QUERY_STRING)<>0 then 
-    if RequestMethod = POST then saveExamConfig else Forbidden
-  end;
-
-showList
+  if CGI_PATH_INFO='/'+ExamModeName+'/results' then showResultList;
+  if CGI_PATH_INFO='/'+ExamModeName+'/reconfigure' then reconfigureExamMode;
+  if CGI_PATH_INFO='/'+ExamModeName+'/login' then Login;
+  if CGI_PATH_INFO='/'+ExamModeName+'/login2' then Login2;
+  if CGI_PATH_INFO='/'+ExamModeName+'/logout' then Logout;
+  if CGI_PATH_INFO='/'+ExamModeName+'/saveconfig' then saveExamConfig
+  end
 end;
 
 { prepare CGI_PATH_TRANSLATED when ExamModeName is used in the URI }
@@ -1519,9 +1546,9 @@ if ExamDir<>'' then { if Exam mode isn't disabled }
   CGI_PATH_TRANSLATED := ExamDir + s;
   readExamConfig;
   
-  if (pos('m=saveconfig', CGI_QUERY_STRING)<>0) and 
-     (RequestMethod=POST) { to make exloids harder }
-    then saveExamConfig;
+  if CGI_PATH_INFO = '/' + ExamModeName + '/saveconfig' then 
+    saveExamConfig;
+
   if passwd = '' then configureExamMode
   end
 end;
@@ -1530,7 +1557,11 @@ procedure pleaseCacheHttpHeader;
 begin
 { both cache-control headers mean: please chache me! }
 WriteLn('Cache-Control: public');
-WriteLn('Cache-Control: max-age=', 60*60*24); { 24 hours }
+
+{ max-age must be in seconds }
+{ calculation is done at compile-time, not at run-time }
+WriteLn('Cache-Control: max-age=', 
+  7 {days} * 24 {hours} * 60 {minutes} * 60 {seconds} ); { 7 days }
 end;
 
 procedure showImage(const img; size: integer);
@@ -1544,7 +1575,7 @@ HTTPStatus(200, 'OK');
 WriteLn('Content-Type: image/png');
 WriteLn('Content-Length: ', size);
 pleaseCacheHttpHeader;
-WriteLn;
+closeHttpHead;
 
 for i := 1 to size do Write(TcharArray(img)[i]);
 Halt
@@ -1555,7 +1586,8 @@ begin
 HTTPStatus(200, 'OK');
 WriteLn('Content-Type: text/css');
 pleaseCacheHttpHeader;
-WriteLn;
+closeHttpHead;
+
 StyleSchool;
 StylePrint;
 Halt
@@ -1566,7 +1598,8 @@ begin
 HTTPStatus(200, 'OK');
 WriteLn('Content-Type: text/css');
 pleaseCacheHttpHeader;
-WriteLn;
+closeHttpHead;
+
 StyleColor(1);
 StylePrint;
 Halt
@@ -1577,7 +1610,8 @@ begin
 HTTPStatus(200, 'OK');
 WriteLn('Content-Type: text/css');
 pleaseCacheHttpHeader;
-WriteLn;
+closeHttpHead;
+
 StyleColor(2);
 StylePrint;
 Halt
@@ -1611,7 +1645,7 @@ if CGI_PATH_INFO = '/q-school.css' then getSchoolLayout;
 
 if CGI_PATH_INFO = '/q-brown.css' then getBrownLayout;
 
-if CGI_PATH_INFO = '/q-blue.css' then getBlueLayout;
+if CGI_PATH_INFO = '/q-blue.css' then getBlueLayout
 end;
 
 procedure parameters;
@@ -1637,7 +1671,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.37 2006/10/12 12:08:44 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.38 2006/10/14 08:52:10 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
@@ -1658,7 +1692,6 @@ lookForStaticPages;
 { else someone could scan through the whole machine }
 if pos('/..', CGI_PATH_INFO)<>0 then Forbidden;
 
-
 getQueryString;
 
 if ExamDir<>'' then { if exam-mode is enabled }
@@ -1671,8 +1704,11 @@ if ExamDir<>'' then { if exam-mode is enabled }
   if (pos('/'+ExamModeName+'/', CGI_PATH_INFO)=1) then prepareExam;
   end;
 
+{ check for abstract names in URI, which may need additional data }
+checkActions;
+
 if isDirectory 
-  then checkActions
+  then showList
   else { concrete file }
     if ExamMode and (pos(ResultExt, CGI_PATH_INFO)<>0)
       then showResults { for file }
