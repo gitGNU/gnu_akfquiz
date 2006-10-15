@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.7 2006/10/11 06:26:23 akf Exp $
+* $Id: htmlquiz.pas,v 1.8 2006/10/15 19:21:53 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -345,6 +345,8 @@ WriteLn(outp, '<head>');
 WriteLn(outp);
 WriteLn(outp, '<meta name="generator" content="'
               + GeneratorName + '"', cet);
+WriteLn(outp, '<link rel="bookmark" title="', AKFQuizName,
+              ' Homepage" href="', msg_homepage, '">');
 
 headdata;
 handleSettingsURIs;
@@ -561,5 +563,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.7 2006/10/11 06:26:23 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.8 2006/10/15 19:21:53 akf Exp $')
 end.

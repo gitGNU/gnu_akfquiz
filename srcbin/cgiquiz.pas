@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.39 2006/10/15 09:29:09 akf Exp $
+* $Id: cgiquiz.pas,v 1.40 2006/10/15 19:21:53 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -185,6 +185,8 @@ end;
 procedure closeHttpHead;
 begin
 WriteLn;
+
+{ some webservers don't like CGI programs to do that }
 if RequestMethod = HEAD then Halt
 end;
 
@@ -321,10 +323,13 @@ if Browser then { send HTTP Header }
   WriteLn('<meta name="robots" content="noindex">');
   WriteLn('<meta name="generator" content="'
            + PrgVersion + '">'); { change-xhtml }
+  WriteLn('<link rel="bookmark" title="', AKFQuizName,
+          ' Homepage" href="', msg_homepage, '">');
   WriteLn('<link rel="icon" type="image/png" href="', 
               ScriptName, grIcon + '">');
   WriteLn('<link rel="stylesheet" type="text/css" href="', 
            ScriptName, '/q-brown.css">');
+  WriteLn('<meta name="robots" content="noindex, nofollow">');
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
@@ -392,10 +397,13 @@ if Browser then { send HTTP Header }
   WriteLn('<meta name="robots" content="noindex">');
   WriteLn('<meta name="generator" content="'
             + PrgVersion + '">'); { change-xhtml }
+  WriteLn('<link rel="bookmark" title="', AKFQuizName,
+          ' Homepage" href="', msg_homepage, '">');
   WriteLn('<link rel="icon" type="image/png" href="', 
               ScriptName, grIcon + '">');
   WriteLn('<link rel="stylesheet" type="text/css" href="', 
            ScriptName, '/q-brown.css">');
+  WriteLn('<meta name="robots" content="noindex, nofollow">');	   
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
@@ -508,8 +516,11 @@ WriteLn('<head>');
 WriteLn('<title>', AKFQuizName, ': ', msg_error, ' ', message, '</title>');
 WriteLn('<meta name="generator" content="'
          + PrgVersion + '">'); { change-xhtml }
+WriteLn('<link rel="bookmark" title="', AKFQuizName,
+        ' Homepage" href="', msg_homepage, '">');
 WriteLn('<link rel="icon" type="image/png" href="', 
-            ScriptName, grIcon + '">');	 
+            ScriptName, grIcon + '">');
+WriteLn('<meta name="robots" content="noindex, nofollow">');	    
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body style="background-color:#a00; color:white">');
@@ -594,6 +605,9 @@ WriteLn('<head>');
 WriteLn('<title>', AKFQuizName, ': Moved Permanently</title>');
 WriteLn('<meta name="generator" content="'
          + PrgVersion + '">'); { change-xhtml }
+WriteLn('<link rel="bookmark" title="', AKFQuizName,
+        ' Homepage" href="', msg_homepage, '">');
+WriteLn('<meta name="robots" content="noindex, nofollow">');	 
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body>');
@@ -1148,7 +1162,10 @@ WriteLn('<meta name="generator" content="'
          + PrgVersion + '">'); { change-xhtml }
 { the next instruction is also in the HTTP header }
 WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
+WriteLn('<meta name="robots" content="noindex, nofollow">');
 WriteLn;
+WriteLn('<link rel="bookmark" title="', AKFQuizName,
+        ' Homepage" href="', msg_homepage, '">');
 WriteLn('<link rel="icon" type="image/png" href="', 
               ScriptName, grIcon + '">');
 WriteLn('<link rel="stylesheet" type="text/css" href="', 
@@ -1194,8 +1211,16 @@ begin
 WriteLn('<li>');
 WriteLn('<a href="', s, '">',
         getQuizTitle(CGI_PATH_TRANSLATED + s), '</a>');
+
 if not ExamMode then
-  WriteLn('<small><a href="', s, '?format=akfquiz">(AKFQuiz)</a></small>');
+  begin
+  Write('<small>(<a href="', s, 
+        '?format=akfquiz" type="application/x-akfquiz">AKFQuiz</a>');
+  Write('&nbsp;|&nbsp;');
+  WriteLn('<a href="', s, 
+          '?format=text" type="text/plain">Text</a>)</small>')
+  end;
+
 WriteLn('</li>');
 WriteLn
 end;
@@ -1726,7 +1751,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.39 2006/10/15 09:29:09 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.40 2006/10/15 19:21:53 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
