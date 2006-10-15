@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.38 2006/10/14 08:52:10 akf Exp $
+* $Id: cgiquiz.pas,v 1.39 2006/10/15 09:29:09 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -424,6 +424,8 @@ If Browser
        WriteLn(CGIBase, '?--version<br>');
        WriteLn(CGIBase, '/quizdir/<br>');
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz');
+       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?format=akfquiz');
+       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?format=text');
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2');
        WriteLn('</dd></dl>');
        WriteLn;
@@ -450,6 +452,8 @@ If Browser
        WriteLn(' > ', CGIBase, '?--version');
        WriteLn(' > ', CGIBase, '/quizdir/');
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz');
+       WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz?format=akfquiz');
+       WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz?format=text');
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz?q1=2&q2=1&q5=2');
        WriteLn;
        if ExamDir<>'' 
@@ -1118,6 +1122,12 @@ if CGI_PATH_INFO[length(CGI_PATH_INFO)] = '/'
        end
 end;
 
+{ is a Result file requested? }
+function isResultFile: boolean;
+begin
+isResultFile := (pos(ResultExt, CGI_PATH_INFO)<>0)
+end;
+
 procedure CommonHtmlStart(const title: string);
 begin
 WriteLn('Content-Type: text/html; charset=UTF-8');
@@ -1181,8 +1191,13 @@ end;
 
 procedure ListShowEntry(const dir, s: string);
 begin
-WriteLn('<li><a href="', s, '">',
-        getQuizTitle(CGI_PATH_TRANSLATED + s), '</a></li>')
+WriteLn('<li>');
+WriteLn('<a href="', s, '">',
+        getQuizTitle(CGI_PATH_TRANSLATED + s), '</a>');
+if not ExamMode then
+  WriteLn('<small><a href="', s, '?format=akfquiz">(AKFQuiz)</a></small>');
+WriteLn('</li>');
+WriteLn
 end;
 
 procedure showList;
@@ -1209,14 +1224,16 @@ CommonHtmlEnd;
 Halt
 end;
 
-procedure unacceptableNewPasswd; {@@@}
+procedure unacceptableNewPasswd;
 begin
 HTTPStatus(200, 'OK');
 CommonHtmlStart('unacceptable new Password');
 WriteLn('<p>Sorry, but you may only use letters of the latin alphabet or '
         + 'numbers in a password.</p>');
-WriteLn('<p><a href="reconfigure">',
-        msg_back, '</a></p>');
+	
+{ when a password is set: reconfigure
+  when no password is set, the target of the link is ignored anyway }
+WriteLn('<p><a href="reconfigure">', msg_back, '</a></p>');
 CommonHtmlEnd;
 Halt
 end;
@@ -1493,6 +1510,7 @@ if (pos('--help', CGI_QUERY_STRING)<>0)
 if pos('--version', CGI_QUERY_STRING)<>0 then version
 end; { getQueryString }
 
+{ run quiz with a web browser }
 procedure runQuiz;
 var MyQuiz: Pakfquiz;
 begin
@@ -1516,6 +1534,43 @@ if CGI_QUERY_STRING=''
 if (IOResult<>0) or (MyQuiz=NIL) then NotFound;
 MyQuiz^.process;
 dispose(MyQuiz, Done)
+end;
+
+procedure showQuizFile(ContentType: shortstring);
+var 
+  t: text;
+  line: mystring;
+begin
+Assign(t, CGI_PATH_TRANSLATED);
+reset(t);
+if IOResult <> 0 then begin CannotOpen; exit end;
+
+HTTPStatus(200, 'OK');
+WriteLn('Content-Type: ', ContentType);
+closeHttpHead;
+
+while not EOF(t) do
+  begin
+  ReadLn(t, line);
+  WriteLn(line)
+  end;
+Close(t);
+
+if IOResult <> 0 then ;
+end;
+
+{ Quizfile requested - decide in which way to handle it }
+procedure handleQuizFile;
+begin
+if ExamMode 
+  then runQuiz { never show a quizfile as such in exam-mode! }
+  else
+    if CGI_QUERY_STRING = 'format=akfquiz' 
+      then showQuizFile('application/x-akfquiz')
+      else 
+        if CGI_QUERY_STRING = 'format=text' 
+	  then showQuizFile('text/plain')
+	  else runQuiz
 end;
 
 procedure checkActions;
@@ -1671,7 +1726,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.38 2006/10/14 08:52:10 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.39 2006/10/15 09:29:09 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
@@ -1710,7 +1765,7 @@ checkActions;
 if isDirectory 
   then showList
   else { concrete file }
-    if ExamMode and (pos(ResultExt, CGI_PATH_INFO)<>0)
+    if ExamMode and isResultFile
       then showResults { for file }
-      else runQuiz
+      else handleQuizFile
 end.
