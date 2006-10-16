@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.40 2006/10/15 19:21:53 akf Exp $
+* $Id: cgiquiz.pas,v 1.41 2006/10/16 04:26:22 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -329,7 +329,6 @@ if Browser then { send HTTP Header }
               ScriptName, grIcon + '">');
   WriteLn('<link rel="stylesheet" type="text/css" href="', 
            ScriptName, '/q-brown.css">');
-  WriteLn('<meta name="robots" content="noindex, nofollow">');
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
@@ -403,7 +402,6 @@ if Browser then { send HTTP Header }
               ScriptName, grIcon + '">');
   WriteLn('<link rel="stylesheet" type="text/css" href="', 
            ScriptName, '/q-brown.css">');
-  WriteLn('<meta name="robots" content="noindex, nofollow">');	   
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
@@ -520,7 +518,7 @@ WriteLn('<link rel="bookmark" title="', AKFQuizName,
         ' Homepage" href="', msg_homepage, '">');
 WriteLn('<link rel="icon" type="image/png" href="', 
             ScriptName, grIcon + '">');
-WriteLn('<meta name="robots" content="noindex, nofollow">');	    
+WriteLn('<meta name="robots" content="noindex">');
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body style="background-color:#a00; color:white">');
@@ -605,9 +603,9 @@ WriteLn('<head>');
 WriteLn('<title>', AKFQuizName, ': Moved Permanently</title>');
 WriteLn('<meta name="generator" content="'
          + PrgVersion + '">'); { change-xhtml }
+WriteLn('<meta name="robots" content="noindex">');
 WriteLn('<link rel="bookmark" title="', AKFQuizName,
         ' Homepage" href="', msg_homepage, '">');
-WriteLn('<meta name="robots" content="noindex, nofollow">');	 
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body>');
@@ -1162,7 +1160,7 @@ WriteLn('<meta name="generator" content="'
          + PrgVersion + '">'); { change-xhtml }
 { the next instruction is also in the HTTP header }
 WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
-WriteLn('<meta name="robots" content="noindex, nofollow">');
+WriteLn('<meta name="robots" content="noindex">');
 WriteLn;
 WriteLn('<link rel="bookmark" title="', AKFQuizName,
         ' Homepage" href="', msg_homepage, '">');
@@ -1751,7 +1749,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.40 2006/10/15 19:21:53 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.41 2006/10/16 04:26:22 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
