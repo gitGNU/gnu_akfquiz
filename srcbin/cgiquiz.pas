@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.41 2006/10/16 04:26:22 akf Exp $
+* $Id: cgiquiz.pas,v 1.42 2006/10/16 17:11:45 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -60,6 +60,8 @@ program cgiquiz(input, output);
 const PrgVersion = 'cgiquiz ('+ AKFQuizName + ') ' + AKFQuizVersion;
 
 const ExamModeName = 'exam'; { abstract name for the URI }
+
+const AKFQuizMime = 'application/x-akfquiz';
 
 { for self-referring URIs }
 const protocol = 'http://';
@@ -156,7 +158,7 @@ var
   CGI_PATH_TRANSLATED: myString;
   
 { HTTP_HOST or SERVER_NAME or SERVER_ADDR }
-var ServerName: myString;
+var ServerName: ShortString;
 var ScriptName: myString;
 
 { for exam mode }
@@ -1213,7 +1215,7 @@ WriteLn('<a href="', s, '">',
 if not ExamMode then
   begin
   Write('<small>(<a href="', s, 
-        '?format=akfquiz" type="application/x-akfquiz">AKFQuiz</a>');
+        '?format=akfquiz" type="' + AKFQuizMime + '">AKFQuiz</a>');
   Write('&nbsp;|&nbsp;');
   WriteLn('<a href="', s, 
           '?format=text" type="text/plain">Text</a>)</small>')
@@ -1423,6 +1425,15 @@ CommonHtmlEnd;
 Halt
 end;
 
+procedure WriteWithAmpersandReplaced(const s: FormDataString);
+var i: integer;
+begin
+for i := 1 to length(s) do
+  if s[i]<>'&'
+    then Write(s[i])
+    else Write('&amp;')
+end;
+
 procedure showResults; { for given file }
 var 
   f: text;
@@ -1451,7 +1462,9 @@ repeat
   
   WriteLn('<div>');
   WriteLn(date, ', ');
-  WriteLn('<a href="', FormData, '"'); 
+  Write('<a href="');
+  WriteWithAmpersandReplaced(FormData);
+  WriteLn('"');
   WriteLn('>', name, '</a>, ', percent, '%');
   WriteLn('</div>');
   WriteLn; 
@@ -1588,8 +1601,15 @@ begin
 if ExamMode 
   then runQuiz { never show a quizfile as such in exam-mode! }
   else
-    if CGI_QUERY_STRING = 'format=akfquiz' 
-      then showQuizFile('application/x-akfquiz')
+    { send it as "application/x-akfquiz" if
+      either the URI contains "?format=akfquiz" 
+      or the client especially supports akfquiz files (HTTP_ACCEPT), 
+      or the client has "AKFQuiz" in it's name }
+    { some webservers don't support HTTP_ACCEPT }
+    if (CGI_QUERY_STRING = 'format=akfquiz') 
+       or (pos(AKFQuizMime, CGIInfo('HTTP_ACCEPT'))<>0) 
+       or (pos('AKFQuiz', CGIInfo('HTTP_USER_AGENT'))<>0)
+      then showQuizFile(AKFQuizMime)
       else 
         if CGI_QUERY_STRING = 'format=text' 
 	  then showQuizFile('text/plain')
@@ -1749,7 +1769,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.41 2006/10/16 04:26:22 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.42 2006/10/16 17:11:45 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
