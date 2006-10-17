@@ -274,3 +274,7 @@ Please help to translate AkfQuiz to other languages
  msg_inconsistent::
   deutsch:: 'Das Ergebnis entspricht nicht dem ursprünglichen Ergebnis'
   english:: 'the result is not the same as the original result'
+
+ msg_view::
+  deutsch:: 'anzeigen'
+  english:: 'view'
