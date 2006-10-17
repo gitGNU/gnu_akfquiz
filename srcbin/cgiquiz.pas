@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.42 2006/10/16 17:11:45 akf Exp $
+* $Id: cgiquiz.pas,v 1.43 2006/10/17 10:30:26 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -325,8 +325,8 @@ if Browser then { send HTTP Header }
   WriteLn('<meta name="robots" content="noindex">');
   WriteLn('<meta name="generator" content="'
            + PrgVersion + '">'); { change-xhtml }
-  WriteLn('<link rel="bookmark" title="', AKFQuizName,
-          ' Homepage" href="', msg_homepage, '">');
+  WriteLn('<link rel="bookmark" title="Software Homepage" href="', 
+              msg_homepage, '">');
   WriteLn('<link rel="icon" type="image/png" href="', 
               ScriptName, grIcon + '">');
   WriteLn('<link rel="stylesheet" type="text/css" href="', 
@@ -398,8 +398,8 @@ if Browser then { send HTTP Header }
   WriteLn('<meta name="robots" content="noindex">');
   WriteLn('<meta name="generator" content="'
             + PrgVersion + '">'); { change-xhtml }
-  WriteLn('<link rel="bookmark" title="', AKFQuizName,
-          ' Homepage" href="', msg_homepage, '">');
+  WriteLn('<link rel="bookmark" title="Software Homepage" href="', 
+             msg_homepage, '">');
   WriteLn('<link rel="icon" type="image/png" href="', 
               ScriptName, grIcon + '">');
   WriteLn('<link rel="stylesheet" type="text/css" href="', 
@@ -516,8 +516,8 @@ WriteLn('<head>');
 WriteLn('<title>', AKFQuizName, ': ', msg_error, ' ', message, '</title>');
 WriteLn('<meta name="generator" content="'
          + PrgVersion + '">'); { change-xhtml }
-WriteLn('<link rel="bookmark" title="', AKFQuizName,
-        ' Homepage" href="', msg_homepage, '">');
+WriteLn('<link rel="bookmark" title="Software Homepage" href="', 
+              msg_homepage, '">');
 WriteLn('<link rel="icon" type="image/png" href="', 
             ScriptName, grIcon + '">');
 WriteLn('<meta name="robots" content="noindex">');
@@ -606,8 +606,8 @@ WriteLn('<title>', AKFQuizName, ': Moved Permanently</title>');
 WriteLn('<meta name="generator" content="'
          + PrgVersion + '">'); { change-xhtml }
 WriteLn('<meta name="robots" content="noindex">');
-WriteLn('<link rel="bookmark" title="', AKFQuizName,
-        ' Homepage" href="', msg_homepage, '">');
+WriteLn('<link rel="bookmark" title="Sofware Homepage" href="', 
+                msg_homepage, '">');
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body>');
@@ -688,15 +688,15 @@ procedure Tcgiquiz.headdata;
 begin
 headBaseURI;
 
+inherited headdata;
+
 WriteLn(outp, '<link rel="icon" type="image/png" href="', 
                 ScriptName, grIcon + '">');
 
 { prefetch is a Mozilla specific feature, but it doesn't interfere with 
   the official HTML-standards }
 WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grRight + '">');
-WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grFalse + '">');
-
-inherited headdata
+WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grFalse + '">')
 end;
 
 procedure Tcgiquiz.StartForm;
@@ -851,11 +851,11 @@ procedure Tcgianswer.headdata;
 begin
 headBaseURI;
 
-WriteLn(outp, '<link rel="icon" type="image/png" href="', 
-                ScriptName, grIcon + '">');
-
 { avoid inheriting the special data introduced in Tcgiquiz }
-Thtmlquiz.headdata
+Thtmlquiz.headdata;
+
+WriteLn(outp, '<link rel="icon" type="image/png" href="', 
+                ScriptName, grIcon + '">')
 end;
 
 procedure Tcgianswer.StartForm;
@@ -1164,8 +1164,8 @@ WriteLn('<meta name="generator" content="'
 WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
 WriteLn('<meta name="robots" content="noindex">');
 WriteLn;
-WriteLn('<link rel="bookmark" title="', AKFQuizName,
-        ' Homepage" href="', msg_homepage, '">');
+WriteLn('<link rel="bookmark" title="Software Homepage" href="', 
+             msg_homepage, '">');
 WriteLn('<link rel="icon" type="image/png" href="', 
               ScriptName, grIcon + '">');
 WriteLn('<link rel="stylesheet" type="text/css" href="', 
@@ -1769,7 +1769,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.42 2006/10/16 17:11:45 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.43 2006/10/17 10:30:26 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');

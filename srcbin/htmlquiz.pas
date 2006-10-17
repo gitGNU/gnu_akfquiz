@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.8 2006/10/15 19:21:53 akf Exp $
+* $Id: htmlquiz.pas,v 1.9 2006/10/17 10:30:26 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -292,17 +292,13 @@ procedure Thtmlquiz.headdata;
 begin
 if noindex then
    WriteLn(outp, '<meta name="robots" content="noindex"', cet);
+
 WriteLn(outp, '<meta http-equiv="Content-Type" content="text/html; charset=',
         charset,'"', cet);
 
-{$IfDef Win32}
-WriteLn(outp, '<!-- AKFoerster: I don''t really like Windows, '
-            + 'but I have to support it -->');
-{$EndIf}
-
 if language<>'' then
-   WriteLn(outp, '<meta http-equiv="Content-Language" content="',language,
-                 '"', cet);
+   WriteLn(outp, '<meta http-equiv="Content-Language" content="',
+                 language, '"', cet);
 if author<>'' then
    WriteLn(outp, '<meta name="author" content="', author, '"', cet);
 if copyright<>'' then
@@ -318,7 +314,19 @@ WriteLn(outp, '<!-- @media print { .buttons, .defanswer, .resultlink, noscript {
 WriteLn(outp, '</style>');
 
 if CSS<>'' then
-   WriteLn(outp, '<link rel="stylesheet" type="text/css" href="',CSS,'"', cet)
+   WriteLn(outp, '<link rel="stylesheet" type="text/css" href="',
+                 CSS,'"', cet);
+
+WriteLn(outp, '<link rel="bookmark" title="Software Homepage" href="', 
+                  msg_homepage, '"', cet);
+
+if authorURI<>'' then
+  WriteLn(outp, '<link rel="author" href="', authorURI,'"', cet);
+
+{ the name "copyright" was suggested in the HTML 3.2 specification
+  so it's more widely known }
+if licenseURI<>'' then
+  WriteLn(outp, '<link rel="copyright" href="', licenseURI,'"', cet)
 end;
 
 function Thtmlquiz.GeneratorName: mystring;
@@ -345,8 +353,6 @@ WriteLn(outp, '<head>');
 WriteLn(outp);
 WriteLn(outp, '<meta name="generator" content="'
               + GeneratorName + '"', cet);
-WriteLn(outp, '<link rel="bookmark" title="', AKFQuizName,
-              ' Homepage" href="', msg_homepage, '">');
 
 headdata;
 handleSettingsURIs;
@@ -563,5 +569,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.8 2006/10/15 19:21:53 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.9 2006/10/17 10:30:26 akf Exp $')
 end.
