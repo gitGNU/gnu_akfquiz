@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.43 2006/10/17 10:30:26 akf Exp $
+* $Id: cgiquiz.pas,v 1.44 2006/10/17 19:14:06 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -691,12 +691,12 @@ headBaseURI;
 inherited headdata;
 
 WriteLn(outp, '<link rel="icon" type="image/png" href="', 
-                ScriptName, grIcon + '">');
+                ScriptName, grIcon + '"', cet);
 
 { prefetch is a Mozilla specific feature, but it doesn't interfere with 
   the official HTML-standards }
-WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grRight + '">');
-WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grFalse + '">')
+WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grRight + '"', cet);
+WriteLn(outp, '<link rel="prefetch" href="', ScriptName, grFalse + '"', cet)
 end;
 
 procedure Tcgiquiz.StartForm;
@@ -855,7 +855,7 @@ headBaseURI;
 Thtmlquiz.headdata;
 
 WriteLn(outp, '<link rel="icon" type="image/png" href="', 
-                ScriptName, grIcon + '">')
+                ScriptName, grIcon + '"', cet)
 end;
 
 procedure Tcgianswer.StartForm;
@@ -1217,8 +1217,8 @@ if not ExamMode then
   Write('<small>(<a href="', s, 
         '?format=akfquiz" type="' + AKFQuizMime + '">AKFQuiz</a>');
   Write('&nbsp;|&nbsp;');
-  WriteLn('<a href="', s, 
-          '?format=text" type="text/plain">Text</a>)</small>')
+  WriteLn('<a href="', s, '?format=text" type="text/plain">',
+           msg_view, '</a>)</small>')
   end;
 
 WriteLn('</li>');
@@ -1769,7 +1769,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.43 2006/10/17 10:30:26 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.44 2006/10/17 19:14:06 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
