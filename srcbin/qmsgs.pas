@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.15 2006/10/14 08:52:10 akf Exp $
+* $Id: qmsgs.pas,v 1.16 2006/10/17 19:12:14 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -104,6 +104,7 @@ function msg_loggedin: mystring;
 function msg_logout: mystring;
 function msg_loggedout: mystring;
 function msg_inconsistent: mystring;
+function msg_view: mystring;
 
 
 Implementation
@@ -133,7 +134,7 @@ begin
 case display of
   ISOdisplay:  setmsgconverter(UTF8toISO1);
   OEMdisplay:  setmsgconverter(UTF8toOEM);
-  UTF8display: setmsgconverter(noconversion);
+  UTF8display: setmsgconverter(noconversion)
   end
 end;
 
@@ -148,8 +149,8 @@ end;
 function msg_homepage: mystring;
 begin
 case lang of
-  deutsch : msg_homepage := 'http://akfquiz.nongnu.org/index.de.html';
-  otherwise msg_homepage := 'http://akfquiz.nongnu.org/';
+  deutsch : msg_homepage := 'http://akfquiz.nongnu.org/index.de.html'
+  otherwise msg_homepage := 'http://akfquiz.nongnu.org/'
   end
 end;
 
@@ -161,7 +162,7 @@ begin
   when a newer version is officially released }
 
 case lang of
-  deutsch : msg_GPL := 'GPL V2 oder neuer';
+  deutsch : msg_GPL := 'GPL V2 oder neuer'
   otherwise msg_GPL := 'GPL v2 or later'
   end
 end;
@@ -176,7 +177,7 @@ case lang of
     + 'GNU General Public License weitergeben.'+ nl 
     + 'Details dazu enthält die Datei COPYING.' + nl
     + nl
-    + 'Quiz-Dateien sind von dieser Lizenz nicht betroffen.');
+    + 'Quiz-Dateien sind von dieser Lizenz nicht betroffen.')
   otherwise msg_noWarranty := 
     'This program comes with NO WARRANTY,' + nl
     + 'to the extent permitted by law.' + nl
@@ -184,14 +185,14 @@ case lang of
     + 'GNU General Public License;' + nl
     + 'see the file named COPYING for details.' + nl
     + nl
-    + 'Quiz-files are not affected by this license.';
+    + 'Quiz-files are not affected by this license.'
   end
 end;
 
 function msg_contributions: mystring;
 begin
 case lang of
-  deutsch  : msg_contributions := cnv('Beiträge:');
+  deutsch  : msg_contributions := cnv('Beiträge:')
   otherwise  msg_contributions := 'contributions:'
   end
 end;
@@ -206,7 +207,7 @@ begin
     deutsch  : msg_advertisement := 
         cnv('Das original AKFQuiz ist für GNU/Linux erhältlich');
     dansk    :  msg_advertisement := 
-        'Den oprindelige AKFQuiz findes til GNU/Linux';
+        'Den oprindelige AKFQuiz findes til GNU/Linux'
     otherwise  msg_advertisement := 
         'The original of AKFQuiz is available for GNU/Linux'
     end
@@ -220,7 +221,7 @@ begin
 case lang of
   deutsch : msg_noquizfound := 'Keine AKFQuiz-Dateien gefunden';
   italiano: msg_noquizfound := 'Nessum AKFQuiz-Archivio trovato';
-  dansk   : msg_noquizfound := 'Ingen AKFQuiz filer fundet';
+  dansk   : msg_noquizfound := 'Ingen AKFQuiz filer fundet'
   otherwise msg_noquizfound := 'No AKFQuiz-files found'
   end
 end;
@@ -230,7 +231,7 @@ begin
 case lang of 
   deutsch : msg_filenotfound := 'Fehler: Datei nicht gefunden';
   italiano: msg_filenotfound := 'Errore: Archivio non trovato';
-  dansk   : msg_filenotfound := 'Fejl: Fil ikke fundet';
+  dansk   : msg_filenotfound := 'Fejl: Fil ikke fundet'
   otherwise msg_filenotfound := 'Error: file not found'
   end
 end;
@@ -252,7 +253,7 @@ case lang of
     if key='' 
       then msg_anykey := cnv('Tryk på en tast...')
       else msg_anykey := cnv('Tryk på en tast for at fortsætte eller '+
-                             key+' for at stoppe...');
+                             key+' for at stoppe...')
   otherwise if key='' 
               then msg_anykey := 'press any key to continue...'
               else msg_anykey := 
@@ -265,7 +266,7 @@ begin
 case lang of
   deutsch,
   italiano,
-  dansk    : msg_quiz := 'Quiz: ';
+  dansk    : msg_quiz := 'Quiz: '
   otherwise  msg_quiz := 'Quiz: '
   end
 end;
@@ -295,7 +296,7 @@ begin
 case lang of
   deutsch  : msg_translator := cnv('Übersetzer: ');
   italiano : msg_translator := 'Traduttore: ';
-  dansk    : msg_translator := cnv('Oversætter: ');
+  dansk    : msg_translator := cnv('Oversætter: ')
   otherwise  msg_translator := 'Translator: '
   end
 end;
@@ -303,7 +304,7 @@ end;
 function msg_edited: mystring;
 begin
 case lang of
-  deutsch  : msg_edited := cnv('Überarbeitet von: ');
+  deutsch  : msg_edited := cnv('Überarbeitet von: ')
   otherwise  msg_edited := 'Edited by: '
   end
 end;
@@ -311,7 +312,7 @@ end;
 function msg_license: mystring;
 begin
 case lang of
-  deutsch  : msg_license := 'Lizenz: ';
+  deutsch  : msg_license := 'Lizenz: '
   otherwise  msg_license := 'License: '
   end
 end;
@@ -319,7 +320,7 @@ end;
 function msg_licenseURI: mystring;
 begin
 case lang of
-  deutsch  : msg_licenseURI := 'Lizenz-Link: ';
+  deutsch  : msg_licenseURI := 'Lizenz-Link: '
   otherwise  msg_licenseURI := 'License-Link: '
   end
 end;
@@ -329,7 +330,7 @@ begin
 case lang of
   deutsch  : msg_right := 'richtig';
   italiano : msg_right := 'giusto';
-  dansk    : msg_right := 'rigtigt';
+  dansk    : msg_right := 'rigtigt'
   otherwise  msg_right := 'right'
   end
 end;
@@ -339,7 +340,7 @@ begin
 case lang of
   deutsch  : msg_wrong := 'leider falsch';
   italiano : msg_wrong := 'sbagliato, mi dispiace';
-  dansk    : msg_wrong := 'beklager, det er forkert';
+  dansk    : msg_wrong := 'beklager, det er forkert'
   otherwise  msg_wrong := 'wrong, sorry'
   end
 end;
@@ -349,7 +350,7 @@ begin
 case lang of
   deutsch  : msg_points := 'Punkte: ';
   italiano : msg_points := 'punti: ';
-  dansk    : msg_points := 'point: '; {???}
+  dansk    : msg_points := 'point: ' {???}
   otherwise  msg_points := 'points: '
   end
 end;
@@ -359,7 +360,7 @@ begin
 case lang of
   deutsch  : msg_seen := cnv('Du hast die Lösung doch schon gesehen!');
   italiano : msg_seen := cnv('Ehi! Hai già visto la soluzione!');
-  dansk    : msg_seen := cnv('Du har jo allerede set løsningen!');
+  dansk    : msg_seen := cnv('Du har jo allerede set løsningen!')
   otherwise  msg_seen := 'Hey, you have seen the solution already!'
   end
 end;
@@ -369,7 +370,7 @@ begin
 case lang of
   deutsch  : msg_really := cnv('Wirklich die Lösung zeigen?');
   italiano : msg_really := 'Vuoi vedere la soluzione davvero?';
-  dansk    : msg_really := cnv('Ønsker du virkelig at se løsningen?');
+  dansk    : msg_really := cnv('Ønsker du virkelig at se løsningen?')
   otherwise  msg_really := 'You really want to see the solution?'
   end
 end;
@@ -379,7 +380,7 @@ begin
 case lang of
   deutsch  : msg_sol1 := 'Es wurden ';
   italiano : msg_sol1 := 'Hai guagadnato ';
-  dansk    : msg_sol1 := cnv('Du har fået ');
+  dansk    : msg_sol1 := cnv('Du har fået ')
   otherwise  msg_sol1 := 'You have gained '
   end
 end;
@@ -389,7 +390,7 @@ begin
 case lang of
   deutsch  : msg_sol2 := ' von maximal ';
   italiano : msg_sol2 := ' dei ';
-  dansk    : msg_sol2 := ' af ';
+  dansk    : msg_sol2 := ' af '
   otherwise  msg_sol2 := ' of '
   end
 end;
@@ -399,7 +400,7 @@ begin
 case lang of
   deutsch  : msg_sol3 := ' Punkten erreicht.';
   italiano : msg_sol3 := ' punti possibili.';
-  dansk    : msg_sol3 := ' mulige point.';
+  dansk    : msg_sol3 := ' mulige point.'
   otherwise  msg_sol3 := ' possible points.'
   end
 end;
@@ -409,7 +410,7 @@ begin
 case lang of
   deutsch  : msg_sol4 := 'Das sind ';
   italiano : msg_sol4 := cnv('Ciò fà ');
-  dansk    : msg_sol4 := 'Det giver ';
+  dansk    : msg_sol4 := 'Det giver '
   otherwise  msg_sol4 := 'That makes '
   end
 end;
@@ -419,7 +420,7 @@ begin
 case lang of
   deutsch  : msg_sol5 := 'Das sind leider nicht genug.';
   italiano : msg_sol5 := 'Mi dispiace, ma non basta.';
-  dansk    : msg_sol5 := 'Beklager, det er ikke nok.';
+  dansk    : msg_sol5 := 'Beklager, det er ikke nok.'
   otherwise  msg_sol5 := 'Sorry, that''s not enough.'
   end
 end;
@@ -427,7 +428,7 @@ end;
 function msg_timeout: mystring;
 begin
 case lang of
-  deutsch  : msg_timeout := 'Die Zeit ist abgelaufen!';
+  deutsch  : msg_timeout := 'Die Zeit ist abgelaufen!'
   otherwise  msg_timeout := 'The time is up!'
   end
 end;
@@ -435,7 +436,7 @@ end;
 function msg_time: mystring;
 begin
 case lang of
-  deutsch  : msg_time := cnv('Benötigte Zeit: ');
+  deutsch  : msg_time := cnv('Benötigte Zeit: ')
   otherwise  msg_time := 'Elapsed time: '
   end
 end;
@@ -443,7 +444,7 @@ end;
 function msg_timelimit: mystring;
 begin
 case lang of
-  deutsch  : msg_timelimit := 'Zeit-Limit: ';
+  deutsch  : msg_timelimit := 'Zeit-Limit: '
   otherwise  msg_timelimit := 'time limit: '
   end
 end;
@@ -454,7 +455,7 @@ begin
 case lang of
   deutsch  : msg_error := 'Fehler';
   italiano : msg_error := 'Errore';
-  dansk    : msg_error := 'Fejl';
+  dansk    : msg_error := 'Fejl'
   otherwise  msg_error := 'Error'
   end
 end;
@@ -464,7 +465,7 @@ begin
 case lang of
   deutsch  : msg_fileerror := 'Fehler in der Eingabe-Datei';
   italiano : msg_fileerror := 'Errore nell''archivio di input';
-  dansk    : msg_fileerror := 'Fejl i input filen';
+  dansk    : msg_fileerror := 'Fejl i input filen'
   otherwise  msg_fileerror := 'Error in input file'
   end
 end;
@@ -474,7 +475,7 @@ begin
 case lang of
   deutsch  : msg_result := 'Auswertung';
   italiano : msg_result := 'risultato';
-  dansk    : msg_result := 'resultat';
+  dansk    : msg_result := 'resultat'
   otherwise  msg_result := 'result'
   end
 end;
@@ -484,7 +485,7 @@ begin
 case lang of
   deutsch  : msg_solution := cnv('Auflösung');
   italiano : msg_solution := 'soluzione';
-  dansk    : msg_solution := cnv('løsning');
+  dansk    : msg_solution := cnv('løsning')
   otherwise  msg_solution := 'solution'
   end
 end;
@@ -494,7 +495,7 @@ begin
 case lang of
   deutsch  : msg_new := 'neu';
   italiano : msg_new := 'nuovo';
-  dansk    : msg_new := 'ny';
+  dansk    : msg_new := 'ny'
   otherwise  msg_new := 'new'
   end
 end;
@@ -504,7 +505,7 @@ begin
 case lang of
   deutsch  : msg_made := 'erstellt mit';
   italiano : msg_made := 'Creato con';
-  dansk    : msg_made := 'skabt ved brug af'; {???}
+  dansk    : msg_made := 'skabt ved brug af' {???}
   otherwise  msg_made := 'made using'
   end
 end;
@@ -514,7 +515,7 @@ begin
 case lang of
   deutsch  : msg_back := cnv('zurück');
   italiano : msg_back := 'Indietro';
-  dansk    : msg_back := 'tilbage';
+  dansk    : msg_back := 'tilbage'
   otherwise  msg_back := 'back'
   end
 end;
@@ -526,7 +527,7 @@ case lang of
     msg_noJS := cnv('JavaScript nicht verfügbar oder deaktiviert');
   italiano : 
     msg_noJS := cnv('JavaScript o non è disponibile o è disattivato');
-  dansk    : msg_noJS := 'JavaScript ikke installeret eller deaktiveret';
+  dansk    : msg_noJS := 'JavaScript ikke installeret eller deaktiveret'
   otherwise  msg_noJS := 'JavaScript not available or deactivated'
   end
 end;
@@ -536,7 +537,7 @@ begin
 case lang of
   deutsch  : msg_notusable := 'Quiz nicht benutzbar!';
   italiano : msg_notusable := 'Quiz non utilizzabile!';
-  dansk    : msg_notusable := 'Quizzen kan ikke bruges!';
+  dansk    : msg_notusable := 'Quizzen kan ikke bruges!'
   otherwise  msg_notusable := 'Quiz not usable!'
   end
 end;
@@ -545,7 +546,7 @@ function msg_assessment: mystring;
 begin
 case lang of
   deutsch  : msg_assessment := 'Auswertung';
-  dansk    : msg_assessment := cnv('bedømmelse');
+  dansk    : msg_assessment := cnv('bedømmelse')
   otherwise  msg_assessment := 'assessment'
   end
 end;
@@ -554,7 +555,7 @@ function msg_more: mystring;
 begin
 case lang of
   deutsch : msg_more := 'mehr...';
-  english : msg_more := 'more...';
+  english : msg_more := 'more...'
   otherwise  msg_more := '...'
   end
 end;
@@ -562,7 +563,7 @@ end;
 function msg_Results: mystring;
 begin
 case lang of
-  deutsch : msg_Results := 'Ergebnisse';
+  deutsch : msg_Results := 'Ergebnisse'
   otherwise  msg_Results := 'Results'
   end
 end;
@@ -570,7 +571,7 @@ end;
 function msg_showResults: mystring;
 begin
 case lang of
-  deutsch : msg_showResults := 'Zeige Ergebnisse';
+  deutsch : msg_showResults := 'Zeige Ergebnisse'
   otherwise  msg_showResults := 'Show Results'
   end
 end;
@@ -578,64 +579,64 @@ end;
 function msg_name: mystring;
 begin
 case lang of
-  deutsch :  msg_name := 'Name: ';
-  otherwise  msg_name := 'Name: ';
+  deutsch :  msg_name := 'Name: '
+  otherwise  msg_name := 'Name: '
   end
 end;
 
 function msg_passwd: mystring;
 begin
 case lang of
-  deutsch :  msg_passwd := 'Passwort';
-  otherwise  msg_passwd := 'Password';
+  deutsch :  msg_passwd := 'Passwort'
+  otherwise  msg_passwd := 'Password'
   end
 end;
 
 function msg_newpasswd: mystring;
 begin
 case lang of
-  deutsch :  msg_newpasswd := 'Neues Passwort';
-  otherwise  msg_newpasswd := 'New Password';
+  deutsch :  msg_newpasswd := 'Neues Passwort'
+  otherwise  msg_newpasswd := 'New Password'
   end
 end;
 
 function msg_reconfigure: mystring;
 begin
 case lang of
-  deutsch :  msg_reconfigure := 'Umkonfigurieren';
-  otherwise  msg_reconfigure := 'Reconfigure';
+  deutsch :  msg_reconfigure := 'Umkonfigurieren'
+  otherwise  msg_reconfigure := 'Reconfigure'
   end
 end;
 
 function msg_login: mystring;
 begin
 case lang of
-  deutsch :  msg_login := 'Als Lehrer anmelden';
-  otherwise  msg_login := 'Log in as teacher';
+  deutsch :  msg_login := 'Als Lehrer anmelden'
+  otherwise  msg_login := 'Log in as teacher'
   end
 end;
 
 function msg_loggedin: mystring;
 begin
 case lang of
-  deutsch :  msg_loggedin := 'Anmeldung erlogreich';
-  otherwise  msg_loggedin := 'Login successfull';
+  deutsch :  msg_loggedin := 'Anmeldung erlogreich'
+  otherwise  msg_loggedin := 'Login successfull'
   end
 end;
 
 function msg_logout: mystring;
 begin
 case lang of
-  deutsch :  msg_logout := 'Abmelden';
-  otherwise  msg_logout := 'Log out';
+  deutsch :  msg_logout := 'Abmelden'
+  otherwise  msg_logout := 'Log out'
   end
 end;
 
 function msg_loggedout: mystring;
 begin
 case lang of
-  deutsch :  msg_loggedout := 'Abgemeldet';
-  otherwise  msg_loggedout := 'Logged out';
+  deutsch :  msg_loggedout := 'Abgemeldet'
+  otherwise  msg_loggedout := 'Logged out'
   end
 end;
 
@@ -643,12 +644,20 @@ function msg_inconsistent: mystring;
 begin
 case lang of
   deutsch :  msg_inconsistent := 
-        cnv('Das Ergebnis entspricht nicht dem ursprünglichen Ergebnis');
+        cnv('Das Ergebnis entspricht nicht dem ursprünglichen Ergebnis')
   otherwise  msg_inconsistent := 
-          'the result is not the same as the original result';
+          'the result is not the same as the original result'
+  end
+end;
+
+function msg_view: mystring;
+begin
+case lang of
+  deutsch :  msg_view := 'anzeigen'
+  otherwise msg_view := 'view'
   end
 end;
 
 begin
-ident('$Id: qmsgs.pas,v 1.15 2006/10/14 08:52:10 akf Exp $')
+ident('$Id: qmsgs.pas,v 1.16 2006/10/17 19:12:14 akf Exp $')
 end.
