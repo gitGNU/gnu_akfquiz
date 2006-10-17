@@ -1,7 +1,7 @@
 LIZENZ
 
 AKFQuiz
-Copyright © 2003-2006 Andreas K. Förster <akfquiz@akfoerster.de>
+Copyright © 2003-2006 Andreas K. Förster
 
 verwendet Tabellen von GNU libiconv
 Copyright (C) 1999-2001 Free Software Foundation, Inc.

@@ -17,9 +17,9 @@ cgiquiz \- CGI program for using AKFQuiz-files
 .BI cgiquiz " --version"
 
 .SS Browser:
-.BI "http://" "example.org/" "cgi-bin/cgiquiz" "/--help"
+.BI "http://" "example.org/" "cgi-bin/cgiquiz" "?--help"
 .br
-.BI "http://" "example.org/" "cgi-bin/cgiquiz" "/--version"
+.BI "http://" "example.org/" "cgi-bin/cgiquiz" "?--version"
 .br
 .BI "http://" "example.org/" "cgi-bin/cgiquiz" "/quizpath/"
 .br
@@ -124,7 +124,8 @@ The code contains the language as given with the keyword "language:".
 This also has technical relevancy, so don't simply skip this keyword.
 Besides of that, the author is stored in a way, that it can be easily 
 found by software programs (for example search-engines). Also the 
-name of the software which created the file and version is stored.
+name of the software which created the file and version is stored and a 
+link to the homepage.
 
 .SH SECURITY
 
@@ -142,8 +143,6 @@ This program doesn't execute any external programs.
 .SH LICENSE
 
 Copyright \(co 2005-2006 Andreas K. Foerster
-.br
-.RI < akfquiz@akfoerster.de >
 
 AKFQuiz is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -158,18 +157,7 @@ GNU General Public License for more details.
 
 .SH INTERNET
 
-.IP contact:
-mailto:akfquiz@akfoerster.de
-
-.IP homepage:
-http://akfoerster.de/akfquiz/
-
-.IP examples:
-http://akfoerster.de/akfquiz/quiz.html
-
-.IP "publish quiz:"
-http://akfoerster.de/akfquiz/quizupload
-(no guaranty!)
+http://akfquiz.nongnu.org/
 
 
 .SH "SEE ALSO"
