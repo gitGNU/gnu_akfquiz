@@ -7,12 +7,16 @@ Please help to translate AkfQuiz to other languages
 ----
 
  msg_homepage::
-   deutsch:: 'http://akfoerster.de/akfquiz/index.de.html'
+   deutsch:: 'http://akfquiz.nongnu.org/index.de.html'
    english:: 'http://akfquiz.nongnu.org/'
- 
+
  msg_GPL::
   deutsch:: 'GPL V2 oder neuer'
   english:: 'GPL v2 or later'
+  italiano:: 'GPL v2 o version più recente'
+
+
+ == Please leave the term 'GNU General Public License' untranslated! ==
 
  msg_noWarranty::
     deutsch::
@@ -31,19 +35,29 @@ Please help to translate AkfQuiz to other languages
      'see the file named COPYING for details.'
     
      'Quiz-files are not affected by this license.'
+    italiano::
+     'Questo programma è distribuito SENZA ALCUNA GARANZIA'
+     'per quanto ciò sia consentito dalla legge.'
+     'È lecito redistribuirlo secondo i termini della'
+     'GNU General Public License;'
+     'per dettagli vedere la cartella COPYING.'
+
+     'Gli archivi dei Quiz non sono coperte da questa licenza'
 
  msg_contributions::
   deutsch:: 'Beiträge:'
   english:: 'contributions:'
+  italiano:: 'contribuzioni:'
 
  msg_advertisement::
   deutsch:: 'Das original AKFQuiz ist für GNU/Linux erhältlich'
   dansk:: 'Den oprindelige AKFQuiz findes til GNU/Linux'
   english:: 'The original of AKFQuiz is available for GNU/Linux'
+  italiano:: 'La versione originale di AKFQuiz è disponibile per GNU/Linux'
 
  msg_noquizfound::
   deutsch:: 'Keine AKFQuiz-Dateien gefunden'
-  italiano:: 'Nessum AKFQuiz-Archivio trovato'
+  italiano:: 'Nessun archivio AKFQuiz trovato'
   dansk:: 'Ingen AKFQuiz filer fundet'
   english:: 'No AKFQuiz-files found'
 
@@ -86,14 +100,17 @@ Please help to translate AkfQuiz to other languages
  msg_edited::
   deutsch:: 'Überarbeitet von: '
   english:: 'Edited by: '
+  italiano:: 'Modificato da: '
 
  msg_license::
   deutsch:: 'Lizenz: '
   english:: 'License: '
+  italiano:: 'Licenza: '
 
  msg_licenseURI::
   deutsch:: 'Lizenz-Link: '
   english:: 'License-Link: '
+  italiano:: 'Licenza-link: '
 
  msg_right::
   deutsch:: 'richtig'
@@ -158,14 +175,17 @@ Please help to translate AkfQuiz to other languages
  msg_timeout::
   deutsch:: 'Die Zeit ist abgelaufen!'
   english:: 'The time is up!'
+  italiano:: 'Il tempo è finito!'
 
  msg_time::
   deutsch:: 'Benötigte Zeit: '
   english:: 'Elapsed time: '
+  italiano:: 'Tempo trascorso: '
 
  msg_timelimit::
   deutsch:: 'Zeit-Limit: '
   english:: 'time limit: '
+  italiano:: 'Limite di tempo: '
 
  msg_error::
   deutsch:: 'Fehler'
@@ -199,13 +219,13 @@ Please help to translate AkfQuiz to other languages
 
  msg_made::
   deutsch:: 'erstellt mit'
-  italiano:: 'Creato con'
+  italiano:: 'creato con'
   dansk:: 'skabt ved brug af' (?)
   english:: 'made using'
 
  msg_back::
   deutsch:: 'zurück'
-  italiano:: 'Indietro'
+  italiano:: 'indietro'
   dansk:: 'tilbage'
   english:: 'back'
 
@@ -229,52 +249,66 @@ Please help to translate AkfQuiz to other languages
  msg_more::
   deutsch:: 'mehr...'
   english:: 'more...'
+  italiano:: 'ancora...'
   otherwise:: '...'
+   
 
  msg_Results::
   deutsch:: 'Ergebnisse'
   english:: 'Results'
+  italiano:: 'Risultati'
 
  msg_showResults::
   deutsch:: 'Zeige Ergebnisse'
-  english:: 'Show Results'
+  english:: 'Show results'
+  italiano:: 'Mostrare i risultati'
 
  msg_name::
   deutsch:: 'Name: '
   english:: 'Name: '
+  italiano:: 'Nome: '
 
  msg_passwd::
   deutsch:: 'Passwort'
   english:: 'Password'
+  italiano:: 'Parola d''ordine'
 
  msg_newpasswd::
   deutsch:: 'Neues Passwort'
   english:: 'New Password'
+  italiano:: 'Nuova parola d''ordine'
 
  msg_reconfigure::
   deutsch:: 'Umkonfigurieren'
   english:: 'Reconfigure'
+  italiano:: 'Riconfigurare'
 
  msg_login::
   deutsch:: 'Als Lehrer anmelden'
   english:: 'Log in as teacher'
+  italiano:: 'Entrare come docente'
 
   msg_loggedin::
   deutsch:: 'Anmeldung erlogreich'
-  english:: 'Login successfull'
+  english:: 'Login successful'
+  italiano:: 'Ingresso riuscito'
 
  msg_logout::
   deutsch:: 'Abmelden'
   english:: 'Log out'
+  italiano:: 'Uscire'
 
  msg_loggedout::
   deutsch:: 'Abgemeldet'
   english:: 'Logged out'
+  italiano:: 'Sconnesso'
 
  msg_inconsistent::
   deutsch:: 'Das Ergebnis entspricht nicht dem ursprünglichen Ergebnis'
-  english:: 'the result is not the same as the original result'
+  english:: 'The result is not the same as the original result'
+  italiano:: 'Il risultato non è uguale a quello originale'
 
  msg_view::
   deutsch:: 'anzeigen'
   english:: 'view'
+  italiano:: 'vedere'

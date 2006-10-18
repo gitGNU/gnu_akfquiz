@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.16 2006/10/17 19:12:14 akf Exp $
+* $Id: qmsgs.pas,v 1.17 2006/10/18 16:01:54 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -162,6 +162,7 @@ begin
   when a newer version is officially released }
 
 case lang of
+  italiano: msg_GPL := cnv('GPL v2 o version più recente');
   deutsch : msg_GPL := 'GPL V2 oder neuer'
   otherwise msg_GPL := 'GPL v2 or later'
   end
@@ -170,6 +171,13 @@ end;
 function msg_noWarranty: mystring;
 begin
 case lang of
+  italiano:  msg_noWarranty := cnv(
+    'Questo programma è distribuito SENZA ALCUNA GARANZIA' + nl
+    + 'per quanto ciò sia consentito dalla legge.' + nl
+    + 'È lecito redistribuirlo secondo i termini della' + nl
+    + 'GNU General Public License;' + nl
+    + 'per dettagli vedere la cartella COPYING.' + nl
+    + 'Gli archivi dei Quiz non sono coperte da questa licenza');
   deutsch : msg_noWarranty := cnv(
     'Dieses Programm wird ohne Gewährleistung geliefert, ' + nl 
     + 'soweit dies gesetzlich zulässig ist.' + nl 
@@ -192,6 +200,7 @@ end;
 function msg_contributions: mystring;
 begin
 case lang of
+  italiano : msg_contributions := 'contribuzioni:';
   deutsch  : msg_contributions := cnv('Beiträge:')
   otherwise  msg_contributions := 'contributions:'
   end
@@ -206,6 +215,8 @@ begin
   case lang of
     deutsch  : msg_advertisement := 
         cnv('Das original AKFQuiz ist für GNU/Linux erhältlich');
+    italiano :  msg_advertisement := 
+        cnv('La versione originale di AKFQuiz è disponibile per GNU/Linux');
     dansk    :  msg_advertisement := 
         'Den oprindelige AKFQuiz findes til GNU/Linux'
     otherwise  msg_advertisement := 
@@ -220,7 +231,7 @@ function msg_noquizfound: mystring;
 begin
 case lang of
   deutsch : msg_noquizfound := 'Keine AKFQuiz-Dateien gefunden';
-  italiano: msg_noquizfound := 'Nessum AKFQuiz-Archivio trovato';
+  italiano: msg_noquizfound := 'Nessun archivio AKFQuiz trovato';
   dansk   : msg_noquizfound := 'Ingen AKFQuiz filer fundet'
   otherwise msg_noquizfound := 'No AKFQuiz-files found'
   end
@@ -304,6 +315,7 @@ end;
 function msg_edited: mystring;
 begin
 case lang of
+  italiano : msg_edited := 'Modificato da: ';
   deutsch  : msg_edited := cnv('Überarbeitet von: ')
   otherwise  msg_edited := 'Edited by: '
   end
@@ -312,6 +324,7 @@ end;
 function msg_license: mystring;
 begin
 case lang of
+  italiano : msg_license := 'Licenza: ';
   deutsch  : msg_license := 'Lizenz: '
   otherwise  msg_license := 'License: '
   end
@@ -320,6 +333,7 @@ end;
 function msg_licenseURI: mystring;
 begin
 case lang of
+  italiano : msg_licenseURI := 'Licenza-link: ';
   deutsch  : msg_licenseURI := 'Lizenz-Link: '
   otherwise  msg_licenseURI := 'License-Link: '
   end
@@ -428,6 +442,7 @@ end;
 function msg_timeout: mystring;
 begin
 case lang of
+  italiano : msg_timeout := cnv('Il tempo è finito!');
   deutsch  : msg_timeout := 'Die Zeit ist abgelaufen!'
   otherwise  msg_timeout := 'The time is up!'
   end
@@ -436,6 +451,7 @@ end;
 function msg_time: mystring;
 begin
 case lang of
+  italiano : msg_time := 'Tempo trascorso: ';
   deutsch  : msg_time := cnv('Benötigte Zeit: ')
   otherwise  msg_time := 'Elapsed time: '
   end
@@ -444,6 +460,7 @@ end;
 function msg_timelimit: mystring;
 begin
 case lang of
+  italiano : msg_timelimit := 'Limite di tempo: ';
   deutsch  : msg_timelimit := 'Zeit-Limit: '
   otherwise  msg_timelimit := 'time limit: '
   end
@@ -504,7 +521,7 @@ function msg_made: mystring;
 begin
 case lang of
   deutsch  : msg_made := 'erstellt mit';
-  italiano : msg_made := 'Creato con';
+  italiano : msg_made := 'creato con';
   dansk    : msg_made := 'skabt ved brug af' {???}
   otherwise  msg_made := 'made using'
   end
@@ -514,7 +531,7 @@ function msg_back: mystring;
 begin
 case lang of
   deutsch  : msg_back := cnv('zurück');
-  italiano : msg_back := 'Indietro';
+  italiano : msg_back := 'indietro';
   dansk    : msg_back := 'tilbage'
   otherwise  msg_back := 'back'
   end
@@ -555,30 +572,34 @@ function msg_more: mystring;
 begin
 case lang of
   deutsch : msg_more := 'mehr...';
+  italiano: msg_more := 'ancora...';
   english : msg_more := 'more...'
-  otherwise  msg_more := '...'
+  otherwise msg_more := '...'
   end
 end;
 
 function msg_Results: mystring;
 begin
 case lang of
+  italiano: msg_Results := 'Risultati';
   deutsch : msg_Results := 'Ergebnisse'
-  otherwise  msg_Results := 'Results'
+  otherwise msg_Results := 'Results'
   end
 end;
 
 function msg_showResults: mystring;
 begin
 case lang of
+  italiano: msg_showResults := 'Mostrare i risultati';
   deutsch : msg_showResults := 'Zeige Ergebnisse'
-  otherwise  msg_showResults := 'Show Results'
+  otherwise msg_showResults := 'Show results'
   end
 end;
 
 function msg_name: mystring;
 begin
 case lang of
+  italiano:  msg_name := 'Nome: ';
   deutsch :  msg_name := 'Name: '
   otherwise  msg_name := 'Name: '
   end
@@ -587,6 +608,7 @@ end;
 function msg_passwd: mystring;
 begin
 case lang of
+  italiano:  msg_passwd := 'Parola d''ordine';
   deutsch :  msg_passwd := 'Passwort'
   otherwise  msg_passwd := 'Password'
   end
@@ -595,6 +617,7 @@ end;
 function msg_newpasswd: mystring;
 begin
 case lang of
+  italiano:  msg_newpasswd := 'Nuova parola d''ordine';
   deutsch :  msg_newpasswd := 'Neues Passwort'
   otherwise  msg_newpasswd := 'New Password'
   end
@@ -603,6 +626,7 @@ end;
 function msg_reconfigure: mystring;
 begin
 case lang of
+  italiano:  msg_reconfigure := 'Riconfigurare';
   deutsch :  msg_reconfigure := 'Umkonfigurieren'
   otherwise  msg_reconfigure := 'Reconfigure'
   end
@@ -611,6 +635,7 @@ end;
 function msg_login: mystring;
 begin
 case lang of
+  italiano:  msg_login := 'Entrare come docente';
   deutsch :  msg_login := 'Als Lehrer anmelden'
   otherwise  msg_login := 'Log in as teacher'
   end
@@ -619,14 +644,16 @@ end;
 function msg_loggedin: mystring;
 begin
 case lang of
+  italiano:  msg_loggedin := 'Ingresso riuscito';
   deutsch :  msg_loggedin := 'Anmeldung erlogreich'
-  otherwise  msg_loggedin := 'Login successfull'
+  otherwise  msg_loggedin := 'Login successful'
   end
 end;
 
 function msg_logout: mystring;
 begin
 case lang of
+  italiano:  msg_logout := 'Uscire';
   deutsch :  msg_logout := 'Abmelden'
   otherwise  msg_logout := 'Log out'
   end
@@ -635,6 +662,7 @@ end;
 function msg_loggedout: mystring;
 begin
 case lang of
+  italiano:  msg_loggedout := 'Sconnesso';
   deutsch :  msg_loggedout := 'Abgemeldet'
   otherwise  msg_loggedout := 'Logged out'
   end
@@ -643,21 +671,24 @@ end;
 function msg_inconsistent: mystring;
 begin
 case lang of
+  italiano:  msg_inconsistent :=
+        cnv('Il risultato non è uguale a quello originale');
   deutsch :  msg_inconsistent := 
         cnv('Das Ergebnis entspricht nicht dem ursprünglichen Ergebnis')
   otherwise  msg_inconsistent := 
-          'the result is not the same as the original result'
+          'The result is not the same as the original result'
   end
 end;
 
 function msg_view: mystring;
 begin
 case lang of
+  italiano:  msg_view := 'vedere';
   deutsch :  msg_view := 'anzeigen'
   otherwise msg_view := 'view'
   end
 end;
 
 begin
-ident('$Id: qmsgs.pas,v 1.16 2006/10/17 19:12:14 akf Exp $')
+ident('$Id: qmsgs.pas,v 1.17 2006/10/18 16:01:54 akf Exp $')
 end.
