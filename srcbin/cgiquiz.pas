@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.44 2006/10/17 19:14:06 akf Exp $
+* $Id: cgiquiz.pas,v 1.45 2006/10/18 07:18:47 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -189,7 +189,7 @@ begin
 WriteLn;
 
 { some webservers don't like CGI programs to do that }
-if RequestMethod = HEAD then Halt
+{ if RequestMethod = HEAD then Halt }
 end;
 
 function isLastElement: boolean;
@@ -659,7 +659,9 @@ WriteLn(outp, 'Content-Type: text/html; charset=', charset);
 if language<>'' then
   WriteLn(outp, 'Content-Language: ', language);
 WriteLn(outp);
-if RequestMethod=HEAD then Halt
+
+{ some webservers don't like CGI programs to do that }
+{ if RequestMethod = HEAD then Halt }
 end;
 
 procedure Tcgiquiz.error;
@@ -1769,7 +1771,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.44 2006/10/17 19:14:06 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.45 2006/10/18 07:18:47 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
