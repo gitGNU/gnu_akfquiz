@@ -1,6 +1,6 @@
 AKFQuiz
 
-Teilweise Portierung des GNU/Linux Programm-Paketes AKFQuiz.
+Portierung von Teilen des GNU/Linux Programm-Paketes AKFQuiz.
 
 DEINSTALLIEREN SIE ALTE VERSIONEN VON AKFQUIZ BEVOR SIE EINE 
 NEUE VERSION INSTALLIEREN!
@@ -33,7 +33,7 @@ Verfügbarkeit der Quelltexte ist es leicht auf andere Systeme portierbar.
 Dies ist nur einer der Vorteile freier Software.
 
 Mehr über freie Software unter: 
-http://www.gnu.ftp.uni-erlangen.de/philosophy/
+http://www.gnu.org/
 
 Kontakt in Europa:
 http://www.fsfeurope.org/
@@ -65,7 +65,7 @@ http://gnuwin32.sourceforge.net/packages/mawk.htm
 
 
 Die aktuellste Version von AKFQuiz finden Sie im Internet:
-http://www.akfoerster.de/akfquiz/index.de.html
+http://akfquiz.nongnu.org/index.de.html
 
 Für den Installer unter Windows verwende ich 
 Inno Setup von Jordan Russell

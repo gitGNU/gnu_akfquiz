@@ -23,13 +23,13 @@ provider.
 
 
 If you like free software, please also think about changing to a free 
-operating system. This program package is also available for GNU/Linux. 
+operating system. This program package is available for GNU/Linux. 
 Because of the availability of the source code, it is also easy to port 
 it to other operating systems. That is just one of the advantages of 
 free software.
 
 More about free software: 
-http://www.fsf.org/philosophy/
+http://www.gnu.org/
 
 Contact in Europe:
 http://www.fsfeurope.org/

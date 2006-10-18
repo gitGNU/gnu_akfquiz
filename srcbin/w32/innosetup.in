@@ -18,7 +18,7 @@ ChangesAssociations=yes
 ChangesEnvironment=yes
 AppPublisher=AKFoerster
 AppPublisherURL=http://akfoerster.de/
-AppSupportURL=http://akfoerster.de/support
+;AppSupportURL=http://akfoerster.de/support
 AppUpdatesURL=http://akfquiz.nongnu.org/
 AppComments=ported from GNU/Linux
 ;AppReadmeFile=
@@ -71,8 +71,8 @@ en.htmlupdate=HTML files update
 de.htmlupdate=HTML Dateien auffrischen
 en.htmlstart=HTML quizfiles
 de.htmlstart=HTML Quiz-Dateien
-en.quizupload=publish a quizfile
-de.quizupload=Quiz-Datei veröffentlichen
+;en.quizupload=publish a quizfile
+;de.quizupload=Quiz-Datei veröffentlichen
 ;en.sdldownload=download the needed SDL 1.2.x "Runtime library" for "Win32"
 ;de.sdldownload=benötigte SDL 1.2.x "Runtime library" für "Win32" herunterladen
 
@@ -116,7 +116,7 @@ Source: "template-de";        DestDir: "{app}\doc\deutsch"; DestName: "template"
 [INI]
 Filename: "{app}\doc\akfquiz.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://akfquiz.nongnu.org/"; Languages: en
 Filename: "{app}\doc\akfquiz.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://akfoerster.de/akfquiz/index.de.html"; Languages: de
-Filename: "{app}\doc\quizupload.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://akfoerster.de/akfquiz/quizupload"
+;Filename: "{app}\doc\quizupload.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://akfoerster.de/akfquiz/quizupload"
 
 [Run]
 FileName: "{app}\bin\mkquiz.exe"; WorkingDir: "{app}\share\akfquiz"; Parameters: "--out ""{app}\html"" --index --auto"; StatusMsg: "{cm:htmlupdate}";
@@ -147,7 +147,7 @@ Name: "{group}\scrquiz"; Filename: "{app}\bin\scrquiz.exe";
 Name: "{group}\{cm:htmlupdate}"; Filename: "{app}\bin\mkquiz.exe"; WorkingDir: "{app}\share\akfquiz"; Parameters: "--out ""{app}\html"" --index --auto";
 Name: "{group}\{cm:htmlstart}"; Filename: "{app}\html\index.html";
 Name: "{group}\{cm:ProgramOnTheWeb,AKFQuiz}"; Filename: "{app}\doc\akfquiz.url";
-Name: "{group}\{cm:quizupload}"; Filename: "{app}\doc\quizupload.url"; Tasks: edit
+;Name: "{group}\{cm:quizupload}"; Filename: "{app}\doc\quizupload.url"; Tasks: edit
 Name: "{group}\{cm:UninstallProgram,AKFQuiz}"; Filename: "{uninstallexe}"
 Name: "{app}\share\akfquiz\{cm:htmlupdate}"; Filename: "{app}\bin\mkquiz.exe"; WorkingDir: "{app}\share\akfquiz"; Parameters: "--out ""{app}\html"" --index --auto";
 Name: "{app}\share\akfquiz\{cm:htmlstart}"; Filename: "{app}\html\index.html";

@@ -8,7 +8,7 @@ copyright:
 translator:
 default: I don't know
 language: en
-charset: WINDOWS-1252
+encoding: WINDOWS-1252
 neutral: no
 baseURI:
 layout: q-blue.css
