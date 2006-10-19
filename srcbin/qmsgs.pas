@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.17 2006/10/18 16:01:54 akf Exp $
+* $Id: qmsgs.pas,v 1.18 2006/10/19 17:54:44 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -49,10 +49,6 @@ type languages = (deutsch, english, italiano, dansk);
 
 var lang : languages = english;
 var msgRTL : boolean = false;
-
-procedure setmsgconverter(p: Tconverter);
-procedure setmsgconv(display: DisplayType);
-procedure useSystemLanguage;
 
 function msg_homepage: mystring;
 function msg_GPL: mystring;
@@ -106,37 +102,14 @@ function msg_loggedout: mystring;
 function msg_inconsistent: mystring;
 function msg_view: mystring;
 
+procedure setmsgconverter(p: Tconverter);
+procedure setmsgconv(display: DisplayType);
+procedure useSystemLanguage;
+
 
 Implementation
 
 var cnv: Tconverter = noconversion;
-
-procedure useSystemLanguage;
-var l: string[2];
-begin
-l := copy(getSystemLanguage, 1, 2); { first 2 chars }
-l := makeUpcase(l);
-if l='EN' then lang := english;
-if l='DE' then lang := deutsch;
-if l='DA' then lang := dansk;
-if l='IT' then lang := italiano
-{ else unchanged }
-end;
-
-procedure setmsgconverter(p: Tconverter);
-begin
-cnv := p;
-msgRTL := false
-end;
-
-procedure setmsgconv(display: DisplayType);
-begin
-case display of
-  ISOdisplay:  setmsgconverter(UTF8toISO1);
-  OEMdisplay:  setmsgconverter(UTF8toOEM);
-  UTF8display: setmsgconverter(noconversion)
-  end
-end;
 
 { Translators: }
 { if you need an apostrophe, use it twice like this: 'That''s it' }
@@ -200,9 +173,9 @@ end;
 function msg_contributions: mystring;
 begin
 case lang of
-  italiano : msg_contributions := 'contribuzioni:';
+  italiano : msg_contributions := 'Contribuenti:';
   deutsch  : msg_contributions := cnv('Beiträge:')
-  otherwise  msg_contributions := 'contributions:'
+  otherwise  msg_contributions := 'Contributions:'
   end
 end;
 
@@ -563,6 +536,7 @@ function msg_assessment: mystring;
 begin
 case lang of
   deutsch  : msg_assessment := 'Auswertung';
+  italiano : msg_assessment := 'valutazione';
   dansk    : msg_assessment := cnv('bedømmelse')
   otherwise  msg_assessment := 'assessment'
   end
@@ -683,12 +657,41 @@ end;
 function msg_view: mystring;
 begin
 case lang of
-  italiano:  msg_view := 'vedere';
+  { italiano:  msg_view := 'vedere'; }
+  italiano:  msg_view := 'sfogliare';
   deutsch :  msg_view := 'anzeigen'
   otherwise msg_view := 'view'
   end
 end;
 
+procedure useSystemLanguage;
+var l: string[2];
 begin
-ident('$Id: qmsgs.pas,v 1.17 2006/10/18 16:01:54 akf Exp $')
+l := copy(getSystemLanguage, 1, 2); { first 2 chars }
+l := makeUpcase(l);
+if l='EN' then lang := english;
+if l='DE' then lang := deutsch;
+if l='DA' then lang := dansk;
+if l='IT' then lang := italiano
+{ else unchanged }
+end;
+
+procedure setmsgconverter(p: Tconverter);
+begin
+cnv := p;
+msgRTL := false
+end;
+
+procedure setmsgconv(display: DisplayType);
+begin
+case display of
+  ISOdisplay:  setmsgconverter(UTF8toISO1);
+  OEMdisplay:  setmsgconverter(UTF8toOEM);
+  UTF8display: setmsgconverter(noconversion)
+  end
+end;
+
+
+begin
+ident('$Id: qmsgs.pas,v 1.18 2006/10/19 17:54:44 akf Exp $')
 end.
