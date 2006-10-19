@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.45 2006/10/18 07:18:47 akf Exp $
+* $Id: cgiquiz.pas,v 1.46 2006/10/19 05:33:39 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -341,7 +341,9 @@ if Browser then { send HTTP Header }
   end;
 
 { the text }
-WriteLn(PrgVersion);
+if Browser 
+  then WriteLn('<a href="', ScriptName, '?--help">', PrgVersion, '</a>')
+  else WriteLn(PrgVersion);
 WriteLn;
 If Browser then WriteLn('<br><br>');
 Write('Copyright');
@@ -359,6 +361,9 @@ If Browser then WriteLn('<pre>');
 WriteLn(msg_noWarranty);
 WriteLn;
 WriteLn('Written by Andreas K. Foerster');
+WriteLn;
+WriteLn(msg_contributions);
+WriteLn(Contributors);
 If Browser then WriteLn('</pre></body></html>');
 Halt
 end;
@@ -413,11 +418,12 @@ if Browser then { send HTTP Header }
 
 { the text }
 
-If Browser 
+if Browser 
   then begin
        WriteLn('<img alt="[Icon]" width="32" height="32" src="',
              ScriptName, grIcon + '">');
-       WriteLn(PrgVersion);
+       WriteLn('<a href="', ScriptName, '?--version">', 
+               PrgVersion, '</a>');
        WriteLn('<br><br>');
        WriteLn('Quiz-program for the CGI interface of a webserver');
        WriteLn('<br><br>');
@@ -1771,7 +1777,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.45 2006/10/18 07:18:47 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.46 2006/10/19 05:33:39 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');

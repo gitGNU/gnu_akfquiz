@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.13 2006/10/11 06:26:23 akf Exp $
+* $Id: mkquiz.pas,v 1.14 2006/10/19 05:33:39 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -95,6 +95,9 @@ WriteLn;
 WriteLn(msg_noWarranty);
 WriteLn;
 WriteLn('Written by Andreas K. Foerster');
+WriteLn;
+WriteLn(msg_contributions);
+WriteLn(Contributors);
 Halt
 end;
 
@@ -513,7 +516,7 @@ end;
 
 
 begin
-ident('$Id: mkquiz.pas,v 1.13 2006/10/11 06:26:23 akf Exp $');
+ident('$Id: mkquiz.pas,v 1.14 2006/10/19 05:33:39 akf Exp $');
 
 outpath := '';
 modes := [];

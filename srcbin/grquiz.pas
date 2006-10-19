@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.15 2006/10/11 06:26:23 akf Exp $
+* $Id: grquiz.pas,v 1.16 2006/10/19 05:33:39 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -446,7 +446,7 @@ case lang of
   end;
 GrLn;
 GrfWriteLn(msg_contributions);
-GrfWriteLn('Italiano: Martin Guy, Dansk: Tommy Jensen');
+GrfWriteLn(Contributors);
 GrLn;
 GrfWriteLn(msg_License + msg_GPL);
 GrfWriteLn(msg_noWarranty);
@@ -1051,6 +1051,9 @@ WriteLn;
 WriteLn(msg_noWarranty);
 WriteLn;
 WriteLn('Written by Andreas K. Foerster');
+WriteLn;
+WriteLn(msg_contributions);
+WriteLn(Contributors);
 Halt
 end;
 
@@ -1130,7 +1133,7 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: grquiz.pas,v 1.15 2006/10/11 06:26:23 akf Exp $');
+ident('$Id: grquiz.pas,v 1.16 2006/10/19 05:33:39 akf Exp $');
 
 {$IfDef FPCSVGALIB}
   { space after messages from SVGALib }

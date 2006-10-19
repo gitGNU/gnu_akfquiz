@@ -1,7 +1,7 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.11 2006/10/11 06:26:23 akf Exp $
+* $Id: uakfquiz.pas,v 1.12 2006/10/19 05:33:39 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -63,6 +63,7 @@ uses qsys, qmsgs;
 { You may not delete my name }
 const AKFQuizCopyright = '2006 AKFoerster';
 
+const Contributors = 'Italiano: Martin Guy, Dansk: Tommy Jensen';
 
 { some default values }
 const
@@ -947,5 +948,5 @@ if TimeLimit>0
 end;
 
 begin
-ident('$Id: uakfquiz.pas,v 1.11 2006/10/11 06:26:23 akf Exp $')
+ident('$Id: uakfquiz.pas,v 1.12 2006/10/19 05:33:39 akf Exp $')
 end.
