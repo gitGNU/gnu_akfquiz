@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.46 2006/10/19 05:33:39 akf Exp $
+* $Id: cgiquiz.pas,v 1.47 2006/10/19 10:01:30 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -444,7 +444,9 @@ if Browser
        WriteLn('</dd></dl>');
        WriteLn;
        if ExamDir<>'' 
-         then WriteLn('<p>The special quizdir "', ExamModeName, '" for exams'
+         then WriteLn('<p>The special quizdir "<a href="', 
+	          ScriptName, '/' + ExamModeName + '/">', 
+		  ExamModeName, '</a>" for exams'
                       + ' is mapped to "', ExamDir, '".</p>')
 	 else WriteLn('<p>Exam mode disabled.</p>');
        WriteLn;
@@ -1777,7 +1779,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.46 2006/10/19 05:33:39 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.47 2006/10/19 10:01:30 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
@@ -1789,8 +1791,7 @@ CGI_PATH_INFO       := CGIInfo('PATH_INFO');
 CGI_PATH_TRANSLATED := CGIInfo('PATH_TRANSLATED');
 Cookie              := CGIInfo('HTTP_COOKIE');
 
-if (CGI_PATH_INFO='') or (CGI_PATH_TRANSLATED='') then
-  MovedPermanently(protocol + Servername + ScriptName + '?--help');
+if (CGI_PATH_INFO='') or (CGI_PATH_TRANSLATED='') then help;
 
 lookForStaticPages;
 
