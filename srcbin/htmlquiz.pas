@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.9 2006/10/17 10:30:26 akf Exp $
+* $Id: htmlquiz.pas,v 1.10 2006/10/19 09:57:22 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -326,7 +326,8 @@ if authorURI<>'' then
 { the name "copyright" was suggested in the HTML 3.2 specification
   so it's more widely known }
 if licenseURI<>'' then
-  WriteLn(outp, '<link rel="copyright" href="', licenseURI,'"', cet)
+  WriteLn(outp, '<link rel="copyright" title="lizense" href="', 
+                licenseURI,'"', cet)
 end;
 
 function Thtmlquiz.GeneratorName: mystring;
@@ -569,5 +570,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.9 2006/10/17 10:30:26 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.10 2006/10/19 09:57:22 akf Exp $')
 end.
