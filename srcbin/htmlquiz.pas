@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.10 2006/10/19 09:57:22 akf Exp $
+* $Id: htmlquiz.pas,v 1.11 2006/10/19 09:59:30 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -326,7 +326,7 @@ if authorURI<>'' then
 { the name "copyright" was suggested in the HTML 3.2 specification
   so it's more widely known }
 if licenseURI<>'' then
-  WriteLn(outp, '<link rel="copyright" title="lizense" href="', 
+  WriteLn(outp, '<link rel="copyright" title="license" href="', 
                 licenseURI,'"', cet)
 end;
 
@@ -570,5 +570,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.10 2006/10/19 09:57:22 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.11 2006/10/19 09:59:30 akf Exp $')
 end.
