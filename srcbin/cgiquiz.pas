@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.47 2006/10/19 10:01:30 akf Exp $
+* $Id: cgiquiz.pas,v 1.48 2006/10/21 04:26:09 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -439,7 +439,7 @@ if Browser
        WriteLn(CGIBase, '/quizdir/<br>');
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz');
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?format=akfquiz');
-       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?format=text');
+       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?format=text&charset=UTF-8');
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2');
        WriteLn('</dd></dl>');
        WriteLn;
@@ -469,7 +469,8 @@ if Browser
        WriteLn(' > ', CGIBase, '/quizdir/');
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz');
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz?format=akfquiz');
-       WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz?format=text');
+       WriteLn(' > ', CGIBase, 
+                       '/quizdir/myquiz.akfquiz?format=text&charset=UTF-8');
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz?q1=2&q2=1&q5=2');
        WriteLn;
        if ExamDir<>'' 
@@ -1217,23 +1218,40 @@ WriteLn('</p>')
 end;
 
 procedure ListShowEntry(const dir, s: string);
-begin
+var
+  title, language, charset: ShortString;
+  
+  procedure includeLanguageCharset;
+  begin
+  if language<>'' then Write(' hreflang="', language, '"');
+  if charset<>''  then Write(' charset="', charset, '"')
+  end;
+
+begin { ListShowEntry }
+getQuizInfo(CGI_PATH_TRANSLATED + s, title, language, charset);
+
 WriteLn('<li>');
-WriteLn('<a href="', s, '">',
-        getQuizTitle(CGI_PATH_TRANSLATED + s), '</a>');
+if language<>'' then
+  Write(language, ': ');
+Write('<a href="', s, '"');
+includeLanguageCharset;
+WriteLn('>', title, '</a>');
 
 if not ExamMode then
   begin
   Write('<small>(<a href="', s, 
-        '?format=akfquiz" type="' + AKFQuizMime + '">AKFQuiz</a>');
+        '?format=akfquiz" type="' + AKFQuizMime + '"');
+  includeLanguageCharset;
+  Write('>AKFQuiz</a>');
   Write('&nbsp;|&nbsp;');
-  WriteLn('<a href="', s, '?format=text" type="text/plain">',
-           msg_view, '</a>)</small>')
+  Write('<a href="', s, '?format=text&amp;charset=', charset, '"');
+  includeLanguageCharset;
+  WriteLn(' type="text/plain">', msg_view, '</a>)</small>')
   end;
 
 WriteLn('</li>');
 WriteLn
-end;
+end; { ListShowEntry }
 
 procedure showList;
 var found: boolean;
@@ -1585,14 +1603,20 @@ end;
 procedure showQuizFile(ContentType: shortstring);
 var 
   t: text;
+  charset: ShortString;
   line: mystring;
 begin
+charset := QueryLookup('charset');
+
 Assign(t, CGI_PATH_TRANSLATED);
 reset(t);
 if IOResult <> 0 then begin CannotOpen; exit end;
 
 HTTPStatus(200, 'OK');
-WriteLn('Content-Type: ', ContentType);
+Write('Content-Type: ', ContentType);
+if charset <> '' then Write('; charset=', charset);
+WriteLn; { close previous line }
+
 closeHttpHead;
 
 while not EOF(t) do
@@ -1612,16 +1636,16 @@ if ExamMode
   then runQuiz { never show a quizfile as such in exam-mode! }
   else
     { send it as "application/x-akfquiz" if
-      either the URI contains "?format=akfquiz" 
+      either the URI contains "format=akfquiz" 
       or the client especially supports akfquiz files (HTTP_ACCEPT), 
       or the client has "AKFQuiz" in it's name }
     { some webservers don't support HTTP_ACCEPT }
-    if (CGI_QUERY_STRING = 'format=akfquiz') 
+    if (pos('format=akfquiz', CGI_QUERY_STRING) = 1) 
        or (pos(AKFQuizMime, CGIInfo('HTTP_ACCEPT'))<>0) 
        or (pos('AKFQuiz', CGIInfo('HTTP_USER_AGENT'))<>0)
       then showQuizFile(AKFQuizMime)
       else 
-        if CGI_QUERY_STRING = 'format=text' 
+        if pos('format=text', CGI_QUERY_STRING) = 1
 	  then showQuizFile('text/plain')
 	  else runQuiz
 end;
@@ -1779,7 +1803,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.47 2006/10/19 10:01:30 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.48 2006/10/21 04:26:09 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');

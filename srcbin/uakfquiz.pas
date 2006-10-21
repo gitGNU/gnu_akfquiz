@@ -1,7 +1,7 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.12 2006/10/19 05:33:39 akf Exp $
+* $Id: uakfquiz.pas,v 1.13 2006/10/21 04:26:09 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -679,9 +679,8 @@ while not checkEOF and not quit do
    e := makeUpcase(s);
 
    if (s<>'') and 
-      (e<>'END') and 
-      (e<>'ENDE') and 
-      (pos(':',s)=0) then
+      (pos(':',s)=0) and
+      (not isQuizEnd(e)) then
      begin { if no keyword, no comment }
      error;
      { there is normally more than one line with this error }
@@ -814,8 +813,7 @@ while not checkEOF and not quit do
 		  if not evaluated then evaluate;
 		  processAssessmentPercent
 		  end;
-   if (e='END') or
-      (e='ENDE') then gotoEOF;
+   if isQuizEnd(e) then gotoEOF;
    
    { doesn't work!
      problem: MaxPoints aren't counted }
@@ -926,12 +924,12 @@ s := '';
 while not EOF(inp) and 
      (pos('ASSESSMENT',s)<>1) and
      (pos('AUSWERTUNG',s)<>1) and
-     (s<>'END') and (s<>'ENDE')
+     not isQuizEnd(s)
   do s := makeUpcase(readline);
   
 if (s='ASSESSMENT:') or (s='AUSWERTUNG:') then processAssessment;
 if (s='ASSESSMENT%:') or (s='AUSWERTUNG%:') then processAssessmentPercent;
-if (s='END') or (s='ENDE') then gotoEOF
+if isQuizEnd(s) then gotoEOF
 end;
 
 procedure Takfquiz.error;
@@ -948,5 +946,5 @@ if TimeLimit>0
 end;
 
 begin
-ident('$Id: uakfquiz.pas,v 1.12 2006/10/19 05:33:39 akf Exp $')
+ident('$Id: uakfquiz.pas,v 1.13 2006/10/21 04:26:09 akf Exp $')
 end.

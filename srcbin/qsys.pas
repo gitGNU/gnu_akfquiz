@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.13 2006/10/13 07:36:18 akf Exp $
+* $Id: qsys.pas,v 1.14 2006/10/21 04:26:09 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -199,7 +199,13 @@ function getquizdir: mystring; { first dir from QUIZPATH }
 function useDirSeparator(const s: string): mystring;
 function basename(const s: string): mystring;
 function dirname(const s: string): mystring;
-function getQuizTitle(const x: string): mystring;
+
+function isQuizStart(const s: string): boolean;
+function isQuizEnd(const s: string): boolean;
+
+procedure getQuizInfo(const filename: string;
+                      var title, language, charset: shortstring);
+function getQuizTitle(const x: string): shortstring;
 
 { searches quizfile: }
 function getquizfile(var s: mystring): boolean; 
@@ -591,50 +597,79 @@ while (x[i]=' ') or (x[i]=TAB) do inc(i);
 getvalue := copy(x, i, length(x)-i+1);
 end;
 
-function getQuizTitle(const x: string): MyString;
+
+function isQuizStart(const s: string): boolean;
+begin
+isQuizStart := (pos('AKFQUIZ', s)=1) or (pos('QUIZ', s)=1)
+end;
+
+function isQuizEnd(const s: string): boolean;
+begin
+isQuizEnd := (s='END') or (s='ENDE')
+end;
+
+procedure getQuizInfo(const filename: string;
+                      var title, language, charset: shortstring);
 var 
   inp: text;
-  s, e : String80;
-  title,
-  charset: String80;
+  s, e : ShortString;
   ignore : integer;
-{$IfDef FPC}
-  var Buffer : array[1..1024] of char;
-{$EndIf}
+  {$IfDef FPC} Buffer : array[1..1024] of char; {$EndIf}
 begin
-title := '';
-charset := '';
-Assign(inp, x);
-{$IfDef FPC}
-  SetTextBuf(inp, Buffer);
-{$EndIf}
+title    := '';
+language := '';
+charset  := '';
+
+Assign(inp, filename);
+{$IfDef FPC} SetTextBuf(inp, Buffer); {$EndIf}
+
 reset(inp);
+
 repeat
+  ReadLn(inp, s);
+  s := makeUpcase(stripWhitespace(s))
+until isQuizStart(s) or EOF(inp) or (IOResult<>0);
+
+e := '';
+
+while (not isQuizEnd(e)) and (not EOF(inp)) and (IOResult=0) do
+  begin
   ReadLn(inp, s);
   s := stripWhitespace(s);
   e := makeUpcase(s);
-  if (pos('TITLE:', e)<>0) or
-     (pos('TITEL:', e)<>0) then title := getvalue(s);
-  if (pos('ENCODING:',e)=1) or
-     (pos('KODIERUNG:',e)=1) or
-     (pos('CHARSET:',e)=1) or
-     (pos('ZEICHENSATZ:',e)=1) then charset := getvalue(s)
-until ((title<>'') and (charset<>'')) or EOF(inp) or (IOResult<>0);
+  if (pos('TITLE:', e) = 1) or
+     (pos('TITEL:', e) = 1) then title := getvalue(s);
+  if (pos('LANGUAGE:', e) = 1) or
+     (pos('SPRACHE:', e) = 1) then language := getvalue(s);
+  if (pos('ENCODING:',e) = 1) or
+     (pos('KODIERUNG:',e) = 1) or
+     (pos('CHARSET:',e) = 1) or
+     (pos('ZEICHENSATZ:',e) = 1) then charset := getvalue(s)
+  end; { while }
+
 close(inp);
 ignore := IOResult; { ignore errors }
 
+makeUpcase(charset);
+
+{ convert title to UTF-8: }
+if title<>'' then 
+  begin
+  if checkASCII(charset)  then title := forceASCII(title);
+  if checkISO(charset)    then title := ISO1ToUTF8(title);
+  if checkCP1252(charset) then title := CP1252ToUTF8(title);
+  if checkOEM(charset)    then title := OEMtoUTF8(title)
+  end
+end; { getQuizInfo }
+
+
+function getQuizTitle(const x: string): ShortString;
+var title, language, charset: ShortString;
+begin
+getQuizInfo(x, title, language, charset);
+
 if title<>'' 
-  then 
-    begin
-    if charset='' 
-      then charset:='US-ASCII'
-      else charset := makeUpcase(charset);
-    if checkASCII(charset)  then title := forceASCII(title);
-    if checkISO(charset)    then title := ISO1ToUTF8(title);
-    if checkCP1252(charset) then title := CP1252ToUTF8(title);
-    if checkOEM(charset)    then title := OEMtoUTF8(title); 
-    getQuizTitle := title 
-    end
+  then getQuizTitle := title 
   else getQuizTitle := x { no title -> filename }
 end;
 
@@ -1465,7 +1500,7 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.13 2006/10/13 07:36:18 akf Exp $');
+  ident('$Id: qsys.pas,v 1.14 2006/10/21 04:26:09 akf Exp $');
   disableSignals; { initializes Signals }
   
   quizfileList := NIL;
