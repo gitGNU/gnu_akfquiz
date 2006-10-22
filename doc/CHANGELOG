@@ -1,4 +1,5 @@
 4.3.2
+- grquiz, scrquiz, cgiquiz: show language in the index
 - usage of CVS-Id information
 - new keywords "encoding:", "Kodierung:" replace "charset:", "Zeichensatz:"
 - cgiquiz: new exam-mode
@@ -6,7 +7,7 @@
 - cgiquiz: graphics and some stylesheets included (easier setup)
 - cgiquiz: graphics are prefetched if the browser supports it
 - cgiquiz: there is an icon for every page now
-- cgiquiz: allow retrieving of raw quizfile (but not in exam-mode!)
+- cgiquiz: allow retrieving/viewing of raw quizfile (but not in exam-mode!)
 - removed gtkquizchooser and wquizchooser
 - bugfix: Maxpoitnts=0 (surveys) handled correctly
 - grquiz: non breaking space not visible anymore
