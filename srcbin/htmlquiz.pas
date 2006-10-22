@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.11 2006/10/19 09:59:30 akf Exp $
+* $Id: htmlquiz.pas,v 1.12 2006/10/22 16:15:19 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -139,7 +139,6 @@ function Thtmlquiz.handleURIs(const x: string): mystring;
 var
   s, URI, rest: mystring;
   img, URIprefix, f, t, p : LongInt; { image, from, to, position }
-  blank: boolean; { on a blank page? }
 begin
 s := '';
 rest := x;
@@ -164,17 +163,15 @@ repeat
   if f=0 then f := pos('wais://', rest);   { RFC4156 }
   if f=0 then f := pos('file://', rest);   { RFC1738 }
 
-  blank := (f<>0); { if one of the above is found, use a blank page }
-  
   { only the above URIs can be handles as images }
   if (img<>0) and (f=0) then img := 0;
-  
+
   { if the URI isn't directly after "image:", then it's not an image }
   if (img<>0) and (f<>img+length('image:')) 
                   and (URIprefix<>img+length('image:'))
 	                 then img := 0;
 
-  { URIs for external programs - no _blank target }
+  { URIs for external programs }
   if f=0 then f := pos('javascript:', rest);   { ? }
   if f=0 then f := pos('mailto:', rest);   { RFC2368 }
   if f=0 then f := pos('telnet:', rest);   { RFC4248 } { officially with // }
@@ -222,9 +219,7 @@ repeat
     if img<>0 
       then s := s+'<img src="'+URI+'" alt="['+URI+
                 ']" style="vertical-align:middle; float:right">'
-      else if blank
-             then s := s+'<a href="'+URI+'" target="_blank">'+URI+'</a>'
-             else s := s+'<a href="'+URI+'">'+URI+'</a>'
+      else s := s+'<a href="'+URI+'" target="_top">'+URI+'</a>'
     end
 until (rest='') or (f=0);
 
@@ -410,7 +405,7 @@ begin
   WriteLn(outp);
   WriteLn(outp, '<div align="right" dir="ltr" class="made"><small>');
     WriteLn(outp, msg_made, ' <a '+
-      'href="', msg_homepage, '" target="_blank">'+
+      'href="', msg_homepage, '" target="_top">'+
            AKFQuizName + '</a>');
   WriteLn(outp, '</small></div>');
 {$EndIf}
@@ -570,5 +565,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.11 2006/10/19 09:59:30 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.12 2006/10/22 16:15:19 akf Exp $')
 end.

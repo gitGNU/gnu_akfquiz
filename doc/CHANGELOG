@@ -1,4 +1,5 @@
 4.3.2
+- cgiquiz, mkquiz: never use target _blank, always use _top
 - grquiz, scrquiz, cgiquiz: show language in the index
 - usage of CVS-Id information
 - new keywords "encoding:", "Kodierung:" replace "charset:", "Zeichensatz:"
