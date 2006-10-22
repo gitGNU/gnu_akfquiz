@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.16 2006/10/19 05:33:39 akf Exp $
+* $Id: grquiz.pas,v 1.17 2006/10/22 10:31:31 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -546,7 +546,13 @@ while (entry<>NIL) and (not okay) do
   while (entry<>NIL) and (Nr<=MaxAnswers-1) and (GetY<fileMaxY) do
     begin
     answerstarts(Nr);
-    GrfWriteLn(ValueToKey(Nr)+') '+copy(entry^.title, 1, MaxLength-3));
+    with entry^ do
+      if language=''
+        then GrfWriteLn(ValueToKey(Nr)+') '
+	                + copy(entry^.title, 1, MaxLength-3))
+        else GrfWriteLn(ValueToKey(Nr)+') ' + language + ': '
+	                + copy(entry^.title, 1, 
+			            MaxLength-5-length(language)));
     answerends(Nr);
     entry := entry^.next;
     inc(Nr)
@@ -1133,7 +1139,7 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: grquiz.pas,v 1.16 2006/10/19 05:33:39 akf Exp $');
+ident('$Id: grquiz.pas,v 1.17 2006/10/22 10:31:31 akf Exp $');
 
 {$IfDef FPCSVGALIB}
   { space after messages from SVGALib }

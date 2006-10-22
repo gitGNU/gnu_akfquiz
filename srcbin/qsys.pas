@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.14 2006/10/21 04:26:09 akf Exp $
+* $Id: qsys.pas,v 1.15 2006/10/22 10:31:31 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -117,7 +117,8 @@ type
   PquizfileList = ^TquizfileList;
   TquizfileList = record
                   filename : mystring;
-                  title    : string255;
+                  title    : ShortString;
+		  language : String[50]; { may be x-...... }
                   next     : PquizfileList
                   end;
 
@@ -136,7 +137,7 @@ const platform =
 {$IfDef FPC}     'FPC '+{$I %FPCTARGETOS%}+'/'+{$I %FPCTARGETCPU%};
 {$EndIf}
 
-{ what platforms have charset IBM850 as default? }
+{ what platforms have encoding IBM850 as default? }
 {$IfDef DPMI}       {$Define IBM850} {$EndIf}
 {$IfDef __OS_DOS__} {$Define IBM850} {$EndIf}
 {$IfDef MSDOS}      {$Define IBM850} {$EndIf}
@@ -204,8 +205,7 @@ function isQuizStart(const s: string): boolean;
 function isQuizEnd(const s: string): boolean;
 
 procedure getQuizInfo(const filename: string;
-                      var title, language, charset: shortstring);
-function getQuizTitle(const x: string): shortstring;
+                      var title, language, encoding: shortstring);
 
 { searches quizfile: }
 function getquizfile(var s: mystring): boolean; 
@@ -609,7 +609,7 @@ isQuizEnd := (s='END') or (s='ENDE')
 end;
 
 procedure getQuizInfo(const filename: string;
-                      var title, language, charset: shortstring);
+                      var title, language, encoding: shortstring);
 var 
   inp: text;
   s, e : ShortString;
@@ -618,7 +618,7 @@ var
 begin
 title    := '';
 language := '';
-charset  := '';
+encoding := '';
 
 Assign(inp, filename);
 {$IfDef FPC} SetTextBuf(inp, Buffer); {$EndIf}
@@ -644,34 +644,23 @@ while (not isQuizEnd(e)) and (not EOF(inp)) and (IOResult=0) do
   if (pos('ENCODING:',e) = 1) or
      (pos('KODIERUNG:',e) = 1) or
      (pos('CHARSET:',e) = 1) or
-     (pos('ZEICHENSATZ:',e) = 1) then charset := getvalue(s)
+     (pos('ZEICHENSATZ:',e) = 1) then encoding := getvalue(s)
   end; { while }
 
 close(inp);
 ignore := IOResult; { ignore errors }
 
-makeUpcase(charset);
+makeUpcase(encoding);
 
 { convert title to UTF-8: }
 if title<>'' then 
   begin
-  if checkASCII(charset)  then title := forceASCII(title);
-  if checkISO(charset)    then title := ISO1ToUTF8(title);
-  if checkCP1252(charset) then title := CP1252ToUTF8(title);
-  if checkOEM(charset)    then title := OEMtoUTF8(title)
+  if checkASCII(encoding)  then title := forceASCII(title);
+  if checkISO(encoding)    then title := ISO1ToUTF8(title);
+  if checkCP1252(encoding) then title := CP1252ToUTF8(title);
+  if checkOEM(encoding)    then title := OEMtoUTF8(title)
   end
 end; { getQuizInfo }
-
-
-function getQuizTitle(const x: string): ShortString;
-var title, language, charset: ShortString;
-begin
-getQuizInfo(x, title, language, charset);
-
-if title<>'' 
-  then getQuizTitle := title 
-  else getQuizTitle := x { no title -> filename }
-end;
 
 {$IfDef __GPC__}
   function ListEntries(const dir, ext: string; showentry: Tshowentry): boolean;
@@ -745,7 +734,9 @@ quizFileListEnd := NIL
 end;
 
 procedure addQuizFileListEntry(const dir, f : string);
-var previous : PquizfileList;
+var 
+  previous : PquizfileList;
+  ignore : ShortString;
 begin
 previous := quizfileListEnd;
 new(quizfileListEnd);
@@ -759,7 +750,8 @@ with quizfileListEnd^ do
   if dir='' 
     then filename := f
     else filename := dir+DirectorySeparator+f;
-  title := getQuizTitle(quizfileListEnd^.filename);
+  getQuizInfo(filename, title, language, ignore);
+  if title = '' then title := filename;
   next := NIL
   end
 end;
@@ -1500,7 +1492,7 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.14 2006/10/21 04:26:09 akf Exp $');
+  ident('$Id: qsys.pas,v 1.15 2006/10/22 10:31:31 akf Exp $');
   disableSignals; { initializes Signals }
   
   quizfileList := NIL;

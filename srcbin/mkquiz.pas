@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.14 2006/10/19 05:33:39 akf Exp $
+* $Id: mkquiz.pas,v 1.15 2006/10/22 10:31:31 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -342,9 +342,12 @@ end;
 { Indexer }
 
 procedure makeIndexEntry(const quizfile, htmlfile: string);
+var title, language, encoding: ShortString;
 begin
-WriteLn(idxfile, '<li><a href="', basename(htmlfile), '">',
-                 getQuizTitle( quizfile ), '</a></li>')
+getQuizInfo(quizfile, title, language, encoding);
+if title<>'' then
+  WriteLn(idxfile, '<li><a href="', basename(htmlfile), '">',
+                   title, '</a></li>')
 end;
 
 procedure startIndex;
@@ -516,7 +519,7 @@ end;
 
 
 begin
-ident('$Id: mkquiz.pas,v 1.14 2006/10/19 05:33:39 akf Exp $');
+ident('$Id: mkquiz.pas,v 1.15 2006/10/22 10:31:31 akf Exp $');
 
 outpath := '';
 modes := [];

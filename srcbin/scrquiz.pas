@@ -2,7 +2,7 @@
 * scrquiz   (was crtquiz)
 * screen/terminal oriented quiz program
 *
-* $Id: scrquiz.pas,v 1.12 2006/10/19 05:33:39 akf Exp $
+* $Id: scrquiz.pas,v 1.13 2006/10/22 10:31:31 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -966,7 +966,7 @@ var
   fileMaxY: TscreenPos;
   entry : PquizfileList;
 begin
-buildscreen('AKFQuiz');
+buildscreen(AKFQuizName);
 Ln;
 okay := true;
 offset := 0;
@@ -1008,7 +1008,11 @@ while (entry<>NIL) and (not okay) do
   begin
   while (entry<>NIL) and (Nr<=MaxAnswers-1) and (LineCnt<fileMaxY) do
     begin
-    Write(ValueToKey(Nr)+') '+copy(cnv(entry^.title),1,MaxLength-3));
+    with entry^ do
+      if language='' 
+        then Write(ValueToKey(Nr)+') ' + copy(cnv(title),1,MaxLength-3))
+        else Write(ValueToKey(Nr)+') ' + language + ': '
+	           + copy(cnv(title),1,MaxLength-5-length(language)));
     Ln;
     entry := entry^.next;
     inc(Nr)
@@ -1097,7 +1101,7 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: scrquiz.pas,v 1.12 2006/10/19 05:33:39 akf Exp $');
+ident('$Id: scrquiz.pas,v 1.13 2006/10/22 10:31:31 akf Exp $');
 
 myexitcode := 0;
 loop := true;

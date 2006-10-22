@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.48 2006/10/21 04:26:09 akf Exp $
+* $Id: cgiquiz.pas,v 1.49 2006/10/22 10:31:31 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1218,17 +1218,18 @@ WriteLn('</p>')
 end;
 
 procedure ListShowEntry(const dir, s: string);
-var
-  title, language, charset: ShortString;
+var title, language, encoding: ShortString;
   
   procedure includeLanguageCharset;
   begin
   if language<>'' then Write(' hreflang="', language, '"');
-  if charset<>''  then Write(' charset="', charset, '"')
+  if encoding<>'' then Write(' charset="', encoding, '"')
   end;
 
 begin { ListShowEntry }
-getQuizInfo(CGI_PATH_TRANSLATED + s, title, language, charset);
+getQuizInfo(CGI_PATH_TRANSLATED + s, title, language, encoding);
+
+if title = '' then exit;
 
 WriteLn('<li>');
 if language<>'' then
@@ -1244,7 +1245,7 @@ if not ExamMode then
   includeLanguageCharset;
   Write('>AKFQuiz</a>');
   Write('&nbsp;|&nbsp;');
-  Write('<a href="', s, '?format=text&amp;charset=', charset, '"');
+  Write('<a href="', s, '?format=text&amp;charset=', encoding, '"');
   includeLanguageCharset;
   WriteLn(' type="text/plain">', msg_view, '</a>)</small>')
   end;
@@ -1803,7 +1804,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.48 2006/10/21 04:26:09 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.49 2006/10/22 10:31:31 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
