@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.49 2006/10/22 10:31:31 akf Exp $
+* $Id: cgiquiz.pas,v 1.50 2006/10/22 11:36:21 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1606,6 +1606,7 @@ var
   t: text;
   charset: ShortString;
   line: mystring;
+  ignore : integer;
 begin
 charset := QueryLookup('charset');
 
@@ -1627,7 +1628,7 @@ while not EOF(t) do
   end;
 Close(t);
 
-if IOResult <> 0 then ;
+ignore := IOResult
 end;
 
 { Quizfile requested - decide in which way to handle it }
@@ -1804,7 +1805,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.49 2006/10/22 10:31:31 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.50 2006/10/22 11:36:21 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');

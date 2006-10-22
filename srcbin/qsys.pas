@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.15 2006/10/22 10:31:31 akf Exp $
+* $Id: qsys.pas,v 1.16 2006/10/22 11:36:21 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -117,8 +117,8 @@ type
   PquizfileList = ^TquizfileList;
   TquizfileList = record
                   filename : mystring;
-                  title    : ShortString;
-		  language : String[50]; { may be x-...... }
+                  title,
+		  language : ShortString;
                   next     : PquizfileList
                   end;
 
@@ -1492,7 +1492,7 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.15 2006/10/22 10:31:31 akf Exp $');
+  ident('$Id: qsys.pas,v 1.16 2006/10/22 11:36:21 akf Exp $');
   disableSignals; { initializes Signals }
   
   quizfileList := NIL;
