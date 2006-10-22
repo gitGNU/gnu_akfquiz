@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.6 2006/09/13 10:23:30 akf Exp $
+# $Id: Makefile.in,v 1.7 2006/10/22 11:32:47 akf Exp $
 #
 # this Makefile is just a glue to the others
 # if you want to configure things, use the script configure 
@@ -143,7 +143,6 @@ dist-bin: all
 	      akfquiz/srcbin/diaquiz \
 	      akfquiz/srcbin/linequiz \
 	      akfquiz/srcbin/grquiz \
-	      akfquiz/srcbin/gtkquizchooser \
 	      akfquiz/srcbin/quizstat \
 	      akfquiz/srcbin/akfquiz
 
