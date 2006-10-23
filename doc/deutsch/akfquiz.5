@@ -107,14 +107,16 @@ der Übersetzer, falls es sich um eine Übersetzung handelt
 
 .IP "Kodierung: (encoding:)"
 welche Zeichensatz-Kodierung verwendet wird. 
-(Der Zeichensatz ist nicht die Schriftart!)
 Die Vorgabe ist US-ASCII und Zeichen, die nicht in ASCII vorkommen 
 (zB. deutsche Umlaute) werden heraus gefiltert.
 
 Unterstützt: UTF-8, ISO-8859-1, ISO-8859-15, IBM850, 
 US-ASCII, Windows-1252
 
-(man sollte IBM850 statt IBM437 verwenden, um Probleme zu vermeiden)
+(man sollte IBM850 statt IBM437 verwenden um Probleme zu vermeiden)
+
+.IP "Zeichensatz: (charset:)"
+Obsolet; sollte nicht mehr verwendet werden
 
 .IP "Sprache: (language:)"
 Sprache - als zweistelliges Buchstabenkürzel anzugeben, wie sie in 
@@ -374,9 +376,9 @@ späteren Versionen noch ändern.
 
 .SS Beispiele:
 
-http://akfoerster.de/akfquiz/
+http://akfquiz.nongnu.org/
 .br
-<http://akfoerster.de/akfquiz/>
+<http://akfquiz.nongnu.org/>
 .br
 URI:next.html
 .br
