@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.50 2006/10/22 11:36:21 akf Exp $
+* $Id: cgiquiz.pas,v 1.51 2006/10/23 17:32:25 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1637,14 +1637,7 @@ begin
 if ExamMode 
   then runQuiz { never show a quizfile as such in exam-mode! }
   else
-    { send it as "application/x-akfquiz" if
-      either the URI contains "format=akfquiz" 
-      or the client especially supports akfquiz files (HTTP_ACCEPT), 
-      or the client has "AKFQuiz" in it's name }
-    { some webservers don't support HTTP_ACCEPT }
     if (pos('format=akfquiz', CGI_QUERY_STRING) = 1) 
-       or (pos(AKFQuizMime, CGIInfo('HTTP_ACCEPT'))<>0) 
-       or (pos('AKFQuiz', CGIInfo('HTTP_USER_AGENT'))<>0)
       then showQuizFile(AKFQuizMime)
       else 
         if pos('format=text', CGI_QUERY_STRING) = 1
@@ -1805,7 +1798,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.50 2006/10/22 11:36:21 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.51 2006/10/23 17:32:25 akf Exp $');
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
