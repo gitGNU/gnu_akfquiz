@@ -4,7 +4,7 @@
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 *
-* $Id: cgiquiz.pas,v 1.51 2006/10/23 17:32:25 akf Exp $
+* $Id: cgiquiz.pas,v 1.52 2006/10/24 16:54:36 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -194,12 +194,7 @@ end;
 
 function isLastElement: boolean;
 begin
-if CGI_QUERY_STRING=''
-  then isLastElement := true
-  else 
-   if QUERY_STRING_POS < Length(CGI_QUERY_STRING)
-     then isLastElement := false
-     else isLastElement := true
+isLastElement := QUERY_STRING_POS >= Length(CGI_QUERY_STRING)
 end;
 
 procedure GetCGIElement(var s: ShortString);
@@ -1637,10 +1632,10 @@ begin
 if ExamMode 
   then runQuiz { never show a quizfile as such in exam-mode! }
   else
-    if (pos('format=akfquiz', CGI_QUERY_STRING) = 1) 
+    if QueryLookup('format') = 'akfquiz'
       then showQuizFile(AKFQuizMime)
       else 
-        if pos('format=text', CGI_QUERY_STRING) = 1
+        if QueryLookup('format') = 'text'
 	  then showQuizFile('text/plain')
 	  else runQuiz
 end;
@@ -1798,7 +1793,10 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.51 2006/10/23 17:32:25 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.52 2006/10/24 16:54:36 akf Exp $');
+
+CGI_QUERY_STRING := '';
+QUERY_STRING_POS := 0;
 
 useBrowserLanguage;
 ScriptName := CGIInfo('SCRIPT_NAME');
