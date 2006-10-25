@@ -20,10 +20,31 @@ Unpack them in the same directory. Go into the newly created directory
 To install everything, go into the directory "akfquiz/" and run 
 "./configure" and have a look at the settings it shows. If you don't 
 like the settings, use the parameters for configure, as described below.
-Then become root, go into the directory "akfquiz/" and type "make install" 
-and eventually "make install-cgi". You should be shure, that the CGI 
-directory is configured correctly. Use the parameter "--cgidir=" with 
-the command "./configure".
+Then become root, go into the directory "akfquiz/" and type 
+"make install". 
+
+INSTALLING THE CGI PROGRAM
+
+You should make sure, that the CGI directory is configured correctly. 
+Use the parameter "--cgidir=" with the command "./configure".
+Then type "make install-cgi". 
+
+Then have a look at the privileges of the exam directory (normally that 
+is /var/lib/akfquiz/). The directory should be readable and writable 
+by the web server. A web server normally runs with special user and 
+group privileges. For example the user and the group my be called 
+"www-data" or "www" or even "nobody", that depends on the server-setup.
+That means for example the directory should be readable and writable 
+for the  group "www-data". The owner of the directory should be the 
+teacher. If there are more than one teacher, you could put them into 
+the group "www-data".
+IMPORTANT: others should have no access to that directory!
+
+Example:
+drwxrwx---  2 teacher www-data 4096 2006-10-18 20:18 /var/lib/akfquiz/
+
+If you don't want to use the exam-mode, it is okay to simply delete 
+that directory.
 
 
 COMPILING:
@@ -36,7 +57,7 @@ Compiling with Free Pascal (FPC) 2.0.0 or newer:
 You need the main package and SDL-1.2 has to be installed on your
 system.
 
-Unpack the main packackage. Go into the newly created directory 
+Unpack the main package. Go into the newly created directory 
 akfquiz/ and type
 
   ./configure --with-fpc
@@ -51,7 +72,6 @@ Compiling with GNU Pascal (GPC) 20030303 or newer.
 To compile grquiz with GPC, either the libSDL-1.2 or the GRX library 
 with GPC support enabled must be installed. 
 When grquiz cannot be compiled, that error is ignored in the Makefile. 
-The program gtkquizchooser cannot be compiled with GPC.
 
 type
 

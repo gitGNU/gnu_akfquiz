@@ -21,10 +21,33 @@ Um alles zu installieren, gehen Sie in das Verzeichnis "akfquiz/",
 starten Sie "./configure" und schauen Sie sich die Einstellungen an. 
 Falls Ihnen die Einstellungen nicht zusagen, benutzen Sie die Parameter 
 zu configure, wie weiter unten beschrieben. Dann loggen Sie sich als 
-root ein, gehen ins Verzeichnis "akfquiz/" und geben "make install" und 
-eventuell "make install-cgi" ein. Sie sollten sicher stellen, dass das 
-CGI-Verzeichnis korekt configuriert ist. Benutzen Sie den Parameter 
-"--cgidir=" bei "./configure".
+root ein, gehen ins Verzeichnis "akfquiz/" und geben "make install"
+ein. 
+
+INSTALLATION DES CGI-PROGRAMMS
+
+Sie sollten sicher stellen, dass das CGI-Verzeichnis korrekt konfiguriert 
+ist. Benutzen Sie den Parameter "--cgidir=" bei "./configure".
+Danach geben Sie "make install-cgi" ein.
+
+Schauen Sie sich die Rechte des "exam" Verzeichnisses an (normalerweise 
+ist das /var/lib/akfquiz/). Das Verzeichnis sollte vom Web-Server les- 
+und beschreibbar sein. Ein Web-Server läuft normalerweise mit
+speziellen Benutzer- und Gruppen-Rechten. Zum Beispiel könnte der 
+Benutzer und die Gruppe folgende Namen haben: "www-data" oder "www" oder 
+sogar "nobody", das hängt von den Server-Einstellungen ab.
+Das bedeutet also zum Beispiel, dass das Verzeichnis für die Gruppe 
+"www-data" lesbar und beschreibbar sein muss. Der Besitzer des 
+Verzeichnisses sollte der Lehrer sein. Wenn es mehr als einen Lehrer 
+gibt, könnte man sie der Gruppe "www-data" zuordnen.
+WICHTIG: Andere sollten jedenfalls keinen Zugang zu dem Verzeichnis 
+bekommen!
+
+Beispiel:
+drwxrwx---  2 lehrer www-data 4096 2006-10-18 20:18 /var/lib/akfquiz/
+
+Fass Sie den Prüfungs-Modus nicht verwenden wollen, ist es in Ordnung, 
+das Verzeichnis einfach ganz zu löschen.
 
 
 KOMPILIEREN:
@@ -32,7 +55,7 @@ KOMPILIEREN:
 Wenn man kein Binär-Paket benutzen kann oder will, muss man die
 Programme selber kompilieren. 
 
- 
+
 Free Pascal (FPC) 2.0.0 oder besser
 
 Sie benötigen das Haupt-Paket ("main").
@@ -41,7 +64,7 @@ Außerdem muss SDL-1.2 auf dem System installiert sein.
 Entpacken Sie das Haupt-Paket. Wechseln Sie in das neu erstellte 
 Verzeichnis akfquiz/ und geben Sie folgendes ein:
 
-  ./configure
+  ./configure --with-fpc
   make
   make clean
 
@@ -54,7 +77,6 @@ Um grquiz mit GPC zu kompilieren, muss entweder die libSDL-1.2 oder die
 GRX Bibliothek mit aktivierter GPC Unterstützung installiert sein. 
 Wenn grquiz nicht kompiliert werden kann, wird dieser Fehler in der 
 Makefile ignoriert. 
-Das Programm gtkquizchooser kann mit GPC nicht kompiliert werden.
 
 Wechseln Sie in das neu erstellte Verzeichnis akfquiz/ und geben Sie 
 folgendes ein, wenn Sie die libSDL installiert haben:
