@@ -1,7 +1,7 @@
 .\" Process this file with
 .\" groff -man -Tlatin1 akfquiz.cgi.8
 .\"
-.TH "cgiquiz" 8 "4.3.2" AKFQuiz
+.TH "cgiquiz" 8 "4.4.0" AKFQuiz
 
 .SS NAME
 cgiquiz \- CGI program for using AKFQuiz-files
@@ -29,22 +29,22 @@ cgiquiz \- CGI program for using AKFQuiz-files
 
 .SH DESCRIPTION
 
-cgiquiz lets you use a quiz from an easy to write text-file.
+cgiquiz lets you use a quiz from an easy to write text-file. There is 
+also an exam-mode, which can be used for real exams.
+
+The documentation for cgiquiz is not completed yet. If you have 
+questions, have a look at the internet site first (see below). 
+If you don't find the answer there, feel free to contact the 
+author directly.
 
 The format of the input file is described in 
 .IR akfquiz (5).
 
 .SH INSTALLATION
 
-You have to have access to the 
-.I cgi-bin
-directory of a web-server. The server must be able to run your compiled 
-program.
-
-Copy or upload the compiled program file
-.I cgiquiz
-into your cgi-bin directory of your web-server.
-[...]
+See the file 
+.I INSTALL
+for instructions
 
 .SH USAGE
 
@@ -66,6 +66,13 @@ Users may have their quiz-files in their "public-html" directory.
 The URI then looks something like this:
 .br
 .BI "http://" "example.org/" "cgi-bin/cgiquiz" "/~user/quizfile.akfquiz"
+
+If you append the term /exam/, the program switches into a special 
+exam-mode. The files for the exam-mode are located in a special 
+directory (which is not exported by the webserver). To find out, which 
+the exam-directory is, use the parameter
+.IR --help .
+
 
 [...]
 
