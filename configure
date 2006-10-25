@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.16 2006/09/25 17:33:34 akf Exp $
+# $Id: configure,v 1.17 2006/10/25 09:48:54 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -194,7 +194,7 @@ SVERSION=$MAINVERSION$SUBVERSION$REVISION
 cat << AMEN
 prefix:   $PREFIX
 cgidir:   $CGIDIR
-EXAMDIR:  $EXAMDIR
+examdir:  $EXAMDIR
 Name:     $NAME
 Variant:  $VARIANT
 Version:  $VERSION
@@ -220,6 +220,7 @@ sed < srcbin/common.in > srcbin/common.mak \
     -e "s%^\(srcdir *= *\).*%\1$SRCDIR%" \
     -e "s%^\(prefix *= *\).*%\1$PREFIX%" \
     -e "s%^\(cgidir *= *\).*%\1$CGIDIR%" \
+    -e "s%^\(examdir *= *\).*%\1$EXAMDIR%" \
     -e "s/^\(SVERSION *= *\).*/\1$SVERSION/"
 
 cat > srcbin/config.inc <<AMEN
