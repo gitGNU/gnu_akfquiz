@@ -1,7 +1,7 @@
 AKFQuiz
 
 Homepage:
-http://akfquiz.nongnu.org/
+http://akfquiz.nongnu.org/deutsch.html
 
 INSTALLATION:
 
@@ -22,7 +22,9 @@ starten Sie "./configure" und schauen Sie sich die Einstellungen an.
 Falls Ihnen die Einstellungen nicht zusagen, benutzen Sie die Parameter 
 zu configure, wie weiter unten beschrieben. Dann loggen Sie sich als 
 root ein, gehen ins Verzeichnis "akfquiz/" und geben "make install" und 
-eventuell "make install-cgi" ein.
+eventuell "make install-cgi" ein. Sie sollten sicher stellen, dass das 
+CGI-Verzeichnis korekt configuriert ist. Benutzen Sie den Parameter 
+"--cgidir=" bei "./configure".
 
 
 KOMPILIEREN:
@@ -72,7 +74,10 @@ Das Skript "configure" akzeptiert die folgenden Parameter:
 
 --help            zeigt eine kurze Hilfe an
 --prefix=         wohin installiert werden soll
---cgipath=        wohin das CGI Programm installiert werden soll
+--cgidir=         wohin das CGI Programm installiert werden soll
+--examdir=        Verzeichnis für den Prüfungs-Modus (cgiquiz)
+--disable-exam    Kompiliere ohne Prüfungs-Modus (cgiquiz)
+--enable-exam=no  Kompiliere ohne Prüfungs-Modus (cgiquiz)
 --variant=        Name der Variante
 --with-*          Compiler ua. [*]
 --arch=           CPU-Architektur (nur ein Name für die Paket-Benennung)
@@ -91,7 +96,7 @@ Das Skript "configure" akzeptiert die folgenden Parameter:
 
 Windows-Benutzer:
 
-Um configure ausführen zu können, benötigen Sie eine Bourne Shell. 
+Um ./configure ausführen zu können, benötigen Sie eine Bourne Shell. 
 Es wurde mit der Umgebung MSys und MinGW getestet.
 Benutzen Sie "make windows". Benutzen Sie aber nicht "make install" oder
 "make install-cgi".
@@ -103,9 +108,9 @@ grquiz         - Interaktives Quiz im Grafik-Modus [1]
 scrquiz	       - Interaktives Quiz auf der Textkonsole/Terminal
 linequiz       - Interaktives Quiz auf der Kommandozeile [2]
 diaquiz        - Interaktives Quiz für X (benötigt Xdialog)
-mkquiz	       - erzeugt HTML Code für das Quiz
-gtkquizchooser - Dateiauswahl-Box für Quiz-Dateien
-getquiz	       - holt alle Dateien, die für die HTML Dateien gebraucht 
+cgiquiz        - Webserver basiertes Quiz-Programm
+mkquiz	       - erzeugt HTML Code für JavaScript basiertes Quiz
+getquiz	       - holt alle Dateien, die für mkquiz-Dateien benötigt
                  werden, und speichert sie im aktuellen Verzeichnis
 
 [1] grquiz kann mit verschiedenen Bibliotheken laufen.
@@ -114,6 +119,7 @@ getquiz	       - holt alle Dateien, die für die HTML Dateien gebraucht
 [2] linequiz ist als Backend-Programm gedacht
 
 Manpages:
-akfquiz(5), mkquiz(1), grquiz(1), scrquiz(1), diaquiz(1), linequiz(1),
-akfquiz.cgi(8)
+akfquiz(5), grquiz(1), scrquiz(1), diaquiz(1), linequiz(1), cgiquiz(8),
+mkquiz(1)
+
 

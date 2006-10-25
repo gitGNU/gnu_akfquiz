@@ -10,7 +10,7 @@ license:
 licenselink:
 default: I don't know
 language: en
-charset: ISO-8859-1
+encoding: ISO-8859-1
 neutral: no
 baseURI:
 layout: q-blue.css

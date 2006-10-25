@@ -21,7 +21,9 @@ To install everything, go into the directory "akfquiz/" and run
 "./configure" and have a look at the settings it shows. If you don't 
 like the settings, use the parameters for configure, as described below.
 Then become root, go into the directory "akfquiz/" and type "make install" 
-and eventually "make install-cgi".
+and eventually "make install-cgi". You should be shure, that the CGI 
+directory is configured correctly. Use the parameter "--cgidir=" with 
+the command "./configure".
 
 
 COMPILING:
@@ -31,13 +33,13 @@ the programs yourself.
 
 Compiling with Free Pascal (FPC) 2.0.0 or newer:
 
-You need the main package and SDL-1.2 has to be  installed on your 
+You need the main package and SDL-1.2 has to be installed on your
 system.
 
 Unpack the main packackage. Go into the newly created directory 
 akfquiz/ and type
 
-  ./configure
+  ./configure --with-fpc
   make 
   make clean
 
@@ -68,7 +70,10 @@ The configure script accepts the following parameters:
 
 --help            shows a short help
 --prefix=         where to install
---cgipath=        where to install the CGI binary
+--cgidir=         where to install the CGI binary
+--examdir=        directory for the exam-mode (cgiquiz)
+--disable-exam    compile without exam-mode (cgiquiz)
+--enable-exam=no  compile without exam-mode (cgiquiz)
 --variant=        Variant name
 --with-*          compiler to use [*]
 --arch=           CPU architecture (just a name for making packages)
@@ -87,7 +92,7 @@ The configure script accepts the following parameters:
 
 Windows Users:
 
-The configure script needs a Bourne Shell. It is tested with MSys and 
+The ./configure script needs a Bourne Shell. It is tested with MSys and 
 MinGW as environment. Use "make windows". Do not use "make install" or 
 "make install-cgi".
 
@@ -98,9 +103,9 @@ grquiz         - interactive quiz in graphic mode [1]
 scrquiz	       - interactive quiz on textconsole/terminal
 linequiz       - interactive quiz in command-line mode [2]
 diaquiz        - interactive quiz for X (needs Xdialog)
-mkquiz	       - creates HTML code for the quiz
-gtkquizchooser - file-chooser for quiz-files
-getquiz	       - fetches all files needed for the HTML files and 
+cgiquiz        - webserver based quiz program
+mkquiz	       - creates HTML code for the JavaSript based quiz
+getquiz	       - fetches all files needed for mkquiz files and 
                  copies them to the current directory
 
 [1] grquiz can be compiled for different libraries.
@@ -108,5 +113,5 @@ getquiz	       - fetches all files needed for the HTML files and
 [2] linequiz is meant as backend program
 
 Manpages:
-akfquiz(5), mkquiz(1), grquiz(1), scrquiz(1), diaquiz(1), linequiz(1),
-akfquiz.cgi(8)
+akfquiz(5), grquiz(1), scrquiz(1), diaquiz(1), linequiz(1), cgiquiz(8),
+mkquiz(1)
