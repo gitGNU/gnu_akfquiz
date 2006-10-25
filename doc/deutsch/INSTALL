@@ -3,13 +3,15 @@ AKFQuiz
 Homepage:
 http://akfquiz.nongnu.org/deutsch.html
 
+
 INSTALLATION:
 
 Mit Binär-Paketen:
 
 Man benötigt das Haupt-Paket ("main") und das Paket mit den 
-ausführbaren Dateien für das eigene System. Zum Beispiel:
+ausführbaren Dateien für das eigene System. 
 
+Zum Beispiel:
 akfquiz-4.2.1.main.tar.gz
 akfquiz-4.2.1.bin.Linux.x86.tar.gz
 
@@ -23,6 +25,7 @@ Falls Ihnen die Einstellungen nicht zusagen, benutzen Sie die Parameter
 zu configure, wie weiter unten beschrieben. Dann loggen Sie sich als 
 root ein, gehen ins Verzeichnis "akfquiz/" und geben "make install"
 ein. 
+
 
 INSTALLATION DES CGI-PROGRAMMS
 
@@ -46,7 +49,14 @@ bekommen!
 Beispiel:
 drwxrwx---  2 lehrer www-data 4096 2006-10-18 20:18 /var/lib/akfquiz/
 
-Fass Sie den Prüfungs-Modus nicht verwenden wollen, ist es in Ordnung, 
+Danach sollten Sie den Prüfungs-Modus einmal über einen Web-Browser 
+aufrufen, um die Installation abzuschließen. Geben Sie die Adresse zu
+"cgiquiz" an und hängen sie "/exam/" an. Sie werden daraufhin nach einem
+neuen Passwort gefragt. Wenn das erfolgreich abgespeichert werden
+konnte, ist die Installation damit abgeschlossen. Danach können Sie die
+Prüfungs-Aufgaben ("Quiz"-Dateien) in dieses Verzeichnis kopieren.
+
+Falls Sie den Prüfungs-Modus nicht verwenden wollen, ist es in Ordnung, 
 das Verzeichnis einfach ganz zu löschen.
 
 

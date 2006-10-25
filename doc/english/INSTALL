@@ -9,8 +9,9 @@ INSTALLATION
 With binary packages:
 
 You need the main package and the package with the binaries for your 
-system. For example:
+system. 
 
+For example:
 akfquiz-4.2.1.main.tar.gz
 akfquiz-4.2.1.bin.Linux.x86.tar.gz
 
@@ -23,6 +24,7 @@ like the settings, use the parameters for configure, as described below.
 Then become root, go into the directory "akfquiz/" and type 
 "make install". 
 
+
 INSTALLING THE CGI PROGRAM
 
 You should make sure, that the CGI directory is configured correctly. 
@@ -32,16 +34,23 @@ Then type "make install-cgi".
 Then have a look at the privileges of the exam directory (normally that 
 is /var/lib/akfquiz/). The directory should be readable and writable 
 by the web server. A web server normally runs with special user and 
-group privileges. For example the user and the group my be called 
+group privileges. For example the user and the group may be called 
 "www-data" or "www" or even "nobody", that depends on the server-setup.
 That means for example the directory should be readable and writable 
-for the  group "www-data". The owner of the directory should be the 
+for the group "www-data". The owner of the directory should be the 
 teacher. If there are more than one teacher, you could put them into 
 the group "www-data".
 IMPORTANT: others should have no access to that directory!
 
 Example:
 drwxrwx---  2 teacher www-data 4096 2006-10-18 20:18 /var/lib/akfquiz/
+
+After that you should call the exam-mode from a web-browser to complete 
+the installation. Enter the address to "cgiquiz" and append "/exam/" to 
+that address. Then you will be asked to enter a new password. If the 
+password could successfully be saved to disk, the installation is 
+completed. Then you can copy your exams (quiz-files) into that 
+directory.
 
 If you don't want to use the exam-mode, it is okay to simply delete 
 that directory.
