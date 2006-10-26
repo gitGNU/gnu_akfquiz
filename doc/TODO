@@ -1,14 +1,12 @@
-Hohe Priotität:
-- Debian Pakete
-- Dokumentation im Texinfo (Docbook?) Format
-- cgiquiz: Möglichkeit für die Ausgabe reiner Quiz-Dateien
-    ?type=application/x-akfquiz, ?type=text/plain
-- cgiquiz: inetd-Modus, Server-Modus, (Fast-CGI?)
-- grquiz: verschiedene Fenstergrößen
+High priotity:
+- Debian packages
+- documentation in Texinfo (Docbook?) format
+- cgiquiz: inetd-mode, server-Mode, (Fast-CGI?)
+- grquiz: different window sizes / resizing
 
-Niedere Priorität:
-- Timeout(?)
-- Umstellung auf XHTML (?)
+Low priority:
+- timeout(?)
+- change to XHTML + XForms (boycoted by M$)
 - Fragen mit Freiform-Eingabe
 - Typtest mit Typen array['A'..'Z'] of LongInt
 - Option um JavaScript und CSS in die Datei einzubetten (?)
