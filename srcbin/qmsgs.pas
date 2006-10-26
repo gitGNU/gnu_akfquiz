@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.18 2006/10/19 17:54:44 akf Exp $
+* $Id: qmsgs.pas,v 1.19 2006/10/26 16:42:52 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -122,8 +122,8 @@ var cnv: Tconverter = noconversion;
 function msg_homepage: mystring;
 begin
 case lang of
-  deutsch : msg_homepage := 'http://akfquiz.nongnu.org/index.de.html'
-  otherwise msg_homepage := 'http://akfquiz.nongnu.org/'
+  deutsch : msg_homepage := 'http://akfquiz.nongnu.org/deutsch.html'
+  otherwise msg_homepage := 'http://akfquiz.nongnu.org/' { english }
   end
 end;
 
@@ -693,5 +693,5 @@ end;
 
 
 begin
-ident('$Id: qmsgs.pas,v 1.18 2006/10/19 17:54:44 akf Exp $')
+ident('$Id: qmsgs.pas,v 1.19 2006/10/26 16:42:52 akf Exp $')
 end.
