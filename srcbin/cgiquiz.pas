@@ -3,8 +3,9 @@
 * CGI/1.1 runtime for a quiz from a simplified input script
 *
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
+* (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.52 2006/10/24 16:54:36 akf Exp $
+* $Id: cgiquiz.pas,v 1.53 2006/10/26 08:09:11 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -317,22 +318,22 @@ if Browser then { send HTTP Header }
   WriteLn('<html>');
   WriteLn('<head>');
   WriteLn('<title>' + AKFQuizName + ': version</title>');
-  WriteLn('<meta name="robots" content="noindex">');
+  WriteLn('<meta name="robots" content="noindex"'+cet);
   WriteLn('<meta name="generator" content="'
-           + PrgVersion + '">'); { change-xhtml }
+           + PrgVersion + '"'+cet);
   WriteLn('<link rel="bookmark" title="Software Homepage" href="', 
-              msg_homepage, '">');
+              msg_homepage, '"'+cet);
   WriteLn('<link rel="icon" type="image/png" href="', 
-              ScriptName, grIcon + '">');
+              ScriptName, grIcon + '"'+cet);
   WriteLn('<link rel="stylesheet" type="text/css" href="', 
-           ScriptName, '/q-brown.css">');
+           ScriptName, '/q-brown.css"'+cet);
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
   WriteLn('<h1>', AKFQuizName, '</h1>');
   WriteLn;
   WriteLn('<img alt="[Icon]" width="32" height="32" src="',
-    ScriptName, grIcon + '">');
+    ScriptName, grIcon + '"'+cet);
   end;
 
 { the text }
@@ -340,15 +341,15 @@ if Browser
   then WriteLn('<a href="', ScriptName, '?--help">', PrgVersion, '</a>')
   else WriteLn(PrgVersion);
 WriteLn;
-If Browser then WriteLn('<br><br>');
+If Browser then WriteLn(br+br);
 Write('Copyright');
 If Browser then Write(' &copy; ') else Write(' (C) '); 
 WriteLn(AKFQuizCopyright);
-If Browser then WriteLn('<br>');
+If Browser then WriteLn(br);
 Write('Copyright');
 If Browser then Write(' &copy; ') else Write(' (C) '); 
 WriteLn('1999-2001 Free Software Foundation, Inc.');
-If Browser then WriteLn('<br><br>');
+If Browser then WriteLn(br+br);
 WriteLn;
 WriteLn(msg_License, msg_GPL);
 WriteLn;
@@ -381,7 +382,7 @@ if Browser
                   + CGIInfo('SCRIPT_NAME')
 	          + '</strong>'
        end
-  else CGIBase := 'http://example.org/cgi-bin/cgiquiz';
+  else CGIBase := 'http://example.org/cgi-bin/cgiquiz'; { just an example }
 
 if Browser then { send HTTP Header }
   begin
@@ -395,15 +396,15 @@ if Browser then { send HTTP Header }
   WriteLn('<html>');
   WriteLn('<head>');
   WriteLn('<title>' + AKFQuizName + ': help</title>');
-  WriteLn('<meta name="robots" content="noindex">');
+  WriteLn('<meta name="robots" content="noindex"'+cet);
   WriteLn('<meta name="generator" content="'
-            + PrgVersion + '">'); { change-xhtml }
+            + PrgVersion + '"'+cet);
   WriteLn('<link rel="bookmark" title="Software Homepage" href="', 
-             msg_homepage, '">');
+             msg_homepage, '"'+cet);
   WriteLn('<link rel="icon" type="image/png" href="', 
-              ScriptName, grIcon + '">');
+              ScriptName, grIcon + '"'+cet);
   WriteLn('<link rel="stylesheet" type="text/css" href="', 
-           ScriptName, '/q-brown.css">');
+           ScriptName, '/q-brown.css"'+cet);
   WriteLn('</head>');
   WriteLn;
   WriteLn('<body>');
@@ -416,26 +417,28 @@ if Browser then { send HTTP Header }
 if Browser 
   then begin
        WriteLn('<img alt="[Icon]" width="32" height="32" src="',
-             ScriptName, grIcon + '">');
+             ScriptName, grIcon + '"'+cet);
        WriteLn('<a href="', ScriptName, '?--version">', 
                PrgVersion, '</a>');
-       WriteLn('<br><br>');
+       WriteLn(br+br);
        WriteLn('Quiz-program for the CGI interface of a webserver');
-       WriteLn('<br><br>');
+       WriteLn(br+br);
        WriteLn('<dl><dt>Usage:</dt>');
        WriteLn('<dd>');
-       WriteLn('cgiquiz [ --help | -h | /? ]<br>');
+       WriteLn('cgiquiz [ --help | -h | /? ]'+br);
        WriteLn('cgiquiz --version');
-       WriteLn('<br><br></dd>');
+       WriteLn(br+br+'</dd>');
        WriteLn('<dt>Examples:</dt>');
        WriteLn('<dd>');  
-       WriteLn(CGIBase, '?--help<br>');
-       WriteLn(CGIBase, '?--version<br>');
-       WriteLn(CGIBase, '/quizdir/<br>');
-       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz');
-       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?format=akfquiz');
-       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?format=text&charset=UTF-8');
-       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2');
+       WriteLn(CGIBase, '?--help'+br);
+       WriteLn(CGIBase, '?--version'+br);
+       WriteLn(CGIBase, '/quizdir/'+br);
+       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz'+br);
+       WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?format=akfquiz'+br);
+       WriteLn(CGIBase, 
+                '/quizdir/myquiz.akfquiz?format=text&charset=UTF-8'+br);
+       WriteLn(CGIBase, 
+                '/quizdir/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2'+br);
        WriteLn('</dd></dl>');
        WriteLn;
        if ExamDir<>'' 
@@ -519,12 +522,12 @@ WriteLn('<html>');
 WriteLn('<head>');
 WriteLn('<title>', AKFQuizName, ': ', msg_error, ' ', message, '</title>');
 WriteLn('<meta name="generator" content="'
-         + PrgVersion + '">'); { change-xhtml }
+         + PrgVersion + '"'+cet);
 WriteLn('<link rel="bookmark" title="Software Homepage" href="', 
-              msg_homepage, '">');
+              msg_homepage, '"'+cet);
 WriteLn('<link rel="icon" type="image/png" href="', 
-            ScriptName, grIcon + '">');
-WriteLn('<meta name="robots" content="noindex">');
+            ScriptName, grIcon + '"'+cet);
+WriteLn('<meta name="robots" content="noindex"'+cet);
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body style="background-color:#a00; color:white">');
@@ -537,7 +540,7 @@ procedure errorHTMLfoot;
 begin
 WriteLn('</p>');
 WriteLn;
-WriteLn('<hr>', PrgVersion);
+WriteLn('<hr'+cet, PrgVersion);
 WriteLn('</body>');
 WriteLn('</html>')
 end;
@@ -608,10 +611,10 @@ WriteLn('<html>');
 WriteLn('<head>');
 WriteLn('<title>', AKFQuizName, ': Moved Permanently</title>');
 WriteLn('<meta name="generator" content="'
-         + PrgVersion + '">'); { change-xhtml }
-WriteLn('<meta name="robots" content="noindex">');
+         + PrgVersion + '"'+cet);
+WriteLn('<meta name="robots" content="noindex"'+cet);
 WriteLn('<link rel="bookmark" title="Sofware Homepage" href="', 
-                msg_homepage, '">');
+                msg_homepage, '"'+cet);
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body>');
@@ -626,7 +629,7 @@ end;
 procedure RejectAnswer(s: string);
 begin
 HTTPStatus(204, s);
-{WriteLn('Content-Type: text/plain');} { needed? }
+WriteLn('Content-Type: text/plain'); { needed? }
 closeHttpHead;
 Halt
 end;
@@ -684,8 +687,9 @@ procedure Tcgiquiz.headBaseURI;
 begin
 WriteLn(outp);
 if pos(protocol, DocumentURI)=1
-  then WriteLn(outp, '<base href="', DocumentURI, '">')
-  else WriteLn(outp, '<base href="', protocol, ServerName, DocumentURI, '">');
+  then WriteLn(outp, '<base href="', DocumentURI, '"'+cet)
+  else WriteLn(outp, '<base href="', protocol, ServerName, DocumentURI, 
+                     '"'+cet);
 WriteLn(outp);
 end;
 
@@ -744,8 +748,8 @@ if ExamMode then
   begin
   WriteLn(outp, '<div class="name"><label for="name">', msg_name, 
     '</label>'
-    + '<input type="text" name="name" id="name" size="50" maxlength="100">'
-    + '</div>')
+    + '<input type="text" name="name" id="name" size="50" maxlength="100"', 
+    cet, '</div>')
   end
 end;
 
@@ -1000,7 +1004,7 @@ if MaxPoints > 0 then
   WriteLn(outp, '<a name="result" id="result"></a>');
 
   WriteLn(outp, msg_sol1, Points, msg_sol2,
-                MaxPoints, msg_sol3, BR);
+                MaxPoints, msg_sol3, br);
   if Points > 0
     then WriteLn(outp, msg_sol4, getPercentage, '%.')
     else if not neutral then WriteLn(outp, msg_sol5);
@@ -1016,7 +1020,7 @@ s := calculateAssessmentURI;
 if s<>'' then
   begin
   WriteLn(outp, '<div align="center">');
-  Write(outp, BR, '<a href="');
+  Write(outp, br, '<a href="');
   if pos('/',s)=0 then s := DocumentURI + s;
   WriteLn(outp, s, '">', msg_assessment, '</a>');
   WriteLn(outp, '</div>')
@@ -1165,17 +1169,18 @@ WriteLn('<html>');
 WriteLn('<head>');
 WriteLn('<title>', title, '</title>');
 WriteLn('<meta name="generator" content="'
-         + PrgVersion + '">'); { change-xhtml }
+         + PrgVersion + '"'+cet);
 { the next instruction is also in the HTTP header }
-WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">');
-WriteLn('<meta name="robots" content="noindex">');
+WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"'
+        +cet);
+WriteLn('<meta name="robots" content="noindex"'+cet);
 WriteLn;
 WriteLn('<link rel="bookmark" title="Software Homepage" href="', 
-             msg_homepage, '">');
+             msg_homepage, '"'+cet);
 WriteLn('<link rel="icon" type="image/png" href="', 
-              ScriptName, grIcon + '">');
+              ScriptName, grIcon + '"'+cet);
 WriteLn('<link rel="stylesheet" type="text/css" href="', 
-           ScriptName, '/q-brown.css">');
+           ScriptName, '/q-brown.css"'+cet);
 WriteLn('</head>');
 WriteLn;
 WriteLn('<body>');
@@ -1187,7 +1192,7 @@ end;
 procedure CommonHtmlEnd;
 begin
 WriteLn;
-WriteLn('<hr><div align="right" class="made"><a href="', msg_homepage, 
+WriteLn('<hr'+cet+'<div align="right" class="made"><a href="', msg_homepage, 
         '" target="_top">' + AKFQuizName + '</a></div>');
 WriteLn('</body>');
 WriteLn('</html>')
@@ -1263,12 +1268,13 @@ if not found then NoEntriesFound;
 if ExamMode then
   if loggedIn 
     then begin
-         WriteLn('<hr><ul>');
+         WriteLn('<hr'+cet+'<ul>');
 	 WriteLn('<li><a href="results">', msg_showResults, '</a></li>');
 	 WriteLn('<li><a href="logout">', msg_logout, '</a></li>');
 	 WriteLn('</ul>')
 	 end
-    else WriteLn('<hr><ul><li><a href="login">', msg_login, '</a></li></ul>');
+    else WriteLn('<hr'+cet+'<ul><li><a href="login">', msg_login, 
+                 '</a></li></ul>');
 CommonHtmlEnd;
 Halt
 end;
@@ -1341,10 +1347,10 @@ WriteLn('<form method="POST" action="saveconfig">');
 WriteLn('<div>');
 Write(msg_newpasswd, ': ');
 WriteLn('<input type="password" name="passwd" value="', passwd,
-        '" size="12" maxlength="12">');
-WriteLn('<br>');
+        '" size="12" maxlength="12"'+cet);
+WriteLn(br);
 
-WriteLn('<input type="submit"><input type="reset">');
+WriteLn('<input type="submit"><input type="reset"'+cet);
 WriteLn('</div>');
 WriteLn('</form>');
 CommonHtmlEnd;
@@ -1378,8 +1384,8 @@ WriteLn('<form method="POST" action="login2">');
 WriteLn('<div>');
 WriteLn(msg_passwd, ': ');
 WriteLn('<input type="password" name="passwd" '
-        + 'size="12" maxlength="12">');
-WriteLn('<input type="submit">');
+        + 'size="12" maxlength="12"'+cet);
+WriteLn('<input type="submit"'+cet);
 WriteLn('</div>');
 WriteLn('</form>');
 CommonHtmlEnd;
@@ -1439,7 +1445,7 @@ found := ListEntries(dirname(CGI_PATH_TRANSLATED),
 WriteLn('</ul>');
 if not found then NoEntriesFound;
 
-WriteLn('<hr><ul>');
+WriteLn('<hr'+cet+'<ul>');
 WriteLn('<li><a href="reconfigure">', msg_reconfigure, '</a></li>');
 WriteLn('<li><a href="logout">', msg_logout, '</a></li>');
 WriteLn('<li><a href="', ScriptName, '/' + ExamModeName + '/">', 
@@ -1472,7 +1478,7 @@ CommonHtmlStart(AKFQuizName + ': ' + msg_Results);
 WriteLn;
 WriteLn('<p><a href="results">', 
         msg_back, '</a></p>');
-WriteLn('<hr>');
+WriteLn('<hr'+cet);
 
 Assign(f, CGI_PATH_TRANSLATED);
 reset(f);
@@ -1499,7 +1505,7 @@ close(f);
 if IOResult<>0 then 
   WriteLn('<p class="error">', msg_error, '</p>');
 
-WriteLn('<hr>');
+WriteLn('<hr'+cet);
 WriteLn('<p><a href="results">', 
         msg_back, '</a></p>');
 WriteLn;
@@ -1793,7 +1799,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.52 2006/10/24 16:54:36 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.53 2006/10/26 08:09:11 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;

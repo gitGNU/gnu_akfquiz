@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.15 2006/10/22 10:31:31 akf Exp $
+* $Id: mkquiz.pas,v 1.16 2006/10/26 08:09:11 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -156,13 +156,12 @@ begin
 inherited headdata;
 
 WriteLn(outp, 
-  '<meta http-equiv="Content-Script-Type" content="text/javascript"',cet);
+  '<meta http-equiv="Content-Script-Type" content="text/javascript"'+cet);
 { the charset is always the default charset, since the data-texts are 
 just the phrases from qmsgs.pas and nothing from the document }
 WriteLn(outp, '<script src="', javascript,
               '" type="text/javascript" language="JavaScript" charset="', 
-              def_charset, '">');
-WriteLn(outp, '</script>')
+              def_charset, '"></script>')
 end;
 
 procedure Tjavascriptquiz.StartQuiz;
@@ -170,7 +169,7 @@ begin
 inherited StartQuiz;
 
 WriteLn(outp, '<noscript><p class="error"><strong>');
-WriteLn(outp, msg_noJS, '<br', cet);
+WriteLn(outp, msg_noJS, br);
 WriteLn(outp, msg_notusable);
 WriteLn(outp, '</strong></p></noscript>');
 
@@ -259,7 +258,7 @@ if AssessmentURI<>'' then
   begin
   writeLn(outp);
   writeLn(outp, '<input type="hidden" name="assessmentURI" id="assessmentURI"'+
-                'value="', AssessmentURI, '">');
+                'value="', AssessmentURI, '"' + cet);
   writeLn(outp)
   end;
 
@@ -316,18 +315,18 @@ if neutral
   then write(outp, ''''', ')
   else write(outp, '''', quote(msg_sol5), ''', ');
 writeLn(outp, '''', quote(msg_seen), ''', ', MaxPoints, 
-              ')"',cet,'&nbsp;');
+              ')"'+cet+'&nbsp;');
 
 if not neutral then
   begin
   writeLn(outp, '<input type="button" accesskey="s" value=" ',
                 msg_solution, ' "');
   writeLn(outp, ' onClick="Solution(''',
-                quote(msg_really),''')"',cet,'&nbsp;')
+                quote(msg_really),''')"'+cet+'&nbsp;')
   end;
 
 writeLn(outp, '<input type="reset" accesskey="n" value=" ',
-              msg_new, ' " onClick="New()"',cet);
+              msg_new, ' " onClick="New()"'+cet);
 writeLn(outp, '</div>');
 
 WriteLn(outp);
@@ -364,9 +363,9 @@ WriteLn(idxfile);
 WriteLn(idxfile, '<html>');
 WriteLn(idxfile, '<head>');
 WriteLn(idxfile, '<meta name="generator" content="'
-                 + PrgVersion + '">'); { change-xhtml }
+                 + PrgVersion + '"'+cet); { change-xhtml }
 WriteLn(idxfile, '<meta http-equiv="Content-Type" '+
-                 'content="text/html; charset=UTF-8">');
+                 'content="text/html; charset=UTF-8"'+cet);
 WriteLn(idxfile);
 WriteLn(idxfile, '<title>AKFQuiz</title>');
 WriteLn(idxfile);
@@ -384,7 +383,7 @@ WriteLn(idxfile, '</head>');
 WriteLn(idxfile);
 WriteLn(idxfile, '<body>');
 WriteLn(idxfile);
-WriteLn(idxfile, '<h1 align="center">AKFQuiz</h1>');
+WriteLn(idxfile, '<h1>AKFQuiz</h1>');
 WriteLn(idxfile);
 setmsgconverter(UTF8toHTML);
 WriteLn(idxfile, '<noscript><p class="error"><strong>');
@@ -519,7 +518,7 @@ end;
 
 
 begin
-ident('$Id: mkquiz.pas,v 1.15 2006/10/22 10:31:31 akf Exp $');
+ident('$Id: mkquiz.pas,v 1.16 2006/10/26 08:09:11 akf Exp $');
 
 outpath := '';
 modes := [];

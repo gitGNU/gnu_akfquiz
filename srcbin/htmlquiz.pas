@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.12 2006/10/22 16:15:19 akf Exp $
+* $Id: htmlquiz.pas,v 1.13 2006/10/26 08:09:11 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -48,6 +48,31 @@ unit htmlquiz;
 interface
 uses uakfquiz, qsys, qmsgs;
 
+{ must be modified, when switching to XHTML }
+{ Thtmlquiz may define different values for the quiz }
+const
+  cet = '>';              { close empty tags }
+  br  = '<br' + cet;      { <br> or <br /> }
+
+{ HTML 4.01 is the last HTML definition
+  Transitional is needed, because of the "target" attribute }
+const HTML4DTD = 'http://www.w3.org/TR/REC-html4/loose.dtd';
+const HTMLDoctype =
+    '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"'
+    + ' "' + HTML4DTD + '">';
+
+{ Attetion:
+  XHTML conflicts with the JavaScript implementation! }
+{
+const XHTML1DTD = 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd';
+const XHTMLDoctype =
+    '<?xml version="1.0" encoding="iso-8859-1"?>'+nl+
+    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"'
+    + ' "' + XHTML1DTD + '">';
+
+const xmlns='http://www.w3.org/1999/xhtml';
+}
+
 type 
   Phtmlquiz = ^Thtmlquiz;
   Thtmlquiz = 
@@ -56,7 +81,7 @@ type
         outp: text;
         errorcode : integer;
 	cet : string[3];              { close sequence for empty tags }
-	BR  : string[6];              { <br> or <br /> }
+	br  : string[6];              { <br> or <br /> }
 
       public
         constructor Init(infile, outfile: string);
@@ -112,8 +137,10 @@ constructor Thtmlquiz.Init(infile, outfile: string);
 begin
 inherited Init(infile);
 errorcode := 0;
-cet := '>'; { for xhtml: ' />' }
-BR  := '<br' + cet;
+
+{ may be different for quiz-files }
+cet := '>'; 
+br  := '<br'+cet;
 
 { use HTML-entities in messages, so they are independent of the 
   charset set in the quizfile }
@@ -218,7 +245,7 @@ repeat
 
     if img<>0 
       then s := s+'<img src="'+URI+'" alt="['+URI+
-                ']" style="vertical-align:middle; float:right">'
+                ']" style="vertical-align:middle; float:right"'+cet
       else s := s+'<a href="'+URI+'" target="_top">'+URI+'</a>'
     end
 until (rest='') or (f=0);
@@ -268,7 +295,7 @@ case lang of
        Write(outp, '<strong class="error"');
        if rtl then Write(outp, ' dir="ltr"'); { switch back to ltr }
        WriteLn(outp, '>');
-       WriteLn(outp, 'Fehler in den Eingabedaten</strong>', BR);
+       WriteLn(outp, 'Fehler in den Eingabedaten</strong>', br);
        WriteLn(stderr,'Fehler in den Eingabedaten - '+
                       'Einzeilheiten im HTML-Code')
       end
@@ -277,7 +304,7 @@ case lang of
        Write(outp, '<strong class="error" lang="en"');
        if rtl then Write(outp, ' dir="ltr"'); { switch back to ltr }
        WriteLn(outp, '>');
-       WriteLn(outp, 'fault in input data</strong>', BR);
+       WriteLn(outp, 'fault in input data</strong>', br);
        WriteLn(stderr, 'fault in input data - look at the HTML code')
        end
   end { case }
@@ -481,7 +508,7 @@ WriteLn(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
 
 Write(outp, '<label for="q', questionNr, 'a', answerNr, '">');
 Write(outp, defanswer);
-WriteLn(outp, '</label></div>', BR)
+WriteLn(outp, '</label></div>', br)
 end;
 
 procedure Thtmlquiz.processAnswer;
@@ -565,5 +592,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.12 2006/10/22 16:15:19 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.13 2006/10/26 08:09:11 akf Exp $')
 end.

@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.16 2006/10/22 11:36:21 akf Exp $
+* $Id: qsys.pas,v 1.17 2006/10/26 08:09:11 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -157,23 +157,6 @@ const platform =
 
 const TAB = chr(9);
 const nl = LineEnding;
-
-{ HTML 4.01 is the last HTML definition
-  Transitional is needed, because of the "target" attribute }
-const HTML4DTD = 'http://www.w3.org/TR/REC-html4/loose.dtd';
-const HTMLDoctype =
-    '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"'+nl+
-    '"'+HTML4DTD+'">';
-
-{ Attetion:
-  XHTML conflicts with the JavaScript implementation! }
-const XHTML1DTD = 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd';
-const XHTMLDoctype =
-    '<?xml version="1.0" encoding="iso-8859-1"?>'+nl+
-    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"'+nl+
-    '"'+XHTML1DTD+'">';
-
-const xmlns='http://www.w3.org/1999/xhtml';
 
 var 
   IntroSignal,    { for Titlescreen }
@@ -1492,7 +1475,7 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.16 2006/10/22 11:36:21 akf Exp $');
+  ident('$Id: qsys.pas,v 1.17 2006/10/26 08:09:11 akf Exp $');
   disableSignals; { initializes Signals }
   
   quizfileList := NIL;
