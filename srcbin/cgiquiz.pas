@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.53 2006/10/26 08:09:11 akf Exp $
+* $Id: cgiquiz.pas,v 1.54 2006/10/26 17:09:50 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -164,7 +164,7 @@ var ScriptName: myString;
 
 { for exam mode }
 var Cookie : ShortString = '';
-var passwd : ShortString = '';
+var authdata : ShortString = '';
 
 var 
   CGI_QUERY_STRING: FormDataString;
@@ -1198,11 +1198,26 @@ WriteLn('</body>');
 WriteLn('</html>')
 end;
 
+{ simple password encoder }
+{ the password needn't be decoded, 
+  so you could replace this with a hash-encoding }
+function encodeAuthData(const passwd: ShortString): ShortString;
+var 
+  i: cardinal;
+  newpw: ShortString;
+begin
+newpw := '';
+for i := 1 to length(passwd) do
+  newpw := newpw + IntToStr(ord(passwd[i]) xor $AA);
+
+encodeAuthData := newpw
+end;
+
 function loggedIn: boolean;
 begin
 loggedIn := 
-  (passwd <> '') and 
-  (pos('passwd="' + passwd + '"', Cookie) <> 0)
+  (authdata <> '') and 
+  (pos('auth="' + authdata + '"', Cookie) <> 0)
 end;
 
 procedure RequireAuthorization;
@@ -1293,7 +1308,7 @@ CommonHtmlEnd;
 Halt
 end;
 
-procedure checkNewPasswd;
+procedure checkNewPasswd(const passwd: ShortString);
 const passwdChars = ['A' .. 'Z', 'a' .. 'z', '0', '1' .. '9'];
 var i: integer;
 begin
@@ -1305,7 +1320,7 @@ end;
 procedure saveExamConfig;
 var 
   f: text;
-  CGIElement: ShortString;
+  passwd : ShortString;
 begin
 
 { for security reasons only the POST method is allowed here }
@@ -1313,25 +1328,22 @@ if RequestMethod <> POST then Forbidden;
 
 { a new passwd is only acceptable, when there is none yet
   or the user is correctly authorized with the old passwd }
-if passwd <> '' then if not loggedIn then Forbidden;
+if authdata <> '' then if not loggedIn then Forbidden;
 
-{ always get the new passwd from the query }
-repeat
-  GetCGIelement(CGIElement);
-  if CGIfield(CGIElement) = 'passwd' then passwd := CGIvalue(CGIElement)
-until isLastElement;
-
-checkNewPasswd;
+{ get the new passwd from the query }
+passwd := QueryLookup('passwd');
+checkNewPasswd(passwd);
+authdata := encodeAuthData(passwd);
 
 Assign(f, useDirSeparator(ExamDir) + examConfigFileName);
 Rewrite(f);
-WriteLn(f, passwd);
+WriteLn(f, authdata);
 close(f);
 if IOResult<>0 then SetupError;
 
 HTTPStatus(200, 'OK');
 { Session-Cookie, deleted when browser is closed }
-WriteLn('Set-Cookie: passwd="' + passwd + '"; Discard; Version="1";');
+WriteLn('Set-Cookie: auth="' + authdata + '"; Discard; Version="1";');
 CommonHtmlStart(AKFQuizName + ': Configuration saved');
 WriteLn('<p>Configuration saved</p>');
 WriteLn('<p><a href="results">', msg_showResults, '</a></p>');
@@ -1346,8 +1358,7 @@ CommonHtmlStart(AKFQuizName + ': Configuration');
 WriteLn('<form method="POST" action="saveconfig">');
 WriteLn('<div>');
 Write(msg_newpasswd, ': ');
-WriteLn('<input type="password" name="passwd" value="', passwd,
-        '" size="12" maxlength="12"'+cet);
+WriteLn('<input type="password" name="passwd" size="12" maxlength="60"'+cet);
 WriteLn(br);
 
 WriteLn('<input type="submit"><input type="reset"'+cet);
@@ -1370,10 +1381,10 @@ if not ExamMode then exit;
 
 Assign(f, useDirSeparator(ExamDir) + examConfigFileName);
 Reset(f);
-ReadLn(f, passwd);
+ReadLn(f, authdata);
 close(f);
 
-if IOResult<>0 then passwd := ''
+if IOResult<>0 then authdata := ''
 end;
 
 procedure Login;
@@ -1399,10 +1410,10 @@ begin
 if RequestMethod <> POST then Forbidden;
 
 qpasswd := QueryLookup('passwd');
-if qpasswd <> passwd then Forbidden;
+if encodeAuthData(qpasswd) <> authdata then Forbidden;
 
 HTTPStatus(200, 'OK');
-WriteLn('Set-Cookie: passwd="' + qpasswd + '"; Discard; Version="1";');
+WriteLn('Set-Cookie: auth="' + authdata + '"; Discard; Version="1";');
 CommonHtmlStart(AKFQuizName + ': ' + msg_loggedin);
 WriteLn(msg_loggedin);
 WriteLn('<p><a href="results">', msg_showResults, '</a></p>');
@@ -1416,7 +1427,7 @@ begin
 { not security critical }
 HTTPStatus(200, 'OK');
 { Expiration-date in the past deletes a cookie }
-WriteLn('Set-Cookie: passwd=""; expires=Thu, 1-Jan-1970 00:00:00 GMT; '
+WriteLn('Set-Cookie: auth=""; expires=Thu, 1-Jan-1970 00:00:00 GMT; '
         + 'Discard; Version="1";');
 CommonHtmlStart(AKFQuizName + ': ' + msg_loggedout);
 WriteLn('<h2>', msg_loggedout, '</h2>');
@@ -1672,12 +1683,12 @@ if ExamDir<>'' then { if Exam mode isn't disabled }
   s := CGI_PATH_INFO; 
   delete(s, 1, length('/' + ExamModeName));
   CGI_PATH_TRANSLATED := ExamDir + s;
-  readExamConfig;
+  readExamConfig; { reads authdata from file }
   
   if CGI_PATH_INFO = '/' + ExamModeName + '/saveconfig' then 
     saveExamConfig;
 
-  if passwd = '' then configureExamMode
+  if authdata = '' then configureExamMode
   end
 end;
 
@@ -1799,7 +1810,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.53 2006/10/26 08:09:11 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.54 2006/10/26 17:09:50 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
