@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.54 2006/10/26 17:09:50 akf Exp $
+* $Id: cgiquiz.pas,v 1.55 2006/10/27 08:52:31 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1361,7 +1361,7 @@ Write(msg_newpasswd, ': ');
 WriteLn('<input type="password" name="passwd" size="12" maxlength="60"'+cet);
 WriteLn(br);
 
-WriteLn('<input type="submit"><input type="reset"'+cet);
+WriteLn('<input type="submit"'+cet+'<input type="reset"'+cet);
 WriteLn('</div>');
 WriteLn('</form>');
 CommonHtmlEnd;
@@ -1810,7 +1810,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.54 2006/10/26 17:09:50 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.55 2006/10/27 08:52:31 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
