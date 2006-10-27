@@ -1,6 +1,6 @@
 # Compile with GPC for the native machine using libSDL
 
-# $Id: Makefile.gpc,v 1.8 2006/10/02 14:11:25 akf Exp $
+# $Id: Makefile.gpc,v 1.9 2006/10/27 17:55:02 akf Exp $
 
 # make further changes in common.mak
 
@@ -33,10 +33,11 @@ NATIVEPC=$(PC)
 NATIVEPFLAGS=$(PFLAGS)
 
 DEFINES+=-D SDL
+#DEFINES+=-D Strict
 #DEFINES+=-D SdlSoundForAll
 #DEFINES+=-D Advertisement
 DEFINES+=-D scrNoEscKey
-#DEFINES+=-dNoRelocation
+#DEFINES+=-D NoRelocation
 #DEFINES+=-D NoTitleImage
 #DEFINES+=-D grNoEscKey
 #DEFINES+=-D OEM

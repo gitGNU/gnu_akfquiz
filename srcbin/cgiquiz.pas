@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.55 2006/10/27 08:52:31 akf Exp $
+* $Id: cgiquiz.pas,v 1.56 2006/10/27 17:55:02 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -297,7 +297,15 @@ end;
 
 procedure version;
 var Browser: boolean;
-begin
+
+  function copyright: ShortString;
+  begin
+  if Browser 
+    then copyright := 'Copyright &copy; '
+    else copyright := 'Copyright (C) '
+  end;
+
+begin { version }
 { is this called from a Browser? }
 Browser := (CGIInfo('REQUEST_METHOD')<>'');
 
@@ -313,7 +321,7 @@ if Browser then { send HTTP Header }
   WriteLn('Content-Type: text/html; charset=UTF-8');
   closeHttpHead;
   
-  WriteLn(HTMLDocType);
+  WriteLn(DocType);
   WriteLn;
   WriteLn('<html>');
   WriteLn('<head>');
@@ -332,6 +340,7 @@ if Browser then { send HTTP Header }
   WriteLn('<body>');
   WriteLn('<h1>', AKFQuizName, '</h1>');
   WriteLn;
+  WriteLn('<p>');
   WriteLn('<img alt="[Icon]" width="32" height="32" src="',
     ScriptName, grIcon + '"'+cet);
   end;
@@ -342,18 +351,14 @@ if Browser
   else WriteLn(PrgVersion);
 WriteLn;
 If Browser then WriteLn(br+br);
-Write('Copyright');
-If Browser then Write(' &copy; ') else Write(' (C) '); 
-WriteLn(AKFQuizCopyright);
+WriteLn(copyright, AKFQuizCopyright);
 If Browser then WriteLn(br);
-Write('Copyright');
-If Browser then Write(' &copy; ') else Write(' (C) '); 
-WriteLn('1999-2001 Free Software Foundation, Inc.');
+WriteLn(copyright, '1999-2001 Free Software Foundation, Inc.');
 If Browser then WriteLn(br+br);
 WriteLn;
 WriteLn(msg_License, msg_GPL);
 WriteLn;
-If Browser then WriteLn('<pre>');
+If Browser then WriteLn('</p><pre>');
 WriteLn(msg_noWarranty);
 WriteLn;
 WriteLn('Written by Andreas K. Foerster');
@@ -391,7 +396,7 @@ if Browser then { send HTTP Header }
   closeHttpHead;
 
   
-  WriteLn(HTMLDocType);
+  WriteLn(DocType);
   WriteLn;
   WriteLn('<html>');
   WriteLn('<head>');
@@ -416,13 +421,13 @@ if Browser then { send HTTP Header }
 
 if Browser 
   then begin
+       WriteLn('<p>');
        WriteLn('<img alt="[Icon]" width="32" height="32" src="',
              ScriptName, grIcon + '"'+cet);
        WriteLn('<a href="', ScriptName, '?--version">', 
                PrgVersion, '</a>');
-       WriteLn(br+br);
-       WriteLn('Quiz-program for the CGI interface of a webserver');
-       WriteLn(br+br);
+       WriteLn('</p>');
+       WriteLn('<p>Quiz-program for the CGI interface of a webserver</p>');
        WriteLn('<dl><dt>Usage:</dt>');
        WriteLn('<dd>');
        WriteLn('cgiquiz [ --help | -h | /? ]'+br);
@@ -436,7 +441,7 @@ if Browser
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz'+br);
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?format=akfquiz'+br);
        WriteLn(CGIBase, 
-                '/quizdir/myquiz.akfquiz?format=text&charset=UTF-8'+br);
+                '/quizdir/myquiz.akfquiz?format=text&amp;charset=UTF-8'+br);
        WriteLn(CGIBase, 
                 '/quizdir/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2'+br);
        WriteLn('</dd></dl>');
@@ -516,7 +521,7 @@ HTTPStatus(status, message);
 WriteLn('Content-Type: text/html; charset=UTF-8');
 closeHttpHead;
 
-WriteLn(HTMLDocType);
+WriteLn(DocType);
 WriteLn;
 WriteLn('<html>');
 WriteLn('<head>');
@@ -605,7 +610,7 @@ WriteLn('Location: ', Location);
 WriteLn('Content-Type: text/html; charset=UTF-8');
 closeHttpHead;
 
-WriteLn(HTMLDocType);
+WriteLn(DocType);
 WriteLn;
 WriteLn('<html>');
 WriteLn('<head>');
@@ -772,7 +777,7 @@ WriteLn(outp, '<div class="defanswer">');
 WriteLn(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
 	      ' name="q', questionNr, '"',
               ' type="radio" value="',
-              answerNr, '" checked', cet); { change-xhtml }
+              answerNr, '" checked="checked"', cet);
 
 Write(outp, '<label for="q', questionNr, 'a', answerNr, '">');
 Write(outp, defAnswer);
@@ -811,7 +816,7 @@ end;
 
 procedure Tcgiquiz.bottom;
 begin
-WriteLn(outp, '<div align="center" class="buttons">');
+WriteLn(outp, '<div class="buttons">');
 
 WriteLn(outp, '<input type="submit" accesskey="r" value="',
                 msg_result,'"', cet);
@@ -885,7 +890,7 @@ inherited StartQuiz;
 
 if Home<>'' then
   begin
-  WriteLn(outp, '<div align="center" class="home"><small>');
+  WriteLn(outp, '<div class="home"><small>');
   WriteLn(outp, '<a href="', Home, '">', msg_back, '</a>');
   WriteLn(outp, '</small></div>')
   end;
@@ -909,12 +914,12 @@ WriteLn(outp, '<div>');
 Write(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
 	    ' name="q', questionNr, '"',
             ' type="', qTypeStr(qType), 
-            '" value="', answerNr, '" disabled'); { change-xhtml }
+            '" value="', answerNr, '" disabled="disabled"');
 if CGIElement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then 
    begin
    inc(Points, value);
    inc(AnsPoints, value);
-   Write(outp, ' checked'); { change-xhtml }
+   Write(outp, ' checked="checked"');
    GetCGIElement(CGIElement)
    end;
 WriteLn(outp, cet);
@@ -943,10 +948,10 @@ WriteLn(outp, '<div class="defanswer">');
 Write(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
 	    ' name="q', questionNr, '"',
             ' type="radio" value="',
-            answerNr, '" disabled');
+            answerNr, '" disabled="disabled"');
 if CGIElement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then 
    begin
-   Write(outp, ' checked'); { change-xhtml }
+   Write(outp, ' checked="checked"');
    GetCGIElement(CGIElement)
    end;
 WriteLn(outp, cet);
@@ -965,8 +970,8 @@ begin
 WriteLn(outp, '<strong>'); { for non-graphical browsers }
 Write(outp, '<img width="18" height="18"');
 if rtl 
-  then Write(outp, ' style="float:left; vertical-align:text-bottom;"')
-  else Write(outp, ' style="float:right; vertical-align:text-bottom;"');
+  then Write(outp, ' style="float:left; vertical-align:text-bottom"')
+  else Write(outp, ' style="float:right; vertical-align:text-bottom"');
 
 if AnsPoints = thisMaxPoints
    then WriteLn(outp, '  alt="- ', msg_right, 
@@ -1000,7 +1005,7 @@ if MaxPoints > 0 then
   WriteLn(outp);
   WriteLn(outp, '<hr', cet);
   WriteLn(outp);
-  WriteLn(outp, '<div align="center" class="result"><strong>');
+  WriteLn(outp, '<div class="result"><strong>');
   WriteLn(outp, '<a name="result" id="result"></a>');
 
   WriteLn(outp, msg_sol1, Points, msg_sol2,
@@ -1019,11 +1024,9 @@ if MaxPoints > 0 then
 s := calculateAssessmentURI;
 if s<>'' then
   begin
-  WriteLn(outp, '<div align="center">');
-  Write(outp, br, '<a href="');
+  Write(outp, '<p><a href="');
   if pos('/',s)=0 then s := DocumentURI + s;
-  WriteLn(outp, s, '">', msg_assessment, '</a>');
-  WriteLn(outp, '</div>')
+  WriteLn(outp, s, '">', msg_assessment, '</a></p>')
   end;
 
 inherited evaluate
@@ -1066,7 +1069,7 @@ WriteLn(outp, '</form>');
 
 if Home<>'' then
   begin
-  WriteLn(outp, '<div align="center" class="home"><small>');
+  WriteLn(outp, '<div class="home"><small>');
   WriteLn(outp, '<a href="', Home, '">', msg_back, '</a>');
   WriteLn(outp, '</small></div>')
   end
@@ -1163,7 +1166,7 @@ WriteLn('Pragma: no-cache');
 WriteLn('Expires: 0');
 closeHttpHead;
 
-WriteLn(HTMLDocType);
+WriteLn(DocType);
 WriteLn;
 WriteLn('<html>');
 WriteLn('<head>');
@@ -1185,15 +1188,18 @@ WriteLn('</head>');
 WriteLn;
 WriteLn('<body>');
 WriteLn;
-WriteLn('<h1 align="center">', title, '</h1>');
+WriteLn('<h1>', title, '</h1>');
 WriteLn
 end;
 
 procedure CommonHtmlEnd;
 begin
 WriteLn;
-WriteLn('<hr'+cet+'<div align="right" class="made"><a href="', msg_homepage, 
-        '" target="_top">' + AKFQuizName + '</a></div>');
+WriteLn('<hr'+cet+'<div class="made"><a href="', msg_homepage, '"'
+        {$IfNDef Strict}
+          + ' target="_top"'
+	{$EndIf}
+	+ '>' + AKFQuizName + '</a></div>');
 WriteLn('</body>');
 WriteLn('</html>')
 end;
@@ -1227,7 +1233,7 @@ end;
 
 procedure NoEntriesFound;
 begin
-WriteLn('<p align="center" class="error">');
+WriteLn('<p class="error">');
 WriteLn(msg_noquizfound);
 WriteLn('</p>')
 end;
@@ -1810,7 +1816,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.55 2006/10/27 08:52:31 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.56 2006/10/27 17:55:02 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;

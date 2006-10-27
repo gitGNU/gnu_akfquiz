@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.13 2006/10/26 08:09:11 akf Exp $
+* $Id: htmlquiz.pas,v 1.14 2006/10/27 17:55:02 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -55,17 +55,29 @@ const
   br  = '<br' + cet;      { <br> or <br /> }
 
 { HTML 4.01 is the last HTML definition
-  Transitional is needed, because of the "target" attribute }
-const HTML4DTD = 'http://www.w3.org/TR/REC-html4/loose.dtd';
-const HTMLDoctype =
-    '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"'
-    + ' "' + HTML4DTD + '">';
+  Transitional may be needed, because of the "target" attribute }
+
+{$IfDef Strict}
+
+  const HTML4StrictDTD = 'http://www.w3.org/TR/html4/strict.dtd';
+  const Doctype =
+      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"'
+      + ' "' + HTML4StrictDTD + '">';
+
+{$Else} { not Strict}
+
+  const HTML4LooseDTD  = 'http://www.w3.org/TR/REC-html4/loose.dtd';
+  const Doctype =
+      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"'
+      + ' "' + HTML4LooseDTD + '">';
+
+{$EndIf} { Strict }
 
 { Attetion:
   XHTML conflicts with the JavaScript implementation! }
 {
 const XHTML1DTD = 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd';
-const XHTMLDoctype =
+const Doctype =
     '<?xml version="1.0" encoding="iso-8859-1"?>'+nl+
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"'
     + ' "' + XHTML1DTD + '">';
@@ -244,9 +256,15 @@ repeat
     delete(rest, 1, f+t-1);
 
     if img<>0 
-      then s := s+'<img src="'+URI+'" alt="['+URI+
-                ']" style="vertical-align:middle; float:right"'+cet
-      else s := s+'<a href="'+URI+'" target="_top">'+URI+'</a>'
+      then s := s+'<img src="' + URI + '" alt="[' + URI
+                + ']" style="vertical-align:middle; float:right"' + cet
+      else s := s + '<a href="' + URI +
+                {$IfDef Strict}
+		  '">'
+		{$Else}
+		  '" target="_top">'
+		{$EndIf}
+		+ URI + '</a>'
     end
 until (rest='') or (f=0);
 
@@ -361,7 +379,7 @@ procedure Thtmlquiz.StartQuiz;
 begin
 inherited StartQuiz;
 
-WriteLn(outp, HTMLDocType);
+WriteLn(outp, DocType);
 WriteLn(outp);
 
 Write(outp, '<html');
@@ -430,10 +448,13 @@ procedure Thtmlquiz.EndQuiz;
 begin
 {$IfNDef NoProjectLink}
   WriteLn(outp);
-  WriteLn(outp, '<div align="right" dir="ltr" class="made"><small>');
+  WriteLn(outp, '<div dir="ltr" class="made"><small>');
     WriteLn(outp, msg_made, ' <a '+
-      'href="', msg_homepage, '" target="_top">'+
-           AKFQuizName + '</a>');
+      'href="', msg_homepage, '"' + 
+      {$IfNDef Strict}
+        ' target="_top"' +
+      {$EndIf}
+      '>' + AKFQuizName + '</a>');
   WriteLn(outp, '</small></div>');
 {$EndIf}
 WriteLn(outp);
@@ -504,7 +525,7 @@ inc(answerNr);
 WriteLn(outp, '<div class="defanswer">');
 WriteLn(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
 	      ' name="q', questionNr, '"',
-              ' type="radio" value="0" checked', cet); { xhtml-change }
+              ' type="radio" value="0" checked="checked"', cet);
 
 Write(outp, '<label for="q', questionNr, 'a', answerNr, '">');
 Write(outp, defanswer);
@@ -592,5 +613,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.13 2006/10/26 08:09:11 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.14 2006/10/27 17:55:02 akf Exp $')
 end.

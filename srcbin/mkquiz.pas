@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.16 2006/10/26 08:09:11 akf Exp $
+* $Id: mkquiz.pas,v 1.17 2006/10/27 17:55:02 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -358,7 +358,7 @@ rewrite(idxfile);
 if IOResult<>0 then
   writeLn(stderr, 'error: cannot write ', outpath, 'index.html');
 
-WriteLn(idxfile, HTMLDocType);
+WriteLn(idxfile, DocType);
 WriteLn(idxfile);
 WriteLn(idxfile, '<html>');
 WriteLn(idxfile, '<head>');
@@ -518,7 +518,7 @@ end;
 
 
 begin
-ident('$Id: mkquiz.pas,v 1.16 2006/10/26 08:09:11 akf Exp $');
+ident('$Id: mkquiz.pas,v 1.17 2006/10/27 17:55:02 akf Exp $');
 
 outpath := '';
 modes := [];
