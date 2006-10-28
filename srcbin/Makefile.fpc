@@ -1,6 +1,6 @@
 # Compile with FPC for the native machine
 
-# $Id: Makefile.fpc,v 1.7 2006/10/27 17:55:02 akf Exp $
+# $Id: Makefile.fpc,v 1.8 2006/10/28 04:08:55 akf Exp $
 
 # make further changes in common.mak
 
@@ -41,7 +41,7 @@ POPT=-O2G -Xs -XX
 DEFINES+=-dSDL
 
 #DEFINES+=-dSdlSoundForAll
-#DEFINES+=-dStrict
+DEFINES+=-dTransitional
 #DEFINES+=-dNoTitleImage
 #DEFINES+=-dAdvertisement
 #DEFINES+=-dNoRelocation

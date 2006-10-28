@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.14 2006/10/27 17:55:02 akf Exp $
+* $Id: htmlquiz.pas,v 1.15 2006/10/28 04:08:55 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -57,21 +57,21 @@ const
 { HTML 4.01 is the last HTML definition
   Transitional may be needed, because of the "target" attribute }
 
-{$IfDef Strict}
-
-  const HTML4StrictDTD = 'http://www.w3.org/TR/html4/strict.dtd';
-  const Doctype =
-      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"'
-      + ' "' + HTML4StrictDTD + '">';
-
-{$Else} { not Strict}
+{$IfDef Transitional}
 
   const HTML4LooseDTD  = 'http://www.w3.org/TR/REC-html4/loose.dtd';
   const Doctype =
       '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"'
       + ' "' + HTML4LooseDTD + '">';
 
-{$EndIf} { Strict }
+{$Else} { not Transitional}
+
+  const HTML4StrictDTD = 'http://www.w3.org/TR/html4/strict.dtd';
+  const Doctype =
+      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"'
+      + ' "' + HTML4StrictDTD + '">';
+
+{$EndIf} { Transitional }
 
 { Attetion:
   XHTML conflicts with the JavaScript implementation! }
@@ -258,13 +258,11 @@ repeat
     if img<>0 
       then s := s+'<img src="' + URI + '" alt="[' + URI
                 + ']" style="vertical-align:middle; float:right"' + cet
-      else s := s + '<a href="' + URI +
-                {$IfDef Strict}
-		  '">'
-		{$Else}
-		  '" target="_top">'
+      else s := s + '<a href="' + URI + '"'
+                {$IfDef Transitional}
+		  + ' target="_top"'
 		{$EndIf}
-		+ URI + '</a>'
+         	+ '>' + URI + '</a>'
     end
 until (rest='') or (f=0);
 
@@ -451,7 +449,7 @@ begin
   WriteLn(outp, '<div dir="ltr" class="made"><small>');
     WriteLn(outp, msg_made, ' <a '+
       'href="', msg_homepage, '"' + 
-      {$IfNDef Strict}
+      {$IfDef Transitional}
         ' target="_top"' +
       {$EndIf}
       '>' + AKFQuizName + '</a>');
@@ -613,5 +611,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.14 2006/10/27 17:55:02 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.15 2006/10/28 04:08:55 akf Exp $')
 end.

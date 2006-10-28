@@ -1,6 +1,6 @@
 # Compile with GPC for the native machine using the GRX library
 
-# $Id: Makefile.grx,v 1.4 2006/10/27 17:55:02 akf Exp $
+# $Id: Makefile.grx,v 1.5 2006/10/28 04:08:55 akf Exp $
 
 # make further changes in common.mak
 
@@ -37,7 +37,7 @@ PFLAGS+=--unit-path=/usr/local/units
 #DEFINES+=-D Advertisement
 DEFINES+=-D scrNoEscKey
 DEFINES+=-D GRXMouse
-#DEFINES+=-D Strict
+DEFINES+=-D Transitional
 #DEFINES+=-D NoRelocation
 #DEFINES+=-D NoTitleImage
 #DEFINES+=-D grNoEscKey

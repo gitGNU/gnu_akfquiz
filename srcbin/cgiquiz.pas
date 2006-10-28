@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.56 2006/10/27 17:55:02 akf Exp $
+* $Id: cgiquiz.pas,v 1.57 2006/10/28 04:08:55 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1196,7 +1196,7 @@ procedure CommonHtmlEnd;
 begin
 WriteLn;
 WriteLn('<hr'+cet+'<div class="made"><a href="', msg_homepage, '"'
-        {$IfNDef Strict}
+        {$IfDef Transitional}
           + ' target="_top"'
 	{$EndIf}
 	+ '>' + AKFQuizName + '</a></div>');
@@ -1816,7 +1816,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.56 2006/10/27 17:55:02 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.57 2006/10/28 04:08:55 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
