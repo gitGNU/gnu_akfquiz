@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.15 2006/10/28 04:08:55 akf Exp $
+* $Id: htmlquiz.pas,v 1.16 2006/10/28 18:29:48 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -92,8 +92,6 @@ type
       protected
         outp: text;
         errorcode : integer;
-	cet : string[3];              { close sequence for empty tags }
-	br  : string[6];              { <br> or <br /> }
 
       public
         constructor Init(infile, outfile: string);
@@ -149,10 +147,6 @@ constructor Thtmlquiz.Init(infile, outfile: string);
 begin
 inherited Init(infile);
 errorcode := 0;
-
-{ may be different for quiz-files }
-cet := '>'; 
-br  := '<br'+cet;
 
 { use HTML-entities in messages, so they are independent of the 
   charset set in the quizfile }
@@ -611,5 +605,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.15 2006/10/28 04:08:55 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.16 2006/10/28 18:29:48 akf Exp $')
 end.
