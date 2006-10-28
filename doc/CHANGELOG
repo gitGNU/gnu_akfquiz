@@ -1,5 +1,6 @@
 4.3.2
 - cgiquiz, mkquiz: never use target _blank, always use _top
+- cgiquiz, mkquiz: option to compile for Strict HTML 4.01
 - grquiz, scrquiz, cgiquiz: show language in the index
 - usage of CVS-Id information
 - new keywords "encoding:", "Kodierung:" replace "charset:", "Zeichensatz:"
