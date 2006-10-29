@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.17 2006/10/27 17:55:02 akf Exp $
+* $Id: mkquiz.pas,v 1.18 2006/10/29 06:54:40 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -160,8 +160,8 @@ WriteLn(outp,
 { the charset is always the default charset, since the data-texts are 
 just the phrases from qmsgs.pas and nothing from the document }
 WriteLn(outp, '<script src="', javascript,
-              '" type="text/javascript" language="JavaScript" charset="', 
-              def_charset, '"></script>')
+              '" type="text/javascript" charset="', 
+	      def_charset, '"></script>')
 end;
 
 procedure Tjavascriptquiz.StartQuiz;
@@ -175,8 +175,7 @@ WriteLn(outp, '</strong></p></noscript>');
 
 WriteLn(outp);
 WriteLn(outp, '<form name="akfquiz" action="">');
-WriteLn(outp);
-WriteLn(outp, '<a name="top" id="top"></a>')
+WriteLn(outp)
 end;
 
 procedure Tjavascriptquiz.putgraphic;
@@ -305,7 +304,7 @@ procedure Tjavascriptquiz.EndQuiz;
 begin
 if not evaluated then evaluate;
 
-writeLn(outp, '<div align="center" class="buttons">');
+writeLn(outp, '<div class="buttons">');
 writeLn(outp, '<input type="button" accesskey="r" value=" ',
               msg_result, ' " ');
 write(outp, ' onClick="Result(''',
@@ -518,7 +517,7 @@ end;
 
 
 begin
-ident('$Id: mkquiz.pas,v 1.17 2006/10/27 17:55:02 akf Exp $');
+ident('$Id: mkquiz.pas,v 1.18 2006/10/29 06:54:40 akf Exp $');
 
 outpath := '';
 modes := [];
