@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.57 2006/10/28 04:08:55 akf Exp $
+* $Id: cgiquiz.pas,v 1.58 2006/10/29 17:01:52 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1223,7 +1223,7 @@ function loggedIn: boolean;
 begin
 loggedIn := 
   (authdata <> '') and 
-  (pos('auth="' + authdata + '"', Cookie) <> 0)
+  (pos('auth=' + authdata , Cookie) <> 0)
 end;
 
 procedure RequireAuthorization;
@@ -1304,9 +1304,8 @@ procedure unacceptableNewPasswd;
 begin
 HTTPStatus(200, 'OK');
 CommonHtmlStart('unacceptable new Password');
-WriteLn('<p>Sorry, but you may only use letters of the latin alphabet or '
-        + 'numbers in a password.</p>');
-	
+WriteLn('<p>Sorry, but the password should have at least 6 characters.</p>');
+
 { when a password is set: reconfigure
   when no password is set, the target of the link is ignored anyway }
 WriteLn('<p><a href="reconfigure">', msg_back, '</a></p>');
@@ -1315,12 +1314,8 @@ Halt
 end;
 
 procedure checkNewPasswd(const passwd: ShortString);
-const passwdChars = ['A' .. 'Z', 'a' .. 'z', '0', '1' .. '9'];
-var i: integer;
 begin
-for i := 1 to length(passwd) do
-  if not (passwd[i] in passwdChars)
-    then unacceptableNewPasswd
+if length(passwd) < 6 then unacceptableNewPasswd
 end;
 
 procedure saveExamConfig;
@@ -1349,7 +1344,7 @@ if IOResult<>0 then SetupError;
 
 HTTPStatus(200, 'OK');
 { Session-Cookie, deleted when browser is closed }
-WriteLn('Set-Cookie: auth="' + authdata + '"; Discard; Version="1";');
+WriteLn('Set-Cookie: auth=' + authdata + '; Discard; Version="1";');
 CommonHtmlStart(AKFQuizName + ': Configuration saved');
 WriteLn('<p>Configuration saved</p>');
 WriteLn('<p><a href="results">', msg_showResults, '</a></p>');
@@ -1401,7 +1396,7 @@ WriteLn('<form method="POST" action="login2">');
 WriteLn('<div>');
 WriteLn(msg_passwd, ': ');
 WriteLn('<input type="password" name="passwd" '
-        + 'size="12" maxlength="12"'+cet);
+        + 'size="12" maxlength="60"'+cet);
 WriteLn('<input type="submit"'+cet);
 WriteLn('</div>');
 WriteLn('</form>');
@@ -1419,7 +1414,7 @@ qpasswd := QueryLookup('passwd');
 if encodeAuthData(qpasswd) <> authdata then Forbidden;
 
 HTTPStatus(200, 'OK');
-WriteLn('Set-Cookie: auth="' + authdata + '"; Discard; Version="1";');
+WriteLn('Set-Cookie: auth=' + authdata + '; Discard; Version="1";');
 CommonHtmlStart(AKFQuizName + ': ' + msg_loggedin);
 WriteLn(msg_loggedin);
 WriteLn('<p><a href="results">', msg_showResults, '</a></p>');
@@ -1816,7 +1811,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.57 2006/10/28 04:08:55 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.58 2006/10/29 17:01:52 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
