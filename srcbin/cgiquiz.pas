@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.58 2006/10/29 17:01:52 akf Exp $
+* $Id: cgiquiz.pas,v 1.59 2006/10/29 19:05:00 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -727,17 +727,15 @@ if not ExamMode
        WriteLn(outp, 
          '<!-- JavaScript is not necessarily needed for this program -->');
        WriteLn(outp, '<script type="text/javascript" language="JavaScript">');
-       WriteLn(outp, '<!--');
        WriteLn(outp, 'function checkName() {');
        WriteLn(outp, '  if (document.akfquiz.name.value == "") {');
        WriteLn(outp, '    document.akfquiz.name.focus();');
        WriteLn(outp, '    return false; }');
        WriteLn(outp, '  else return true; }');
-       WriteLn(outp, '// -->');
        WriteLn(outp, '</script>');
        WriteLn(outp);
        WriteLn(outp,
-          '<form name="akfquiz" id="akfquiz" method="POST" action="',
+          '<form name="akfquiz" id="akfquiz" method="post" action="',
           ScriptName, CGI_PATH_INFO, 
 	  '" onSubmit="return checkName()">')
        end;
@@ -1315,7 +1313,7 @@ end;
 
 procedure checkNewPasswd(const passwd: ShortString);
 begin
-if length(passwd) < 6 then unacceptableNewPasswd
+if UTF8Length(passwd) < 6 then unacceptableNewPasswd
 end;
 
 procedure saveExamConfig;
@@ -1332,7 +1330,11 @@ if RequestMethod <> POST then Forbidden;
 if authdata <> '' then if not loggedIn then Forbidden;
 
 { get the new passwd from the query }
-passwd := QueryLookup('passwd');
+GetCGIElement(passwd);
+if CGIfield(passwd) = 'passwd'
+  then passwd := CGIvalue(passwd)
+  else SetupError;
+
 checkNewPasswd(passwd);
 authdata := encodeAuthData(passwd);
 
@@ -1356,7 +1358,7 @@ procedure configureExamMode;
 begin
 HTTPStatus(200, 'OK');
 CommonHtmlStart(AKFQuizName + ': Configuration');
-WriteLn('<form method="POST" action="saveconfig">');
+WriteLn('<form method="post" action="saveconfig">');
 WriteLn('<div>');
 Write(msg_newpasswd, ': ');
 WriteLn('<input type="password" name="passwd" size="12" maxlength="60"'+cet);
@@ -1392,7 +1394,7 @@ procedure Login;
 begin
 HTTPStatus(200, 'OK');
 CommonHtmlStart(AKFQuizName + ': ' + msg_passwd);
-WriteLn('<form method="POST" action="login2">');
+WriteLn('<form method="post" action="login2">');
 WriteLn('<div>');
 WriteLn(msg_passwd, ': ');
 WriteLn('<input type="password" name="passwd" '
@@ -1410,7 +1412,12 @@ begin
 { security: never accept a password via GET! }
 if RequestMethod <> POST then Forbidden;
 
-qpasswd := QueryLookup('passwd');
+{ don't use QueryLookup, because it doesn't decode the value }
+GetCGIElement(qpasswd);
+if CGIfield(qpasswd) = 'passwd'
+  then qpasswd := CGIvalue(qpasswd)
+  else Forbidden;
+
 if encodeAuthData(qpasswd) <> authdata then Forbidden;
 
 HTTPStatus(200, 'OK');
@@ -1811,7 +1818,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.58 2006/10/29 17:01:52 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.59 2006/10/29 19:05:00 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
