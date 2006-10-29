@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.18 2006/10/29 06:54:40 akf Exp $
+* $Id: mkquiz.pas,v 1.19 2006/10/29 19:06:34 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -369,14 +369,12 @@ WriteLn(idxfile);
 WriteLn(idxfile, '<title>AKFQuiz</title>');
 WriteLn(idxfile);
 WriteLn(idxfile, '<style type="text/css">');
-WriteLn(idxfile, '<!--');
 WriteLn(idxfile, 'body { color:black; background:#d8d0c8; margin:1ex 8%; }');
 WriteLn(idxfile, 'h1 { color:#ffffdd; background:#605030; padding:12px;');
 WriteLn(idxfile, '     border:12px ridge; border-color:#605030; margin:1em 15%;');
 WriteLn(idxfile, '     text-align:center; font-weight:bold; }');
 WriteLn(idxfile, '.error { color:red; background:transparent;');
 WriteLn(idxfile, '         font-weight:bold; font-style:italic;}');
-WriteLn(idxfile, '-->');
 WriteLn(idxfile, '</style>');
 WriteLn(idxfile, '</head>');
 WriteLn(idxfile);
@@ -517,7 +515,7 @@ end;
 
 
 begin
-ident('$Id: mkquiz.pas,v 1.18 2006/10/29 06:54:40 akf Exp $');
+ident('$Id: mkquiz.pas,v 1.19 2006/10/29 19:06:34 akf Exp $');
 
 outpath := '';
 modes := [];

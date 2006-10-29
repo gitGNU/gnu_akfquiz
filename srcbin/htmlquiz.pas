@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.17 2006/10/29 09:20:31 akf Exp $
+* $Id: htmlquiz.pas,v 1.18 2006/10/29 19:06:34 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -342,7 +342,7 @@ if keywords<>'' then
 
 WriteLn(outp, '<meta http-equiv="Content-Style-Type" content="text/css"', cet);
 WriteLn(outp, '<style type="text/css">');
-WriteLn(outp, '<!-- @media print { .buttons, .defanswer, .resultlink, noscript {display:none} } -->');
+WriteLn(outp, '@media print { .buttons, .defanswer, .resultlink, noscript {display:none} }');
 WriteLn(outp, '</style>');
 
 if CSS<>'' then
@@ -605,5 +605,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.17 2006/10/29 09:20:31 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.18 2006/10/29 19:06:34 akf Exp $')
 end.
