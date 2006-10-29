@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.16 2006/10/28 18:29:48 akf Exp $
+* $Id: htmlquiz.pas,v 1.17 2006/10/29 09:20:31 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -397,7 +397,7 @@ WriteLn(outp);
 WriteLn(outp);
 WriteLn(outp, '<body>');
 WriteLn(outp);
-WriteLn(outp, '<h1>', title, '</h1>');
+WriteLn(outp, '<h1 id="top">', title, '</h1>');
 WriteLn(outp);
 
 if (author<>'') or (authorURI<>'') or (copyright<>'') or 
@@ -605,5 +605,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.16 2006/10/28 18:29:48 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.17 2006/10/29 09:20:31 akf Exp $')
 end.
