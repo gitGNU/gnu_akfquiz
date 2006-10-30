@@ -1,4 +1,5 @@
 4.3.2
+- HTML documentation is postprocessed throught HTML-Tidy
 - cgiquiz, mkquiz: never use target _blank, always use _top
 - cgiquiz, mkquiz: option to compile for Strict HTML 4.01
 - grquiz, scrquiz, cgiquiz: show language in the index
