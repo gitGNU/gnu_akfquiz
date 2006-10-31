@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.59 2006/10/29 19:05:00 akf Exp $
+* $Id: cgiquiz.pas,v 1.60 2006/10/31 09:19:21 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -54,7 +54,7 @@ program cgiquiz(input, output);
 {$IfDef __GPC__}
   import uakfquiz; htmlquiz; qmsgs; qsys; styles; GPC; 
 {$Else}
-  uses SysUtils, qsys, qmsgs, uakfquiz, htmlquiz, styles;
+  uses SysUtils, baseUnix, qsys, qmsgs, uakfquiz, htmlquiz, styles;
 {$EndIf} { __GPC__ }
 
 { GNU compliant format }
@@ -510,6 +510,13 @@ if s='de' then lang := deutsch
 	         else if pos('da', s)<>0 then lang := dansk
 	  	   else lang := english
              end
+end;
+
+procedure SetUmask(i: cardinal);
+begin
+{$IfDef __GPC__} Umask(i) {$EndIf}
+{$IfDef FPC} fpUmask(i) {$EndIf}
+{ ignore on other compilers }
 end;
 
 { --------------------------------------------------------------------- }
@@ -1103,6 +1110,7 @@ ResultStr := 'percent=' + IntToStr(getPercentage) + '&' + ResultStr;
 ResultStr := showDateTime + nl + myname + nl + IntToStr(getPercentage) 
                  + nl + FileName + '?' + ResultStr + nl + nl;
 
+SetUmask(95 { = 137oct } );
 Assign(f, stripext(CGI_PATH_TRANSLATED) + ResultExt);
 
 {$IfDef FPC}
@@ -1338,6 +1346,7 @@ if CGIfield(passwd) = 'passwd'
 checkNewPasswd(passwd);
 authdata := encodeAuthData(passwd);
 
+SetUmask(127 { = 177oct } );
 Assign(f, useDirSeparator(ExamDir) + examConfigFileName);
 Rewrite(f);
 WriteLn(f, authdata);
@@ -1818,7 +1827,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.59 2006/10/29 19:05:00 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.60 2006/10/31 09:19:21 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
