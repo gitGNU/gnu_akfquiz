@@ -1,7 +1,5 @@
 AKFQuiz
 
-Portierung von Teilen des GNU/Linux Programm-Paketes AKFQuiz.
-
 DEINSTALLIEREN SIE ALTE VERSIONEN VON AKFQUIZ BEVOR SIE EINE 
 NEUE VERSION INSTALLIEREN!
 
@@ -12,31 +10,21 @@ Mit dem Programm-Paket AKFQuiz kann man auf einfache Weise
 Quiz-Spiele, Übungsaufgaben für Schule und Ausbildung, sowie 
 Psycho-Tests erstellen.
 
-Diese können mit grquiz in einer grafischen Umgebung oder mit 
-scrquiz auf der Text-Konsole benutzt werden. Es gibt auch eine 
-zeilenorientierte Variante, linequiz, die als Backend benutzt werden 
-kann.
+Diese können mit grquiz in einer grafischen Umgebung, mit diaquiz (nicht
+enthalten) als einfaches GUI-Programm oder mit scrquiz auf der
+Text-Konsole benutzt werden. Es gibt auch eine  zeilenorientierte
+Variante, linequiz, die als Backend benutzt werden  kann.
 
-Eine CGI-Variante, cgiquiz, kann auf einem Web-Server installiert 
-werden, um Übungsaufgaben über das Internet oder ein lokales Netzwerk 
-anzubieten (nich enthalten).
+Eine CGI-Variante, cgiquiz (nicht enthalten), kann auf einem Web-Server 
+installiert werden, um Übungsaufgaben über das Internet oder ein lokales
+Netzwerk anzubieten. Es gibt in cgiquiz auch einen Prüfungs-Modus
+(exam), der für richtige Prüfungen benutzbar ist.
 
 Oder man benutzt mkquiz, mit dem man eine HTML-Datei mit JavaScript 
 erstellen kann. Diese kann man dann über jeden beliebigen 
 Webspace-Anbieter veröffentlichen.
 
-
-Falls Sie freie Software mögen, denken Sie bitte mal darüber nach, ob
-Sie nicht auch auf ein freies Betriebssystem wechseln wollen. Dieses
-Programm-Paket ist auch für GNU/Linux erhältlich. Durch die 
-Verfügbarkeit der Quelltexte ist es leicht auf andere Systeme portierbar.
-Dies ist nur einer der Vorteile freier Software.
-
-Mehr über freie Software unter: 
-http://www.gnu.org/
-
-Kontakt in Europa:
-http://www.fsfeurope.org/
+Das vollständige AKFQuiz-Paket ist für GNU/Linux erhältlich.
 
 
 Sonstiges:
@@ -65,9 +53,9 @@ http://gnuwin32.sourceforge.net/packages/mawk.htm
 
 
 Die aktuellste Version von AKFQuiz finden Sie im Internet:
-http://akfquiz.nongnu.org/index.de.html
+http://akfquiz.nongnu.org/deutsch.html
 
 Für den Installer unter Windows verwende ich 
 Inno Setup von Jordan Russell
-http://innosetup.com
+http://innosetup.com/
 
