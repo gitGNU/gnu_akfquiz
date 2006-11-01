@@ -2,7 +2,7 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.12 2006/10/11 06:26:23 akf Exp $
+* $Id: sdlgrph.pas,v 1.13 2006/11/01 07:42:25 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -74,8 +74,13 @@ procedure answerEnds(ans: cardinal);
 implementation
 
 {$IfDef __GPC__}
-  {$DEFINE cdecl attribute(cdecl)}
   {$L SDL}
+  {$DEFINE libSDL external name}
+{$EndIf}
+
+{$IfDef FPC}
+  {$MACRO ON}
+  {$DEFINE libSDL:=cdecl; external 'SDL' name}
 {$EndIf}
 
 {$I mainicon.inc}
@@ -231,52 +236,49 @@ var mouseactive, mouseshown: boolean;
 
 { --------------------------------------------------------------------- }
 
-function SDL_Init(flags: Uint32): CInteger; cdecl;
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_Init';
+function SDL_Init(flags: Uint32): CInteger; libSDL 'SDL_Init';
 	   
-procedure SDL_Quit; cdecl; external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_Quit';
+procedure SDL_Quit; libSDL 'SDL_Quit';
 
 function SDL_SetVideoMode(width, height, bpp: CInteger; 
-                          flags: Uint32): pSDL_Surface; cdecl;
-	   external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_SetVideoMode';
+                          flags: Uint32): pSDL_Surface; 
+	   libSDL 'SDL_SetVideoMode';
 
-function SDL_ShowCursor(toggle: CInteger): CInteger; cdecl;
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_ShowCursor';
+function SDL_ShowCursor(toggle: CInteger): CInteger; 
+           libSDL 'SDL_ShowCursor';
 
-function SDL_EnableUNICODE(enable: CInteger): CInteger; cdecl;
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_EnableUNICODE';
+function SDL_EnableUNICODE(enable: CInteger): CInteger; 
+           libSDL 'SDL_EnableUNICODE';
 
-function SDL_LockSurface(surface : pSDL_Surface ): CInteger; cdecl;
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_LockSurface';
+function SDL_LockSurface(surface : pSDL_Surface ): CInteger;
+           libSDL 'SDL_LockSurface';
 
-procedure SDL_UnlockSurface(surface: pSDL_Surface); cdecl;
-            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_UnlockSurface';
+procedure SDL_UnlockSurface(surface: pSDL_Surface); 
+           libSDL 'SDL_UnlockSurface';
 
 function SDL_CreateRGBSurface(flags: Uint32; width, height, depth: CInteger; 
                              Rmask, Gmask, Bmask, Amask: Uint32):
-			       pSDL_Surface; cdecl;
-	   external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_CreateRGBSurface';
+			       pSDL_Surface;
+	   libSDL 'SDL_CreateRGBSurface';
 
 function SDL_CreateRGBSurfaceFrom(pixels: pointer; 
               width, height, depth, pitch: CInteger;
-              Rmask, Gmask, Bmask, Amask: Uint32): pSDL_Surface; cdecl; 
-		external {$IfDef FPC}'SDL'{$EndIf} 
-		  name 'SDL_CreateRGBSurfaceFrom';
+              Rmask, Gmask, Bmask, Amask: Uint32): pSDL_Surface;
+                libSDL 'SDL_CreateRGBSurfaceFrom';
 
 function SDL_SetColors(surface: pSDL_Surface; 
                        colors: pointer; 
                        firstcolor: CInteger; ncolors: CInteger): CInteger;
-           cdecl; external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_SetColors';
+           libSDL 'SDL_SetColors';
 
-function SDL_SetColorKey(surface: pSDL_Surface; flag, key: Uint32):
-           CInteger; cdecl;
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_SetColorKey';
+function SDL_SetColorKey(surface: pSDL_Surface; 
+                         flag, key: Uint32): CInteger; 
+           libSDL 'SDL_SetColorKey';
 
-procedure SDL_WM_SetIcon(icon: pSDL_Surface; mask: pByte); cdecl;
-            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_WM_SetIcon';
+procedure SDL_WM_SetIcon(icon: pSDL_Surface; mask: pByte); 
+            libSDL 'SDL_WM_SetIcon';
 
-procedure SDL_WM_SetCaption(title, icon: CString); cdecl;
-            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_WM_SetCaption';
+procedure SDL_WM_SetCaption(title, icon: CString); libSDL 'SDL_WM_SetCaption';
 
 function SDL_MUSTLOCK(surface: pSDL_Surface): boolean;
 begin
@@ -285,29 +287,26 @@ SDL_MUSTLOCK :=
     ((surface^.flags and (SDL_HWSURFACE or SDL_ASYNCBLIT or SDL_RLEACCEL))<>0)
 end;
 
-procedure SDL_FreeSurface(surface:pSDL_Surface); cdecl;
-            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_FreeSurface';
+procedure SDL_FreeSurface(surface:pSDL_Surface); libSDL 'SDL_FreeSurface';
 
-function SDL_MapRGB(format: pSDL_PixelFormat; r, g, b: Uint8): Uint32; cdecl;
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_MapRGB';
+function SDL_MapRGB(format: pSDL_PixelFormat; r, g, b: Uint8): Uint32; 
+           libSDL 'SDL_MapRGB';
 
 function SDL_BlitSurface(src: pSDL_Surface; srcrect: pSDL_Rect; 
                          dst: pSDL_Surface; dstrect: pSDL_Rect): CInteger;
-           cdecl; 
-	   external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_UpperBlit'; { sic }
+           libSDL 'SDL_UpperBlit'; { sic! }
            
 function SDL_SetClipRect(surface: pSDL_Surface; rect: pSDL_Rect): SDL_Bool;
-           cdecl; external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_SetClipRect';
+           libSDL 'SDL_SetClipRect';
 
 procedure SDL_UpdateRect(screen: pSDL_Surface; x, y: Sint32; 
-                         w, h: Uint32); cdecl;
-	    external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_UpdateRect';
+                         w, h: Uint32); libSDL 'SDL_UpdateRect';
 
-function SDL_EventState(eventtype: Uint8; state: CInteger): Uint8; cdecl;
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_EventState';
+function SDL_EventState(eventtype: Uint8; state: CInteger): Uint8; 
+           libSDL 'SDL_EventState';
 
-function SDL_WaitEvent(event:pSDL_Event): CInteger; cdecl;
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_WaitEvent';
+function SDL_WaitEvent(event:pSDL_Event): CInteger; 
+           libSDL 'SDL_WaitEvent';
 
 { --------------------------------------------------------------------- }
 
@@ -718,7 +717,7 @@ end;
 
 Initialization
 
-  ident('$Id: sdlgrph.pas,v 1.12 2006/10/11 06:26:23 akf Exp $');
+  ident('$Id: sdlgrph.pas,v 1.13 2006/11/01 07:42:25 akf Exp $');
 
   textarea      := NIL;
   screen        := NIL;

@@ -2,7 +2,7 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
-* $Id: sdlsnd.pas,v 1.12 2006/10/11 06:26:23 akf Exp $
+* $Id: sdlsnd.pas,v 1.13 2006/11/01 07:42:25 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -50,10 +50,11 @@ procedure useSDLsounds; { also started from InitAudio }
 implementation
 
 {$IfDef __GPC__}
+  {$L SDL}
+  {$DEFINE libSDL external name}
   {$DEFINE cdecl attribute(cdecl)}
   {$pointer-arithmetic}
-  {$L SDL}
-  
+ 
   {$L introsnd.o}
   {$L rightsnd.o}
   {$L wrongsnd.o}
@@ -72,6 +73,9 @@ implementation
 {$EndIf} { __GPC__ }
 
 {$IfDef FPC}
+  {$MACRO ON}
+  {$DEFINE libSDL:=cdecl; external 'SDL' name}
+
   {$I introsnd.inc}
   {$I rightsnd.inc}
   {$I wrongsnd.inc}
@@ -108,34 +112,28 @@ var
   sndlen  : LongInt = 0;
 
 
-function SDL_Init(flags: Uint32): CInteger; cdecl; 
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_Init';
+function SDL_Init(flags: Uint32): CInteger; libSDL 'SDL_Init';
 
-function SDL_InitSubSystem(flags: Uint32): CInteger; cdecl; 
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_InitSubSystem';
+function SDL_InitSubSystem(flags: Uint32): CInteger;  
+           libSDL 'SDL_InitSubSystem';
 
-procedure SDL_Quit; cdecl; 
-            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_Quit';
+procedure SDL_Quit; libSDL 'SDL_Quit';
 
-procedure SDL_QuitSubSystem(flags: Uint32); cdecl;
-            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_QuitSubSystem';
+procedure SDL_QuitSubSystem(flags: Uint32); libSDL 'SDL_QuitSubSystem';
 
 function SDL_OpenAudio(var desired: SDL_AudioSpec; 
-                       obtained: pSDL_AudioSpec): CInteger; cdecl;
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_OpenAudio';
+                       obtained: pSDL_AudioSpec): CInteger; 
+	   libSDL 'SDL_OpenAudio';
 
-procedure SDL_LockAudio; cdecl; 
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_LockAudio';
+procedure SDL_LockAudio; libSDL 'SDL_LockAudio';
 
-procedure SDL_UnlockAudio; cdecl; 
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_UnlockAudio';
+procedure SDL_UnlockAudio; libSDL 'SDL_UnlockAudio';
 
-procedure SDL_PauseAudio(pause_on: CInteger); cdecl; 
-            external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_PauseAudio';
+procedure SDL_PauseAudio(pause_on: CInteger); libSDL 'SDL_PauseAudio';
 
 procedure SDL_MixAudio(dst: pByte; src: pByte;
-                       len: UInt32; volume: CInteger); cdecl; 
-           external {$IfDef FPC}'SDL'{$EndIf} name 'SDL_MixAudio';
+                       len: UInt32; 
+		       volume: CInteger); libSDL 'SDL_MixAudio';
 
 procedure playSound(s: pointer; len: LongInt);
 begin
@@ -247,7 +245,7 @@ end;
 
 Initialization
 
-  ident('$Id: sdlsnd.pas,v 1.12 2006/10/11 06:26:23 akf Exp $')
+  ident('$Id: sdlsnd.pas,v 1.13 2006/11/01 07:42:25 akf Exp $')
 
 Finalization
 
