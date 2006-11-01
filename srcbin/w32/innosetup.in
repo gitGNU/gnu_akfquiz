@@ -115,7 +115,7 @@ Source: "template-de";        DestDir: "{app}\doc\deutsch"; DestName: "template"
 
 [INI]
 Filename: "{app}\doc\akfquiz.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://akfquiz.nongnu.org/"; Languages: en
-Filename: "{app}\doc\akfquiz.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://akfoerster.de/akfquiz/index.de.html"; Languages: de
+Filename: "{app}\doc\akfquiz.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://akfquiz.nongnu.org/deutsch.html"; Languages: de
 ;Filename: "{app}\doc\quizupload.url"; Section: "InternetShortcut"; Key: "URL"; String: "http://akfoerster.de/akfquiz/quizupload"
 
 [Run]
