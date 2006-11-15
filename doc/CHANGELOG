@@ -1,3 +1,5 @@
+4.4.0-testing
+- use Conditional Define "Windows" for "win32"
 4.4.0 (4.3.2)
 - HTML documentation is postprocessed throught HTML-Tidy
 - cgiquiz, mkquiz: never use target _blank, always use _top

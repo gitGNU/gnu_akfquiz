@@ -6,7 +6,7 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.19 2006/10/29 19:06:34 akf Exp $
+* $Id: mkquiz.pas,v 1.20 2006/11/15 15:37:28 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -30,17 +30,18 @@
 }
 
 { compatiblity definition }
-{$IfDef _WIN32} {$Define Win32} {$EndIf}
+{$IfDef _WIN32} {$Define Windows} {$EndIf}
+{$IfDef Win32} {$Define Windows} {$EndIf}
 
-{$IfDef Win32}
+{$IfDef Windows}
   {$R w32/mkquiz.res}
 {$EndIf}
 
 {$IfDef FPC}
   {$Mode Delphi}
   {$LongStrings on}
-  
-  {$IfDef Win32}
+
+  {$IfDef Windows}
     {$AppType Console}
   {$EndIf}
 {$EndIf}
@@ -515,7 +516,7 @@ end;
 
 
 begin
-ident('$Id: mkquiz.pas,v 1.19 2006/10/29 19:06:34 akf Exp $');
+ident('$Id: mkquiz.pas,v 1.20 2006/11/15 15:37:28 akf Exp $');
 
 outpath := '';
 modes := [];

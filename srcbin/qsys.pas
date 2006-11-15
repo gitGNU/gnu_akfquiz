@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.17 2006/10/26 08:09:11 akf Exp $
+* $Id: qsys.pas,v 1.18 2006/11/15 15:37:28 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -37,7 +37,8 @@
 
 
 { compatiblity definition }
-{$IfDef _WIN32} {$Define Win32} {$EndIf}
+{$IfDef _WIN32} {$Define Windows} {$EndIf}
+{$IfDef Win32} {$Define Windows} {$EndIf}
 
 
 unit qsys;
@@ -52,7 +53,7 @@ interface
               DirSeparator => DirectorySeparator,
               LineBreak => LineEnding);
          chconv;
-  {$IfDef Win32}
+  {$IfDef Windows}
          Winprocs (GetEnvironmentVariable => WGetEnvironmentVariable); 
 	 WinTypes;
   {$EndIf}
@@ -60,9 +61,9 @@ interface
 {$Else}
 
     uses
-    {$IfDef Win32}
+    {$IfDef Windows}
        Windows,
-    {$EndIf} { Win32 }
+    {$EndIf} { Windows }
     SysUtils, chconv;
 
 {$EndIf} { __GPC__ }
@@ -148,7 +149,7 @@ const platform =
 {$IfDef IBM850}
   const sys_charset = 'IBM850'; { see comment above }
 {$Else}
-  {$IfDef Win32}
+  {$IfDef Windows}
     const sys_charset = 'WINDOWS-1252';
   {$Else}
     const sys_charset = 'ISO-8859-1';
@@ -385,7 +386,7 @@ var l: mystring;
 begin
 l := GetEnvironmentVariable('LANG');
 
-{$IfDef Win32}
+{$IfDef Windows}
   if l='' then
     case (GetUserDefaultLangID and $03FF) of
       { GPC doesn't have the LANG constants yet }
@@ -1389,7 +1390,7 @@ function checkOEMdisplay: boolean;
 var s: mystring;
 begin
 { Windows uses different charsets in the Editor and in console mode }
-{$IfDef Win32} {$Define OEM} {$EndIf}
+{$IfDef Windows} {$Define OEM} {$EndIf}
 {$IfDef DPMI} {$Define OEM} {$EndIf}
 {$IfDef __OS_DOS__} {$Define OEM} {$EndIf}
 {$IfDef MSDOS}      {$Define OEM} {$EndIf}
@@ -1475,7 +1476,7 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.17 2006/10/26 08:09:11 akf Exp $');
+  ident('$Id: qsys.pas,v 1.18 2006/11/15 15:37:28 akf Exp $');
   disableSignals; { initializes Signals }
   
   quizfileList := NIL;

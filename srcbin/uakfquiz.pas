@@ -1,7 +1,7 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.13 2006/10/21 04:26:09 akf Exp $
+* $Id: uakfquiz.pas,v 1.14 2006/11/15 15:37:28 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -38,9 +38,6 @@
   {$LongStrings on}
   {$Smartlink on}
 {$EndIf}
-
-{ compatiblity definition }
-{$IfDef _WIN32} {$Define Win32} {$EndIf}
 
 {$IfNDef NoBuffer}
   {$IfNDef __GPC__} { GPC doesn't need no additional buffer }
@@ -946,5 +943,5 @@ if TimeLimit>0
 end;
 
 begin
-ident('$Id: uakfquiz.pas,v 1.13 2006/10/21 04:26:09 akf Exp $')
+ident('$Id: uakfquiz.pas,v 1.14 2006/11/15 15:37:28 akf Exp $')
 end.

@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.60 2006/10/31 09:19:21 akf Exp $
+* $Id: cgiquiz.pas,v 1.61 2006/11/15 15:37:28 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -29,9 +29,10 @@
 *
 }
 
-{$IfDef _WIN32} {$Define Win32} {$EndIf}
+{$IfDef _WIN32} {$Define Windows} {$EndIf}
+{$IfDef Win32} {$Define Windows} {$EndIf}
 
-{$IfDef Win32}
+{$IfDef Windows}
   {$R w32/cgiquiz.res}
 {$EndIf}
 
@@ -39,7 +40,7 @@
   {$Mode Delphi}
   {$LongStrings on}
 
-  {$IfDef Win32}
+  {$IfDef Windows}
     {$AppType Console}
   {$EndIf}
 {$EndIf}
@@ -1827,7 +1828,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.60 2006/10/31 09:19:21 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.61 2006/11/15 15:37:28 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;

@@ -2,7 +2,7 @@
 * clgrph (unit)
 * functions for the classical graph unit for grquiz
 *
-* $Id: clgrph.pas,v 1.6 2006/10/11 06:26:22 akf Exp $
+* $Id: clgrph.pas,v 1.7 2006/11/15 15:37:28 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -26,9 +26,6 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA
 *}
-
-{ compatiblity definition }
-{$IfDef _WIN32} {$Define Win32} {$EndIf}
 
 {$IfDef FPC}
   {$Mode Delphi}
@@ -356,7 +353,7 @@ end;
 
 Initialization
 
-  ident('$Id: clgrph.pas,v 1.6 2006/10/11 06:26:22 akf Exp $');
+  ident('$Id: clgrph.pas,v 1.7 2006/11/15 15:37:28 akf Exp $');
   TextArea := NIL;
   TextAreaSize := 0;
   graphicActive := false;

@@ -4,7 +4,7 @@
 * usable for blind users (braile line or speech synthesizer)
 * usable as backend for other applications
 *
-* $Id: linequiz.pas,v 1.11 2006/10/19 05:33:39 akf Exp $
+* $Id: linequiz.pas,v 1.12 2006/11/15 15:37:28 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -28,17 +28,18 @@
 *}
 
 { compatiblity definition }
-{$IfDef _WIN32} {$Define Win32} {$EndIf}
+{$IfDef _WIN32} {$Define Windows} {$EndIf}
+{$IfDef Win32} {$Define Windows} {$EndIf}
 
-{$IfDef Win32}
+{$IfDef Windows}
   {$R w32/linequiz.res}
 {$EndIf}
 
 {$IfDef FPC}
   {$Mode Delphi}
   {$LongStrings on}
-
-  {$IfDef Win32}
+  
+  {$IfDef Windows}
     {$AppType Console}
   {$EndIf}
 {$EndIf}
@@ -606,7 +607,7 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: linequiz.pas,v 1.11 2006/10/19 05:33:39 akf Exp $');
+ident('$Id: linequiz.pas,v 1.12 2006/11/15 15:37:28 akf Exp $');
 
 myexitcode := 0;
 display := checkdisplay; { set a default }

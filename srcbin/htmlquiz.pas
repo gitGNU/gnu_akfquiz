@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.18 2006/10/29 19:06:34 akf Exp $
+* $Id: htmlquiz.pas,v 1.19 2006/11/15 15:37:28 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -36,9 +36,6 @@
   {$LongStrings on}  
   {$Smartlink on}
 {$EndIf}
-
-{ compatiblity definition }
-{$IfDef _WIN32} {$Define Win32} {$EndIf}
 
 {$I-} { no automatic I/O-Check }
 {$X+} { function call as procedure allowed }
@@ -605,5 +602,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.18 2006/10/29 19:06:34 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.19 2006/11/15 15:37:28 akf Exp $')
 end.

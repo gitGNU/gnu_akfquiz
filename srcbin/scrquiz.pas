@@ -2,7 +2,7 @@
 * scrquiz   (was crtquiz)
 * screen/terminal oriented quiz program
 *
-* $Id: scrquiz.pas,v 1.13 2006/10/22 10:31:31 akf Exp $
+* $Id: scrquiz.pas,v 1.14 2006/11/15 15:37:28 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -34,9 +34,10 @@
 {$R+} { Range checking }
 
 { compatiblity definition }
-{$IfDef _WIN32} {$Define Win32} {$EndIf}
+{$IfDef _WIN32} {$Define Windows} {$EndIf}
+{$IfDef Win32} {$Define Windows} {$EndIf}
 
-{$IfDef Win32}
+{$IfDef Windows}
   {$R w32/scrquiz.res}
 {$EndIf}
 
@@ -44,7 +45,7 @@
   {$Mode Delphi}
   {$LongStrings on}
 
-  {$IfDef Win32}
+  {$IfDef Windows}
     {$AppType Console}
   {$EndIf}
 {$EndIf}
@@ -334,7 +335,7 @@ centered(msg_GPL);
 {$IfDef Advertisement}
   centered(msg_advertisement);
 {$EndIf}
-{$IfDef Win32}
+{$IfDef Windows}
   case lang of
     deutsch: centered('ALT + Enter = Vollbildmodus');
     otherwise centered('Alt + Enter = Fullscreen mode')
@@ -476,7 +477,7 @@ if timelimit>0 then
   centered(msg_advertisement);
 {$EndIf}
 
-{$IfDef Win32}
+{$IfDef Windows}
   Ln;
   case lang of
     deutsch: centered('ALT + Enter = Vollbildmodus');
@@ -1101,7 +1102,7 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: scrquiz.pas,v 1.13 2006/10/22 10:31:31 akf Exp $');
+ident('$Id: scrquiz.pas,v 1.14 2006/11/15 15:37:28 akf Exp $');
 
 myexitcode := 0;
 loop := true;

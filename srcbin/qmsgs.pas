@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.19 2006/10/26 16:42:52 akf Exp $
+* $Id: qmsgs.pas,v 1.20 2006/11/15 15:37:28 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -35,9 +35,6 @@
   {$LongStrings on}
   {$Smartlink on}
 {$EndIf}
-
-{ compatiblity definition }
-{$IfDef _WIN32} {$Define Win32} {$EndIf}
 
 
 unit qmsgs;
@@ -693,5 +690,5 @@ end;
 
 
 begin
-ident('$Id: qmsgs.pas,v 1.19 2006/10/26 16:42:52 akf Exp $')
+ident('$Id: qmsgs.pas,v 1.20 2006/11/15 15:37:28 akf Exp $')
 end.

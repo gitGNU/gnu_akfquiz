@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.17 2006/10/22 10:31:31 akf Exp $
+* $Id: grquiz.pas,v 1.18 2006/11/15 15:37:28 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -29,9 +29,10 @@
 *}
 
 { compatiblity definition }
-{$IfDef _WIN32} {$Define Win32} {$EndIf}
+{$IfDef _WIN32} {$Define Windows} {$EndIf}
+{$IfDef Win32} {$Define Windows} {$EndIf}
 
-{$IfDef Win32}
+{$IfDef Windows}
   {$R w32/grquiz.res}
   {$UnDef Beeps} { important }
 {$EndIf}
@@ -52,7 +53,7 @@
      {$Define Beeps}
   {$EndIf} {$EndIf} {$EndIf}
 
-  {$IfDef Win32}
+  {$IfDef Windows}
     {$AppType GUI}
     {$Define SDL}
   {$EndIf}
@@ -1139,7 +1140,7 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: grquiz.pas,v 1.17 2006/10/22 10:31:31 akf Exp $');
+ident('$Id: grquiz.pas,v 1.18 2006/11/15 15:37:28 akf Exp $');
 
 {$IfDef FPCSVGALIB}
   { space after messages from SVGALib }
