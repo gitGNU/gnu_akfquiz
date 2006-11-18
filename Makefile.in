@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.7 2006/10/22 11:32:47 akf Exp $
+# $Id: Makefile.in,v 1.8 2006/11/18 19:21:49 akf Exp $
 #
 # this Makefile is just a glue to the others
 # if you want to configure things, use the script configure 
@@ -163,7 +163,7 @@ dist-mostbin: most
 	      akfquiz/srcbin/quizstat \
 	      akfquiz/srcbin/akfquiz
 
-# INNO Setup
+# needs makensis
 dist-windows: html pdf
 	$(MAKE) -C srcbin veryclean
 	# export and convert textfiles
@@ -173,12 +173,6 @@ dist-windows: html pdf
 	-cp ../unfree/*.akfquiz srcbin/w32/
 	-unix2dos srcbin/w32/*.txt
 	-unix2dos srcbin/w32/*.akfquiz
-	iscc srcbin/w32/innosetup.iss
-
-# under windows you could use MSYS or Cygwin for scripts
-#
-# for CrossCompilation "iscc" can be a script for wine:
-#     #!/bin/sh
-#     exec wine 'C:\Program Files\Inno Setup 5\ISCC.exe' "$@"
+	makensis srcbin/w32/akfquiz.nsi
 
 FORCE:

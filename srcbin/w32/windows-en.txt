@@ -1,7 +1,7 @@
 AKFQuiz for Windows
 
-PLEASE UNINSTALL OLDER VERSIONS OF AKFQUIZ BEFORE YOU INSTALL
-A NEW VERSION!
+PLEASE UNINSTALL OLDER VERSIONS OF AKFQUIZ BEFORE YOU 
+INSTALL A NEW VERSION!
 
 
 DESCRIPTION
@@ -50,6 +50,6 @@ http://gnuwin32.sourceforge.net/packages/mawk.htm
 The most actual version of AKFQuiz can be found on the Internet:
 http://akfquiz.nongnu.org/
 
-For the installer for Windows I use Inno Setup by Jordan Russell
-http://innosetup.com/
-
+For the installer for Windows I use 
+NSIS (Nullsoft Scriptable Install System)
+http://nsis.sf.net/

@@ -1,7 +1,7 @@
 AKFQuiz
 
-DEINSTALLIEREN SIE ALTE VERSIONEN VON AKFQUIZ BEVOR SIE EINE 
-NEUE VERSION INSTALLIEREN!
+DEINSTALLIEREN SIE ALTE VERSIONEN VON AKFQUIZ BEVOR SIE 
+EINE NEUE VERSION INSTALLIEREN!
 
 
 BESCHREIBUNG
@@ -56,6 +56,5 @@ Die aktuellste Version von AKFQuiz finden Sie im Internet:
 http://akfquiz.nongnu.org/deutsch.html
 
 Für den Installer unter Windows verwende ich 
-Inno Setup von Jordan Russell
-http://innosetup.com/
-
+NSIS (Nullsoft Scriptable Install System)
+http://nsis.sf.net/

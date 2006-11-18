@@ -3,4 +3,5 @@
 *.or
 *.akfquiz
 innosetup.iss
+*.nsh
 

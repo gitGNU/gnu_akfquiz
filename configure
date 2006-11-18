@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.19 2006/11/15 15:37:28 akf Exp $
+# $Id: configure,v 1.20 2006/11/18 19:21:49 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -33,6 +33,7 @@ NAME="AKFQuiz"
 MAINVERSION=4
 SUBVERSION=4
 REVISION=0
+PKGVERSION=0
 
 VERSION=$MAINVERSION.$SUBVERSION.$REVISION
 SVERSION=$MAINVERSION$SUBVERSION$REVISION
@@ -243,11 +244,12 @@ fi
 
 # Windows stuff
 
-sed < srcbin/w32/innosetup.in > srcbin/w32/innosetup.iss \
-    -e "s/^\(AppName=\).*/\1$NAME$VARIANT/" \
-    -e "s/^\(AppVerName=\).*/\1$NAME$VARIANT $VERSION/" \
-    -e "s/^\(OutputBaseFileName=\).*/\1akfquiz$VARIANT-${VERSION}-w32/" \
-    -e "s/^\(VersionInfoVersion=\).*/\1$VERSION/"
+cat > srcbin/w32/akfquiz.nsh <<AMEN
+!define NAME "$NAME$VARIANT"
+!define MAINNAME "$NAME"
+!define VERSION $VERSION
+!define PKGVERSION $PKGVERSION
+AMEN
 
 create_rc scrquiz "scrquiz: AKFQuiz in text-mode" "ported from GNU\/Linux"
 create_rc mkquiz "mkquiz: make HTML quiz-file for JavaScript" \

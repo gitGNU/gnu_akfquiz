@@ -19,8 +19,9 @@ mostlyclean:
 clean: mostlyclean
 
 distclean: clean
-	-rm -f innosetup.iss
+	-rm -f akfquiz.nsh
 	-rm -f *.akfquiz
 	-rm -f *.rc
+	-rm -f *.exe
 
 new: distclean

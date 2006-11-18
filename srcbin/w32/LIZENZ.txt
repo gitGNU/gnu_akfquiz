@@ -6,6 +6,8 @@ verwendet Tabellen von GNU libiconv
 Copyright © 1999-2001 Free Software Foundation, Inc.
 grquiz verwendet Zeichensätze aus dem kbd-Paket
 Copyright © 2004 by the contributors to kbd
+beinhaltet die Simple DirectMedia Layer library (SDL).
+Copyright © 1997-2006 Sam Lantinga
 
 AKFQuiz ist Freie Software. Sie können es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
@@ -14,17 +16,8 @@ veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version
 
 Die Veröffentlichung von AKFQuiz erfolgt in der Hoffnung, dass es
 Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne
-die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN
-BESTIMMTEN ZWECK.
+die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR 
+EINEN BESTIMMTEN ZWECK.
 
 Details finden Sie in der Datei "COPYING" im Ordner "doc".
-
-
-Das Windows-Paket beinhaltet die Simple DirectMedia Layer library (SDL).
-
-The Simple DirectMedia Layer library source code is available from:
-http://www.libsdl.org/
-
-This library is distributed under the terms of the GNU LGPL license:
-http://www.gnu.org/copyleft/lesser.html
 

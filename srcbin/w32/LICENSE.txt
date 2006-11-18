@@ -7,6 +7,8 @@ uses tables from GNU libiconv
 Copyright © 1999-2001 Free Software Foundation, Inc.
 grquiz uses fonts from the kbd package
 Copyright © 2004 by the contributors to kbd
+includes Simple DirectMedia Layer library (SDL)
+Copyright © 1997-2006 Sam Lantinga
 
 AKFQuiz is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,13 +21,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 The details can be found in the file "COPYING" in the directory "doc".
-
-
-The windows package also includes the Simple DirectMedia Layer library (SDL).
-
-The Simple DirectMedia Layer library source code is available from:
-http://www.libsdl.org/
-
-This library is distributed under the terms of the GNU LGPL license:
-http://www.gnu.org/copyleft/lesser.html
 
