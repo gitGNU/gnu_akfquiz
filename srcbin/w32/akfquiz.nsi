@@ -81,12 +81,12 @@ LangString LICENSE    ${LANG_ENGLISH} "License"
 LangString LICENSE    ${LANG_GERMAN}  "Lizenz"
 LangString HTMLQUIZ   ${LANG_ENGLISH} "HTML-Quiz (JavaScript)"
 LangString HTMLQUIZ   ${LANG_GERMAN}  "HTML-Quiz (JavaScript)"
-LangString LOCINST    ${LANG_ENGLISH} "local installation"
-LangString LOCINST    ${LANG_GERMAN}  "lokale Installation"
+LangString LOCINST    ${LANG_ENGLISH} "integrate into system"
+LangString LOCINST    ${LANG_GERMAN}  "System-Integration"
 LangString UNINSTALL  ${LANG_ENGLISH} "uninstall"
 LangString UNINSTALL  ${LANG_GERMAN}  "deinstallieren"
-LangString MKUNINST   ${LANG_ENGLISH} "register software in system"
-LangString MKUNINST   ${LANG_GERMAN}  "in Systemsteuerung anmelden"
+LangString MKUNINST   ${LANG_ENGLISH} "automatically uninstallable"
+LangString MKUNINST   ${LANG_GERMAN}  "automatisch deinstallierbar"
 LangString FASSOC     ${LANG_ENGLISH} "file-associations"
 LangString FASSOC     ${LANG_GERMAN}  "Dateinamen verknüpfen"
 LangString LICFILE    ${LANG_ENGLISH} "LICENSE.txt"
@@ -106,6 +106,7 @@ LicenseForceSelection off
 
 
 PageEx license
+  Caption ": $(USAGE)"
   LicenseText "$(USAGE)" "$(^NextBtn)"
   LicenseData "$(USAGETEXT)"
   LicenseForceSelection off
