@@ -218,6 +218,9 @@ SectionGroup "$(LOCINST)"
     WriteRegStr HKLM \
       "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
       "URLInfoAbout" "$(HOMEPAGE)"
+    WriteRegStr HKLM \
+      "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
+      "HelpLink" "http://savannah.nongnu.org/p/akfquiz"
   SectionEnd
 
 
