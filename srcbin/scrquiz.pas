@@ -2,7 +2,7 @@
 * scrquiz   (was crtquiz)
 * screen/terminal oriented quiz program
 *
-* $Id: scrquiz.pas,v 1.14 2006/11/15 15:37:28 akf Exp $
+* $Id: scrquiz.pas,v 1.15 2006/11/23 19:54:53 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -949,7 +949,10 @@ WriteLn(' -lfn        use long filenames (DOS only)');
 {$EndIf} {$EndIf}
 
 WriteLn;
-WriteLn('QUIZPATH: ', getQuizPath);
+WriteLn('The environment-variable QUIZPATH can be used for setting');
+WriteLn('a searchpath to the quizfiles');
+WriteLn;
+WriteLn('QUIZPATH="', getQuizPath, '"');
 
 if BugMail <> ''
   then begin WriteLn; WriteLn('Report bugs to <' + BugMail + '>.') end;
@@ -1102,7 +1105,7 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: scrquiz.pas,v 1.14 2006/11/15 15:37:28 akf Exp $');
+ident('$Id: scrquiz.pas,v 1.15 2006/11/23 19:54:53 akf Exp $');
 
 myexitcode := 0;
 loop := true;
