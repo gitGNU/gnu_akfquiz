@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.20 2006/11/18 19:21:49 akf Exp $
+# $Id: configure,v 1.21 2006/11/23 19:59:16 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -47,7 +47,7 @@ BUGMAIL=bug-akfquiz@akfoerster.de
 # functions
 
 help() {
-cat <<AMEN
+cat <<EOF
 ./configure [options]
 
 options:
@@ -66,7 +66,7 @@ options:
   --with-xarm
   --enable-exam=no
   --disable-exam
-AMEN
+EOF
 exit
 }
 
@@ -192,7 +192,7 @@ SVERSION=$MAINVERSION$SUBVERSION$REVISION
 #fi
 
 # show settings:
-cat << AMEN
+cat << EOF
 prefix:   $PREFIX
 cgidir:   $CGIDIR
 examdir:  $EXAMDIR
@@ -204,7 +204,7 @@ Compiler: $COMPILER
 Sys:      $SYS
 Arch:     $ARCH
 BugMail:  $BUGMAIL
-AMEN
+EOF
 
 # change to default directory
 cd $(dirname $0)
@@ -224,7 +224,7 @@ sed < srcbin/common.in > srcbin/common.mak \
     -e "s%^\(examdir *= *\).*%\1$EXAMDIR%" \
     -e "s/^\(SVERSION *= *\).*/\1$SVERSION/"
 
-cat > srcbin/config.inc <<AMEN
+cat > srcbin/config.inc <<EOF
 { this file was generated automatically using configure
   do not edit this by hand }
 
@@ -233,7 +233,12 @@ const AKFQuizVersion = '$VERSION';
 const BugMail = '$BUGMAIL';
 const ExamDir = '$EXAMDIR';
 
-AMEN
+EOF
+
+cat > srcbin/getquiz <<EOF
+#!/bin/sh
+cp -i $PREFIX/share/akfquiz/html/* .
+EOF
 
 if [ -w ../autopackage/default.apspec ]
 then
@@ -244,12 +249,12 @@ fi
 
 # Windows stuff
 
-cat > srcbin/w32/akfquiz.nsh <<AMEN
+cat > srcbin/w32/akfquiz.nsh <<EOF
 !define NAME "$NAME$VARIANT"
 !define MAINNAME "$NAME"
 !define VERSION $VERSION
 !define PKGVERSION $PKGVERSION
-AMEN
+EOF
 
 create_rc scrquiz "scrquiz: AKFQuiz in text-mode" "ported from GNU\/Linux"
 create_rc mkquiz "mkquiz: make HTML quiz-file for JavaScript" \

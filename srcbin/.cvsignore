@@ -4,3 +4,4 @@ quizhg.inc titimg.inc
 *.gpi *.gpm *.ppu
 cgiquiz diaquiz grquiz linequiz mkquiz gtkquizchooser scrquiz
 ppm2pas
+getquiz

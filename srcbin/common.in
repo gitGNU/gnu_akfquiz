@@ -1,4 +1,4 @@
-# $Id: common.in,v 1.13 2006/10/25 09:48:54 akf Exp $
+# $Id: common.in,v 1.14 2006/11/23 19:59:16 akf Exp $
 
 #####################################################################
 # change here:
@@ -12,7 +12,6 @@ datadir     = $(datarootdir)
 bindir      = $(exec_prefix)/bin
 icondir     = $(datarootdir)/pixmaps/
 docdir      = $(prefix)/share/doc/akfquiz
-getquiz     = $(bindir)/getquiz
 quizpath    = $(datadir)/akfquiz
 htmlpath    = $(quizpath)/html
 
@@ -148,6 +147,7 @@ veryclean: clean
 	-rm -f quizhg.inc titimg.inc ppm2pas
 	-rm -f errorsnd.inc infosnd.inc introsnd.inc rightsnd.inc \
 	       wrongsnd.inc neutralsnd.inc
+	-rm -f getquiz
 
 distclean: veryclean
 	-$(MAKE) -C w32 distclean
@@ -190,6 +190,7 @@ install: all installdirs
 	-$(INSTALL) -m 0755 -s grquiz $(DESTDIR)$(bindir)
 	#-$(INSTALL) -o root -m 4755 -s grquiz $(DESTDIR)$(bindir)
 	$(INSTALL) -m 0755 akfquiz $(DESTDIR)$(bindir)
+	$(INSTALL) -m 0755 getquiz $(DESTDIR)$(bindir)
 	$(INSTALL) -m 0755 quizstat $(DESTDIR)$(bindir)
 	@echo "*"
 	@echo "* installing manpages"
@@ -228,15 +229,8 @@ install: all installdirs
 	@echo "*"
 	@echo "* installing files needed for HTML to $(DESTDIR)$(htmlpath)"
 	@echo "*"
-	$(INSTALL) -m 0755 -d $(DESTDIR)$(htmlpath)
 	$(INSTALL) -m 0644 ../html/*.js ../html/*.png ../html/*.css $(DESTDIR)$(htmlpath)
 	$(INSTALL) -m 0644 ../html/schulnote.html $(DESTDIR)$(htmlpath)
-	@echo "*"
-	@echo "* creating getquiz"
-	@echo "*"
-	echo >  $(DESTDIR)$(getquiz) "#!/bin/sh"
-	echo >> $(DESTDIR)$(getquiz) "cp -i $(htmlpath)/* ."
-	chmod 755 $(DESTDIR)$(getquiz)
 	@echo "*"
 	@echo "* HINT: install the CGI program with 'make install-cgi'"
 	@echo "* the CGI-path ist configured to $(cgidir)"
@@ -274,9 +268,7 @@ uninstall:
 	-rm $(DESTDIR)$(bindir)/diaquiz
 	-rm $(DESTDIR)$(bindir)/grquiz
 	-rm $(DESTDIR)$(bindir)/quizstat
-	-rm -f $(DESTDIR)$(bindir)/xgrquiz
-	-rm -f $(DESTDIR)$(bindir)/nscrquiz
-	-rm $(DESTDIR)$(getquiz)
+	-rm $(DESTDIR)$(bindir)/getquiz
 	-rm $(DESTDIR)$(bindir)/akfquiz
 	-rm $(DESTDIR)$(man1dir)/mkquiz.1
 	-rm $(DESTDIR)$(man1dir)/scrquiz.1
