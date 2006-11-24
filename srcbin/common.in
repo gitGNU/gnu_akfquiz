@@ -1,4 +1,4 @@
-# $Id: common.in,v 1.14 2006/11/23 19:59:16 akf Exp $
+# $Id: common.in,v 1.15 2006/11/24 11:14:42 akf Exp $
 
 #####################################################################
 # change here:
@@ -199,6 +199,7 @@ install: all installdirs
 	-$(INSTALL) -m 0644 ../doc/english/scrquiz.1 $(DESTDIR)$(man1dir)
 	-$(INSTALL) -m 0644 ../doc/english/grquiz.1 $(DESTDIR)$(man1dir)
 	-$(INSTALL) -m 0644 ../doc/english/linequiz.1 $(DESTDIR)$(man1dir)
+	-$(INSTALL) -m 0644 ../doc/english/quizstat.1 $(DESTDIR)$(man1dir)
 	-$(INSTALL) -m 0644 ../doc/english/cgiquiz.8 $(DESTDIR)$(man8dir)
 	-$(INSTALL) -m 0644 ../doc/english/akfquiz.5 $(DESTDIR)$(man5dir)
 	-$(INSTALL) -m 0644 ../doc/deutsch/mkquiz.1 $(DESTDIR)$(man1dedir)
@@ -273,6 +274,7 @@ uninstall:
 	-rm $(DESTDIR)$(man1dir)/mkquiz.1
 	-rm $(DESTDIR)$(man1dir)/scrquiz.1
 	-rm $(DESTDIR)$(man1dir)/grquiz.1
+	-rm $(DESTDIR)$(man1dir)/quizstat.1
 	-rm $(DESTDIR)$(man1dir)/linequiz.1
 	-rm $(DESTDIR)$(man8dir)/cgiquiz.8
 	-rm $(DESTDIR)$(man5dir)/akfquiz.5
