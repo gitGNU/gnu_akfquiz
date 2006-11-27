@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.20 2006/11/15 15:37:28 akf Exp $
+* $Id: qmsgs.pas,v 1.21 2006/11/27 16:28:10 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -662,9 +662,10 @@ case lang of
 end;
 
 procedure useSystemLanguage;
-var l: string[2];
+var l: mystring;
 begin
-l := copy(getSystemLanguage, 1, 2); { first 2 chars }
+l := getSystemLanguage;
+l := copy(l, 1, 2); { first 2 chars } 
 l := makeUpcase(l);
 if l='EN' then lang := english;
 if l='DE' then lang := deutsch;
@@ -690,5 +691,5 @@ end;
 
 
 begin
-ident('$Id: qmsgs.pas,v 1.20 2006/11/15 15:37:28 akf Exp $')
+ident('$Id: qmsgs.pas,v 1.21 2006/11/27 16:28:10 akf Exp $')
 end.
