@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.61 2006/11/15 15:37:28 akf Exp $
+* $Id: cgiquiz.pas,v 1.62 2006/11/28 18:49:39 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -497,7 +497,8 @@ procedure useBrowserLanguage;
 var s: myString;
 begin
 { first just analyze the first language }
-s := copy(CGIInfo('HTTP_ACCEPT_LANGUAGE'), 1, 2);
+s := CGIInfo('HTTP_ACCEPT_LANGUAGE');
+s := copy(s, 1, 2);
 
 if s='de' then lang := deutsch
   else if s='it' then lang := italiano
@@ -1828,7 +1829,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.61 2006/11/15 15:37:28 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.62 2006/11/28 18:49:39 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;

@@ -2,7 +2,7 @@
 * scrquiz   (was crtquiz)
 * screen/terminal oriented quiz program
 *
-* $Id: scrquiz.pas,v 1.15 2006/11/23 19:54:53 akf Exp $
+* $Id: scrquiz.pas,v 1.16 2006/11/28 18:49:39 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -969,6 +969,7 @@ var
   keys : keyset;
   fileMaxY: TscreenPos;
   entry : PquizfileList;
+  theTitle: ShortString;
 begin
 buildscreen(AKFQuizName);
 Ln;
@@ -1012,11 +1013,11 @@ while (entry<>NIL) and (not okay) do
   begin
   while (entry<>NIL) and (Nr<=MaxAnswers-1) and (LineCnt<fileMaxY) do
     begin
-    with entry^ do
-      if language='' 
-        then Write(ValueToKey(Nr)+') ' + copy(cnv(title),1,MaxLength-3))
-        else Write(ValueToKey(Nr)+') ' + language + ': '
-	           + copy(cnv(title),1,MaxLength-5-length(language)));
+    theTitle := cnv(entry^.title);
+    if entry^.language='' 
+      then Write(ValueToKey(Nr)+') ' + copy(theTitle,1,MaxLength-3))
+      else Write(ValueToKey(Nr)+') ' + entry^.language + ': '
+	           + copy(theTitle,1,MaxLength-5-length(entry^.language)));
     Ln;
     entry := entry^.next;
     inc(Nr)
@@ -1105,7 +1106,7 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: scrquiz.pas,v 1.15 2006/11/23 19:54:53 akf Exp $');
+ident('$Id: scrquiz.pas,v 1.16 2006/11/28 18:49:39 akf Exp $');
 
 myexitcode := 0;
 loop := true;
