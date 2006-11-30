@@ -253,6 +253,7 @@ SectionGroup "$(LOCINST)"
     WriteRegStr HKCR "AKFQuiz\shell\edit\command" "" 'notepad.exe "%1"'
   SectionEnd
 
+  ; menu-shortcuts
   Section "$(MENUSHORTC)" menu
     CreateDirectory "$SMPROGRAMS\${NAME}"
 
@@ -299,6 +300,8 @@ SectionGroup "$(LOCINST)"
       "$INSTDIR\$(LANGDOC)\mkquiz.html"
     CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\linequiz.lnk" \
       "$INSTDIR\$(LANGDOC)\linequiz.html"
+    CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\quizstat.lnk" \
+      "$INSTDIR\$(LANGDOC)\quizstat.html"
 
     CreateDirectory "$SMPROGRAMS\${NAME}\$(DOC)\PDF"
     CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\PDF\akfquiz.lnk" \
@@ -311,6 +314,8 @@ SectionGroup "$(LOCINST)"
       "$INSTDIR\$(LANGDOC)\mkquiz.pdf"
     CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\PDF\linequiz.lnk" \
       "$INSTDIR\$(LANGDOC)\linequiz.pdf"
+    CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\PDF\quizstat.lnk" \
+      "$INSTDIR\$(LANGDOC)\quizstat.pdf"
   SectionEnd
 
 
