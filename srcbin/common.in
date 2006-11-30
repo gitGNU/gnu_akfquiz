@@ -1,4 +1,4 @@
-# $Id: common.in,v 1.15 2006/11/24 11:14:42 akf Exp $
+# $Id: common.in,v 1.16 2006/11/30 07:29:17 akf Exp $
 
 #####################################################################
 # change here:
@@ -206,6 +206,7 @@ install: all installdirs
 	-$(INSTALL) -m 0644 ../doc/deutsch/scrquiz.1 $(DESTDIR)$(man1dedir)
 	-$(INSTALL) -m 0644 ../doc/deutsch/grquiz.1 $(DESTDIR)$(man1dedir)
 	-$(INSTALL) -m 0644 ../doc/deutsch/linequiz.1 $(DESTDIR)$(man1dedir)
+	-$(INSTALL) -m 0644 ../doc/deutsch/quizstat.1 $(DESTDIR)$(man1dedir)
 	-$(INSTALL) -m 0644 ../doc/deutsch/akfquiz.5 $(DESTDIR)$(man5dedir)
 	@echo "*"
 	@echo "* installing Icon"
@@ -281,6 +282,7 @@ uninstall:
 	-rm $(DESTDIR)$(man1dedir)/mkquiz.1
 	-rm $(DESTDIR)$(man1dedir)/scrquiz.1
 	-rm $(DESTDIR)$(man1dedir)/grquiz.1
+	-rm $(DESTDIR)$(man1dedir)/quizstat.1
 	-rm $(DESTDIR)$(man1dedir)/linequiz.1
 	-rm $(DESTDIR)$(man8dedir)/cgiquiz.8
 	-rm $(DESTDIR)$(man5dedir)/akfquiz.5
