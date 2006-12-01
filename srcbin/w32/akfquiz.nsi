@@ -3,8 +3,11 @@
 ; http://nsis.sf.net/
 
 !include akfquiz.nsh
+
 !define PUBLISHER "AKFoerster"
 !define OUTFILE "akfquiz-${VERSION}-w32.exe"
+!define COMMENT_EN "The original AKFQuiz is available for GNU/Linux"
+!define COMMENT_DE "Das original AKFQuiz ist für GNU/Linux erhältlich"
 
 Name "${NAME} ${VERSION}"
 OutFile "${OUTFILE}"
@@ -31,8 +34,7 @@ VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} LegalCopyright \
        "Copyright AKFoerster, GPL v2 or later"
-VIAddVersionKey /LANG=${LANG_ENGLISH} Comments \
-       "The original AKFQuiz is available for GNU/Linux"
+VIAddVersionKey /LANG=${LANG_ENGLISH} Comments "${COMMENT_EN}"
 
 VIAddVersionKey /LANG=${LANG_GERMAN} FileVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_GERMAN} FileDescription "${Name} Installation"
@@ -42,8 +44,7 @@ VIAddVersionKey /LANG=${LANG_GERMAN} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_GERMAN} CompanyName "${PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_GERMAN} LegalCopyright \
        "Copyright AKFoerster, GPL V2 oder später"
-VIAddVersionKey /LANG=${LANG_GERMAN}  Comments \
-       "Das original AKFQuiz ist für GNU/Linux erhältlich"
+VIAddVersionKey /LANG=${LANG_GERMAN}  Comments "${COMMENT_DE}"
 
 LangString HOMEPAGE   ${LANG_ENGLISH} "http://akfquiz.nongnu.org/"
 LangString HOMEPAGE   ${LANG_GERMAN}  "http://akfquiz.nongnu.org/deutsch.html"
@@ -91,6 +92,8 @@ LangString FASSOC     ${LANG_ENGLISH} "file-associations"
 LangString FASSOC     ${LANG_GERMAN}  "Dateinamen verknüpfen"
 LangString LICFILE    ${LANG_ENGLISH} "LICENSE.txt"
 LangString LICFILE    ${LANG_GERMAN}  "LIZENZ.txt"
+LangString COMMENT    ${LANG_ENGLISH} "${COMMENT_EN}"
+LangString COMMENT    ${LANG_GERMAN}  "${COMMENT_DE}"
 
 ; subdirectories in doc
 LangString LANGDOC    ${LANG_ENGLISH} "doc\english"
@@ -196,7 +199,19 @@ SectionGroup "$(LOCINST)"
     ; Write the uninstall keys for Windows
     WriteRegStr HKLM \
       "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
-      "DisplayName" "${NAME} ${VERSION}"
+      "DisplayName" "${NAME}"
+    WriteRegStr HKLM \
+      "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
+      "DisplayVersion" "${VERSION}"
+    WriteRegStr HKLM \
+      "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
+      "Comments" "$(COMMENT)"
+    WriteRegStr HKLM \
+      "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
+      "DisplayIcon" "$INSTDIR\AKFQuiz.ico"
+    WriteRegStr HKLM \
+      "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
+      "Publisher" "${PUBLISHER}"
     WriteRegStr HKLM \
       "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
       "UninstallString" '"$INSTDIR\uninstall.exe"'
@@ -211,13 +226,10 @@ SectionGroup "$(LOCINST)"
       "NoRepair" 1
     WriteRegStr HKLM \
       "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
-      "DisplayIcon" "$INSTDIR\AKFQuiz.ico"
+      "URLInfoAbout" "http://akfoerster.de/" ; Publisher-URL
     WriteRegStr HKLM \
       "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
-      "Publisher" "${PUBLISHER}"
-    WriteRegStr HKLM \
-      "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
-      "URLInfoAbout" "$(HOMEPAGE)"
+      "URLUpdateInfo" "$(HOMEPAGE)"
     WriteRegStr HKLM \
       "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
       "HelpLink" "http://savannah.nongnu.org/p/akfquiz"
