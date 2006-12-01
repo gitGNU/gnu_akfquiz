@@ -5,6 +5,8 @@
 !include akfquiz.nsh
 
 !define PUBLISHER "AKFoerster"
+!define PUBLISHERURL "http://akfoerster.de/"
+!define SUPPORTURL "http://savannah.nongnu.org/p/akfquiz"
 !define OUTFILE "akfquiz-${VERSION}-w32.exe"
 !define COMMENT_EN "The original AKFQuiz is available for GNU/Linux"
 !define COMMENT_DE "Das original AKFQuiz ist für GNU/Linux erhältlich"
@@ -226,13 +228,13 @@ SectionGroup "$(LOCINST)"
       "NoRepair" 1
     WriteRegStr HKLM \
       "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
-      "URLInfoAbout" "http://akfoerster.de/" ; Publisher-URL
+      "URLInfoAbout" "${PUBLISHERURL}"
     WriteRegStr HKLM \
       "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
       "URLUpdateInfo" "$(HOMEPAGE)"
     WriteRegStr HKLM \
       "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz" \
-      "HelpLink" "http://savannah.nongnu.org/p/akfquiz"
+      "HelpLink" "${SUPPORTURL}"
   SectionEnd
 
 
