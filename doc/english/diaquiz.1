@@ -1,37 +1,30 @@
 .\" Process this file with
-.\" groff -man -Tlatin1 scrquiz.1
+.\" groff -man -Tlatin1 diaquiz.1
 .\"
-.TH "scrquiz" 1 "4.3.1" AKFQuiz
+.TH "diaquiz" 1 "4.4.0" AKFQuiz
 
 .SH NAME
-scrquiz \- Quiz-program for the text-terminal or xterm
+diaquiz \- Quiz-program using Xdialog
 
 .SH SYNTAX
-.BI "scrquiz [" options "] [" "input file" "]"
+.BI "diaquiz [" options "] [" "input file" "]"
 .br
-.BI "scrquiz [" --help | -h | /? ]
+.BI "diaquiz [" -h | --help | /? ]
 .br
-.BI "scrquiz " --version
+.BI "diaquiz " --version
 
 .SH DESCRIPTION
 
 With this program you can play a quiz, that's in the
 .IR akfquiz (5)
-format on the text-terminal or xterm.
+with a GUI surface. The program Xdialog has to be installed on your 
+system.
 
 When you enter the input file on the command-line, you may leave away 
 the extension ".akfquiz". If the filename is given without a path
 and the environment-variable 
 .B QUIZPATH
 is set, then the file is searched there.
-
-You can stop the program nearly anywhere with the key
-.IR Esc .
-
-The prompt ">" means, that it's a question with just one possible 
-answer, while the prompt ">>" indicates a question with more than one 
-possible answer. In this case you have to commit your answers with the 
-.IR "Enter" -key.
 
 .SH Options
 
@@ -41,35 +34,18 @@ print a short help-message
 
 .IP -s
 
-no sound (no beep)
+no sound
 
 .IP "-d <dir>"
 
 path to the quizfiles. 
 This parameter overrides the environment variable QUIZPATH.
 
-.IP -p
-
-run program in an endless loop (for boot-disks)
-
-.IP -OEM
-
-Display has OEM charset (IBM850 or IBM 437)
-
-.IP -latin1
-
-Display has Latin 1 charset (ISO 8859-1), or a compatible one
-
-.SS Printing:
-
-To print the questions on a form, you could use the command
-.IR mkquiz (1).
-
 .SH ENVIRONMENT
 
 .IP QUIZPATH
 
-searchpath to the quiz-files. 
+searchpath to the quiz-files.
 It may have more than one directory, just like the variable PATH.
 
 If not set a reasonable default will be used. Check with
@@ -79,28 +55,6 @@ If not set a reasonable default will be used. Check with
 
 Language. 
 The language-setting in the quiz-file overrides this.
-This variable is also used to detect the charset.
-
-
-.IP MM_CHARSET
-
-If set to
-.IR "UTF-8" , " IBM850" , " CP850" , " IBM437 " or " CP437"
-and the quiz-file doesn't specify an equivalent charset, then a 
-converter is activated.
-
-This variable is just supported on multi-user systems.
-
-.SH Limits
-
-Support of different charsets is very limited.
-
-The program does not support the keywords
-.IR rtl: " and " bidi: .
-
-Changing the window size after the start of the program is not 
-supported.
-
 
 .SH LICENSE
 
@@ -125,7 +79,7 @@ http://akfquiz.nongnu.org/
 .BR akfquiz (5)
 .BR quizstat (1)
 .BR grquiz (1)
+.BR scrquiz (1)
 .BR mkquiz (1)
 .BR cgiquiz (8)
-.BR diaquiz (1)
 .BR linequiz (1)

@@ -1,24 +1,25 @@
 .\" Process this file with
-.\" groff -man -Tlatin1 grquiz.1
+.\" groff -man -Tlatin1 diaquiz.1
 .\"
-.TH "grquiz" 1 "4.3.0" AKFQuiz
+.TH "diaquiz" 1 "4.4.0" AKFQuiz
 .nh
 
 .SH NAME
-grquiz \- grafisches Quiz-Programm
+grquiz \- Quiz-Programm für Xdialog
 
 .SH SYNTAX
-.BI "grquiz [" Optionen "] [" "Eingabedatei" "]"
+.BI "diaquiz [" Optionen "] [" "Eingabedatei" "]"
 .br
-.BI "grquiz [" --help | -h | /? ]
+.BI "diaquiz [" --help | -h | /? ]
 .br
-.BI "grquiz " --version
+.BI "diaquiz " --version
 
 .SH BESCHREIBUNG
 
 Mit diesem Programm kann man ein Quiz im 
 .IR akfquiz (5)
-Format mit einer grafischen Oberfläche benutzen. 
+Format mit einer GUI Oberfläche benutzen. 
+Das Programm Xdialog muss hierfür auf dem System installiert sein.
 
 Wenn man die Eingabedatei auf der Kommandozeile angibt, 
 kann man die Datei-Endung ".akfquiz" weglassen. 
@@ -26,27 +27,6 @@ Wenn die Eingabedatei ohne Pfad angegeben wird und die
 Umgebungsvariable
 .B QUIZPATH
 gesetzt ist, wird die Datei dort gesucht.
-
-Das Programm kann fast an jeder Stelle mit der Taste
-.I q
-oder
-.I Esc
-(je nach System) beendet werden.
-
-Auf einigen Systemen kann man zwischen Fenster- und Vollbild-Modus 
-umschalten, indem man F11 oder F4 oder Alt+Enter drückt.
-
-Die Eingabe-Aufforderung ist ein ">" bei Fragen mit nur einer 
-Antwort-Möglichkeit und ">>" bei Fragen mit mehreren 
-Antwort-Möglichkeiten. Im letzteren Fall muss die Eingabe mit der 
-.IR "Enter" -Taste
-abgeschlossen werden.
-
-.SS Maus-Unterstützung:
-
-Antworten können mit der linken Maus-Taste angeklickt werden.
-Anfragen mit mehr als einer Antwort-Möglichkeit kann man durch Drücken 
-der rechten Maus-Taste abschließen.
 
 .SH Optionen
 
@@ -56,26 +36,12 @@ zeige eine kurze Hilfe an
 
 .IP -s
 
-kein System-Klang (kein Piep)
-
-.IP "-m | --nomouse"
-
-keine Maus-Unterstützung
+kein Ton
 
 .IP "-d <dir>"
 
 Pfad zu den Quiz-Dateien. 
 Dieser Parameter hat Vorang vor der Umgebungs-Variablen QUIZPATH.
-
-.IP -p
-
-Programm läuft in einer Endlos-Schleife
-
-.SS Drucken:
-
-Zum Ausdrucken von Fragebögen kann man das Programm
-.IR mkquiz (1)
-verwenden.
 
 .SH UMGEBUNGSVARIABLEN
 
@@ -120,9 +86,9 @@ http://akfquiz.nongnu.org/
 
 .SH "SIEHE AUCH"
 .BR akfquiz (5)
-.BR quizstat (1)
+.BR quizstat(1)
+.BR grquiz (1)
 .BR scrquiz (1)
 .BR mkquiz (1)
 .BR cgiquiz (8)
-.BR diaquiz (1)
 .BR linequiz (1)
