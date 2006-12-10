@@ -2,7 +2,7 @@
 * clgrph (unit)
 * functions for the classical graph unit for grquiz
 *
-* $Id: clgrph.pas,v 1.7 2006/11/15 15:37:28 akf Exp $
+* $Id: clgrph.pas,v 1.8 2006/12/10 17:06:01 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -52,7 +52,7 @@ interface
 {$EndIf}
 
 {$IfDef __GPC__}
-  import uakfquiz; graph; grx;
+  import graph; grx; {$IfDef GRXMouse} uakfquiz; {$EndIf}
 {$EndIf}
 
 {$I hginfo.inc}
@@ -86,9 +86,12 @@ var
 
 var graphicActive: boolean;
 
+{$IfDef __GPC__}
+  var tx1, ty1, tx2, ty2, tw, th : TscreenPos;
+{$EndIf}
+
 {$IfDef GRXMouse}
   var answerposition: array[1..MaxAnswers] of record f, t: TscreenPos end;
-  var tx1, ty1, tx2, ty2, tw, th : TscreenPos;
   var mouseshown: boolean;
 
   procedure resetAnswerPositions;
@@ -310,13 +313,16 @@ if useTextArea then
   end;
 setViewPort(x1, y1, x2, y2, clipon);
 
-{$IfDef GRXMouse}
+{$IfDef __GPC__}
   tx1 := x1;
   ty1 := y1;
   tx2 := x2;
   ty2 := y2;
   tw  := tx2-tx1+1;
   th  := ty2-ty1+1;
+{$EndIf}
+
+{$IfDef GRXMouse}
   resetAnswerPositions
 {$EndIf}
 end;
@@ -351,9 +357,12 @@ if graphicActive then
   end
 end;
 
+procedure ident(s: string);
+begin end;
+
 Initialization
 
-  ident('$Id: clgrph.pas,v 1.7 2006/11/15 15:37:28 akf Exp $');
+  ident('$Id: clgrph.pas,v 1.8 2006/12/10 17:06:01 akf Exp $');
   TextArea := NIL;
   TextAreaSize := 0;
   graphicActive := false;
