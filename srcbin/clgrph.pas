@@ -2,7 +2,7 @@
 * clgrph (unit)
 * functions for the classical graph unit for grquiz
 *
-* $Id: clgrph.pas,v 1.8 2006/12/10 17:06:01 akf Exp $
+* $Id: clgrph.pas,v 1.9 2006/12/10 17:09:49 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -71,6 +71,7 @@ function  GetKey: char;
 procedure showimage(x, y: Integer; var img);
 procedure drawBackground(var img);
 procedure defineTextArea(x1, y1, x2, y2: TscreenPos; useTextArea: boolean);
+procedure ShowTextArea;
 procedure setColors(foreground, background: cardinal);
 function GetRGBColor(r, g, b: byte): LongInt;
 procedure clearTextarea;
@@ -342,6 +343,9 @@ if TextArea=NIL
 {$EndIf}
 end;
 
+procedure ShowTextArea;
+begin end;
+
 procedure endGraphics;
 begin
 if graphicActive then
@@ -362,7 +366,7 @@ begin end;
 
 Initialization
 
-  ident('$Id: clgrph.pas,v 1.8 2006/12/10 17:06:01 akf Exp $');
+  ident('$Id: clgrph.pas,v 1.9 2006/12/10 17:09:49 akf Exp $');
   TextArea := NIL;
   TextAreaSize := 0;
   graphicActive := false;

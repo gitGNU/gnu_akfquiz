@@ -2,7 +2,7 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.13 2006/11/01 07:42:25 akf Exp $
+* $Id: sdlgrph.pas,v 1.14 2006/12/10 17:09:49 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -62,6 +62,7 @@ function  GetRGBColor(r, g, b: byte): Uint16;
 
 procedure DefineTextArea(x1, y1, x2, y2: TscreenPos; useTextArea: boolean);
 procedure ClearTextArea;
+procedure ShowTextArea;
 
 procedure setExitKey(c: char);
 function GetKey: char;
@@ -581,6 +582,11 @@ yPos := 0;
 resetAnswerPositions
 end;
 
+procedure ShowTextArea;
+begin
+with taRect do SDL_UpdateRect(screen, x, y, w, h)
+end;
+
 procedure switchfullscreen;
 var oldscreen: pSDL_Surface;
 begin
@@ -701,7 +707,7 @@ var
  c: char;
 begin
 { the textarea is only updated here, when the program waits for events }
-with taRect do SDL_UpdateRect(screen, x, y, w, h);
+ShowTextArea;
 
 c := chr(0);
 repeat
@@ -717,7 +723,7 @@ end;
 
 Initialization
 
-  ident('$Id: sdlgrph.pas,v 1.13 2006/11/01 07:42:25 akf Exp $');
+  ident('$Id: sdlgrph.pas,v 1.14 2006/12/10 17:09:49 akf Exp $');
 
   textarea      := NIL;
   screen        := NIL;
