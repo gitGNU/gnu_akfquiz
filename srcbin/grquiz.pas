@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.19 2006/11/23 19:54:53 akf Exp $
+* $Id: grquiz.pas,v 1.20 2006/12/10 17:17:36 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1143,7 +1143,7 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: grquiz.pas,v 1.19 2006/11/23 19:54:53 akf Exp $');
+ident('$Id: grquiz.pas,v 1.20 2006/12/10 17:17:36 akf Exp $');
 
 {$IfDef FPCSVGALIB}
   { space after messages from SVGALib }
@@ -1169,12 +1169,18 @@ parameters;
 
 InitializeGraphics;
 
-{$IfDef SDL}
-  if useSound then InitAudio(true); { initialize as sub-system }
-{$EndIf}
-
 showmouse(usemouse);
 MaxLength := (GetMaxX-(2*40)) div GetTextWidth('m'); { largest letter }
+
+{$IfDef SDL}
+  if useSound then 
+    begin
+    GrfWriteLn(msg_InitAudio);
+    ShowTextArea;
+    InitAudio(true); { initialize as sub-system }
+    ClearTextArea
+    end;
+{$EndIf}
 
 { CharsetScreen; }
 InfoScreen;

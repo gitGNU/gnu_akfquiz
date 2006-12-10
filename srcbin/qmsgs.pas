@@ -1,7 +1,7 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.22 2006/11/28 18:49:39 akf Exp $
+* $Id: qmsgs.pas,v 1.23 2006/12/10 17:17:36 akf Exp $
 *
 * Copyright (c) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -98,6 +98,7 @@ function msg_logout: mystring;
 function msg_loggedout: mystring;
 function msg_inconsistent: mystring;
 function msg_view: mystring;
+function msg_InitAudio: mystring;
 
 procedure setmsgconverter(p: Tconverter);
 procedure setmsgconv(display: DisplayType);
@@ -661,6 +662,14 @@ case lang of
   end
 end;
 
+function msg_InitAudio: mystring;
+begin
+case lang of
+  deutsch : msg_InitAudio := 'initialisiere die Audio-Ausgabe...'
+  otherwise msg_InitAudio := 'initializing audio...'
+  end
+end;
+
 procedure useSystemLanguage;
 var l: mystring;
 begin
@@ -688,7 +697,6 @@ case display of
   end
 end;
 
-
 begin
-ident('$Id: qmsgs.pas,v 1.22 2006/11/28 18:49:39 akf Exp $')
+ident('$Id: qmsgs.pas,v 1.23 2006/12/10 17:17:36 akf Exp $')
 end.

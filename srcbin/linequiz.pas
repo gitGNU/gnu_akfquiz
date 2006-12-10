@@ -4,7 +4,7 @@
 * usable for blind users (braile line or speech synthesizer)
 * usable as backend for other applications
 *
-* $Id: linequiz.pas,v 1.13 2006/11/23 19:54:53 akf Exp $
+* $Id: linequiz.pas,v 1.14 2006/12/10 17:17:36 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -610,7 +610,7 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: linequiz.pas,v 1.13 2006/11/23 19:54:53 akf Exp $');
+ident('$Id: linequiz.pas,v 1.14 2006/12/10 17:17:36 akf Exp $');
 
 myexitcode := 0;
 display := checkdisplay; { set a default }
@@ -618,7 +618,9 @@ setmsgconv(display);
 useSystemLanguage;
 
 {$IfDef SdlSoundForAll}
+  Write(msg_InitAudio);
   InitAudio(false);
+  WriteLn;
 {$Else}
   useBeepSignals;
 {$EndIf}
