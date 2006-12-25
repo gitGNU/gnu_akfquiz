@@ -2,7 +2,7 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.14 2006/12/10 17:09:49 akf Exp $
+* $Id: sdlgrph.pas,v 1.15 2006/12/25 08:59:21 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -241,6 +241,8 @@ function SDL_Init(flags: Uint32): CInteger; libSDL 'SDL_Init';
 	   
 procedure SDL_Quit; libSDL 'SDL_Quit';
 
+function SDL_GetError: CString; libSDL 'SDL_GetError';
+
 function SDL_SetVideoMode(width, height, bpp: CInteger; 
                           flags: Uint32): pSDL_Surface; 
 	   libSDL 'SDL_SetVideoMode';
@@ -359,7 +361,8 @@ icon := SDL_CreateRGBSurfaceFrom(addr(icon_AKFQuiz), 32, 32, 8, 32,
                                  0, 0, 0, 0);
 if icon=NIL then 
    begin
-   WriteLn(stderr, 'grquiz error: error creatin the icon');
+   WriteLn(stderr, 'grquiz error: error creating the icon (', 
+                   SDL_GetError, ')');
    Halt(1)
    end;
 
@@ -398,7 +401,7 @@ with taRect do
 
 if SDL_Init(SDL_INIT_VIDEO)<0 then
    begin
-   WriteLn(stderr, 'grquiz error: cannot open video output');
+   WriteLn(stderr, 'grquiz error: ', SDL_GetError);
    Halt(1)
    end;
 
@@ -417,7 +420,7 @@ screen := SDL_SetVideoMode(ScreenWidth, ScreenHeight,
                            ScreenDepth, mode);
 if screen=NIL then 
    begin
-   WriteLn(stderr, 'grquiz error: graphic mode not supported');
+   WriteLn(stderr, 'grquiz error: ', SDL_GetError);
    Halt(1)
    end;
 
@@ -723,7 +726,7 @@ end;
 
 Initialization
 
-  ident('$Id: sdlgrph.pas,v 1.14 2006/12/10 17:09:49 akf Exp $');
+  ident('$Id: sdlgrph.pas,v 1.15 2006/12/25 08:59:21 akf Exp $');
 
   textarea      := NIL;
   screen        := NIL;
