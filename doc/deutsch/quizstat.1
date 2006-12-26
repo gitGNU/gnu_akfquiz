@@ -23,6 +23,18 @@ Wird kein Dateiname angegeben, liest
 .I quizstat
 von der Standardeingabe.
 
+Wird mehr als ein Dateiname angegeben, oder werden Wildcards benutzt,
+gibt
+.I quizstat
+die Summe von allen Dateien aus, als wären sie eine.
+
+Wenn man die Angaben zu jeder Datei einzeln haben will, kann man etwas 
+wie das folgende verwenden:
+
+.RS
+for i in *.akfquiz; do echo; echo $i; quizstat $i; done
+.RE
+
 .SH LIZENZ
 
 Copyright \(co 2003-2006 Andreas K. Förster

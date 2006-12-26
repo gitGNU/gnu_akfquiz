@@ -21,6 +21,17 @@ With no filename,
 .I quizstat
 reads from standard input.
 
+With more than one filename, or if you use wildcards
+.I quizstat
+summerizes all the content as if it were one file.
+
+If you want to see the output for each file separately, use something 
+like this:
+
+.RS
+for i in *.akfquiz; do echo; echo $i; quizstat $i; done
+.RE
+
 .SH LICENSE
 
 Copyright \(co 2003-2006 Andreas K. Foerster
