@@ -1,6 +1,6 @@
 # Compile with GPC for the native machine using the GRX library
 
-# $Id: Makefile.grx,v 1.5 2006/10/28 04:08:55 akf Exp $
+# $Id: Makefile.grx,v 1.6 2006/12/30 14:23:11 akf Exp $
 
 # make further changes in common.mak
 
@@ -45,7 +45,6 @@ DEFINES+=-D Transitional
 #DEFINES+=-D NoProjectLink
 
 IMAGEOBJ=quizhg.o hginfo.inc titimg.o
-SOUNDOBJ=
 
 # only used on Windows platform
 #GUIFLAG=-mwindows

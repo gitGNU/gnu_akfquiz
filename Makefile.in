@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.8 2006/11/18 19:21:49 akf Exp $
+# $Id: Makefile.in,v 1.9 2006/12/30 14:23:11 akf Exp $
 #
 # this Makefile is just a glue to the others
 # if you want to configure things, use the script configure 
@@ -119,11 +119,12 @@ dist: distclean
 	      akfquiz/configure \
 	      akfquiz/Makefile.in \
 	      akfquiz/desktop/ \
-	      akfquiz/share/akfquiz/Linux-en.akfquiz \
-	      akfquiz/share/akfquiz/Linux-de.akfquiz \
-	      akfquiz/share/akfquiz/Christentum-de.akfquiz \
-	      akfquiz/share/akfquiz/Schokolade-de.akfquiz \
-	      akfquiz/share/akfquiz/Landtechnik.akfquiz \
+	      akfquiz/share/akfquiz/sound/* \
+	      akfquiz/share/akfquiz/quiz/Linux-en.akfquiz \
+	      akfquiz/share/akfquiz/quiz/Linux-de.akfquiz \
+	      akfquiz/share/akfquiz/quiz/Christentum-de.akfquiz \
+	      akfquiz/share/akfquiz/quiz/Schokolade-de.akfquiz \
+	      akfquiz/share/akfquiz/quiz/Landtechnik.akfquiz \
 	      akfquiz/doc/ \
 	      akfquiz/html/ \
 	      akfquiz/srcbin/
@@ -169,7 +170,7 @@ dist-windows: html pdf
 	# export and convert textfiles
 	cp doc/COPYING srcbin/w32/COPYING.txt
 	cp doc/deutsch/COPYING.de srcbin/w32/COPYING.de.txt
-	cp share/akfquiz/*.akfquiz srcbin/w32/
+	cp share/akfquiz/quiz/*.akfquiz srcbin/w32/
 	-cp ../unfree/*.akfquiz srcbin/w32/
 	-unix2dos srcbin/w32/*.txt
 	-unix2dos srcbin/w32/*.akfquiz

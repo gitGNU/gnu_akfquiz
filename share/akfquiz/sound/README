@@ -11,9 +11,6 @@ You can use sox to convert soundfiles from other formats:
 It is a good idea to sample the sounds with a higher quality first and
 resample them afterwards.
 
-ATTENTION: 
-The filesizes must be defined in "sdlsnd.pas" for use with gpc.
-
 
 The soundfiles 
 errorsnd.ub, infosnd.ub, introsnd.ub, rightsnd.ub, wrongsnd.ub, 

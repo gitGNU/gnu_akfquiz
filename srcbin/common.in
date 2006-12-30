@@ -1,4 +1,4 @@
-# $Id: common.in,v 1.16 2006/11/30 07:29:17 akf Exp $
+# $Id: common.in,v 1.17 2006/12/30 14:23:11 akf Exp $
 
 #####################################################################
 # change here:
@@ -12,8 +12,9 @@ datadir     = $(datarootdir)
 bindir      = $(exec_prefix)/bin
 icondir     = $(datarootdir)/pixmaps/
 docdir      = $(prefix)/share/doc/akfquiz
-quizpath    = $(datadir)/akfquiz
-htmlpath    = $(quizpath)/html
+quizdir     = $(datadir)/akfquiz/quiz
+sounddir    = $(datadir)/akfquiz/sound
+htmldir     = $(quizdir)/html
 
 cgidir      = @cgidir@
 examdir     = @examdir@
@@ -57,42 +58,6 @@ txt:
 pdf:
 	$(MAKE) -C ../doc pdf
 
-introsnd.inc: introsnd.ub
-	bin2obj -c IntroSound -o introsnd.inc introsnd.ub
-
-infosnd.inc: infosnd.ub
-	bin2obj -c InfoSound -o infosnd.inc infosnd.ub
-
-errorsnd.inc: errorsnd.ub
-	bin2obj -c ErrorSound -o errorsnd.inc errorsnd.ub
-
-rightsnd.inc: rightsnd.ub
-	bin2obj -c RightSound -o rightsnd.inc rightsnd.ub
-
-wrongsnd.inc: wrongsnd.ub
-	bin2obj -c WrongSound -o wrongsnd.inc wrongsnd.ub
-
-neutralsnd.inc: neutralsnd.ub
-	bin2obj -c NeutralSound -o neutralsnd.inc neutralsnd.ub
-
-introsnd.o: introsnd.ub
-	binobj introsnd.ub introsnd.o IntroSound
-
-infosnd.o: infosnd.ub
-	binobj infosnd.ub infosnd.o InfoSound
-
-errorsnd.o: errorsnd.ub
-	binobj errorsnd.ub errorsnd.o ErrorSound
-
-rightsnd.o: rightsnd.ub
-	binobj rightsnd.ub rightsnd.o RightSound
-
-wrongsnd.o: wrongsnd.ub
-	binobj wrongsnd.ub wrongsnd.o WrongSound
-
-neutralsnd.o: neutralsnd.ub
-	binobj neutralsnd.ub neutralsnd.o NeutralSound
-
 ppm2pas: ppm2pas.pas
 	$(NATIVEPC) $(NATIVEPFLAGS) $(DEFINES) ppm2pas.pas
 
@@ -109,18 +74,18 @@ quizhg.o: quizhg.ppm
 	binobj quizhg.ppm quizhg.o AKFQuizHg
 
 grquiz: grquiz.pas qsys.pas qmsgs.pas uakfquiz.pas clgrph.pas \
-        sdlgrph.pas sdlsnd.pas $(IMAGEOBJ) $(SOUNDOBJ) font.inc
+        sdlgrph.pas sdlsnd.pas $(IMAGEOBJ) font.inc
 	-$(PC) $(PFLAGS) $(POPT) $(DEFINES) $(GUIFLAG) grquiz.pas
 
 mkquiz: mkquiz.pas qsys.pas qmsgs.pas uakfquiz.pas htmlquiz.pas
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) mkquiz.pas
 
 scrquiz: scrquiz.pas qsys.pas qmsgs.pas uakfquiz.pas \
-         sdlsnd.pas $(SOUNDOBJ)
+         sdlsnd.pas
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) scrquiz.pas
 
 linequiz: linequiz.pas qsys.pas qmsgs.pas uakfquiz.pas \
-          sdlsnd.pas $(SOUNDOBJ)
+          sdlsnd.pas
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) linequiz.pas
 
 cgiquiz: cgiquiz.pas uakfquiz.pas qmsgs.pas qsys.pas htmlquiz.pas \
@@ -128,7 +93,7 @@ cgiquiz: cgiquiz.pas uakfquiz.pas qmsgs.pas qsys.pas htmlquiz.pas \
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) cgiquiz.pas
 
 diaquiz: diaquiz.pas qsys.pas qmsgs.pas uakfquiz.pas dialog.pas \
-         sdlsnd.pas $(SOUNDOBJ)
+         sdlsnd.pas
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) diaquiz.pas
 
 # just for Windows
@@ -175,11 +140,25 @@ installdirs:
 	test -d $(DESTDIR)$(man1dedir)|| $(INSTALL) -d $(DESTDIR)$(man1dedir)
 	test -d $(DESTDIR)$(man5dedir)|| $(INSTALL) -d $(DESTDIR)$(man5dedir)
 	test -d $(DESTDIR)$(man8dedir)|| $(INSTALL) -d $(DESTDIR)$(man8dedir)
-	test -d $(DESTDIR)$(quizpath) || $(INSTALL) -d -m 1777 $(DESTDIR)$(quizpath)
-	test -d $(DESTDIR)$(htmlpath) || $(INSTALL) -d $(DESTDIR)$(htmlpath)
+	test -d $(DESTDIR)$(sounddir) || $(INSTALL) -d $(DESTDIR)$(sounddir)
+	test -d $(DESTDIR)$(quizdir)  || $(INSTALL) -d -m 1777 $(DESTDIR)$(quizdir)
+	test -d $(DESTDIR)$(htmldir)  || $(INSTALL) -d $(DESTDIR)$(htmldir)
 
 # just for Unix
 install: all installdirs
+	@echo "*"
+	@echo "* installing example quiz-files to $(DESTDIR)$(quizdir)"
+	@echo "*"
+	$(INSTALL) -m 0644 ../share/akfquiz/quiz/*.akfquiz $(DESTDIR)$(quizdir)
+	@echo "*"
+	@echo "* installing sound-files to $(DESTDIR)$(sounddir)"
+	@echo "*"
+	$(INSTALL) -m 0644 ../share/akfquiz/sound/* $(DESTDIR)$(sounddir)
+	@echo "*"
+	@echo "* installing files needed for HTML to $(DESTDIR)$(htmldir)"
+	@echo "*"
+	$(INSTALL) -m 0644 ../html/*.js ../html/*.png ../html/*.css $(DESTDIR)$(htmldir)
+	$(INSTALL) -m 0644 ../html/schulnote.html $(DESTDIR)$(htmldir)
 	@echo "*"
 	@echo "* installing programs"
 	@echo "*"
@@ -188,7 +167,6 @@ install: all installdirs
 	$(INSTALL) -m 0755 -s diaquiz $(DESTDIR)$(bindir)
 	$(INSTALL) -m 0755 -s linequiz $(DESTDIR)$(bindir)
 	-$(INSTALL) -m 0755 -s grquiz $(DESTDIR)$(bindir)
-	#-$(INSTALL) -o root -m 4755 -s grquiz $(DESTDIR)$(bindir)
 	$(INSTALL) -m 0755 akfquiz $(DESTDIR)$(bindir)
 	$(INSTALL) -m 0755 getquiz $(DESTDIR)$(bindir)
 	$(INSTALL) -m 0755 quizstat $(DESTDIR)$(bindir)
@@ -224,15 +202,6 @@ install: all installdirs
 	$(INSTALL) -m 0644 ../doc/deutsch/template $(DESTDIR)$(docdir)/template-de
 	$(INSTALL) -m 0644 ../doc/english/INSTALL $(DESTDIR)$(docdir)/INSTALL-en
 	$(INSTALL) -m 0644 ../doc/deutsch/INSTALL $(DESTDIR)$(docdir)/INSTALL-de
-	@echo "*"
-	@echo "* installing example quiz-files to $(DESTDIR)$(quizpath)"
-	@echo "*"
-	$(INSTALL) -m 0644 ../share/akfquiz/*.akfquiz $(DESTDIR)$(quizpath)
-	@echo "*"
-	@echo "* installing files needed for HTML to $(DESTDIR)$(htmlpath)"
-	@echo "*"
-	$(INSTALL) -m 0644 ../html/*.js ../html/*.png ../html/*.css $(DESTDIR)$(htmlpath)
-	$(INSTALL) -m 0644 ../html/schulnote.html $(DESTDIR)$(htmlpath)
 	@echo "*"
 	@echo "* HINT: install the CGI program with 'make install-cgi'"
 	@echo "* the CGI-path ist configured to $(cgidir)"
@@ -287,8 +256,8 @@ uninstall:
 	-rm $(DESTDIR)$(man8dedir)/cgiquiz.8
 	-rm $(DESTDIR)$(man5dedir)/akfquiz.5
 	-rm $(DESTDIR)$(icondir)/AKFQuiz.xpm
-	-rm -r $(DESTDIR)$(htmlpath)
-	-rm -r $(DESTDIR)$(quizpath)
+	-rm -r $(DESTDIR)$(htmldir)
+	-rm -r $(DESTDIR)$(quizdir)
 	-rm -r $(DESTDIR)$(docdir)
 
 dist-dos: veryclean

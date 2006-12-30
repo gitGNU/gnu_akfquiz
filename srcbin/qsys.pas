@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.18 2006/11/15 15:37:28 akf Exp $
+* $Id: qsys.pas,v 1.19 2006/12/30 14:23:11 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -170,6 +170,9 @@ var
 
 var quizfileList, quizfileListEnd : PquizfileList;
 
+function getSoundDir: mystring;
+function SoundFilesAvailable: boolean;
+
 function makeUpcase(x: string): mystring;
 function stripWhitespace(x: string): mystring;
 function StrToInt(s: string; fallback: integer): integer;
@@ -300,6 +303,7 @@ implementation
   uses DOS; { for GetEnv }
 {$EndIf}{$EndIf}
 
+var PREFIX : mystring;
 var QUIZPATH : mystring;
 var unknownChar: Unicode = ord('?');
 
@@ -446,9 +450,9 @@ end;
 
 {$IfDef NoRelocation}
 
-  function getprefix: mystring;
+  procedure InitPrefix;
   begin
-  getprefix := defaultPrefix
+  PREFIX := defaultPrefix
   end;
 
 {$Else} { Relocation }
@@ -458,21 +462,34 @@ end;
   searchExecutable := FileSearch(s, GetEnvironmentVariable('PATH'))
   end;
 
-  function getprefix: mystring;
+  procedure InitPrefix;
   var s: mystring;
   begin
   s := ParamStr(0);
   if s='' 
-    then getprefix := defaultPrefix
+    then PREFIX := defaultPrefix
     else begin
          if pos(DirectorySeparator, s)=0 { no directory given }
            then s := searchExecutable(s);
-         getprefix := ExpandFileName(dirname(s)+'..')
+         PREFIX := ExpandFileName(dirname(s)+'..')
          end
   end;
  
 {$EndIf} { NoRelocation }
 
+function getSoundDir: mystring;
+begin
+getSoundDir := PREFIX 
+               + DirectorySeparator + 'share' 
+               + DirectorySeparator + 'akfquiz'
+               + DirectorySeparator + 'sound'
+	       + DirectorySeparator
+end;
+
+function SoundFilesAvailable: boolean;
+begin
+SoundFilesAvailable := DirectoryExists(getSoundDir)
+end;
 
 { search for Parameter -d }
 function getparamdir: mystring;
@@ -1476,7 +1493,9 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.18 2006/11/15 15:37:28 akf Exp $');
+  ident('$Id: qsys.pas,v 1.19 2006/12/30 14:23:11 akf Exp $');
+  
+  InitPrefix;
   disableSignals; { initializes Signals }
   
   quizfileList := NIL;
@@ -1485,8 +1504,10 @@ INITIALIZATION
   QUIZPATH := getParamDir; { highest priority }
   if QUIZPATH='' then QUIZPATH := GetEnvironmentVariable('QUIZPATH');
   if QUIZPATH='' then 
-    QUIZPATH := getprefix+DirectorySeparator+'share'+DirectorySeparator+
-                'akfquiz'+PathSeparator+'.';
+    QUIZPATH := PREFIX + DirectorySeparator + 'share'
+                + DirectorySeparator + 'akfquiz'
+		+ DirectorySeparator + 'quiz'
+		+ PathSeparator + '.';
 
   {$IfDef Go32v2}
     { Compiler checks LFNsupport just on drive C: - that's stupid! :-( }

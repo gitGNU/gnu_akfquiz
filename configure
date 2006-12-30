@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.21 2006/11/23 19:59:16 akf Exp $
+# $Id: configure,v 1.22 2006/12/30 14:23:11 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -44,6 +44,11 @@ SRCDIR="."
 BUGMAIL=bug-akfquiz@akfoerster.de
 
 #####################################################################
+# don't change these values
+
+SOUND=no
+
+#####################################################################
 # functions
 
 help() {
@@ -66,6 +71,11 @@ options:
   --with-xarm
   --enable-exam=no
   --disable-exam
+  --enable-sound
+  --disable-sound
+  
+The options "--enable-sound" or "--disable-sound" have no influence on 
+grquiz
 EOF
 exit
 }
@@ -140,6 +150,8 @@ do
     --fpc)         COMPILER=fpc ;;
     --xw32)        COMPILER=xw32 ;;
     --xarm)        COMPILER=xarm ;;
+    --enable-sound|--enable-sound=yes|--disable-sound=no) SOUND=yes ;;
+    --disable-sound|--disable-sound=yes|--enable-sound=no) SOUND=no ;;
     --enable-exam=no) EXAMDIR="" ;;
     --enable-exam=yes) ;; # default behaviour
     --disable-exam)   EXAMDIR="" ;;
@@ -176,10 +188,7 @@ esac
   
 # check for needed tools
 case $COMPILER in
-  fpc|xarm|xw32) 
-       echo "checking for bin2obj... "
-       which bin2obj || error "fpc-utils needed" ;;
-  gpc|grx) echo "checking for binobj... "
+  grx) echo "checking for binobj... "
        which binobj || error "binobj not found - should come with gpc" ;;
 esac
 
@@ -204,6 +213,7 @@ Compiler: $COMPILER
 Sys:      $SYS
 Arch:     $ARCH
 BugMail:  $BUGMAIL
+Sound:    $SOUND
 EOF
 
 # change to default directory
@@ -215,7 +225,11 @@ sed < Makefile.in > Makefile \
     -e "s/SYS=.*/SYS=$SYS/" \
     -e "s/^\(VERSION *= *\).*/\1$VERSION/"
 
-cp srcbin/Makefile.$COMPILER srcbin/Makefile
+
+SOUNDCOMMENTED=""
+test "$SOUND" = "no" && SOUNDCOMMENTED="#"
+sed < srcbin/Makefile.$COMPILER > srcbin/Makefile \
+   -e "s/.*\(DEFINES.*SdlSoundForAll\)$/$SOUNDCOMMENTED\1/"
 
 sed < srcbin/common.in > srcbin/common.mak \
     -e "s%^\(srcdir *= *\).*%\1$SRCDIR%" \

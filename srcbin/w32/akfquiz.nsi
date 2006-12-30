@@ -137,19 +137,28 @@ Section "!${NAME} $(REQUIRED)" AKFQuiz
   FILE "..\grquiz.exe"
   FILE "..\quizstat"
 
+  SetOutPath "$INSTDIR\share\akfquiz\sound"
+  FILE "..\..\share\akfquiz\sound\README-ub"
+  FILE "..\..\share\akfquiz\sound\introsnd.ub"
+  FILE "..\..\share\akfquiz\sound\infosnd.ub"
+  FILE "..\..\share\akfquiz\sound\errorsnd.ub"
+  FILE "..\..\share\akfquiz\sound\neutralsnd.ub"
+  FILE "..\..\share\akfquiz\sound\rightsnd.ub"
+  FILE "..\..\share\akfquiz\sound\wrongsnd.ub"
+  
   ; only GPL-compatible quiz-files here
-  SetOutPath "$INSTDIR\share\akfquiz"
+  SetOutPath "$INSTDIR\share\akfquiz\quiz"
   FILE "Linux-en.akfquiz"
   FILE "Linux-de.akfquiz"
   FILE "Schokolade-de.akfquiz"
   FILE "Christentum-de.akfquiz"
   FILE "Landtechnik.akfquiz"
 
-  SetOutPath "$INSTDIR\share\akfquiz"
-  CreateShortCut "$INSTDIR\share\akfquiz\$(UPDATEHTML).lnk" \
+  SetOutPath "$INSTDIR\share\akfquiz\quiz"
+  CreateShortCut "$INSTDIR\share\akfquiz\quiz\$(UPDATEHTML).lnk" \
     "$INSTDIR\bin\mkquiz.exe" '--out "$INSTDIR\html" --index --auto' \
     "$INSTDIR\AKFQuiz.ico" 0
-  CreateShortCut "$INSTDIR\share\akfquiz\$(HTMLQUIZ).lnk" \
+  CreateShortCut "$INSTDIR\share\akfquiz\quiz\$(HTMLQUIZ).lnk" \
     "$INSTDIR\html\index.html"
 
   SetOutPath "$INSTDIR\html"
@@ -182,14 +191,14 @@ SectionEnd
 
 ; not GPL-compatible quiz-files
 Section "$(EXTRAQF)" extra
-  SetOutPath "$INSTDIR\share\akfquiz"
+  SetOutPath "$INSTDIR\share\akfquiz\quiz"
   FILE /nonfatal "GPL-Quiz-en.akfquiz"
   FILE /nonfatal "debian-en.akfquiz"
   FILE /nonfatal "Amerika-de.akfquiz"
 SectionEnd
 
 
-; local installation
+; local installation; register in system
 SectionGroup "$(LOCINST)" 
 
   ; make uninstaller
@@ -278,7 +287,7 @@ SectionGroup "$(LOCINST)"
       CreateShortCut "$SMPROGRAMS\${NAME}\$(UNINSTALL).lnk" \
         "$INSTDIR\uninstall.exe"
     CreateShortCut "$SMPROGRAMS\${NAME}\$(QUIZDIR).lnk" \
-      "$INSTDIR\share\akfquiz\"
+      "$INSTDIR\share\akfquiz\quiz\"
   
     SetOutPath "$INSTDIR\bin" ; sets the Working directory
     CreateShortCut "$SMPROGRAMS\${NAME}\grquiz.lnk" \
@@ -339,13 +348,13 @@ SectionGroup "$(LOCINST)"
       "$INSTDIR\bin\grquiz.exe"
 
     CreateShortCut "$DESKTOP\$(QUIZDIR).lnk" \
-      "$INSTDIR\share\akfquiz\"
+      "$INSTDIR\share\akfquiz\quiz\"
   SectionEnd
 SectionGroupEnd
 
 ; execute mkquiz to prepare the html directory
 Section
-  SetOutPath "$INSTDIR\share\akfquiz"
+  SetOutPath "$INSTDIR\share\akfquiz\quiz"
   ExecWait '"$INSTDIR\bin\mkquiz.exe" --out "$INSTDIR\html" --index --auto'
 SectionEnd
 
@@ -383,16 +392,19 @@ Section "Uninstall"
   RMDir  "$INSTDIR\doc"
   
   ; quizfiles - only those installed by this installer
-  Delete "$INSTDIR\share\akfquiz\Linux-en.akfquiz"
-  Delete "$INSTDIR\share\akfquiz\Linux-de.akfquiz"
-  Delete "$INSTDIR\share\akfquiz\Schokolade-de.akfquiz"
-  Delete "$INSTDIR\share\akfquiz\Christentum-de.akfquiz"
-  Delete "$INSTDIR\share\akfquiz\Landtechnik.akfquiz"
-  Delete "$INSTDIR\share\akfquiz\GPL-Quiz-en.akfquiz"
-  Delete "$INSTDIR\share\akfquiz\debian-en.akfquiz"
-  Delete "$INSTDIR\share\akfquiz\Amerika-de.akfquiz"
-  Delete "$INSTDIR\share\akfquiz\$(UPDATEHTML).lnk"
-  Delete "$INSTDIR\share\akfquiz\$(HTMLQUIZ).lnk"
+  Delete "$INSTDIR\share\akfquiz\quiz\Linux-en.akfquiz"
+  Delete "$INSTDIR\share\akfquiz\quiz\Linux-de.akfquiz"
+  Delete "$INSTDIR\share\akfquiz\quiz\Schokolade-de.akfquiz"
+  Delete "$INSTDIR\share\akfquiz\quiz\Christentum-de.akfquiz"
+  Delete "$INSTDIR\share\akfquiz\quiz\Landtechnik.akfquiz"
+  Delete "$INSTDIR\share\akfquiz\quiz\GPL-Quiz-en.akfquiz"
+  Delete "$INSTDIR\share\akfquiz\quiz\debian-en.akfquiz"
+  Delete "$INSTDIR\share\akfquiz\quiz\Amerika-de.akfquiz"
+  Delete "$INSTDIR\share\akfquiz\quiz\$(UPDATEHTML).lnk"
+  Delete "$INSTDIR\share\akfquiz\quiz\$(HTMLQUIZ).lnk"
+  RMDir  "$INSTDIR\share\akfquiz\quiz"
+  Delete "$INSTDIR\share\akfquiz\sound\*.*"
+  RMDir  "$INSTDIR\share\akfquiz\sound"
   RMDir  "$INSTDIR\share\akfquiz"
   RMDir  "$INSTDIR\share"
   

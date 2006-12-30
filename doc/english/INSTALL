@@ -109,6 +109,8 @@ The configure script accepts the following parameters:
 --sys=            system (just a name for making packages)
 --enable-exam=no  disables the exam-mode
 --disable-exam    disables the exam-mode
+--enable-sound    SDL sound for all interactive programs
+--disable-sound   SDL Sound just for grquiz
 
 [*] the compiler may be
 --with-fpc  - Free Pascal 2.0 or newer

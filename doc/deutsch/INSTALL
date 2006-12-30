@@ -116,6 +116,8 @@ Das Skript "configure" akzeptiert die folgenden Parameter:
 --sys=            System (nur ein Name für die Paket-Benennung)
 --enable-exam=no  ohne Exam-Modus
 --disable-exam    ohne Exam-Modus
+--enable-sound    SDL Sound für alle interaktiven Programme
+--disable-sound   SDL Sound nur für grquiz
 
 [*] Als Compiler kann folgendes angegeben werden:
 --with-fpc  - Free Pascal 2.0 oder besser

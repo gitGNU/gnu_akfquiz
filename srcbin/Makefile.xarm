@@ -1,6 +1,6 @@
 # use FPC Cross-Compiler for Linux on ARM devices
 
-# $Id: Makefile.xarm,v 1.8 2006/10/28 04:08:55 akf Exp $
+# $Id: Makefile.xarm,v 1.9 2006/12/30 14:23:11 akf Exp $
 
 # Edit this file for Compiler-specific configuration
 # make further changes in common.mak
@@ -26,7 +26,6 @@ DEFINES+=-dTransitional
 #DEFINES+=-dNoProjectLink
 
 IMAGEOBJ=
-SOUNDOBJ=
 
 SHELL = /bin/sh
 

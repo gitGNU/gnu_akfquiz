@@ -2,7 +2,7 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
-* $Id: sdlsnd.pas,v 1.13 2006/11/01 07:42:25 akf Exp $
+* $Id: sdlsnd.pas,v 1.14 2006/12/30 14:23:11 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -32,6 +32,8 @@
   {$PackRecords 4}
 {$EndIf}
 
+{$I-}
+
 unit sdlsnd;
 
 interface
@@ -54,35 +56,12 @@ implementation
   {$DEFINE libSDL external name}
   {$DEFINE cdecl attribute(cdecl)}
   {$pointer-arithmetic}
- 
-  {$L introsnd.o}
-  {$L rightsnd.o}
-  {$L wrongsnd.o}
-  {$L neutralsnd.o}
-  {$L errorsnd.o}
-  {$L infosnd.o}
-  
-  { change the sizes here, if you exchange a soundfile }
-  var 
-    IntroSound:   array[1 .. 38208] of byte; external name 'IntroSound';
-    RightSound:   array[1 .. 13312] of byte; external name 'RightSound';
-    WrongSound:   array[1 .. 11456] of byte; external name 'WrongSound';
-    NeutralSound: array[1 ..  7424] of byte; external name 'NeutralSound';
-    ErrorSound:   array[1 ..  9216] of byte; external name 'ErrorSound';
-    InfoSound:    array[1 .. 16384] of byte; external name 'InfoSound';
 {$EndIf} { __GPC__ }
 
 {$IfDef FPC}
   {$MACRO ON}
   {$DEFINE libSDL:=cdecl; external 'SDL' name}
-
-  {$I introsnd.inc}
-  {$I rightsnd.inc}
-  {$I wrongsnd.inc}
-  {$I neutralsnd.inc}
-  {$I errorsnd.inc}
-  {$I infosnd.inc}
-{$EndIf}
+{$EndIf} { FPC }
 
 type
   pSDL_AudioSpec = ^SDL_AudioSpec;
@@ -97,12 +76,24 @@ type
     userdata : pointer;
     end;
 
+type TSound = object
+         size : LongInt;
+	 data : pByte;
+	 
+	 constructor Init(SndName: String);
+	 destructor Done;
+	 procedure play;
+	 end;
+
 { various constands - just the ones used here }
 const 
-  SDL_INIT_VIDEO = $00000020;
   SDL_INIT_AUDIO = $00000010;
   SDL_MIX_MAXVOLUME = 128;
   AUDIO_U8 = $0008;  { Unsigned 8-bit samples  }
+
+var 
+  IntroSound, RightSound, WrongSound, NeutralSound, 
+  ErrorSound, InfoSound : TSound;
 
 var
   isSubSystem: boolean = false; { is it initialzed as subsystem? }
@@ -135,7 +126,37 @@ procedure SDL_MixAudio(dst: pByte; src: pByte;
                        len: UInt32; 
 		       volume: CInteger); libSDL 'SDL_MixAudio';
 
-procedure playSound(s: pointer; len: LongInt);
+
+constructor TSound.Init(sndName: string);
+var f: file;
+begin
+{$IfDef FPC}
+  { needed to read from readonly-files
+    - bad Borland heritage :-( }
+  FileMode := 0;
+{$EndIf}
+
+assign(f, getSoundDir + sndName + '.ub');
+Reset(f, 1);
+size := FileSize(f);
+GetMem(data, size);
+if data <> NIL 
+  then BlockRead(f, data^, size)
+  else size := 0;
+close(f);
+
+if IOResult<>0 then
+  begin FreeMem(data, size); size := 0; data := NIL end
+end;
+
+destructor TSound.Done;
+begin
+FreeMem(data, size);
+data := NIL;
+size := 0
+end;
+
+procedure TSound.play;
 begin
 { only play, when no other sound is playing,
   otherwise don't interrupt, don't wait, just forget it -
@@ -144,43 +165,51 @@ begin
 if AudioAvailable and (sndLen<=0) then
   begin
   SDL_LockAudio;
-  sndData := pByte(s);
+  sndData := data;
   sndPos  := sndData;
-  sndLen  := len;
+  sndLen  := size;
   SDL_UnLockAudio;
   SDL_PauseAudio(0)
   end
 end;
 
-procedure playIntroSound;
+procedure LoadSounds;
 begin
-playSound(addr(IntroSound), SizeOf(IntroSound))
+IntroSound.Init('introsnd');
+RightSound.Init('rightsnd');
+WrongSound.Init('wrongsnd');
+NeutralSound.Init('neutralsnd');
+ErrorSound.Init('errorsnd');
+InfoSound.Init('infosnd')
 end;
+
+procedure FreeSounds;
+begin
+IntroSound.Done;
+RightSound.Done;
+WrongSound.Done;
+NeutralSound.Done;
+ErrorSound.Done;
+InfoSound.Done
+end;
+
+procedure playIntroSound;
+begin IntroSound.play end;
 
 procedure playRightSound;
-begin
-playSound(addr(RightSound), SizeOf(RightSound))
-end;
+begin RightSound.play end;
 
 procedure playWrongSound;
-begin
-playSound(addr(WrongSound), SizeOf(WrongSound))
-end;
+begin WrongSound.play end;
 
 procedure playNeutralSound;
-begin
-playSound(addr(NeutralSound), SizeOf(NeutralSound))
-end;
+begin NeutralSound.play end;
 
 procedure playErrorSound;
-begin
-playSound(addr(ErrorSound), SizeOf(ErrorSound))
-end;
+begin ErrorSound.play end;
 
 procedure playInfoSound;
-begin
-playSound(addr(InfoSound), SizeOf(InfoSound))
-end;
+begin InfoSound.play end;
 
 procedure useSDLsounds;
 begin
@@ -205,10 +234,22 @@ if sndlen>0 then
   end
 end;
 
+procedure closeSDLAudio;
+begin
+if isSubSystem
+    then SDL_QuitSubSystem(SDL_INIT_AUDIO)
+    else SDL_Quit;
+
+AudioAvailable := false
+end;
+
 procedure InitAudio(sub: boolean); 
 var desired : SDL_AudioSpec;
 begin
 isSubSystem := sub;
+AudioAvailable := false;
+if not SoundFilesAvailable then exit;
+
 if isSubSystem
   then AudioAvailable := SDL_InitSubSystem(SDL_INIT_AUDIO)=0
   else AudioAvailable := SDL_Init(SDL_INIT_AUDIO)=0;
@@ -226,26 +267,25 @@ if AudioAvailable then
     end;
 
   AudioAvailable := SDL_OpenAudio(desired, NIL)=0;
-  if AudioAvailable then useSDLsounds
+
+  if AudioAvailable 
+    then begin LoadSounds; useSDLsounds end
+    else closeSDLAudio
   end
 end;
 
 procedure CloseAudio;
 begin
-{ SDL_Quit might already be called... }
-
-if AudioAvailable then
-  if isSubSystem
-    then SDL_QuitSubSystem(SDL_INIT_AUDIO)
-    else SDL_Quit;
-
 DisableSignals;
-AudioAvailable := false
+FreeSounds;
+
+{ SDL_Quit might already be called... }
+if AudioAvailable then closeSDLAudio
 end;
 
 Initialization
 
-  ident('$Id: sdlsnd.pas,v 1.13 2006/11/01 07:42:25 akf Exp $')
+  ident('$Id: sdlsnd.pas,v 1.14 2006/12/30 14:23:11 akf Exp $')
 
 Finalization
 
