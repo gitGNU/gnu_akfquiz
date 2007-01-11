@@ -2,7 +2,7 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.15 2006/12/25 08:59:21 akf Exp $
+* $Id: sdlgrph.pas,v 1.16 2007/01/11 10:06:12 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -52,6 +52,7 @@ procedure setColors(foreground, background: cardinal);
 procedure PutPixel(x, y: TscreenPos; color: Uint16);
 function  GetPixel(x, y: TscreenPos): Uint16;
 procedure showimage(x, y: Integer; const img);
+procedure showtransparentimage(x, y: Integer; var img; colorkey: Uint16);
 procedure drawBackground(const img);
 procedure MoveTo(x, y: TscreenPos);
 function  GetX: TscreenPos;
@@ -501,6 +502,28 @@ SDL_BlitSurface(image, NIL, screen, addr(rect));
 SDL_FreeSurface(image)
 end;
 
+procedure showtransparentimage(x, y: Integer; var img; colorkey: Uint16);
+var 
+  image : pSDL_Surface;
+  rect: SDL_Rect;
+begin
+image := SDL_CreateRGBSurfaceFrom(addr(Tgrfimage(img).Image), 
+                                  Tgrfimage(img).Width, 
+                                  Tgrfimage(img).Height,
+                                  16,
+                                  Tgrfimage(img).Width*SizeOf(Uint16),
+                                  $F800, $07E0, $001F, $0000);
+if image=NIL then exit;
+
+SDL_SetColorKey(image, SDL_SRCCOLORKEY, colorkey);
+
+rect.x := x+taRect.x;
+rect.y := y+taRect.y;
+
+SDL_BlitSurface(image, NIL, screen, addr(rect));
+SDL_FreeSurface(image)
+end;
+
 procedure drawBackground(const img);
 var image : pSDL_Surface;
 begin
@@ -726,7 +749,7 @@ end;
 
 Initialization
 
-  ident('$Id: sdlgrph.pas,v 1.15 2006/12/25 08:59:21 akf Exp $');
+  ident('$Id: sdlgrph.pas,v 1.16 2007/01/11 10:06:12 akf Exp $');
 
   textarea      := NIL;
   screen        := NIL;

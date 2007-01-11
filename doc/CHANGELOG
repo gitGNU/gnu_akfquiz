@@ -1,4 +1,5 @@
 4.4.0-testing
+- grquiz: new photo at info-screen - with SDL it is transparent
 - uses SDL_GetError if SDL graphic fails (audio still fails silently)
 - soundfiles are no longer compiled into the binaries
 - in srcbin/common.in: "quizdir", "htmldir"

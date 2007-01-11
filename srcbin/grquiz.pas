@@ -2,7 +2,7 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.20 2006/12/10 17:17:36 akf Exp $
+* $Id: grquiz.pas,v 1.21 2007/01/11 10:06:12 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -420,8 +420,13 @@ end;
   var width, height: integer;
   begin
   getImageSize(TitleImage, width, height);
-  ShowImage(MaxX-width, 0, TitleImage);
-  
+
+  {$IfDef SDL}
+    ShowTransparentImage(MaxX-width, 0, TitleImage, TitleImage.Image[0]);
+  {$Else}
+    ShowImage(MaxX-width, 0, TitleImage);
+  {$EndIf}
+
   MoveTo(MaxX-(width div 2)-(Length(TitleImageName) * 8 div 2), height+3);
   GrfWrite(TitleImageName);
   MoveTo(0, 0);
@@ -1143,7 +1148,7 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: grquiz.pas,v 1.20 2006/12/10 17:17:36 akf Exp $');
+ident('$Id: grquiz.pas,v 1.21 2007/01/11 10:06:12 akf Exp $');
 
 {$IfDef FPCSVGALIB}
   { space after messages from SVGALib }
