@@ -2,7 +2,7 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.16 2007/01/11 10:06:12 akf Exp $
+* $Id: sdlgrph.pas,v 1.17 2007/01/11 10:52:07 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -52,7 +52,7 @@ procedure setColors(foreground, background: cardinal);
 procedure PutPixel(x, y: TscreenPos; color: Uint16);
 function  GetPixel(x, y: TscreenPos): Uint16;
 procedure showimage(x, y: Integer; const img);
-procedure showtransparentimage(x, y: Integer; var img; colorkey: Uint16);
+procedure showtransparentimage(x, y: Integer; var img; colorkey: Uint32);
 procedure drawBackground(const img);
 procedure MoveTo(x, y: TscreenPos);
 function  GetX: TscreenPos;
@@ -502,7 +502,7 @@ SDL_BlitSurface(image, NIL, screen, addr(rect));
 SDL_FreeSurface(image)
 end;
 
-procedure showtransparentimage(x, y: Integer; var img; colorkey: Uint16);
+procedure showtransparentimage(x, y: Integer; var img; colorkey: Uint32);
 var 
   image : pSDL_Surface;
   rect: SDL_Rect;
@@ -749,7 +749,7 @@ end;
 
 Initialization
 
-  ident('$Id: sdlgrph.pas,v 1.16 2007/01/11 10:06:12 akf Exp $');
+  ident('$Id: sdlgrph.pas,v 1.17 2007/01/11 10:52:07 akf Exp $');
 
   textarea      := NIL;
   screen        := NIL;
