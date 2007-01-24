@@ -2,7 +2,7 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
-* $Id: sdlsnd.pas,v 1.14 2006/12/30 14:23:11 akf Exp $
+* $Id: sdlsnd.pas,v 1.15 2007/01/24 15:12:16 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -56,11 +56,19 @@ implementation
   {$DEFINE libSDL external name}
   {$DEFINE cdecl attribute(cdecl)}
   {$pointer-arithmetic}
+  
+  {$IfDef NEEDPTHREAD}
+    {$L pthread}
+  {$EndIf}
 {$EndIf} { __GPC__ }
 
 {$IfDef FPC}
   {$MACRO ON}
   {$DEFINE libSDL:=cdecl; external 'SDL' name}
+  
+  {$IfDef NEEDPTHREAD}
+    {$LinkLib pthread}
+  {$EndIf}
 {$EndIf} { FPC }
 
 type
@@ -285,7 +293,7 @@ end;
 
 Initialization
 
-  ident('$Id: sdlsnd.pas,v 1.14 2006/12/30 14:23:11 akf Exp $')
+  ident('$Id: sdlsnd.pas,v 1.15 2007/01/24 15:12:16 akf Exp $')
 
 Finalization
 

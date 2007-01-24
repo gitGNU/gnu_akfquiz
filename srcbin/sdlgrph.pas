@@ -2,7 +2,7 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.17 2007/01/11 10:52:07 akf Exp $
+* $Id: sdlgrph.pas,v 1.18 2007/01/24 15:12:16 akf Exp $
 *
 * Copyright (c) 2005-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -78,11 +78,19 @@ implementation
 {$IfDef __GPC__}
   {$L SDL}
   {$DEFINE libSDL external name}
+
+  {$IfDef NEEDPTHREAD}
+    {$L pthread}
+  {$EndIf}
 {$EndIf}
 
 {$IfDef FPC}
   {$MACRO ON}
   {$DEFINE libSDL:=cdecl; external 'SDL' name}
+  
+  {$IfDef NEEDPTHREAD}
+    {$LinkLib pthread}
+  {$EndIf}
 {$EndIf}
 
 {$I mainicon.inc}
@@ -749,7 +757,7 @@ end;
 
 Initialization
 
-  ident('$Id: sdlgrph.pas,v 1.17 2007/01/11 10:52:07 akf Exp $');
+  ident('$Id: sdlgrph.pas,v 1.18 2007/01/24 15:12:16 akf Exp $');
 
   textarea      := NIL;
   screen        := NIL;

@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.22 2006/12/30 14:23:11 akf Exp $
+# $Id: configure,v 1.23 2007/01/24 15:12:16 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -127,6 +127,12 @@ case "$ARCH" in
    i?86) ARCH=x86 ;;
 esac
 
+# system specific settings
+case "$SYS" in
+  *Linux*) NEEDPTHREAD="yes" ;;
+  *) NEEDPTHREAD="no" ;;
+esac
+
 # check parameter
 while [ $# -gt 0 ] 
 do
@@ -179,7 +185,7 @@ done
 test -z "$COMPILER" && getcompiler
 
 test "$COMPILER" = "xarm" && ARCH=arm
-test "$COMPILER" = "xw32" && SYS=w32
+test "$COMPILER" = "xw32" && { SYS=w32; NEEDPTHREAD="no"; }
 
 # disable exam-mode on some systems
 case $SYS in
@@ -214,6 +220,7 @@ Sys:      $SYS
 Arch:     $ARCH
 BugMail:  $BUGMAIL
 Sound:    $SOUND
+NeedPthread: $NEEDPTHREAD
 EOF
 
 # change to default directory
@@ -228,8 +235,10 @@ sed < Makefile.in > Makefile \
 
 SOUNDCOMMENTED=""
 test "$SOUND" = "no" && SOUNDCOMMENTED="#"
+test "$NEEDPTHREAD" = "no" && PTHREADCOMMENTED="#"
 sed < srcbin/Makefile.$COMPILER > srcbin/Makefile \
-   -e "s/.*\(DEFINES.*SdlSoundForAll\)$/$SOUNDCOMMENTED\1/"
+   -e "s/.*\(DEFINES.*SdlSoundForAll\)$/$SOUNDCOMMENTED\1/" \
+   -e "s/.*\(DEFINES.*NEEDPTHREAD\)$/$PTHREADCOMMENTED\1/"
 
 sed < srcbin/common.in > srcbin/common.mak \
     -e "s%^\(srcdir *= *\).*%\1$SRCDIR%" \

@@ -1,6 +1,6 @@
 # use FPC Cross-Compiler for Linux on ARM devices
 
-# $Id: Makefile.xarm,v 1.9 2006/12/30 14:23:11 akf Exp $
+# $Id: Makefile.xarm,v 1.10 2007/01/24 15:12:16 akf Exp $
 
 # Edit this file for Compiler-specific configuration
 # make further changes in common.mak
@@ -15,6 +15,7 @@ NATIVEPC=fpc
 NATIVEPFLAGS=-Sh -Sd
 
 #DEFINES+=-dSDL
+#DEFINES+=-dNEEDPTHREAD
 DEFINES+=-dTransitional
 #DEFINES+=-dAdvertisement
 #DEFINES+=-dSdlSoundForAll
