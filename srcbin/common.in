@@ -1,4 +1,4 @@
-# $Id: common.in,v 1.18 2006/12/30 14:49:58 akf Exp $
+# $Id: common.in,v 1.19 2007/02/15 17:26:25 akf Exp $
 
 #####################################################################
 # change here:
@@ -153,7 +153,8 @@ install: all installdirs
 	@echo "*"
 	@echo "* installing sound-files to $(DESTDIR)$(sounddir)"
 	@echo "*"
-	$(INSTALL) -m 0644 ../share/akfquiz/sound/* $(DESTDIR)$(sounddir)
+	$(INSTALL) -m 0644 ../share/akfquiz/sound/*.ub $(DESTDIR)$(sounddir)
+	$(INSTALL) -m 0644 ../share/akfquiz/sound/README $(DESTDIR)$(sounddir)
 	@echo "*"
 	@echo "* installing files needed for HTML to $(DESTDIR)$(htmldir)"
 	@echo "*"
