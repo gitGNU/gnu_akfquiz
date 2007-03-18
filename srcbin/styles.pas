@@ -1,7 +1,7 @@
 { akfquiz - style sheet data }
 { this file is in the public domain }
 
-{ $Id: styles.pas,v 1.4 2006/10/11 06:26:23 akf Exp $ }
+{ $Id: styles.pas,v 1.5 2007/03/18 10:51:51 akf Exp $ }
 
 unit styles;
 
@@ -77,7 +77,8 @@ WriteLn('.made { font-family:sans-serif; font-size:x-small; '
 WriteLn;
 WriteLn('/* styles for screens */');
 WriteLn('@media screen {');
-WriteLn('  html { color:#0000aa; background-image:url(school.png); }');
+WriteLn('  html { color:#0000aa; background-image:url(school.png); ');
+WriteLn('         position:relative; /* workaround for IE bug */ }');
 WriteLn('  body { margin:1ex 8%; }');
 WriteLn('  .error { color:red; }');
 WriteLn('  #metadata, .comment, .hint, .assessment {');
@@ -162,5 +163,5 @@ begin
 end;
 
 begin
-ident('$Id: styles.pas,v 1.4 2006/10/11 06:26:23 akf Exp $')
+ident('$Id: styles.pas,v 1.5 2007/03/18 10:51:51 akf Exp $')
 end.

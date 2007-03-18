@@ -90,6 +90,7 @@ h1 {
      color:#0000aa; /* inc */
      /* background-color:white; */ /* if graphic not available */
      background-image:url(school.png);
+     position:relative; /* workaround for IE bug */
      }
 
   body { 
