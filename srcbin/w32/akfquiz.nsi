@@ -138,7 +138,7 @@ Section "!${NAME} $(REQUIRED)" AKFQuiz
   FILE "..\quizstat"
 
   SetOutPath "$INSTDIR\share\akfquiz\sound"
-  FILE "..\..\share\akfquiz\sound\README-ub"
+  FILE "..\..\share\akfquiz\sound\README"
   FILE "..\..\share\akfquiz\sound\introsnd.ub"
   FILE "..\..\share\akfquiz\sound\infosnd.ub"
   FILE "..\..\share\akfquiz\sound\errorsnd.ub"
@@ -175,7 +175,7 @@ Section "!${NAME} $(REQUIRED)" AKFQuiz
 
   SetOutPath "$INSTDIR\doc\deutsch"
   FILE "..\..\doc\deutsch\*.*"
-  FILE /oname="template" "template-de"
+  FILE /oname=template "template-de"
   
   SetOutPath "$INSTDIR"
   FILE "AKFQuiz.ico"
