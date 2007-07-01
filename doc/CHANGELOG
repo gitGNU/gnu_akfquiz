@@ -1,4 +1,5 @@
 4.4.0-testing
+- school.png more pale
 - q-school.css, styles.pas: workaround for broken IE browser
 - link with pthread (NEEDPTHREAD) on GNU/Linux systems (fixes bug #18862)
 - grquiz: new photo at info-screen - with SDL it is transparent
