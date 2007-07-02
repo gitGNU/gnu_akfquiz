@@ -8,13 +8,13 @@
 *
 * This unit was originally written for AKFQuiz
 *
-* $Id: dialog.pas,v 1.4 2006/10/11 06:26:22 akf Exp $
+* $Id: dialog.pas,v 1.5 2007/07/02 10:14:10 akf Exp $
 *
-* Copyright (c) 2003-2004 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2003,2004,2007 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
-* This Unit is free software; you can redistribute it and/or modify
+* This unit is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
+* the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *
 * This unit is distributed in the hope that it will be useful,
@@ -23,9 +23,7 @@
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA
-*
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
 *}
 
 unit Dialog;
@@ -404,5 +402,5 @@ begin
 end;
 
 begin
-ident('$Id: dialog.pas,v 1.4 2006/10/11 06:26:22 akf Exp $')
+ident('$Id: dialog.pas,v 1.5 2007/07/02 10:14:10 akf Exp $')
 end.

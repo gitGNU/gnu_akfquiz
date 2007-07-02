@@ -1,17 +1,17 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.15 2007/07/02 05:20:29 akf Exp $
+* $Id: uakfquiz.pas,v 1.16 2007/07/02 10:14:11 akf Exp $
 *
-* Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2003-2006,2007 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal or GNU-Pascal
 *
 * This file is part of AKFQuiz
 *
-* AKFQuiz is free software; you can redistribute it and/or modify
+* AKFQuiz is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
+* the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *
 * AKFQuiz is distributed in the hope that it will be useful,
@@ -20,8 +20,7 @@
 * GNU General Public License for more details.
 *
 * You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
 *}
 
 { 
@@ -58,7 +57,7 @@ uses qsys, qmsgs;
 
 { please add your name, when you make changes }
 { You may not delete my name }
-const AKFQuizCopyright = '2006 AKFoerster';
+const AKFQuizCopyright = '2007 AKFoerster';
 
 const Contributors = 'Italiano: Martin Guy, Dansk: Tommy Jensen';
 
@@ -943,5 +942,5 @@ if TimeLimit>0
 end;
 
 begin
-ident('$Id: uakfquiz.pas,v 1.15 2007/07/02 05:20:29 akf Exp $')
+ident('$Id: uakfquiz.pas,v 1.16 2007/07/02 10:14:11 akf Exp $')
 end.

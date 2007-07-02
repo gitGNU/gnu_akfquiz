@@ -1,4 +1,5 @@
 4.4.0-testing
+- relicensed to GPLv3+
 - fixed 2 range check error conditions with newer gpc versions
 - school.png more pale
 - q-school.css, styles.pas: workaround for broken IE browser

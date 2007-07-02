@@ -17,7 +17,7 @@ BEGIN
       VALUE "FileDescription", "cgiquiz: CGI program for AKFQuiz"
       VALUE "FileVersion", "@@@"
       VALUE "InternalName", "@@@"
-      VALUE "LegalCopyright", "Copyright AKFoerster, GPL v2 or later"
+      VALUE "LegalCopyright", "Copyright AKFoerster, GPLv3+"
       VALUE "OriginalFilename", "@@@"
       VALUE "Comments", "@@@"
       VALUE "ProductName", "@@@"

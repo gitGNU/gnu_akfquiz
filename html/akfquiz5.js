@@ -2,13 +2,13 @@
 * akfquiz5.js 
 * for use with mkquiz 4.1.0
 * Language: JavaScript 1.5
-* Copyright (C) 2003-2005 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (C) 2003-2005,2007 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * This file is part of AKFQuiz
 *
-* AKFQuiz is free software; you can redistribute it and/or modify
+* AKFQuiz is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
+* the Free Software Foundation, either version 3 of the License, or
 * (at your option) any later version.
 *
 * AKFQuiz is distributed in the hope that it will be useful,

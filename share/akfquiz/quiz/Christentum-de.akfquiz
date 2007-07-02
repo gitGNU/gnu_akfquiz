@@ -1,11 +1,11 @@
 AKFQuiz 4.4.0 oder höher
 
-# Copyright © 2005-2006 Andreas K. Förster <akfquiz@akfoerster.de>
+# Copyright © 2005-2006,2007 Andreas K. Förster <akfquiz@akfoerster.de>
 #
-# Diese Quiz-Datei ist Freie Software. Sie können es unter den Bedingungen
+# Diese Quiz-Datei ist Freie Software: Sie können es unter den Bedingungen
 # der GNU General Public License, wie von der Free Software Foundation
 # veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß 
-# Version 2 der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+# Version 3 der Lizenz oder (nach Ihrer Option) jeder späteren Version.
 #
 # Die Veröffentlichung der Quiz-Datei erfolgt in der Hoffnung, dass sie
 # Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne
@@ -17,7 +17,7 @@ Autor:		Andreas K. Förster
 Copyright:
 Uebersetzer:
 Bearbeitet:
-Lizenz:         GPL Version 2 oder neuer
+Lizenz:         GPL Version 3 oder neuer
 LizenzURI:      http://www.gnu.org/licenses/gpl.html
 Sprache:	de
 Kodierung:      UTF-8

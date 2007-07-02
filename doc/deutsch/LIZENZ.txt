@@ -1,21 +1,21 @@
 LIZENZ
 
 AKFQuiz
-Copyright © 2003-2006 Andreas K. Förster
+Copyright (C) 2003-2006,2007 Andreas K. Foerster
 
 verwendet Tabellen von GNU libiconv
 Copyright (C) 1999-2001 Free Software Foundation, Inc.
-grquiz verwendet Zeichensätze aus dem kbd-Paket
+grquiz verwendet Zeichensaetze aus dem kbd-Paket
 Copyright (C) 2004 by the contributors to kbd
 
-AKFQuiz ist Freie Software. Sie können es unter den Bedingungen
+AKFQuiz ist Freie Software. Sie koennen es unter den Bedingungen
 der GNU General Public License, wie von der Free Software Foundation
-veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version
-2 der Lizenz oder (nach Ihrer Option) jeder späteren Version.
+veroeffentlicht, weitergeben und/oder modifizieren, entweder gemaess 
+Version 3 der Lizenz oder (nach Ihrer Option) jeder spaeteren Version.
 
-Die Veröffentlichung von AKFQuiz erfolgt in der Hoffnung, dass es
+Die Veroeffentlichung von AKFQuiz erfolgt in der Hoffnung, dass es
 Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar ohne
-die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FÜR EINEN
+die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT FUER EINEN
 BESTIMMTEN ZWECK.
 
 Details finden Sie in der Datei "COPYING" im Ordner "doc".
