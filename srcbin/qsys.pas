@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.19 2006/12/30 14:23:11 akf Exp $
+* $Id: qsys.pas,v 1.20 2007/07/02 05:20:29 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -679,10 +679,10 @@ end; { getQuizInfo }
     s := ReadDir(d);
     while s<>'' do
       begin
-      if (s[length(s)-length(ext)+1 .. length(s)] = ext)
+      if (length(s)>length(ext)) and (pos(ext, s)=length(s)-length(ext)+1)
         {$IfDef DJGPP}
-	  or ((length(ext)>4) and 
-	      (s[length(s)-3 .. length(s)] = ext[1..4]))
+	  or ((length(ext)>4) and length(s)>4 and
+	      (s[length(s)-3 .. length(s)] = ext[1..4])) {@@@}
 	{$EndIf}
         then
          begin
@@ -1493,7 +1493,7 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.19 2006/12/30 14:23:11 akf Exp $');
+  ident('$Id: qsys.pas,v 1.20 2007/07/02 05:20:29 akf Exp $');
   
   InitPrefix;
   disableSignals; { initializes Signals }

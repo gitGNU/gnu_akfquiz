@@ -1,7 +1,7 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.14 2006/11/15 15:37:28 akf Exp $
+* $Id: uakfquiz.pas,v 1.15 2007/07/02 05:20:29 akf Exp $
 *
 * Copyright (c) 2003-2006 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -280,7 +280,7 @@ function getvalue(x: string): mystring;
 var i: integer;
 begin
 i := succ(pos(':', x));
-while (x[i]=' ') or (x[i]=TAB) do inc(i);
+while (i<length(x)) and ((x[i]=' ') or (x[i]=TAB)) do inc(i);
 getvalue := copy(x, i, length(x)-i+1);
 end;
 
@@ -943,5 +943,5 @@ if TimeLimit>0
 end;
 
 begin
-ident('$Id: uakfquiz.pas,v 1.14 2006/11/15 15:37:28 akf Exp $')
+ident('$Id: uakfquiz.pas,v 1.15 2007/07/02 05:20:29 akf Exp $')
 end.
