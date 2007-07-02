@@ -310,9 +310,9 @@ SectionGroup "$(LOCINST)"
       "$INSTDIR\doc\$(LICFILE)"
     CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\COPYING.lnk" \
       "$INSTDIR\doc\COPYING.txt"
-    StrCmp $LANGUAGE ${LANG_GERMAN} 0 +2
-      CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\COPYING (Übersetzung).lnk" \
-        "$INSTDIR\doc\deutsch\gpl-ger.html"
+;   StrCmp $LANGUAGE ${LANG_GERMAN} 0 +2
+;     CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\COPYING (Übersetzung).lnk" \
+;       "$INSTDIR\doc\deutsch\gpl-ger.html"
     CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\akfquiz.lnk" \
       "$INSTDIR\$(LANGDOC)\akfquiz.html"
     CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\grquiz.lnk" \

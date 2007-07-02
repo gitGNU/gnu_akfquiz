@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.10 2007/03/18 11:09:07 akf Exp $
+# $Id: Makefile.in,v 1.11 2007/07/02 13:55:21 akf Exp $
 #
 # this Makefile is just a glue to the others
 # if you want to configure things, use the script configure 
@@ -175,7 +175,7 @@ dist-windows: html pdf
 	$(MAKE) -C srcbin veryclean
 	# export and convert textfiles
 	cp doc/COPYING srcbin/w32/COPYING.txt
-	cp doc/deutsch/COPYING.de srcbin/w32/COPYING.de.txt
+	#cp doc/deutsch/COPYING.de srcbin/w32/COPYING.de.txt
 	cp share/akfquiz/quiz/*.akfquiz srcbin/w32/
 	-cp ../unfree/*.akfquiz srcbin/w32/
 	-unix2dos srcbin/w32/*.txt
