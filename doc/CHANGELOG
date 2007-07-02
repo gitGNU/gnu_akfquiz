@@ -1,4 +1,4 @@
-4.4.0-testing
+4.4.0-cvs
 - relicensed to GPLv3+
 - fixed 2 range check error conditions with newer gpc versions
 - school.png more pale

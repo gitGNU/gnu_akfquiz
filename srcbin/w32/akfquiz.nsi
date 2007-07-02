@@ -35,7 +35,7 @@ VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "${NAME}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} LegalCopyright \
-       "Copyright AKFoerster, GPL v2 or later"
+       "Copyright AKFoerster, GPLv3+"
 VIAddVersionKey /LANG=${LANG_ENGLISH} Comments "${COMMENT_EN}"
 
 VIAddVersionKey /LANG=${LANG_GERMAN} FileVersion "${VERSION}"
@@ -45,7 +45,7 @@ VIAddVersionKey /LANG=${LANG_GERMAN} ProductName "${NAME}"
 VIAddVersionKey /LANG=${LANG_GERMAN} ProductVersion "${VERSION}"
 VIAddVersionKey /LANG=${LANG_GERMAN} CompanyName "${PUBLISHER}"
 VIAddVersionKey /LANG=${LANG_GERMAN} LegalCopyright \
-       "Copyright AKFoerster, GPL V2 oder später"
+       "Copyright AKFoerster, GPLv3+"
 VIAddVersionKey /LANG=${LANG_GERMAN}  Comments "${COMMENT_DE}"
 
 LangString HOMEPAGE   ${LANG_ENGLISH} "http://akfquiz.nongnu.org/"
