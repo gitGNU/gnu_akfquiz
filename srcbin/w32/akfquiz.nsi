@@ -7,7 +7,7 @@
 !define PUBLISHER "AKFoerster"
 !define PUBLISHERURL "http://akfoerster.de/"
 !define SUPPORTURL "http://savannah.nongnu.org/p/akfquiz"
-!define OUTFILE "akfquiz-${VERSION}-w32.exe"
+!define OUTFILE "akfquiz-${VERSION}${VARIANT}-w32.exe"
 !define COMMENT_EN "The original AKFQuiz is available for GNU/Linux"
 !define COMMENT_DE "Das original AKFQuiz ist für GNU/Linux erhältlich"
 

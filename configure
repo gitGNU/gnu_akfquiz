@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.26 2007/08/22 16:07:03 akf Exp $
+# $Id: configure,v 1.27 2007/08/22 18:12:57 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -277,6 +277,7 @@ cat > srcbin/w32/akfquiz.nsh <<EOF
 !define MAINNAME "$NAME"
 !define VERSION $VERSION
 !define PKGVERSION $PKGVERSION
+!define VARIANT "$VARIANT"
 EOF
 
 create_rc scrquiz "scrquiz: AKFQuiz in text-mode" "ported from GNU\/Linux"
