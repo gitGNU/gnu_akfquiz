@@ -1,10 +1,11 @@
-# $Id: Makefile.in,v 1.11 2007/07/02 13:55:21 akf Exp $
+# $Id: Makefile.in,v 1.12 2007/08/22 16:07:03 akf Exp $
 #
 # this Makefile is just a glue to the others
 # if you want to configure things, use the script configure 
 # and edit the Makefiles in srcbin
 
 VERSION=@VERSION@
+VARIANT=@VARIANT@
 SYS=@SYS@
 ARCH=@ARCH@
 
@@ -114,11 +115,19 @@ pkg: dist
 
 dist: distclean
 	env GZIP=--best tar czvCf .. \
-	  ../akfquiz-$(VERSION).main.tar.gz \
+	  ../akfquiz-$(VERSION)$(VARIANT).main.tar.gz \
 	      akfquiz/start \
 	      akfquiz/configure \
 	      akfquiz/Makefile.in \
-	      akfquiz/desktop/ \
+	      akfquiz/.cvsignore \
+	      akfquiz/desktop/scrquiz.desktop \
+	      akfquiz/desktop/AKFQuiz.xpm \
+	      akfquiz/desktop/grquiz.desktop \
+	      akfquiz/desktop/akfquiz.desktop \
+	      akfquiz/desktop/akfquiz-web.desktop \
+	      akfquiz/desktop/diaquiz.desktop \
+	      akfquiz/desktop/x-akfquiz.xml \
+	      akfquiz/desktop/publishquiz.desktop \
 	      akfquiz/share/akfquiz/sound/errorsnd.ub \
 	      akfquiz/share/akfquiz/sound/infosnd.ub \
 	      akfquiz/share/akfquiz/sound/introsnd.ub \
@@ -131,13 +140,100 @@ dist: distclean
 	      akfquiz/share/akfquiz/quiz/Christentum-de.akfquiz \
 	      akfquiz/share/akfquiz/quiz/Schokolade-de.akfquiz \
 	      akfquiz/share/akfquiz/quiz/Landtechnik.akfquiz \
-	      akfquiz/doc/ \
-	      akfquiz/html/ \
-	      akfquiz/srcbin/
+	      akfquiz/doc/Makefile \
+	      akfquiz/doc/COPYING \
+	      akfquiz/doc/CHANGELOG \
+	      akfquiz/doc/TODO \
+	      akfquiz/doc/FAQ.html \
+	      akfquiz/doc/english/UPDATE \
+	      akfquiz/doc/english/diaquiz.1 \
+	      akfquiz/doc/english/scrquiz.1 \
+	      akfquiz/doc/english/akfquiz.5 \
+	      akfquiz/doc/english/LICENSE.txt \
+	      akfquiz/doc/english/mkquiz.1 \
+	      akfquiz/doc/english/grquiz.1 \
+	      akfquiz/doc/english/Makefile \
+	      akfquiz/doc/english/template \
+	      akfquiz/doc/english/cgiquiz.8 \
+	      akfquiz/doc/english/INSTALL \
+	      akfquiz/doc/english/linequiz.1 \
+	      akfquiz/doc/english/quizstat.1 \
+	      akfquiz/doc/english/.cvsignore \
+	      akfquiz/doc/deutsch/UPDATE \
+	      akfquiz/doc/deutsch/diaquiz.1 \
+	      akfquiz/doc/deutsch/scrquiz.1 \
+	      akfquiz/doc/deutsch/akfquiz.5 \
+	      akfquiz/doc/deutsch/mkquiz.1 \
+	      akfquiz/doc/deutsch/grquiz.1 \
+	      akfquiz/doc/deutsch/Makefile \
+	      akfquiz/doc/deutsch/template \
+	      akfquiz/doc/deutsch/cgiquiz.8 \
+	      akfquiz/doc/deutsch/INSTALL \
+	      akfquiz/doc/deutsch/LIZENZ.txt \
+	      akfquiz/doc/deutsch/linequiz.1 \
+	      akfquiz/doc/deutsch/quizstat.1 \
+	      akfquiz/doc/deutsch/.cvsignore \
+	      akfquiz/html/q-print.css \
+	      akfquiz/html/richtig.png \
+	      akfquiz/html/README-png \
+	      akfquiz/html/q-brown.css \
+	      akfquiz/html/falsch.png \
+	      akfquiz/html/q-blue.css \
+	      akfquiz/html/leer.png \
+	      akfquiz/html/school.png \
+	      akfquiz/html/schulnote.html \
+	      akfquiz/html/htmlupdate \
+	      akfquiz/html/akfquiz5.js \
+	      akfquiz/html/q-school.css \
+	      akfquiz/srcbin/uakfquiz.pas \
+	      akfquiz/srcbin/Makefile.grx \
+	      akfquiz/srcbin/ppm2pas.pas \
+	      akfquiz/srcbin/Makefile.fpc \
+	      akfquiz/srcbin/qmsgs.pas \
+	      akfquiz/srcbin/icons.inc \
+	      akfquiz/srcbin/sdlgrph.pas \
+	      akfquiz/srcbin/pngdata.inc \
+	      akfquiz/srcbin/grquiz.pas \
+	      akfquiz/srcbin/AKFQuiz.xpm \
+	      akfquiz/srcbin/sdlsnd.pas \
+	      akfquiz/srcbin/hginfo.inc \
+	      akfquiz/srcbin/diaquiz.pas \
+	      akfquiz/srcbin/cgiquiz.pas \
+	      akfquiz/srcbin/common.in \
+	      akfquiz/srcbin/scrquiz.pas \
+	      akfquiz/srcbin/Makefile.xw32 \
+	      akfquiz/srcbin/linequiz.pas \
+	      akfquiz/srcbin/Makefile.gpc \
+	      akfquiz/srcbin/mainicon.inc \
+	      akfquiz/srcbin/mkquiz.pas \
+	      akfquiz/srcbin/qsys.pas \
+	      akfquiz/srcbin/clgrph.pas \
+	      akfquiz/srcbin/titimg.ppm \
+	      akfquiz/srcbin/chconv.pas \
+	      akfquiz/srcbin/dialog.pas \
+	      akfquiz/srcbin/quizhg.ppm \
+	      akfquiz/srcbin/akfquiz \
+	      akfquiz/srcbin/Makefile.xarm \
+	      akfquiz/srcbin/font.inc \
+	      akfquiz/srcbin/htmlquiz.pas \
+	      akfquiz/srcbin/quizstat \
+	      akfquiz/srcbin/styles.pas \
+	      akfquiz/srcbin/.cvsignore \
+	      akfquiz/srcbin/w32/akfquiz.nsi \
+	      akfquiz/srcbin/w32/LICENSE.txt \
+	      akfquiz/srcbin/w32/AKFQuiz.ico \
+	      akfquiz/srcbin/w32/Makefile \
+	      akfquiz/srcbin/w32/windows-en.txt \
+	      akfquiz/srcbin/w32/template \
+	      akfquiz/srcbin/w32/rc.in \
+	      akfquiz/srcbin/w32/template-de \
+	      akfquiz/srcbin/w32/LIZENZ.txt \
+	      akfquiz/srcbin/w32/windows-de.txt \
+	      akfquiz/srcbin/w32/.cvsignore
 
 dist-bin: all
 	env GZIP=--best tar czvCf .. \
-	  ../akfquiz-$(VERSION).bin.$(SYS).$(ARCH).tar.gz \
+	  ../akfquiz-$(VERSION)$(VARIANT).bin.$(SYS).$(ARCH).tar.gz \
 	      akfquiz/start \
 	      akfquiz/doc/english/INSTALL \
 	      akfquiz/doc/deutsch/INSTALL \
@@ -155,7 +251,7 @@ dist-bin: all
 
 dist-mostbin: most
 	env GZIP=--best tar czvCf .. \
-	  ../akfquiz-$(VERSION).bin.$(SYS).$(ARCH).tar.gz \
+	  ../akfquiz-$(VERSION)$(VARIANT).bin.$(SYS).$(ARCH).tar.gz \
 	      akfquiz/start \
 	      akfquiz/doc/english/INSTALL \
 	      akfquiz/doc/deutsch/INSTALL \

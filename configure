@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.25 2007/07/02 18:01:27 akf Exp $
+# $Id: configure,v 1.26 2007/08/22 16:07:03 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -32,7 +32,7 @@ NAME="AKFQuiz"
 MAINVERSION=4
 SUBVERSION=4
 REVISION=0
-PKGVERSION=3
+PKGVERSION=4
 
 VERSION=$MAINVERSION.$SUBVERSION.$REVISION
 SVERSION=$MAINVERSION$SUBVERSION$REVISION
@@ -229,7 +229,8 @@ sed < Makefile.in > Makefile \
     -e "s%^\(srcdir *= *\).*%\1$SRCDIR%" \
     -e "s/ARCH=.*/ARCH=$ARCH/" \
     -e "s/SYS=.*/SYS=$SYS/" \
-    -e "s/^\(VERSION *= *\).*/\1$VERSION/"
+    -e "s/^\(VERSION *= *\).*/\1$VERSION/" \
+    -e "s/^\(VARIANT *= *\).*/\1$VARIANT/"
 
 
 SOUNDCOMMENTED=""
