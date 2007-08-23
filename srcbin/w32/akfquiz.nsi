@@ -243,6 +243,7 @@ Section /o "${NAME} $(SRC)" src
   
   SetOutPath "$INSTDIR\src\doc\deutsch"
   FILE "..\..\doc\deutsch\UPDATE"
+  FILE "..\..\doc\deutsch\gpl-3.0.de.html"
   FILE "..\..\doc\deutsch\diaquiz.1"
   FILE "..\..\doc\deutsch\scrquiz.1"
   FILE "..\..\doc\deutsch\akfquiz.5"
@@ -458,9 +459,9 @@ SectionGroup "$(LOCINST)"
       "$INSTDIR\doc\$(LICFILE)"
     CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\COPYING.lnk" \
       "$INSTDIR\doc\COPYING.txt"
-;   StrCmp $LANGUAGE ${LANG_GERMAN} 0 +2
-;     CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\COPYING (Übersetzung).lnk" \
-;       "$INSTDIR\doc\deutsch\gpl-ger.html"
+    StrCmp $LANGUAGE ${LANG_GERMAN} 0 +2
+      CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\COPYING (Übersetzung).lnk" \
+        "$INSTDIR\doc\deutsch\gpl-3.0.de.html"
     CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\akfquiz.lnk" \
       "$INSTDIR\$(LANGDOC)\akfquiz.html"
     CreateShortCut "$SMPROGRAMS\${NAME}\$(DOC)\grquiz.lnk" \
