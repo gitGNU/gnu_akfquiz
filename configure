@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.28 2007/08/23 06:17:44 akf Exp $
+# $Id: configure,v 1.29 2007/08/23 07:12:48 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -25,14 +25,14 @@ CGIDIR=/usr/lib/cgi-bin
 EXAMDIR=/var/lib/akfquiz
 
 # for modified versions use a variant-name please
-#VARIANT=""
-VARIANT="-cvs"
+VARIANT=""
+#VARIANT="-cvs"
 NAME="AKFQuiz"
 
 MAINVERSION=4
 SUBVERSION=4
-REVISION=0
-PKGVERSION=4
+REVISION=1
+PKGVERSION=0
 
 VERSION=$MAINVERSION.$SUBVERSION.$REVISION
 SVERSION=$MAINVERSION$SUBVERSION$REVISION
