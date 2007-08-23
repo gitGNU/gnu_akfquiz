@@ -1,4 +1,4 @@
-# $Id: Makefile.in,v 1.12 2007/08/22 16:07:03 akf Exp $
+# $Id: Makefile.in,v 1.13 2007/08/23 04:36:58 akf Exp $
 #
 # this Makefile is just a glue to the others
 # if you want to configure things, use the script configure 
@@ -160,6 +160,7 @@ dist: distclean
 	      akfquiz/doc/english/quizstat.1 \
 	      akfquiz/doc/english/.cvsignore \
 	      akfquiz/doc/deutsch/UPDATE \
+	      akfquiz/doc/deutsch/gpl-3.0.de.html \
 	      akfquiz/doc/deutsch/diaquiz.1 \
 	      akfquiz/doc/deutsch/scrquiz.1 \
 	      akfquiz/doc/deutsch/akfquiz.5 \
