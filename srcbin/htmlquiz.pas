@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.20 2007/07/02 10:14:10 akf Exp $
+* $Id: htmlquiz.pas,v 1.21 2008/07/13 20:44:45 akf Exp $
 *
 * Copyright (c) 2003-2006,2007 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -248,7 +248,7 @@ repeat
     if img<>0 
       then s := s+'<img src="' + URI + '" alt="[' + URI
                 + ']" style="vertical-align:middle; float:right"' + cet
-      else s := s + '<a href="' + URI + '"'
+      else s := s + '<a href="' + URI + '" rel="nofollow"'
                 {$IfDef Transitional}
 		  + ' target="_top"'
 		{$EndIf}
@@ -601,5 +601,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.20 2007/07/02 10:14:10 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.21 2008/07/13 20:44:45 akf Exp $')
 end.
