@@ -1,6 +1,6 @@
 LIZENZ
 
-Copyright © 2003-2006,2007 Andreas K. Förster
+Copyright © 2003-2006,2007,2010 Andreas K. Förster
 
 verwendet Tabellen von GNU libiconv
 Copyright © 1999-2001 Free Software Foundation, Inc.
@@ -10,7 +10,7 @@ beinhaltet die Simple DirectMedia Layer library (SDL).
 Copyright © 1997-2006 Sam Lantinga
 
 AKFQuiz ist Freie Software. Sie können es unter den Bedingungen
-der GNU General Public License, wie von der Free Software Foundation
+der GNU Affero General Public License, wie von der Free Software Foundation
 veröffentlicht, weitergeben und/oder modifizieren, entweder gemäß Version
 3 der Lizenz oder (nach Ihrer Option) jeder späteren Version.
 
