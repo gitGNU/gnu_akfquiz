@@ -1,0 +1,2398 @@
+#!/usr/bin/perl
+
+############################################################################
+# AKFQuizWeb - Quiz-program for the CGI interface of a webserver           #
+# Copyright (C) 2010 Andreas K. Foerster <akfquiz@akfoerster.de>           #
+#                                                                          #
+# for more information see http://akfquiz.nongnu.org/                      #
+#                                                                          #
+# This program is free software: you can redistribute it and/or modify     #
+# it under the terms of the GNU Affero General Public License as           #
+# published by the Free Software Foundation, either version 3 of the       #
+# License, or (at your option) any later version.                          #
+#                                                                          #
+# This program is distributed in the hope that it will be useful,          #
+# but WITHOUT ANY WARRANTY; without even the implied warranty of           #
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            #
+# GNU Affero General Public License for more details.                      #
+#                                                                          #
+# The full license text is attached at the end of this file                #
+############################################################################
+
+
+############################################################################
+# CONFIGURE                                                                #
+############################################################################
+
+# directory with the quizfiles (need not be exported by the webserver)
+#my $QUIZ_DIR = '/var/www/cgi-data/akfquiz';
+my $QUIZ_DIR = "$ENV{DOCUMENT_ROOT}/cgi-data/akfquiz";
+
+############################################################################
+
+# activate these for development - deactivate when done
+use strict;
+use warnings;
+use CGI::Carp qw(fatalsToBrowser);
+# I deliberately don't use the CGI module for efficiency
+
+my $version = '4.4.1-beta9';
+my $prg_name = 'AKFQuizWeb';
+my $src_name = 'akfquizweb';
+my $prg_version = "$prg_name $version";
+
+# Internationalisation
+# Note: the webpages may have different encondings,
+# so you have use escapes for non-ASCII characters here!
+
+my %m_no_quiz_found = (
+  en => 'No AKFQuiz-files found',
+  de => 'Keine AKFQuiz-Dateien gefunden', 
+  it => 'Nessun archivio AKFQuiz trovato',
+  da => 'Ingen AKFQuiz filer fundet'
+);
+
+my %m_file_not_found = (
+  en => 'Error: file not found',
+  de => 'Fehler: Datei nicht gefunden',
+  it => 'Errore: Archivio non trovato',
+  da => 'Fejl: Fil ikke fundet'
+);
+
+my %m_result = (
+  en => 'result',
+  de => 'Auswertung',
+  it => 'risultato',
+  da => 'resultat'
+);
+
+my %m_new = (
+  en => 'new',
+  de => 'neu',
+  it => 'nuovo',
+  da => 'ny'
+);
+
+my %m_back = (
+  en => 'back',
+  de => 'zur&uuml;ck',
+  it => 'indietro',
+  da => 'tilbage'
+);
+
+my %m_author = (
+  en => 'Author:',
+  de => 'Autor:',
+  it => 'Autore:',
+  da => 'Forfatter:'
+);
+
+my %m_authorlink = (
+  en => 'Author-link:',
+  de => 'Autor-Link:',
+  it => 'Autore-link:',
+  da => 'Forfatter-Link:'
+);
+
+my %m_translator = (
+  en => 'Translator:',
+  de => '&Uuml;bersetzer:',
+  it => 'Traduttore:',
+  da => 'Overs&aelig;tter:'
+);
+
+my %m_edited = (
+  en => 'Edited by:',
+  de => '&Uuml;berarbeitet von:',
+  it => 'Modificato da:',
+  da => 'Edited by:' # ???
+);
+
+my %m_license = (
+  en => 'License:',
+  de => 'Lizenz:',
+  it => 'Licenza:',
+  da => 'License:' # ???
+);
+
+my %m_licenselink = (
+  en => 'License-Link:',
+  de => 'Lizenz-Link:',
+  it => 'Licenza-link:',
+  da => 'License-Link:' # ???
+);
+
+my %m_right = (
+  en => 'right',
+  de => 'richtig',
+  it => 'giusto',
+  da => 'rigtigt'
+);
+
+my %m_wrong = (
+  en => 'wrong, sorry',
+  de => 'leider falsch',
+  it => 'sbagliato, mi dispiace',
+  da => 'beklager, det er forkert'
+);
+
+my %m_points = (
+  en => 'points:',
+  de => 'Punkte:',
+  it => 'punti:',
+  da => 'point:' # ???
+);
+
+my %m_solution_summary = (
+  en => 'You have gained %d of %d possible points.',
+  de => 'Es wurden %d von maximal %d Punkten erreicht.',
+  it => 'Hai guagadnato %d dei %d punti possibili.',
+  da => 'Du har f&aring;et %d af %d mulige point.'
+);
+
+my %m_solution_percent = (
+  en => 'That makes',
+  de => 'Das sind',
+  it => 'Ci&ograve; f&agrave;',
+  da => 'Det giver'
+);
+
+my %m_solution_not_enough = (
+  en => 'Sorry, that\'s not enough.',
+  de => 'Das sind leider nicht genug.',
+  it => 'Mi dispiace, ma non basta.',
+  da => 'Beklager, det er ikke nok.'
+);
+
+my %m_file_error = (
+  en => 'Error in input file',
+  de => 'Fehler in der Eingabe-Datei',
+  it => 'Errore nell\'archivio di input',
+  da => 'Fejl i input filen'
+);
+
+my %m_time = (
+  en => 'Elapsed time:',
+  de => 'Ben&ouml;tigte Zeit:',
+  it => 'Tempo trascorso:',
+  da => 'Elapsed time:' # ???
+);
+
+my %m_contributions = (
+  en => 'Contributions:',
+  de => 'Beitr&auml;ge:',
+  it => 'Contribuenti:',
+  da => 'Contributions:' # ???
+);
+
+my %m_view = (
+  en => 'view',
+  de => 'anzeigen',
+  it => 'sfogliare',
+  da => 'view' # ???
+);
+
+
+# settings (don't change here)
+my $title = 'Quiz';
+my $author = '';
+my $authorlink = '';
+my $edited = '';
+my $copyright = '';
+my $license = '';
+my $licenselink = '';
+my $translator = '';
+my $encoding = 'UTF-8';
+my $language = 'en';
+my $htmlcode = 0;
+my $rtl = 0;
+my $bidi = 0;
+my $neutral = 0;
+my $assessmentlink = '';
+my $baseuri = '';
+my $css = '';
+my $keywords = '';
+my $noindex = 0;
+my $default = '';
+
+my $doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" '.
+              '"http://www.w3.org/TR/html4/strict.dtd">';
+
+my $script_name = $ENV{SCRIPT_NAME};
+my $path_info = $ENV{PATH_INFO};
+
+# handle command-line options
+unless ($script_name) {
+  unless ($ARGV[0]) {
+    print "Try \"$src_name --help\" for more information\n";
+    exit;
+  }
+  if ($ARGV[0] eq '--version') { &version }
+  elsif ($ARGV[0] eq '--help') { &help }
+  elsif ($ARGV[0] eq '--license') { &show_license }
+  else {
+    print "$src_name: unrecognized option \"$ARGV[0]\"\n";
+    print "Try \"$src_name --help\" for more information\n";
+    exit;
+  }
+}
+
+my $quiz_started = 0; # quiz already started?
+my $qnr = 0; # question number
+my $points = 0;
+my $maxpoints = 0;
+my $evaluated = 0;
+my $home = '';
+my $lang = 'en'; # just for supported languages
+
+my $query;
+if ($ENV{REQUEST_METHOD} eq 'POST') {
+  read STDIN, $query, $ENV{CONTENT_LENGTH};
+} else {
+  $query = $ENV{QUERY_STRING};
+}
+
+my $result_page = !!$query; # is this the solution page?
+
+# yes, this *is* needed!
+&missing_trailing_slash if !$path_info;
+
+&get_browser_language;
+
+if ($path_info =~ /\/$/) { &indexer }
+elsif ($path_info =~ /\/--help$/) { &help_html }
+elsif ($path_info =~ /\/--version$/) { &version_html }
+elsif ($path_info =~ /\/--license$/) { &show_license }
+elsif ($path_info =~ /\/$src_name$/) {&send_source_code }
+elsif ($path_info eq '/q-brown.css') { &send_stylesheet('brown') }
+elsif ($path_info eq '/q-blue.css') { &send_stylesheet('blue') }
+elsif ($path_info eq '/q-school.css') { &send_style_school }
+elsif ($path_info eq '/q-print.css') { &send_style_print }
+elsif ($path_info eq '/akfquiz-icon.png') { &send_icon_grx }
+elsif ($path_info eq '/wrong.png') { &send_wrong_grx }
+elsif ($path_info eq '/correct.png') { &send_correct_grx }
+elsif ($path_info eq '/school.png') { &send_school_grx }
+
+if ($query) {
+  if ($query =~ /\bformat=akfquiz/i) { &send_quizfile }
+  elsif ($query =~ /\bformat=text/i) { &send_quizfile_as_text }
+}
+
+# just send quizfile if useragent explicitly accepts it
+if ($ENV{HTTP_ACCEPT} and $ENV{HTTP_ACCEPT} =~ /application\/x-akfquiz/) {
+  &send_quizfile }
+else { &run_quiz }
+exit;
+
+
+# check boolean value
+sub is_true { return $_[0] =~ /(?:ja|yes|true|1)/i }
+
+
+sub run_quiz {
+  my $file = $path_info;
+
+  # get $home from the query
+  if ($query) {
+    $query =~ /\bhome=([^&]+)/;
+    $home = $+;
+    if ($home) {
+      $home =~ s/%3A/:/g;
+      $home =~ s/%2F/\//g;
+    }
+  }
+
+  # add the file extension, unless it already has it
+  $file .= '.akfquiz' unless $file =~ /.akfquiz$/;
+
+  open F, "<$QUIZ_DIR$file" or &not_found;
+
+  # skip until AKFQuiz is found (ignore UTF-8 BOM)
+  while (<F>) { last if /^(?:\xEF\xBB\xBF)?\s*AKFQuiz/i }
+
+  if (eof(F)) { close F; &error; }
+
+  while (<F>) {
+    next if /^\s*\#/ || /^\s*$/;  # ignore comment lines and empty lines
+    last if /^\s*ende?/i;  # end of quiz reached?
+
+    # read body (block-oriented keywords)
+    if (/^\s*(?:question|frage|mc):/i) { &question('radio') }
+    elsif (/^\s*(?:query|multi|anfrage|mcma):/i) { &question('checkbox') }
+    elsif (/^\s*(?:intro|comment|kommentar):/i) { &comment }
+    elsif (/^\s*(?:remark|hint|hinweis|anmerkung):/i) { &hint }
+    elsif (/^\s*(?:fitbest|freeform|freiform):/i) { } # TODO
+    elsif (/^\s*(?:assessment|auswertung):/i) { &assessment }
+    elsif (/^\s*(?:assessment%|auswertung%):/i) { &assessmentpercent }
+    elsif (!$quiz_started) { # read head (line-oriented keywords)
+      if (/^\s*(?:title|titel):\s*(.*)/i) { $title=&htmlconvert($+) }
+      elsif (/^\s*(?:auth?or):\s*(.*)/i) { $author=&htmlconvert($+) }
+      elsif (/^\s*(?:auth?orur[il]|auth?orlink):\s*(.*)/i) { $authorlink=$+ }
+      elsif (/^\s*(?:edited|bearbeitet):\s*(.*)/i) { $edited=&htmlconvert($+) }
+      elsif (/^\s*copyright:\s*(.*)/i) { $copyright=&htmlconvert($+) }
+      elsif (/^\s*(?:license|lizenz):\s*(.*)/i) { $license=&htmlconvert($+) }
+      elsif (/^\s*(?:licenselink|licenseur[il]
+             |lizenzlink|lizenzur[il]):\s*(.*)/ix) { $licenselink=$+ }
+      elsif (/^\s*(?:translator|uebersetzer):\s*(.*)/i) 
+            { $translator=&htmlconvert($+) }
+      elsif (/^\s*(?:encoding|kodierung|charset|zeichensatz):\s*(.*)/i) 
+            { $encoding=$+ }
+      elsif (/^\s*(?:language|sprache):\s*(.*)/i) { &set_language($+) }
+      elsif (/^\s*htmlcode:\s*(\w+)/i) { $htmlcode=&is_true($+) }
+      elsif (/^\s*rtl:\s*(\w+)/i) { $rtl=&is_true($+) }
+      elsif (/^\s*bidi:\s*(\w+)/i) { $bidi=&is_true($+) }
+      elsif (/^\s*neutral:\s*(\w+)/i) { $neutral=&is_true($+) }
+      elsif (/^\s*(?:assessmentur[il]|auswertungs?ur[il]
+             |assessmentlink|auswertungs?link):\s*(.*)/ix) 
+            { $assessmentlink=$+ }
+      elsif (/^\s*(?:timeout|timelimit|zeitlimit):\s*(.*)/i) { } # TODO
+      elsif (/^\s*(?:baseur[il]|hauptur[il]):\s*(.*)/i) { $baseuri=$+ }
+      elsif (/^\s*(?:layout|css):\s*(.*)/i) { $css=$+ }
+      elsif (/^\s*(?:keywords|stichworte):\s*(.*)/i) 
+            { $keywords=&htmlconvert($+) }
+      elsif (/^\s*javascript:\s*(.*)/i) { } # ignore
+      elsif (/^\s*noindex:\s*(\w+)/i) { $noindex=&is_true($+) }
+      elsif (/^\s*(?:default|standardantwort):\s*(.*)/i)
+            { $default=&htmlconvert($+) }
+      else { &error }
+      } else { &error }
+  } # while (<F>)
+  close F;
+
+  &evaluate if $result_page;
+  &html_end;
+  exit;
+}
+
+
+sub set_language {
+  $language = shift; # global variable
+
+  #  $lang is only set to supported languages
+  $lang = $language if $m_new{$language};
+}
+
+
+sub get_browser_language {
+  if ($ENV{HTTP_ACCEPT_LANGUAGE}) {
+    # just the first 2 letters
+    &set_language(substr $ENV{HTTP_ACCEPT_LANGUAGE}, 0, 2)
+  }
+}
+
+
+sub html_start {
+  # HTTP data
+  print "Content-Type: text/html";
+  print "; charset=$encoding" if $encoding;
+  print "\n";
+  print "Content-Language: $language\n" if $language;
+  print "\n";
+
+  # HTML data
+  print "$doctype\n\n";
+
+  if ($language) { print "<html lang='$language'>\n\n" }
+     else { print "<html>\n\n" }
+
+  print "<head>\n";
+
+  if ($encoding) {
+    print "<meta http-equiv='Content-Type' "
+          . "content='text/html; charset=$encoding'>\n"
+  }
+
+  if ($language) { 
+    print "<meta http-equiv='Content-Language' content='$language'>\n"
+  }
+
+  print "<meta name='generator' content='$prg_version'>\n";
+
+  if ($noindex or $result_page) {
+    print "<meta name='robots' content='noindex'>\n"
+  }
+
+  print "<title>$title</title>\n";
+
+  print "<meta name='author' content='$author'>\n" if $author;
+  print "<meta name='copyright' content='$copyright'>\n" if $copyright;
+  print "<meta name='license' content='$license'>\n" if $license;
+  print "<meta name='keywords' content='$keywords'>\n" if $keywords;
+
+  print "<link rel='author' href='$authorlink'>\n" if $authorlink;
+  print "<link rel='license' href='$licenselink'>\n" if $licenselink;
+
+  print "<link rel='icon' type='image/png' "
+        ."href='$script_name/akfquiz-icon.png'>\n";
+
+  # prefetch graphics
+  unless ($result_page) {
+    print "<link rel='prefetch' href='$script_name/correct.png'>\n";
+    print "<link rel='prefetch' href='$script_name/wrong.png'>\n";
+  }
+
+  # inline stylesheet
+  print "\n<style type='text/css'>\n"
+        . "\@media print { .buttons, .defanswer, .resultlink, noscript "
+        . "{display:none} }\n"
+        . "</style>\n\n";
+
+  if ($css) {
+      print "<link rel='stylesheet' type='text/css' "
+            . "href='$css'>\n"
+  }
+
+  print "</head>\n\n<body>\n";
+  print "<h1 id='top'>$title</h1>\n\n";
+
+  &show_home if $home;
+
+  &show_metadata;
+  &start_form;
+  $quiz_started = 1;
+}
+
+
+sub software_link {
+  if ($src_name) {
+    print "<hr>\n\n<div dir='ltr' class='made' "
+          . "style='text-align:right'><small>\n"
+          . "<a href='--version'>$prg_version</a><br>\n"
+          . "</small></div>\n\n"
+  }
+}
+
+
+sub html_end { 
+  &end_form;
+  &show_home if $home;
+  &software_link;
+  print "</body>\n</html>";
+}
+
+
+sub start_form {
+  print "<form name='akfquiz' id='akfquiz' method='POST'";
+  if ($result_page) {
+    print " action=''" # no action
+  } else {
+    print " action='$script_name$path_info'"
+  }
+  print ">\n\n";
+}
+
+
+sub end_form {
+  unless ($result_page) {
+    my $time = time;
+
+    if ($ENV{HTTP_REFERER}) {
+      print "<input type='hidden' name='home'"
+            . " value='$ENV{HTTP_REFERER}'>";
+    }
+
+    print "<input type='hidden' name='time' value='$time'>";
+    print "<div class='buttons'>\n";
+    print "<input type='submit' accesskey='r' "
+          . "value='$m_result{$lang}'>\n";
+    print "<input type='reset' accesskey='n' value='$m_new{$lang}'>\n";
+    print "</div>\n";
+  }
+
+  print "</form>\n\n";
+}
+
+
+sub show_home {
+  print "<div class='home'><small>"
+        . "<a href='$home'>$m_back{$lang}</a>"
+        . "</small></div>\n\n";
+}
+
+
+sub show_metadata {
+  $author = &handle_uris($author) if $author;
+  $copyright = &handle_uris($copyright) if $copyright;
+  $edited = &handle_uris($edited) if $edited;
+  $translator = &handle_uris($translator) if $translator;
+  $license = &handle_uris($license) if $license;
+
+  print "<dl id='metadata'>\n";
+
+  print "<dt>$m_author{$lang}</dt> <dd>$author</dd>\n" if $author;
+  print "<dt>Copyright:</dt> <dd>&copy; $copyright</dd>\n" if $copyright;
+  print "<dt>$m_authorlink{$lang}</dt> "
+        . "<dd><a rel='author external' "
+        . "href='$authorlink'>$authorlink</a></dd>\n" if $authorlink;
+  print "<dt>$m_edited{$lang}</dt> <dd>$edited</dd>\n" if $edited;
+  print "<dt>$m_translator{$lang}</dt> <dd>$translator</dd>\n" if $translator;
+  print "<dt>$m_license{$lang}</dt> <dd>$license</dd>\n" if $license;
+  print "<dt>$m_licenselink{$lang}</dt> "
+        . "<dd><a rel='license external' "
+        . "href='$licenselink'>$licenselink</a></dd>\n" if $licenselink;
+
+  print "</dl>\n\n";
+}
+
+
+sub show_block {
+  print "<p>\n";
+
+  while (<F>) {
+    last if /^\s*$/;
+    if (/^\s*\.\s*$/) { print "</p>\n\n<p>\n" } 
+    else { print &htmlconvert($_) }
+  }
+  print "</p>\n";
+}
+
+
+sub ignore_block {
+  while (<F>) { last if /^\s*$/ }
+}
+
+
+sub comment {
+  &html_start unless $quiz_started;
+
+  print "<div class='comment'>\n";
+  &show_block;
+  print "</div>\n\n";
+}
+
+
+sub hint {
+  &html_start unless $quiz_started;
+
+  if ($result_page) {
+    print "<div class='hint'>\n";
+    &show_block;
+    print "</div>\n\n";
+  }
+  else { &ignore_block }
+}
+
+
+sub question {
+  my $type = shift;
+
+  &html_start unless $quiz_started;
+
+  $qnr++;
+  print "<div class='question' id='question$qnr'>\n";
+  &show_block; # show question
+  print "</div>\n\n";
+
+  if ($result_page) { &show_answers($type) }
+    else { &show_answers_form($type) }
+}
+
+
+sub show_answers_form {
+  my $type = shift;
+  my $anr = 0;
+  my $answer;
+
+  print "<div class='answer'>\n";
+
+  while (<F>) {
+    last if /^\s*$/;
+
+    unless (/^\s*[+-]?\d+\s+(.+)$/) { &error } # find answer
+    $answer = $+;
+    $anr++;
+
+    # multiple lines per answer?
+    while ($answer =~ /(.+)\\\s*$/) { $answer = $+ . <F> }
+
+    print "<div>\n";
+    print "<input  id='q${qnr}a${anr}' name='q$qnr'"
+          . " type='$type' value='$anr'>\n";
+    print "<label for='q${qnr}a${anr}'>";
+    print &htmlconvert($answer);
+    print "</label>\n</div>\n\n";
+  }
+
+  # default answer
+  if ($default and $type eq 'radio') {
+    $anr++;
+    print "<div class='defanswer'>\n";
+    print "<input  id='q${qnr}a${anr}' name='q$qnr'"
+          . " type='$type' value='$anr' checked='checked'>\n";
+    print "<label for='q${qnr}a${anr}'>$default</label>\n";
+    print "</div>\n\n";
+    }
+
+  print "</div>\n\n";
+}
+
+
+sub show_answers {
+  my $type = shift;
+  my $anr = 0;
+  my $answerpoints;
+  my $thispoints = 0;
+  my $thismaxpoints = 0;
+  my $answer;
+
+  print "<div class='answer'>\n";
+
+  while (<F>) {
+    last if /^\s*$/;
+
+    unless (/^\s*([+-]?\d+)\s+(.+)$/) { &error } # analyze answer-line
+    $anr++;
+    $answerpoints = $1;
+    $answer = $2;
+
+    if ($type eq 'radio')
+      { $thismaxpoints = $answerpoints if $answerpoints > $thismaxpoints }
+    else
+      { $thismaxpoints += $answerpoints if $answerpoints > 0 }
+
+    # multiple lines per answer?
+    while ($answer =~ /(.+)\\\s*$/) { $answer = $+ . <F> }
+
+    print "<div>\n";
+    print "<input  id='q${qnr}a${anr}' name='q$qnr'"
+          . " type='$type' value='$anr' disabled='disabled'";
+    if ($query =~ /q$qnr=$anr/) {
+      print " checked='checked'";
+      $thispoints = $answerpoints;
+      $points += $thispoints;
+      }
+    print ">\n";
+    print "<label for='q${qnr}a${anr}'";
+    unless ($neutral) {
+      print $answerpoints > 0 ? " class='correct'" : " class='wrong'";
+    }
+    print ">" . &htmlconvert($answer) . "</label>\n";
+    print "</div>\n\n";
+  }
+
+  # default answer
+  if ($default and $type eq 'radio') {
+    $answerpoints = 0;
+    $anr++;
+    print "<div class='defanswer'>\n";
+    print "<input  id='q${qnr}a${anr}' name='q$qnr'"
+          . " type='$type' value='$anr'";
+    if ($query =~ /q$qnr=$anr/) { print " checked='checked'" }
+    print ">\n";
+    print "<label for='q${qnr}a${anr}'";
+    print " class='wrong'" unless $neutral;
+    print ">$default</label>\n";
+    print "</div>\n\n";
+  }
+
+  unless ($neutral) {
+    print "<strong>\n".
+          "<img width='18' height='18' ".
+          "style='float:right; vertical-align:text-bottom' ";
+    if ($thispoints > 0) {
+      print "alt='- $m_right{$lang} -' src='$script_name/correct.png'>\n";
+    } else {
+      print "alt='- $m_wrong{$lang} -' src='$script_name/wrong.png'>\n";
+    }
+    print "</strong>\n";
+  } # unless $neutral
+
+  print "<div class='points'>$m_points{$lang} $thispoints</div>";
+  print "</div>\n\n";
+
+  $maxpoints += $thismaxpoints;
+}
+
+
+sub get_percentage {
+  if ($points > 0) { return int(($points * 100 / $maxpoints) + 0.5) }
+  else { return 0 }
+}
+
+
+sub get_assessmentlink {
+  if ($assessmentlink !~ /\?$/) { return $assessmentlink }
+  else { # question-mark at the end
+    my $percent = &get_percentage;
+    return $assessmentlink . "points=$points"
+           . "&maxpoints=$maxpoints&percent=$percent";
+  }
+}
+
+
+sub elapsed_time {
+  if ($query =~ /\btime=(\d+)/) {
+    my $elapsed = time - $+;
+    if ($elapsed < 3600) { # less than 1 hour
+      return sprintf('%02d:%02d', $elapsed/60%60, $elapsed%60)
+    } else { # more than 1 hour
+      return sprintf('%d:%02d:%02d', 
+              $elapsed/3600%60, $elapsed/60%60, $elapsed%60)
+    }
+  } else  { return '' }
+}
+
+
+sub evaluate {
+  if (!$evaluated and $maxpoints > 0) {
+    my $time = &elapsed_time;
+
+    print "<hr>\n\n";
+    print "<div class='result' id='result'><strong>\n";
+    printf $m_solution_summary{$lang}, $points, $maxpoints;
+    print "<br>\n";
+    if ($points > 0) {
+      print "$m_solution_percent{$lang} ", &get_percentage, "%.\n";
+    } else { print "$m_solution_not_enough{$lang}" unless $neutral }
+    print "<br><br>$m_time{$lang} $time" if $time;
+    print "</strong></div>\n\n";
+
+    if ($assessmentlink) {
+      my $link = &get_assessmentlink;
+      print "<p><a href='$link'>$m_result{$lang}</a></p>\n\n";
+    }
+  } # if (!$evaluated and $maxpoints > 0)
+
+  $evaluated = 1;
+}
+
+
+sub assessment {
+  &html_start unless $quiz_started;
+  &evaluate unless $evaluated;
+
+  if ($assessmentlink or !$result_page) { &ignore_block }
+  else {
+    print "<div class='assessment'>\n";
+    &show_block;
+    print "</div>\n\n";
+  }
+}
+
+
+sub assessmentpercent {
+  &html_start unless $quiz_started;
+  &evaluate unless $evaluated;
+
+  if ($assessmentlink or !$result_page) { &ignore_block }
+  else {
+    my $percentage = &get_percentage;
+    my $found = 0;
+    my $old = 101; # something larger than 100
+    my $text;
+    my $value;
+
+    while (<F>) {
+      last if /^\s*$/;
+
+      # analyze percentage-line
+      unless (/^\s*(\d+)\s+(.+)$/) { &error }
+      $value = $1;
+      $text = $2;
+
+      # multiple lines per answer?
+      while ($text =~ /(.+)\\\s*$/) { $text = $+ . <F> }
+
+      &error if $value > $old; # must be in descending order
+
+      if (!$found and $percentage >= $value) {
+          print "<div class='assessment'>\n$text\n</div>\n\n";
+          $found = 1;
+      }
+
+      $old = $value;
+    }
+
+   &error if $value != 0; # last entry must be 0
+  }
+}
+
+
+sub indexer {
+  my @files = ();
+
+  if (opendir D, "$QUIZ_DIR$path_info") {
+    @files = grep { /.akfquiz$/ && -r "$QUIZ_DIR$path_info$_" } readdir D;
+    closedir D;
+  }
+
+  print <<EOF;
+Content-Type: text/html; charset=UTF-8
+
+$doctype
+
+<html>
+<head>
+<title>$prg_name</title>
+<meta name='robots' content='noindex'>
+<meta name='generator' content='$prg_version'>
+<link rel='icon' type='image/png' href='$script_name/akfquiz-icon.png'>
+<link rel='stylesheet' type='text/css' href='q-brown.css'>
+</head>
+
+<body>
+<h1>$prg_name</h1>
+
+<ul>
+EOF
+
+  if (@files) { 
+    my $file;
+    my $name;
+
+    foreach $file (@files) {
+      $name = $file;
+      $name =~ s/.akfquiz$//;
+      print "<li><a href='$name'>$name</a>\n";
+      print "<small>("
+            ."<a href='$file?format=akfquiz'"
+            ."type='application/x-akfquiz'>AKFQuiz</a>"
+            ." | <a href='$file?format=text' type='text/plain'>"
+            ."$m_view{$lang}</a>"
+            .")</small>\n";
+      print "</li>\n";
+    }
+  } else {
+    print "<div class='error'>$m_no_quiz_found{$lang}</div>\n"
+  }
+
+  print "</ul>\n\n";
+  &software_link;
+  print "</body>\n</html>\n";
+
+  exit;
+}
+
+
+sub handle_uris {
+  my $line = shift;
+  my $rest;
+  my $temp;
+  my $URI;
+  my $img;
+  my $URIprefix;
+  my $f;
+
+  $rest = $line;
+  $temp = '';
+
+  do {
+    $f = -1;
+
+    # prefixes
+    $img = index $rest, 'image:';
+    $URIprefix = index $rest, 'URI:';
+    $URIprefix = index $rest, 'URL:' if $URIprefix < 0;
+    if ($URIprefix >= 0) { $f = $URIprefix + 4 }
+
+    $f = index $rest, 'http:' if $f < 0;
+    $f = index $rest, 'https:' if $f < 0;
+    $f = index $rest, 'ftp:' if $f < 0;
+    $f = index $rest, 'file:' if $f < 0;
+
+    # only the above URIs can be handles for images
+    $img = -1 if $f < 0;
+
+    # check if URI comes directly after image:
+    $img = -1 if ($img >= 0 and $f != $img+6 and $URIprefix != $img+6);
+
+    $f = index $rest, 'mailto:' if $f < 0;
+    $f = index $rest, 'tel:' if $f < 0;
+    $f = index $rest, 'urn:' if $f < 0;
+    $f = index $rest, 'URN:' if $f < 0;
+
+    if ($f >= 0) {
+      my $t;
+      my $p;
+
+      if ($img < 0) {
+        $temp = $temp . substr $rest, 0, $f;
+      } else {
+        $temp = $temp . substr $rest, 0, $img;
+      }
+
+      $URI = substr $rest, $f;
+
+      # search end of URI
+      $t = length $URI;
+      $p = index $URI, '&gt;';
+      if ($p >= 0) { $t = $p if $p < $t }
+      $p = index $URI, ' ';
+      if ($p >= 0) { $t = $p if $p < $t }
+      $p = index $URI, '\t';
+      if ($p >= 0) { $t = $p if $p < $t }
+      $p = index $URI, '&quot;';
+      if ($p >= 0) { $t = $p if $p < $t }
+
+      if ($t != length $URI) {
+        $URI = substr $URI, 0, $t;
+      }
+
+      $rest = substr $rest, $f+$t;
+
+      if ($img >= 0) {
+        $temp = "$temp<img src='$URI' alt='[$URI]' "
+                . "style='vertical-align:middle; float:right'>";
+      } else {
+        $temp = "$temp<a href='$URI' rel='external nofollow' target='_top'>"
+                . "$URI</a>";
+      }
+    } # if (f > 0)
+  } until ($rest eq '' or $f < 0);
+
+  return $temp . $rest;
+}
+
+
+sub htmlconvert {
+  my $line = shift;
+
+  unless ($htmlcode) {
+    $line =~ s/&/&amp;/g; # must be first
+    $line =~ s/</&lt;/g;
+    $line =~ s/>/&gt;/g;
+    $line =~ s/\"/&quot;/g;
+  }
+
+  if ($quiz_started and !$htmlcode) { return &handle_uris($line) }
+  else { return $line }
+}
+
+
+sub error {
+  &html_start unless $quiz_started;
+
+  # don't use block elements!
+  print "<strong class='error' dir='ltr'>"
+        ."$m_file_error{$lang}</strong><br>\n\n";
+}
+
+
+sub send_source_code {
+  open F, "<$0" or &not_found;
+  print "Content-Type: text/x-perl\n\n";
+  while (<F>) { print }
+  close F;
+  exit;
+}
+
+
+# License is attached at the end
+sub show_license {
+  if ($script_name) {
+    print "Cache-Control: public, max-age=43200\n"; # cache 12h
+    print "Content-Type: text/plain\n\n" if $script_name;
+  }
+
+  while (<DATA>) { print }
+  close DATA;
+  exit;
+}
+
+
+sub send_quizfile {
+  my $file = $path_info;
+
+  # add the file extension, unless it already has it
+  $file .= '.akfquiz' unless $file =~ /.akfquiz$/;
+
+  open F, "<$QUIZ_DIR$file" or &not_found;
+  print "Cache-Control: public, max-age=43200\n"; # cache 12h
+  print "Content-Type: application/x-akfquiz\n\n";
+  while (<F>) { print }
+  close F;
+  exit;
+}
+
+
+sub send_quizfile_as_text {
+  my $file = $path_info;
+  my @text;
+
+  # add the file extension, unless it already has it
+  $file .= '.akfquiz' unless $file =~ /.akfquiz$/;
+
+  open F, "<$QUIZ_DIR$file" or &not_found;
+  @text = <F>; # slurp
+  close F;
+
+  # find encoding
+  foreach (@text) {
+    if (/^\s*(?:encoding|kodierung|charset|zeichensatz):\s*(.*)/i) {
+      $encoding = $+;
+      last;
+      }
+  }
+
+  print "Cache-Control: public, max-age=43200\n"; # cache 12h
+  print "Content-Type: text/plain; charset=$encoding\n\n";
+  foreach (@text) { print }
+  exit;
+}
+
+
+sub send_wrong_grx {
+  # cache for 7 days
+  print "Cache-Control: public, max-age=604800\n";
+  print "Content-Type: image/png\n\n";
+  print "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a\x00\x00\x00\x0d\x49\x48\x44\x52"
+        ."\x00\x00\x00\x12\x00\x00\x00\x12\x01\x03\x00\x00\x00\x6c\x00\x1c"
+        ."\x14\x00\x00\x00\x06\x50\x4c\x54\x45\xff\xff\xff\xc8\x00\x00\xca"
+        ."\x7e\x14\x86\x00\x00\x00\x01\x74\x52\x4e\x53\x00\x40\xe6\xd8\x66"
+        ."\x00\x00\x00\x01\x62\x4b\x47\x44\x00\x88\x05\x1d\x48\x00\x00\x00"
+        ."\x20\x49\x44\x41\x54\x78\xda\x63\x60\x00\x81\x02\x34\xfc\x01\x82"
+        ."\x19\x1f\x20\x30\xf3\x01\x28\x6e\x60\x60\x60\x87\x61\x06\x38\x06"
+        ."\x00\x6f\x00\x09\x70\x9e\x12\x55\x31\x00\x00\x00\x00\x49\x45\x4e"
+        ."\x44\xae\x42\x60\x82";
+  exit;
+}
+
+
+sub send_correct_grx {
+  # cache for 7 days
+  print "Cache-Control: public, max-age=604800\n";
+  print "Content-Type: image/png\n\n";
+  print "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a\x00\x00\x00\x0d\x49\x48\x44\x52"
+        ."\x00\x00\x00\x12\x00\x00\x00\x12\x01\x03\x00\x00\x00\x6c\x00\x1c"
+        ."\x14\x00\x00\x00\x06\x50\x4c\x54\x45\xff\xff\xff\x00\xc8\x00\x56"
+        ."\xe1\x8e\x38\x00\x00\x00\x01\x74\x52\x4e\x53\x00\x40\xe6\xd8\x66"
+        ."\x00\x00\x00\x01\x62\x4b\x47\x44\x00\x88\x05\x1d\x48\x00\x00\x00"
+        ."\x3d\x49\x44\x41\x54\x78\xda\x63\x60\x60\x38\xc0\xc0\xc0\x08\xc4"
+        ."\xcc\x40\xcc\x0e\xc4\xfc\x40\x2c\xdf\xc0\xc0\x60\xcf\xc0\xc0\x60"
+        ."\x07\x94\xad\x61\x60\xf8\xf0\x83\x81\xe1\xe3\x07\x08\xae\x7e\xc0"
+        ."\xc0\x50\x0f\x54\x62\xdf\x00\xc5\x40\x65\x72\x0c\x0c\x00\x45\x23"
+        ."\x10\x52\x95\x49\x10\xd2\x00\x00\x00\x00\x49\x45\x4e\x44\xae\x42"
+        ."\x60\x82";
+  exit;
+}
+
+
+sub send_school_grx {
+  # cache for 7 days
+  print "Cache-Control: public, max-age=604800\n";
+  print "Content-Type: image/png\n\n";
+  print "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a\x00\x00\x00\x0d\x49\x48\x44\x52"
+        ."\x00\x00\x00\x0e\x00\x00\x00\x0e\x01\x03\x00\x00\x00\x25\x86\xbf"
+        ."\x92\x00\x00\x00\x06\x50\x4c\x54\x45\xdd\xdd\xdd\xff\xff\xff\xae"
+        ."\x22\x4a\x80\x00\x00\x00\x10\x49\x44\x41\x54\x08\xd7\x63\x60\x60"
+        ."\x60\xa8\xff\x43\x0c\x02\x00\x74\x59\x13\x40\xea\x4d\x4e\xcb\x00"
+        ."\x00\x00\x00\x49\x45\x4e\x44\xae\x42\x60\x82";
+  exit;
+}
+
+
+sub send_icon_grx {
+  # cache for 7 days
+  print "Cache-Control: public, max-age=604800\n";
+  print "Content-Type: image/png\n\n";
+  print "\x89\x50\x4e\x47\x0d\x0a\x1a\x0a\x00\x00\x00\x0d\x49\x48\x44\x52"
+        ."\x00\x00\x00\x20\x00\x00\x00\x20\x02\x03\x00\x00\x00\x0e\x14\x92"
+        ."\x67\x00\x00\x00\x0c\x50\x4c\x54\x45\xfb\x0b\x08\x33\xa3\x00\xcc"
+        ."\xcc\xcc\xa0\x35\x35\x58\xd0\x77\x1a\x00\x00\x00\x01\x74\x52\x4e"
+        ."\x53\x00\x40\xe6\xd8\x66\x00\x00\x00\x01\x62\x4b\x47\x44\x00\x88"
+        ."\x05\x1d\x48\x00\x00\x00\x7d\x49\x44\x41\x54\x18\xd3\x65\xd0\xb1"
+        ."\x11\x80\x30\x08\x05\xd0\x58\x38\x82\xfb\x38\x82\x85\x49\xe1\x08"
+        ."\xee\x93\x11\x2c\xfc\x14\x19\xc1\x7d\x18\x21\x85\x0a\x31\xc1\xf3"
+        ."\xa4\x7a\xc5\x3f\x8e\x8f\x73\xce\xcb\x38\x99\x4e\x31\x0a\x7a\xc5"
+        ."\x24\x18\x02\x10\x67\x81\x5f\x80\xcd\x6b\x64\x05\x76\x09\x75\x1e"
+        ."\x32\x8a\xa0\x88\x82\x05\xe9\xc2\x56\x70\x11\x17\xd0\x49\xf9\x41"
+        ."\xae\x48\x06\xfe\x23\x19\xf8\x0b\xe2\xa3\x6d\xe6\x8a\x94\x2b\xa8"
+        ."\x01\x67\xc3\x13\xb6\xc3\xec\xd4\x76\xbc\xd5\x79\x0b\x5a\x65\x7b"
+        ."\x42\x7d\xcb\x0d\x2c\x3b\x70\x13\x5a\x84\x5a\x6f\x00\x00\x00\x00"
+        ."\x49\x45\x4e\x44\xae\x42\x60\x82";
+}
+
+
+sub send_stylesheet {
+  my $style = shift;
+  my ($font, $html_bgc, $box_bgc, $border_color);
+
+  if ($style eq 'blue') {
+    ($html_bgc, $box_bgc, $border_color) =
+       ('#bbbbff', '#000055', '#5555AA');
+  } elsif ($style eq 'brown') {
+    ($html_bgc, $box_bgc, $border_color) =
+      ('#d8d0c8', '#605030', '#605030');
+  } else { &not_found }
+
+  print <<EOF;
+Cache-Control: public, max-age=604800
+Content-Type: text/css
+
+\@import url(q-print.css);
+
+/* common to all media */
+body {
+     max-width:50em;
+     margin-top:1em;
+     margin-bottom:1em;
+     margin-left:auto;
+     margin-right:auto;
+     }
+
+h1, .result {
+     text-align:center;
+     font-weight:bold;
+     }
+
+.error {
+     text-align:center;
+     font-weight:bold;
+     font-style:italic;
+     }
+
+.question {
+     clear:both;
+     font-weight:bold;
+     }
+
+#metadata, .comment {
+     clear:both;
+     font-style:italic;
+     }
+
+.hint {
+     margin-top:1ex;
+     font-style:italic;
+     }
+
+.answer {
+     margin-left:1em;
+     margin-right:1em;
+     }
+
+.wrong { text-decoration:line-through }
+.correct { font-weight:bold }
+
+.points {
+     text-align:center;
+     font-style:italic;
+     }
+
+.assessment {
+     clear:both;
+     text-align:center;
+     }
+
+.made {
+     font-family:sans-serif;
+     font-size:x-small;
+     text-align:right;
+     }
+
+/* styles for screens */
+\@media screen {
+  html {
+     color:black;
+     background-color: ${html_bgc};
+     }
+
+  h1, .result { 
+     border:thick outset;
+     padding:12px;
+     margin:1em 15%;
+     color:#ffffdd;
+     background-color:$box_bgc;
+     border-color:$border_color;
+     }
+
+  .hint, .assessment {
+     border:thick inset;
+     font-weight:bold;
+     padding:1ex;
+     color:#ffffdd;
+     background-color:$box_bgc;
+     border-color:$border_color;
+     }
+
+  .resultlink, .home { text-align:center; }
+
+  .error {
+     color:red;
+     background-color:transparent;
+     }
+
+  .question { 
+     color:#000088;
+     background-color:transparent;
+     }
+
+  .answer input {
+     color:black;
+     background-color:transparent;
+     }
+
+  .correct {
+     background-color:#ddd;
+     color:black;
+     }
+
+  .buttons { 
+     margin-top:2em;
+     margin-bottom:2em;
+     text-align:center;
+     }
+
+  .buttons input {
+     color:#ffffdd;
+     background-color:$box_bgc;
+     }
+}
+EOF
+  exit;
+}
+
+
+sub send_style_school {
+  print <<EOF;
+Cache-Control: public, max-age=604800
+Content-Type: text/css
+
+\@import url(q-print.css);
+
+/* common to all media */
+html { font-family:cursive; }
+
+body {
+     max-width:50em;
+     margin-top:1em;
+     margin-bottom:1em;
+     margin-left:auto;
+     margin-right:auto;
+     }
+
+h1 {
+     text-decoration:underline;
+     text-align:center;
+     }
+
+.result { 
+     text-align:center;
+     font-weight:bold;
+     font-size:larger;
+     }
+
+.resultlink, .home { text-align:center; }
+
+.comment {
+     clear:both;
+     margin-top:1ex;
+     padding:.5ex;
+     font-family:sans-serif;
+     }
+
+#metadata, .hint {
+     margin-top:1ex;
+     padding:.5ex;
+     font-family:sans-serif;
+     }
+
+.question { 
+     clear:both;
+     font-size:larger;
+     font-weight:bold;
+     }
+
+.answer { 
+     margin-left:1em;
+     margin-right:1em;
+     }
+
+.wrong {
+     text-decoration:line-through;
+     }
+
+.points {
+     text-align:center;
+     font-weight:bold;
+     }
+
+.assessment {
+     clear:both;
+     margin-top:1ex;
+     padding:.5ex;
+     text-align:center;
+     font-family:sans-serif;
+     }
+
+.error {
+     text-align:center;
+     font-weight:bold;
+     font-style:italic;
+     font-size:larger;
+     }
+
+.buttons { 
+     margin-top:2em;
+     margin-bottom:2em;
+     text-align:center;
+     }
+
+.made {
+     font-family:sans-serif;
+     font-size:x-small;
+     text-align:right;
+     }
+
+/* styles for screens */
+\@media screen {
+  html {
+     color:#0000aa; /* inc */
+     /* background-color:white; */ /* if graphic not available */
+     background-image:url($script_name/school.png);
+     position:relative; /* workaround for IE bug */
+     }
+
+  .error {
+     color:red;
+     background-color:transparent;
+     }
+
+  #metadata, .comment, .hint, .assessment {
+     border-style:outset;
+     border-width:medium;
+     color:black;
+     background-color:#eee;
+     border-color:#eee;
+     }
+
+  .answer input {
+     color:black;
+     background-color:transparent;
+     }
+
+  .correct {
+     background-color:#dfd;
+     color:black;
+     }
+
+  .buttons input {
+     color:black;
+     background-color:#ccc;
+     }
+}
+EOF
+  exit;
+}
+
+
+sub send_style_print {
+  print <<EOF;
+Cache-Control: public, max-age=604800
+Content-Type: text/css
+
+\@media print {
+  html {
+     color:black;
+     background-color:white;
+     }
+
+  body {
+     margin-top:1.7cm;
+     margin-bottom:1.4cm;
+     margin-left:2cm;
+     margin-right:2cm;
+     }
+
+  a:link, a:visited {
+    color:black;
+    background-color:transparent;
+    text-decoration:none;
+    }
+
+  h1 {
+     font-weight:bold;
+     text-align:center;
+     text-decoration:underline;
+     page-break-after:avoid;
+     }
+
+  .error {
+     text-align:center;
+     font-weight:bold;
+     font-style:italic;
+     }
+
+  .comment {
+     clear:both;
+     font-style:italic;
+     }
+
+  #metadata, .hint, .assessment {
+     margin-top:1ex;
+     padding:.5ex;
+     border:solid thin black;
+     font-style:italic;
+     }
+ 
+  .assessment {
+    clear:both;
+    }
+
+  .question {
+     clear:both;
+     font-weight:bold;
+     font-style:italic;
+     page-break-after:avoid;
+     }
+
+  .answer {
+     margin-left:1em;
+     margin-right:1em;
+     }
+
+  /* bug-workaround */
+  .answer input {
+     background-color:transparent;
+     color:black;
+     }
+
+  .correct {
+     font-weight:bold;
+     }
+
+  .points {
+    text-align:center;
+    font-style:italic;
+    }
+
+  .assessment {
+     clear:both;
+     text-align:center;
+     }
+
+  .wrong {
+     text-decoration:line-through;
+     }
+
+  .result {
+     font-weight:bold;
+     font-style:italic;
+     }
+
+  .buttons, .resultlink, .home, noscript {
+     display:none;
+     }
+
+  .made {
+     font-family:sans-serif;
+     font-size:x-small;
+     text-align:right;
+     }
+}
+EOF
+  exit;
+}
+
+
+sub get_server_name {
+  my $server_name = $ENV{SERVER_NAME};
+  $server_name = $ENV{HTTP_HOST} unless $server_name;
+  $server_name = $ENV{SERVER_ADDR} unless $server_name;
+
+  return $server_name;
+}
+
+
+# redirect if the trailing slash is missing
+# yes, this is needed!
+sub missing_trailing_slash {
+  my $server_name = &get_server_name;
+
+  print "Status: 301 Moved Permanently\n";
+  print "Location: http://$server_name$script_name/\n";
+  print "Content-Type: text/html; charset=UTF-8\n\n";
+
+  print <<EOF;
+<!DOCTYPE HTML PUBLIC '-//IETF//DTD HTML 2.0//EN'>
+<html><head>
+<title>301 Moved Permanently</title>
+</head><body>
+<h1>Moved Permanently</h1>
+<p>The document has moved
+<a href='http://$server_name$script_name/'>here</a>.</p>
+</body></html>
+EOF
+
+  exit;
+}
+
+
+sub not_found {
+  print <<EOF;
+Status: 404 Not Found
+Content-Type: text/html; charset=UTF-8
+
+$doctype
+
+<html>
+<head>
+<title>$prg_name: $m_file_not_found{$lang}</title>
+<meta name='robots' content='noindex'>
+<meta name='generator' content='$prg_version'>
+<link rel='icon' type='image/png' href='$script_name/akfquiz-icon.png'>
+<link rel='stylesheet' type='text/css' href='q-brown.css'>
+</head>
+
+<body>
+<h1>$prg_name</h1>
+
+<p class='error'>$m_file_not_found{$lang}</p>
+
+</body></html>
+EOF
+
+  exit;
+}
+
+
+sub help_html {
+  my $server_name = &get_server_name;
+
+  my $cgi_base = "http://$server_name$script_name";
+
+  # cache 12h
+  print <<EOF;
+Cache-Control: public, max-age=43200
+Content-Type: text/html; charset=UTF-8
+
+$doctype
+
+<html>
+<head>
+<title>$prg_name: help</title>
+<meta name='robots' content='noindex'>
+<meta name='generator' content='$prg_version'>
+<link rel='icon' type='image/png' href='$script_name/akfquiz-icon.png'>
+<link rel='stylesheet' type='text/css' href='q-brown.css'>
+</head>
+
+<body>
+<h1>$prg_name</h1>
+
+<div style='float:left'>
+<img src='$script_name/akfquiz-icon.png' alt='[icon]'
+     width='32' height='32'>
+</div>
+
+<p><a href='--version'>$prg_version</a></p>
+<p>Quiz-program for the CGI interface of a webserver (Perl version)</p>
+<dl style='clear:both'><dt>Usage:</dt>
+<dd>
+$src_name --help<br>
+$src_name --version<br>
+$src_name --license
+<br><br>
+</dd>
+<dt>Examples:</dt>
+<dd>
+$cgi_base/--help<br>
+$cgi_base/--version<br>
+$cgi_base/--license<br>
+$cgi_base/<br>
+$cgi_base/myquiz<br>
+$cgi_base/myquiz?format=akfquiz<br>
+$cgi_base/myquiz?format=text<br>
+$cgi_base/myquiz?q1=2&amp;q2=1&amp;q5=2<br>
+</dd></dl>
+
+<p>Get the <a href='$src_name' type='text/x-perl'>source code</a>.
+</body></html>
+EOF
+
+  exit;
+}
+
+
+sub version_html {
+  # cache 12h
+  print <<EOF;
+Cache-Control: public, max-age=43200
+Content-Type: text/html; charset=UTF-8
+
+$doctype
+
+<html>
+<head>
+<title>$prg_name: version $version</title>
+<meta name='robots' content='noindex'>
+<meta name='generator' content='$prg_version'>
+<link rel='icon' type='image/png' href='$script_name/akfquiz-icon.png'>
+<link rel='stylesheet' type='text/css' href='q-brown.css'>
+</head>
+
+<body>
+<h1>$prg_name</h1>
+
+<div style='float:left'>
+<img src='$script_name/akfquiz-icon.png' alt='[icon]'
+     width='32' height='32'>
+</div>
+
+<p>$prg_version<br>
+Copyright © 2010
+<a rel='external' href='http://akfoerster.de'>Andreas K. Förster</a></p>
+
+<p style='clear:both'>$m_contributions{$lang}<br>
+Italiano: Martin Guy, Dansk: Tommy Jensen</p>
+EOF
+
+  if ($lang eq 'de') { # German?
+  print <<EOF;
+<p>
+Dieses Programm ist freie Software. Sie können es unter den
+Bedingungen der
+<a href='--license'>GNU Affero General Public License</a>,
+wie von der Free Software Foundation veröffentlicht, weitergeben
+und/oder modifizieren, entweder gemäß Version 3 der Lizenz oder
+(nach Ihrer Option) jeder späteren Version.
+</p>
+
+<p>
+Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, daß
+es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar
+ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT
+FÜR EINEN BESTIMMTEN ZWECK. Details finden Sie in der
+<a href='--license'>GNU Affero General Public License</a>.
+</p>
+EOF
+  } else { # not German
+  print <<EOF;
+<p>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the
+<a href='--license'>GNU Affero General Public License</a>
+as published by the Free Software Foundation, either
+version 3 of the License, or (at your option) any later version.
+</p>
+
+<p>
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+<a href='--license'>GNU Affero General Public License</a>
+for more details.
+</p>
+EOF
+  }
+
+  # Leave this link intact and working to comply with the license.
+  # See section 13 of AGPL 3.0.
+  print "<p><a href='$src_name' type='text/x-perl'>Source Code</a>.</p>\n";
+  print "<p><a rel='external' href='http://akfquiz.nongnu.org/'>"
+        ."AKFQuiz</a></p>\n";
+  print "</body></html>\n";
+
+  exit;
+}
+
+
+sub help {
+  print <<EOF;
+$prg_version
+Quiz-program for the CGI interface of a webserver (Perl version)
+
+Usage:
+  $src_name --help
+  $src_name --version
+  $src_name --license
+
+Examples:
+  http://example.net/cgi-bin/$src_name/--help
+  http://example.net/cgi-bin/$src_name/--version
+  http://example.net/cgi-bin/$src_name/--license
+  http://example.net/cgi-bin/$src_name/
+  http://example.net/cgi-bin/$src_name/myquiz
+  http://example.net/cgi-bin/$src_name/myquiz?format=akfquiz
+  http://example.net/cgi-bin/$src_name/myquiz?format=text
+  http://example.net/cgi-bin/$src_name/myquiz?q1=2&q2=1&q5=2
+EOF
+
+  exit;
+}
+
+
+sub version {
+  print <<EOF;
+$prg_version
+Copyright (C) 2010 Andreas K. Foerster
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+To see the full text of the license enter '$src_name --license'.
+EOF
+
+  exit;
+}
+
+__END__
+
+                    GNU AFFERO GENERAL PUBLIC LICENSE
+                       Version 3, 19 November 2007
+
+ Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+
+                            Preamble
+
+  The GNU Affero General Public License is a free, copyleft license
+for software and other kinds of works, specifically designed to ensure
+cooperation with the community in the case of network server software.
+
+  The licenses for most software and other practical works are
+designed to take away your freedom to share and change the works.  By
+contrast, our General Public Licenses are intended to guarantee your
+freedom to share and change all versions of a program--to make sure it
+remains free software for all its users.
+
+  When we speak of free software, we are referring to freedom, not
+price.  Our General Public Licenses are designed to make sure that you
+have the freedom to distribute copies of free software (and charge for
+them if you wish), that you receive source code or can get it if you
+want it, that you can change the software or use pieces of it in new
+free programs, and that you know you can do these things.
+
+  Developers that use our General Public Licenses protect your rights
+with two steps: (1) assert copyright on the software, and (2) offer
+you this License which gives you legal permission to copy, distribute
+and/or modify the software.
+
+  A secondary benefit of defending all users' freedom is that
+improvements made in alternate versions of the program, if they
+receive widespread use, become available for other developers to
+incorporate.  Many developers of free software are heartened and
+encouraged by the resulting cooperation.  However, in the case of
+software used on network servers, this result may fail to come about.
+The GNU General Public License permits making a modified version and
+letting the public access it on a server without ever releasing its
+source code to the public.
+
+  The GNU Affero General Public License is designed specifically to
+ensure that, in such cases, the modified source code becomes available
+to the community.  It requires the operator of a network server to
+provide the source code of the modified version running there to the
+users of that server.  Therefore, public use of a modified version, on
+a publicly accessible server, gives the public access to the source
+code of the modified version.
+
+  An older license, called the Affero General Public License and
+published by Affero, was designed to accomplish similar goals.  This is
+a different license, not a version of the Affero GPL, but Affero has
+released a new version of the Affero GPL which permits relicensing under
+this license.
+
+  The precise terms and conditions for copying, distribution and
+modification follow.
+
+                       TERMS AND CONDITIONS
+
+  0. Definitions.
+
+  "This License" refers to version 3 of the GNU Affero General Public
+License.
+
+  "Copyright" also means copyright-like laws that apply to other kinds
+of works, such as semiconductor masks.
+ 
+  "The Program" refers to any copyrightable work licensed under this
+License.  Each licensee is addressed as "you".  "Licensees" and
+"recipients" may be individuals or organizations.
+
+  To "modify" a work means to copy from or adapt all or part of the work
+in a fashion requiring copyright permission, other than the making of an
+exact copy.  The resulting work is called a "modified version" of the
+earlier work or a work "based on" the earlier work.
+
+  A "covered work" means either the unmodified Program or a work based
+on the Program.
+
+  To "propagate" a work means to do anything with it that, without
+permission, would make you directly or secondarily liable for
+infringement under applicable copyright law, except executing it on a
+computer or modifying a private copy.  Propagation includes copying,
+distribution (with or without modification), making available to the
+public, and in some countries other activities as well.
+
+  To "convey" a work means any kind of propagation that enables other
+parties to make or receive copies.  Mere interaction with a user through
+a computer network, with no transfer of a copy, is not conveying.
+
+  An interactive user interface displays "Appropriate Legal Notices"
+to the extent that it includes a convenient and prominently visible
+feature that (1) displays an appropriate copyright notice, and (2)
+tells the user that there is no warranty for the work (except to the
+extent that warranties are provided), that licensees may convey the
+work under this License, and how to view a copy of this License.  If
+the interface presents a list of user commands or options, such as a
+menu, a prominent item in the list meets this criterion.
+
+  1. Source Code.
+
+  The "source code" for a work means the preferred form of the work
+for making modifications to it.  "Object code" means any non-source
+form of a work.
+
+  A "Standard Interface" means an interface that either is an official
+standard defined by a recognized standards body, or, in the case of
+interfaces specified for a particular programming language, one that
+is widely used among developers working in that language.
+
+  The "System Libraries" of an executable work include anything, other
+than the work as a whole, that (a) is included in the normal form of
+packaging a Major Component, but which is not part of that Major
+Component, and (b) serves only to enable use of the work with that
+Major Component, or to implement a Standard Interface for which an
+implementation is available to the public in source code form.  A
+"Major Component", in this context, means a major essential component
+(kernel, window system, and so on) of the specific operating system
+(if any) on which the executable work runs, or a compiler used to
+produce the work, or an object code interpreter used to run it.
+
+  The "Corresponding Source" for a work in object code form means all
+the source code needed to generate, install, and (for an executable
+work) run the object code and to modify the work, including scripts to
+control those activities.  However, it does not include the work's
+System Libraries, or general-purpose tools or generally available free
+programs which are used unmodified in performing those activities but
+which are not part of the work.  For example, Corresponding Source
+includes interface definition files associated with source files for
+the work, and the source code for shared libraries and dynamically
+linked subprograms that the work is specifically designed to require,
+such as by intimate data communication or control flow between those
+subprograms and other parts of the work.
+
+  The Corresponding Source need not include anything that users
+can regenerate automatically from other parts of the Corresponding
+Source.
+
+  The Corresponding Source for a work in source code form is that
+same work.
+
+  2. Basic Permissions.
+
+  All rights granted under this License are granted for the term of
+copyright on the Program, and are irrevocable provided the stated
+conditions are met.  This License explicitly affirms your unlimited
+permission to run the unmodified Program.  The output from running a
+covered work is covered by this License only if the output, given its
+content, constitutes a covered work.  This License acknowledges your
+rights of fair use or other equivalent, as provided by copyright law.
+
+  You may make, run and propagate covered works that you do not
+convey, without conditions so long as your license otherwise remains
+in force.  You may convey covered works to others for the sole purpose
+of having them make modifications exclusively for you, or provide you
+with facilities for running those works, provided that you comply with
+the terms of this License in conveying all material for which you do
+not control copyright.  Those thus making or running the covered works
+for you must do so exclusively on your behalf, under your direction
+and control, on terms that prohibit them from making any copies of
+your copyrighted material outside their relationship with you.
+
+  Conveying under any other circumstances is permitted solely under
+the conditions stated below.  Sublicensing is not allowed; section 10
+makes it unnecessary.
+
+  3. Protecting Users' Legal Rights From Anti-Circumvention Law.
+
+  No covered work shall be deemed part of an effective technological
+measure under any applicable law fulfilling obligations under article
+11 of the WIPO copyright treaty adopted on 20 December 1996, or
+similar laws prohibiting or restricting circumvention of such
+measures.
+
+  When you convey a covered work, you waive any legal power to forbid
+circumvention of technological measures to the extent such circumvention
+is effected by exercising rights under this License with respect to
+the covered work, and you disclaim any intention to limit operation or
+modification of the work as a means of enforcing, against the work's
+users, your or third parties' legal rights to forbid circumvention of
+technological measures.
+
+  4. Conveying Verbatim Copies.
+
+  You may convey verbatim copies of the Program's source code as you
+receive it, in any medium, provided that you conspicuously and
+appropriately publish on each copy an appropriate copyright notice;
+keep intact all notices stating that this License and any
+non-permissive terms added in accord with section 7 apply to the code;
+keep intact all notices of the absence of any warranty; and give all
+recipients a copy of this License along with the Program.
+
+  You may charge any price or no price for each copy that you convey,
+and you may offer support or warranty protection for a fee.
+
+  5. Conveying Modified Source Versions.
+
+  You may convey a work based on the Program, or the modifications to
+produce it from the Program, in the form of source code under the
+terms of section 4, provided that you also meet all of these conditions:
+
+    a) The work must carry prominent notices stating that you modified
+    it, and giving a relevant date.
+
+    b) The work must carry prominent notices stating that it is
+    released under this License and any conditions added under section
+    7.  This requirement modifies the requirement in section 4 to
+    "keep intact all notices".
+
+    c) You must license the entire work, as a whole, under this
+    License to anyone who comes into possession of a copy.  This
+    License will therefore apply, along with any applicable section 7
+    additional terms, to the whole of the work, and all its parts,
+    regardless of how they are packaged.  This License gives no
+    permission to license the work in any other way, but it does not
+    invalidate such permission if you have separately received it.
+
+    d) If the work has interactive user interfaces, each must display
+    Appropriate Legal Notices; however, if the Program has interactive
+    interfaces that do not display Appropriate Legal Notices, your
+    work need not make them do so.
+
+  A compilation of a covered work with other separate and independent
+works, which are not by their nature extensions of the covered work,
+and which are not combined with it such as to form a larger program,
+in or on a volume of a storage or distribution medium, is called an
+"aggregate" if the compilation and its resulting copyright are not
+used to limit the access or legal rights of the compilation's users
+beyond what the individual works permit.  Inclusion of a covered work
+in an aggregate does not cause this License to apply to the other
+parts of the aggregate.
+
+  6. Conveying Non-Source Forms.
+
+  You may convey a covered work in object code form under the terms
+of sections 4 and 5, provided that you also convey the
+machine-readable Corresponding Source under the terms of this License,
+in one of these ways:
+
+    a) Convey the object code in, or embodied in, a physical product
+    (including a physical distribution medium), accompanied by the
+    Corresponding Source fixed on a durable physical medium
+    customarily used for software interchange.
+
+    b) Convey the object code in, or embodied in, a physical product
+    (including a physical distribution medium), accompanied by a
+    written offer, valid for at least three years and valid for as
+    long as you offer spare parts or customer support for that product
+    model, to give anyone who possesses the object code either (1) a
+    copy of the Corresponding Source for all the software in the
+    product that is covered by this License, on a durable physical
+    medium customarily used for software interchange, for a price no
+    more than your reasonable cost of physically performing this
+    conveying of source, or (2) access to copy the
+    Corresponding Source from a network server at no charge.
+
+    c) Convey individual copies of the object code with a copy of the
+    written offer to provide the Corresponding Source.  This
+    alternative is allowed only occasionally and noncommercially, and
+    only if you received the object code with such an offer, in accord
+    with subsection 6b.
+
+    d) Convey the object code by offering access from a designated
+    place (gratis or for a charge), and offer equivalent access to the
+    Corresponding Source in the same way through the same place at no
+    further charge.  You need not require recipients to copy the
+    Corresponding Source along with the object code.  If the place to
+    copy the object code is a network server, the Corresponding Source
+    may be on a different server (operated by you or a third party)
+    that supports equivalent copying facilities, provided you maintain
+    clear directions next to the object code saying where to find the
+    Corresponding Source.  Regardless of what server hosts the
+    Corresponding Source, you remain obligated to ensure that it is
+    available for as long as needed to satisfy these requirements.
+
+    e) Convey the object code using peer-to-peer transmission, provided
+    you inform other peers where the object code and Corresponding
+    Source of the work are being offered to the general public at no
+    charge under subsection 6d.
+
+  A separable portion of the object code, whose source code is excluded
+from the Corresponding Source as a System Library, need not be
+included in conveying the object code work.
+
+  A "User Product" is either (1) a "consumer product", which means any
+tangible personal property which is normally used for personal, family,
+or household purposes, or (2) anything designed or sold for incorporation
+into a dwelling.  In determining whether a product is a consumer product,
+doubtful cases shall be resolved in favor of coverage.  For a particular
+product received by a particular user, "normally used" refers to a
+typical or common use of that class of product, regardless of the status
+of the particular user or of the way in which the particular user
+actually uses, or expects or is expected to use, the product.  A product
+is a consumer product regardless of whether the product has substantial
+commercial, industrial or non-consumer uses, unless such uses represent
+the only significant mode of use of the product.
+
+  "Installation Information" for a User Product means any methods,
+procedures, authorization keys, or other information required to install
+and execute modified versions of a covered work in that User Product from
+a modified version of its Corresponding Source.  The information must
+suffice to ensure that the continued functioning of the modified object
+code is in no case prevented or interfered with solely because
+modification has been made.
+
+  If you convey an object code work under this section in, or with, or
+specifically for use in, a User Product, and the conveying occurs as
+part of a transaction in which the right of possession and use of the
+User Product is transferred to the recipient in perpetuity or for a
+fixed term (regardless of how the transaction is characterized), the
+Corresponding Source conveyed under this section must be accompanied
+by the Installation Information.  But this requirement does not apply
+if neither you nor any third party retains the ability to install
+modified object code on the User Product (for example, the work has
+been installed in ROM).
+
+  The requirement to provide Installation Information does not include a
+requirement to continue to provide support service, warranty, or updates
+for a work that has been modified or installed by the recipient, or for
+the User Product in which it has been modified or installed.  Access to a
+network may be denied when the modification itself materially and
+adversely affects the operation of the network or violates the rules and
+protocols for communication across the network.
+
+  Corresponding Source conveyed, and Installation Information provided,
+in accord with this section must be in a format that is publicly
+documented (and with an implementation available to the public in
+source code form), and must require no special password or key for
+unpacking, reading or copying.
+
+  7. Additional Terms.
+
+  "Additional permissions" are terms that supplement the terms of this
+License by making exceptions from one or more of its conditions.
+Additional permissions that are applicable to the entire Program shall
+be treated as though they were included in this License, to the extent
+that they are valid under applicable law.  If additional permissions
+apply only to part of the Program, that part may be used separately
+under those permissions, but the entire Program remains governed by
+this License without regard to the additional permissions.
+
+  When you convey a copy of a covered work, you may at your option
+remove any additional permissions from that copy, or from any part of
+it.  (Additional permissions may be written to require their own
+removal in certain cases when you modify the work.)  You may place
+additional permissions on material, added by you to a covered work,
+for which you have or can give appropriate copyright permission.
+
+  Notwithstanding any other provision of this License, for material you
+add to a covered work, you may (if authorized by the copyright holders of
+that material) supplement the terms of this License with terms:
+
+    a) Disclaiming warranty or limiting liability differently from the
+    terms of sections 15 and 16 of this License; or
+
+    b) Requiring preservation of specified reasonable legal notices or
+    author attributions in that material or in the Appropriate Legal
+    Notices displayed by works containing it; or
+
+    c) Prohibiting misrepresentation of the origin of that material, or
+    requiring that modified versions of such material be marked in
+    reasonable ways as different from the original version; or
+
+    d) Limiting the use for publicity purposes of names of licensors or
+    authors of the material; or
+
+    e) Declining to grant rights under trademark law for use of some
+    trade names, trademarks, or service marks; or
+
+    f) Requiring indemnification of licensors and authors of that
+    material by anyone who conveys the material (or modified versions of
+    it) with contractual assumptions of liability to the recipient, for
+    any liability that these contractual assumptions directly impose on
+    those licensors and authors.
+
+  All other non-permissive additional terms are considered "further
+restrictions" within the meaning of section 10.  If the Program as you
+received it, or any part of it, contains a notice stating that it is
+governed by this License along with a term that is a further restriction,
+you may remove that term.  If a license document contains a further
+restriction but permits relicensing or conveying under this License, you
+may add to a covered work material governed by the terms of that license
+document, provided that the further restriction does not survive such
+relicensing or conveying.
+
+  If you add terms to a covered work in accord with this section, you
+must place, in the relevant source files, a statement of the
+additional terms that apply to those files, or a notice indicating
+where to find the applicable terms.
+
+  Additional terms, permissive or non-permissive, may be stated in the
+form of a separately written license, or stated as exceptions;
+the above requirements apply either way.
+
+  8. Termination.
+
+  You may not propagate or modify a covered work except as expressly
+provided under this License.  Any attempt otherwise to propagate or
+modify it is void, and will automatically terminate your rights under
+this License (including any patent licenses granted under the third
+paragraph of section 11).
+
+  However, if you cease all violation of this License, then your
+license from a particular copyright holder is reinstated (a)
+provisionally, unless and until the copyright holder explicitly and
+finally terminates your license, and (b) permanently, if the copyright
+holder fails to notify you of the violation by some reasonable means
+prior to 60 days after the cessation.
+
+  Moreover, your license from a particular copyright holder is
+reinstated permanently if the copyright holder notifies you of the
+violation by some reasonable means, this is the first time you have
+received notice of violation of this License (for any work) from that
+copyright holder, and you cure the violation prior to 30 days after
+your receipt of the notice.
+
+  Termination of your rights under this section does not terminate the
+licenses of parties who have received copies or rights from you under
+this License.  If your rights have been terminated and not permanently
+reinstated, you do not qualify to receive new licenses for the same
+material under section 10.
+
+  9. Acceptance Not Required for Having Copies.
+
+  You are not required to accept this License in order to receive or
+run a copy of the Program.  Ancillary propagation of a covered work
+occurring solely as a consequence of using peer-to-peer transmission
+to receive a copy likewise does not require acceptance.  However,
+nothing other than this License grants you permission to propagate or
+modify any covered work.  These actions infringe copyright if you do
+not accept this License.  Therefore, by modifying or propagating a
+covered work, you indicate your acceptance of this License to do so.
+
+  10. Automatic Licensing of Downstream Recipients.
+
+  Each time you convey a covered work, the recipient automatically
+receives a license from the original licensors, to run, modify and
+propagate that work, subject to this License.  You are not responsible
+for enforcing compliance by third parties with this License.
+
+  An "entity transaction" is a transaction transferring control of an
+organization, or substantially all assets of one, or subdividing an
+organization, or merging organizations.  If propagation of a covered
+work results from an entity transaction, each party to that
+transaction who receives a copy of the work also receives whatever
+licenses to the work the party's predecessor in interest had or could
+give under the previous paragraph, plus a right to possession of the
+Corresponding Source of the work from the predecessor in interest, if
+the predecessor has it or can get it with reasonable efforts.
+
+  You may not impose any further restrictions on the exercise of the
+rights granted or affirmed under this License.  For example, you may
+not impose a license fee, royalty, or other charge for exercise of
+rights granted under this License, and you may not initiate litigation
+(including a cross-claim or counterclaim in a lawsuit) alleging that
+any patent claim is infringed by making, using, selling, offering for
+sale, or importing the Program or any portion of it.
+
+  11. Patents.
+
+  A "contributor" is a copyright holder who authorizes use under this
+License of the Program or a work on which the Program is based.  The
+work thus licensed is called the contributor's "contributor version".
+
+  A contributor's "essential patent claims" are all patent claims
+owned or controlled by the contributor, whether already acquired or
+hereafter acquired, that would be infringed by some manner, permitted
+by this License, of making, using, or selling its contributor version,
+but do not include claims that would be infringed only as a
+consequence of further modification of the contributor version.  For
+purposes of this definition, "control" includes the right to grant
+patent sublicenses in a manner consistent with the requirements of
+this License.
+
+  Each contributor grants you a non-exclusive, worldwide, royalty-free
+patent license under the contributor's essential patent claims, to
+make, use, sell, offer for sale, import and otherwise run, modify and
+propagate the contents of its contributor version.
+
+  In the following three paragraphs, a "patent license" is any express
+agreement or commitment, however denominated, not to enforce a patent
+(such as an express permission to practice a patent or covenant not to
+sue for patent infringement).  To "grant" such a patent license to a
+party means to make such an agreement or commitment not to enforce a
+patent against the party.
+
+  If you convey a covered work, knowingly relying on a patent license,
+and the Corresponding Source of the work is not available for anyone
+to copy, free of charge and under the terms of this License, through a
+publicly available network server or other readily accessible means,
+then you must either (1) cause the Corresponding Source to be so
+available, or (2) arrange to deprive yourself of the benefit of the
+patent license for this particular work, or (3) arrange, in a manner
+consistent with the requirements of this License, to extend the patent
+license to downstream recipients.  "Knowingly relying" means you have
+actual knowledge that, but for the patent license, your conveying the
+covered work in a country, or your recipient's use of the covered work
+in a country, would infringe one or more identifiable patents in that
+country that you have reason to believe are valid.
+
+  If, pursuant to or in connection with a single transaction or
+arrangement, you convey, or propagate by procuring conveyance of, a
+covered work, and grant a patent license to some of the parties
+receiving the covered work authorizing them to use, propagate, modify
+or convey a specific copy of the covered work, then the patent license
+you grant is automatically extended to all recipients of the covered
+work and works based on it.
+
+  A patent license is "discriminatory" if it does not include within
+the scope of its coverage, prohibits the exercise of, or is
+conditioned on the non-exercise of one or more of the rights that are
+specifically granted under this License.  You may not convey a covered
+work if you are a party to an arrangement with a third party that is
+in the business of distributing software, under which you make payment
+to the third party based on the extent of your activity of conveying
+the work, and under which the third party grants, to any of the
+parties who would receive the covered work from you, a discriminatory
+patent license (a) in connection with copies of the covered work
+conveyed by you (or copies made from those copies), or (b) primarily
+for and in connection with specific products or compilations that
+contain the covered work, unless you entered into that arrangement,
+or that patent license was granted, prior to 28 March 2007.
+
+  Nothing in this License shall be construed as excluding or limiting
+any implied license or other defenses to infringement that may
+otherwise be available to you under applicable patent law.
+
+  12. No Surrender of Others' Freedom.
+
+  If conditions are imposed on you (whether by court order, agreement or
+otherwise) that contradict the conditions of this License, they do not
+excuse you from the conditions of this License.  If you cannot convey a
+covered work so as to satisfy simultaneously your obligations under this
+License and any other pertinent obligations, then as a consequence you may
+not convey it at all.  For example, if you agree to terms that obligate you
+to collect a royalty for further conveying from those to whom you convey
+the Program, the only way you could satisfy both those terms and this
+License would be to refrain entirely from conveying the Program.
+
+  13. Remote Network Interaction; Use with the GNU General Public License.
+
+  Notwithstanding any other provision of this License, if you modify the
+Program, your modified version must prominently offer all users
+interacting with it remotely through a computer network (if your version
+supports such interaction) an opportunity to receive the Corresponding
+Source of your version by providing access to the Corresponding Source
+from a network server at no charge, through some standard or customary
+means of facilitating copying of software.  This Corresponding Source
+shall include the Corresponding Source for any work covered by version 3
+of the GNU General Public License that is incorporated pursuant to the
+following paragraph.
+
+  Notwithstanding any other provision of this License, you have permission
+to link or combine any covered work with a work licensed under version 3
+of the GNU General Public License into a single combined work, and to
+convey the resulting work.  The terms of this License will continue to
+apply to the part which is the covered work, but the work with which it is
+combined will remain governed by version 3 of the GNU General Public
+License.
+
+  14. Revised Versions of this License.
+
+  The Free Software Foundation may publish revised and/or new versions of
+the GNU Affero General Public License from time to time.  Such new
+versions will be similar in spirit to the present version, but may differ
+in detail to address new problems or concerns.
+
+  Each version is given a distinguishing version number.  If the
+Program specifies that a certain numbered version of the GNU Affero
+General Public License "or any later version" applies to it, you have
+the option of following the terms and conditions either of that
+numbered version or of any later version published by the Free
+Software Foundation.  If the Program does not specify a version number
+of the GNU Affero General Public License, you may choose any version
+ever published by the Free Software Foundation.
+
+  If the Program specifies that a proxy can decide which future
+versions of the GNU Affero General Public License can be used, that
+proxy's public statement of acceptance of a version permanently
+authorizes you to choose that version for the Program.
+
+  Later license versions may give you additional or different
+permissions.  However, no additional obligations are imposed on any
+author or copyright holder as a result of your choosing to follow a
+later version.
+
+  15. Disclaimer of Warranty.
+
+  THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
+APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
+IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
+ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+  16. Limitation of Liability.
+
+  IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS
+THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY
+GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE
+USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF
+DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD
+PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS),
+EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.
+
+  17. Interpretation of Sections 15 and 16.
+
+  If the disclaimer of warranty and limitation of liability provided
+above cannot be given local legal effect according to their terms,
+reviewing courts shall apply local law that most closely approximates
+an absolute waiver of all civil liability in connection with the
+Program, unless a warranty or assumption of liability accompanies a
+copy of the Program in return for a fee.
+
+                       END OF TERMS AND CONDITIONS
+
+              How to Apply These Terms to Your New Programs
+
+  If you develop a new program, and you want it to be of the greatest
+possible use to the public, the best way to achieve this is to make it
+free software which everyone can redistribute and change under these terms.
+
+  To do so, attach the following notices to the program.  It is safest
+to attach them to the start of each source file to most effectively
+state the exclusion of warranty; and each file should have at least
+the "copyright" line and a pointer to where the full notice is found.
+
+    <one line to give the program's name and a brief idea of what it does.>
+    Copyright (C) <year>  <name of author>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Also add information on how to contact you by electronic and paper mail.
+
+  If your software can interact with users remotely through a computer
+network, you should also make sure that it provides a way for users to
+get its source.  For example, if your program is a web application, its
+interface could display a "Source" link that leads users to an archive
+of the code.  There are many ways you could offer source, and different
+solutions will be better for different programs; see section 13 for the
+specific requirements.
+
+  You should also get your employer (if you work as a programmer) or school,
+if any, to sign a "copyright disclaimer" for the program, if necessary.
+For more information on this, and how to apply and follow the GNU AGPL, see
+<http://www.gnu.org/licenses/>.
