@@ -36,14 +36,14 @@ use warnings;
 use CGI::Carp qw(fatalsToBrowser);
 # I deliberately don't use the CGI module for efficiency
 
-my $version = '4.4.1-beta9';
+my $version = '4.4.1-beta10';
 my $prg_name = 'AKFQuizWeb';
 my $src_name = 'akfquizweb';
 my $prg_version = "$prg_name $version";
 
 # Internationalisation
 # Note: the webpages may have different encondings,
-# so you have use escapes for non-ASCII characters here!
+# so you have to use escapes for non-ASCII characters here!
 
 my %m_no_quiz_found = (
   en => 'No AKFQuiz-files found',
@@ -242,7 +242,7 @@ my $qnr = 0; # question number
 my $points = 0;
 my $maxpoints = 0;
 my $evaluated = 0;
-my $home = '';
+my $home = ''; # from which website did it come?
 my $lang = 'en'; # just for supported languages
 
 my $query;
@@ -254,8 +254,8 @@ if ($ENV{REQUEST_METHOD} eq 'POST') {
 
 my $result_page = !!$query; # is this the solution page?
 
-# yes, this *is* needed!
-&missing_trailing_slash if !$path_info;
+# show help if no path is given
+&help_html if !$path_info;
 
 &get_browser_language;
 
@@ -605,10 +605,8 @@ sub show_answers_form {
     # multiple lines per answer?
     while ($answer =~ /(.+)\\\s*$/) { $answer = $+ . <F> }
 
-    print "<div>\n";
-    print "<input  id='q${qnr}a${anr}' name='q$qnr'"
-          . " type='$type' value='$anr'>\n";
-    print "<label for='q${qnr}a${anr}'>";
+    print "<div>\n<label>";
+    print "<input name='q$qnr' type='$type' value='$anr'>\n";
     print &htmlconvert($answer);
     print "</label>\n</div>\n\n";
   }
@@ -616,11 +614,11 @@ sub show_answers_form {
   # default answer
   if ($default and $type eq 'radio') {
     $anr++;
-    print "<div class='defanswer'>\n";
-    print "<input  id='q${qnr}a${anr}' name='q$qnr'"
+    print "<div class='defanswer'>\n<label>";
+    print "<input name='q$qnr'"
           . " type='$type' value='$anr' checked='checked'>\n";
-    print "<label for='q${qnr}a${anr}'>$default</label>\n";
-    print "</div>\n\n";
+    print "$default";
+    print "</label>\n</div>\n\n";
     }
 
   print "</div>\n\n";
@@ -653,33 +651,30 @@ sub show_answers {
     # multiple lines per answer?
     while ($answer =~ /(.+)\\\s*$/) { $answer = $+ . <F> }
 
-    print "<div>\n";
-    print "<input  id='q${qnr}a${anr}' name='q$qnr'"
-          . " type='$type' value='$anr' disabled='disabled'";
+    print "<div>\n<label>";
+    print "<input name='q$qnr' type='$type' value='$anr' disabled='disabled'";
     if ($query =~ /q$qnr=$anr/) {
       print " checked='checked'";
       $thispoints = $answerpoints;
       $points += $thispoints;
       }
     print ">\n";
-    print "<label for='q${qnr}a${anr}'";
     unless ($neutral) {
       print $answerpoints > 0 ? " class='correct'" : " class='wrong'";
     }
-    print ">" . &htmlconvert($answer) . "</label>\n";
-    print "</div>\n\n";
+    print ">";
+    print &htmlconvert($answer);
+    print "</label>\n</div>\n\n";
   }
 
   # default answer
   if ($default and $type eq 'radio') {
     $answerpoints = 0;
     $anr++;
-    print "<div class='defanswer'>\n";
-    print "<input  id='q${qnr}a${anr}' name='q$qnr'"
-          . " type='$type' value='$anr'";
+    print "<div class='defanswer'>\n<label>";
+    print "<input name='q$qnr' type='$type' value='$anr'";
     if ($query =~ /q$qnr=$anr/) { print " checked='checked'" }
     print ">\n";
-    print "<label for='q${qnr}a${anr}'";
     print " class='wrong'" unless $neutral;
     print ">$default</label>\n";
     print "</div>\n\n";
@@ -981,7 +976,7 @@ sub send_source_code {
 sub show_license {
   if ($script_name) {
     print "Cache-Control: public, max-age=43200\n"; # cache 12h
-    print "Content-Type: text/plain\n\n" if $script_name;
+    print "Content-Type: text/plain; charset=US-ASCII\n\n" if $script_name;
   }
 
   while (<DATA>) { print }
@@ -1494,30 +1489,6 @@ sub get_server_name {
 }
 
 
-# redirect if the trailing slash is missing
-# yes, this is needed!
-sub missing_trailing_slash {
-  my $server_name = &get_server_name;
-
-  print "Status: 301 Moved Permanently\n";
-  print "Location: http://$server_name$script_name/\n";
-  print "Content-Type: text/html; charset=UTF-8\n\n";
-
-  print <<EOF;
-<!DOCTYPE HTML PUBLIC '-//IETF//DTD HTML 2.0//EN'>
-<html><head>
-<title>301 Moved Permanently</title>
-</head><body>
-<h1>Moved Permanently</h1>
-<p>The document has moved
-<a href='http://$server_name$script_name/'>here</a>.</p>
-</body></html>
-EOF
-
-  exit;
-}
-
-
 sub not_found {
   print <<EOF;
 Status: 404 Not Found
@@ -1564,7 +1535,7 @@ $doctype
 <meta name='robots' content='noindex'>
 <meta name='generator' content='$prg_version'>
 <link rel='icon' type='image/png' href='$script_name/akfquiz-icon.png'>
-<link rel='stylesheet' type='text/css' href='q-brown.css'>
+<link rel='stylesheet' type='text/css' href='$script_name/q-brown.css'>
 </head>
 
 <body>
@@ -1575,8 +1546,8 @@ $doctype
      width='32' height='32'>
 </div>
 
-<p><a href='--version'>$prg_version</a></p>
-<p>Quiz-program for the CGI interface of a webserver (Perl version)</p>
+<p><a href='$script_name/--version'>$prg_version</a></p>
+<p>Quiz-program for the CGI interface of a webserver (Perl5 version)</p>
 <dl style='clear:both'><dt>Usage:</dt>
 <dd>
 $src_name --help<br>
@@ -1586,17 +1557,17 @@ $src_name --license
 </dd>
 <dt>Examples:</dt>
 <dd>
-$cgi_base/--help<br>
-$cgi_base/--version<br>
-$cgi_base/--license<br>
-$cgi_base/<br>
+<a href='$cgi_base/'>$cgi_base/</a> (Index)<br>
+<a href='$cgi_base/--help'>$cgi_base/--help</a><br>
+<a href='$cgi_base/--version'>$cgi_base/--version</a><br>
+<a href='$cgi_base/--license'>$cgi_base/--license</a><br>
 $cgi_base/myquiz<br>
 $cgi_base/myquiz?format=akfquiz<br>
 $cgi_base/myquiz?format=text<br>
 $cgi_base/myquiz?q1=2&amp;q2=1&amp;q5=2<br>
 </dd></dl>
 
-<p>Get the <a href='$src_name' type='text/x-perl'>source code</a>.
+<p>Get the <a href='$script_name/$src_name' type='text/x-perl'>source code</a>.
 </body></html>
 EOF
 
@@ -1690,7 +1661,7 @@ EOF
 sub help {
   print <<EOF;
 $prg_version
-Quiz-program for the CGI interface of a webserver (Perl version)
+Quiz-program for the CGI interface of a webserver (Perl5 version)
 
 Usage:
   $src_name --help
@@ -1698,10 +1669,10 @@ Usage:
   $src_name --license
 
 Examples:
+  http://example.net/cgi-bin/$src_name/  (Index)
   http://example.net/cgi-bin/$src_name/--help
   http://example.net/cgi-bin/$src_name/--version
   http://example.net/cgi-bin/$src_name/--license
-  http://example.net/cgi-bin/$src_name/
   http://example.net/cgi-bin/$src_name/myquiz
   http://example.net/cgi-bin/$src_name/myquiz?format=akfquiz
   http://example.net/cgi-bin/$src_name/myquiz?format=text
