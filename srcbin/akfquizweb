@@ -491,8 +491,8 @@ sub end_form {
             . " value='$ENV{HTTP_REFERER}'>";
     }
 
-    print "<input type='hidden' name='time' value='$time'>";
     print "<div class='buttons'>\n";
+    print "<input type='hidden' name='time' value='$time'>";
     print "<input type='submit' accesskey='r' "
           . "value='$m_result{$lang}'>\n";
     print "<input type='reset' accesskey='n' value='$m_new{$lang}'>\n";
