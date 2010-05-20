@@ -1,7 +1,7 @@
 4.4.1-cvs
 - cgiquiz.pas: always use POST method
 - cgiquiz.pas: show elapsed time
-- qsys.pas, uakfquiz.pas: use Cardinal for Timestamps
+- qsys.pas, uakfquiz.pas: use Cardinal for GetSecs
 - htmlquiz.pas, cgiquiz.pas: simplify usage of label-tag
 - new program akfquizweb (CGI/Perl)
 - relicensed to AGPLv3+

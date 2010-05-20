@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.23 2010/05/20 16:47:24 akf Exp $
+* $Id: qsys.pas,v 1.24 2010/05/20 18:42:06 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006, 2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -282,7 +282,7 @@ procedure DisableSignals;
 procedure useBeepSignals; { use system beeps (#7) }
 
 { show time from given seconds }
-function ShowTime(sec: Cardinal): mystring; 
+function ShowTime(sec: LongInt): mystring; 
 function GetSecs: Cardinal;
 
 function showDateTime: mystring;
@@ -1438,25 +1438,35 @@ if i<10
 end;
 
 
-function ShowTime(sec: Cardinal): mystring;
+function ShowTime(sec: LongInt): mystring;
 var h, m, s: integer;
 begin
-h := sec div (60*60);
-m := (sec div 60) mod 60;
-s := sec mod 60;
-if h=0 
-  then ShowTime := IntTo2Str(m)+':'+IntTo2Str(s)
-  else ShowTime := IntToStr(h)+':'+IntTo2Str(m)+':'+IntTo2Str(s)
+if sec < 0
+  then ShowTime := '?'
+  else begin
+       h := sec div (60*60);
+       m := (sec div 60) mod 60;
+       s := sec mod 60;
+       if h=0 
+         then ShowTime := IntTo2Str(m)+':'+IntTo2Str(s)
+         else ShowTime := IntToStr(h)+':'+IntTo2Str(m)+':'+IntTo2Str(s)
+      end
 end;
+
+{$IfDef FPC}
 
 function GetSecs: Cardinal;
 begin
-{$IfDef FPC}
-  GetSecs := trunc(TimestampToMSecs(DateTimeToTimestamp(Now))) div 1000
-{$Else}
-  GetSecs := GetMicroSecondTime div 1000000
-{$EndIf}
+  { get seconds since midnight }
+  GetSecs := DateTimeToTimeStamp(Time).Time div 1000
 end;
+
+{$Else} { not FPC }
+
+function GetSecs: Cardinal;
+begin GetSecs := GetMicroSecondTime div 1000000 end;
+
+{$EndIf}
 
 {$IfDef FPC}
 
@@ -1493,7 +1503,7 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.23 2010/05/20 16:47:24 akf Exp $');
+  ident('$Id: qsys.pas,v 1.24 2010/05/20 18:42:06 akf Exp $');
   
   InitPrefix;
   disableSignals; { initializes Signals }
