@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.67 2010/05/20 16:51:59 akf Exp $
+* $Id: cgiquiz.pas,v 1.68 2010/05/20 18:58:53 akf Exp $
 *
 * Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -923,7 +923,13 @@ procedure Tcgianswer.showanswer(value: pointsType;
 begin
 inc(answerNr);
 WriteLn(outp, '<div>');
-WriteLn(outp, '<label>');
+Write(outp, '<label');
+if not neutral then
+  if value > 0 
+    then Write(outp, ' class="correct"')
+    else Write(outp, ' class="wrong"');
+WriteLn(outp, '>');
+
 Write(outp, '<input name="q', questionNr, '"',
             ' type="', qTypeStr(qType), 
             '" value="', answerNr, '" disabled="disabled"');
@@ -936,11 +942,6 @@ if CGIElement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then
    end;
 WriteLn(outp, cet);
 
-if not neutral then
-  if value > 0 
-    then Write(outp, ' class="correct"')
-    else Write(outp, ' class="wrong"');
-Write(outp, '>');
 
 if (value > 0) and not neutral then Write(outp, '<strong>');
 Write(outp, ans);
@@ -957,7 +958,9 @@ procedure Tcgianswer.processDefaultAnswer;
 begin
 inc(answerNr);
 WriteLn(outp, '<div class="defanswer">');
-WriteLn(outp, '<label>');
+Write(outp, '<label');
+if not neutral then Write(outp, ' class="wrong"');
+WriteLn(outp, '>');
 Write(outp, '<input name="q', questionNr, '"',
             ' type="radio" value="',
             answerNr, '" disabled="disabled"');
@@ -967,8 +970,6 @@ if CGIElement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then
    GetCGIElement(CGIElement)
    end;
 WriteLn(outp, cet);
-if not neutral then Write(outp, ' class="wrong"');
-Write(outp, '>');
 WriteLn(outp, defAnswer);
 WriteLn(outp, '</label>');
 WriteLn(outp, '</div>');
@@ -1835,7 +1836,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.67 2010/05/20 16:51:59 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.68 2010/05/20 18:58:53 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;

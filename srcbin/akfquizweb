@@ -651,7 +651,11 @@ sub show_answers {
     # multiple lines per answer?
     while ($answer =~ /(.+)\\\s*$/) { $answer = $+ . <F> }
 
-    print "<div>\n<label>";
+    print "<div>\n<label";
+    unless ($neutral) {
+      print $answerpoints > 0 ? " class='correct'" : " class='wrong'";
+    }
+    print ">";
     print "<input name='q$qnr' type='$type' value='$anr' disabled='disabled'";
     if ($query =~ /q$qnr=$anr/) {
       print " checked='checked'";
@@ -659,10 +663,6 @@ sub show_answers {
       $points += $thispoints;
       }
     print ">\n";
-    unless ($neutral) {
-      print $answerpoints > 0 ? " class='correct'" : " class='wrong'";
-    }
-    print ">";
     print &htmlconvert($answer);
     print "</label>\n</div>\n\n";
   }
@@ -671,11 +671,11 @@ sub show_answers {
   if ($default and $type eq 'radio') {
     $answerpoints = 0;
     $anr++;
-    print "<div class='defanswer'>\n<label>";
+    print "<div class='defanswer'>\n<label";
+    print " class='wrong'" unless $neutral;
+    print ">\n";
     print "<input name='q$qnr' type='$type' value='$anr'";
     if ($query =~ /q$qnr=$anr/) { print " checked='checked'" }
-    print ">\n";
-    print " class='wrong'" unless $neutral;
     print ">$default</label>\n";
     print "</div>\n\n";
   }
