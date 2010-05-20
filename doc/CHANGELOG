@@ -1,4 +1,6 @@
 4.4.1-cvs
+- cgiquiz.pas: show elapsed time
+- qsys.pas, uakfquiz.pas: use Cardinal for Timestamps
 - htmlquiz.pas, cgiquiz.pas: simplify usage of label-tag
 - new program akfquizweb (CGI/Perl)
 - relicensed to AGPLv3+

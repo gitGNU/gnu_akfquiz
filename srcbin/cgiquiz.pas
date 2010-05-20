@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.65 2010/05/20 14:57:25 akf Exp $
+* $Id: cgiquiz.pas,v 1.66 2010/05/20 16:47:24 akf Exp $
 *
 * Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -119,6 +119,7 @@ type
 	Home       : mystring;
 	save       : boolean;
         Name       : string255;
+        Time       : Cardinal;
 	AnsPoints  : pointsType;
 	oldPercent : pointsType; { for sanity-check }
 
@@ -755,6 +756,9 @@ if CGIInfo('HTTP_REFERER')<>'' then
   WriteLn(outp, '<input type="hidden" name="home" value="', 
   	        CGIInfo('HTTP_REFERER'), '"', cet);
 
+{ Timestamp, when the quiz started }
+WriteLn(outp, '<input type="hidden" name="time" value="', GetSecs, '">');
+
 if ExamMode then
   begin
   WriteLn(outp, '<div class="name"><label>', msg_name, 
@@ -841,11 +845,13 @@ end;
 { --------------------------------------------------------------------- }
 
 constructor Tcgianswer.init;
+var code: word;
 begin
 inherited init;
 if checkEOF then fail;
 
 AnsPoints := 0;
+Time := 0;
 Home := '';
 Name := '';
 oldPercent := -1;
@@ -857,6 +863,11 @@ repeat
   GetCGIelement(CGIElement);
 
   if CGIfield(CGIElement) = 'home' then Home := CGIvalue(CGIElement);
+  if CGIfield(CGIElement) = 'time' then
+    begin
+      val(CGIvalue(CGIElement), Time, code);
+      if code = 0 then Time := GetSecs - Time
+    end;
   if CGIfield(CGIElement) = 'percent' then 
     oldPercent := StrToInt(CGIvalue(CGIElement), -1);
   if CGIfield(CGIElement) = 'name' then Name := CGIvalue(CGIElement);
@@ -1013,6 +1024,8 @@ if MaxPoints > 0 then
   if Points > 0
     then WriteLn(outp, msg_sol4, getPercentage, '%.')
     else if not neutral then WriteLn(outp, msg_sol5);
+
+  if Time > 0 then WriteLn(outp, br, msg_time, ShowTime(Time));
 
   { sanity-check with oldPercent }
   if (oldPercent >= 0) and (getPercentage <> oldPercent) then
@@ -1822,7 +1835,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.65 2010/05/20 14:57:25 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.66 2010/05/20 16:47:24 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;

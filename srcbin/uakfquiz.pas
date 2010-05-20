@@ -1,7 +1,7 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.17 2010/05/19 12:32:18 akf Exp $
+* $Id: uakfquiz.pas,v 1.18 2010/05/20 16:47:24 akf Exp $
 *
 * Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -109,7 +109,7 @@ type
         license, licenseURI, language, charset, defanswer, keywords, 
         baseURI, javascript, CSS: string255;
 	assessmentURI: string255;
-	timelimit: LongInt;
+	timelimit: Cardinal;
 	
 	{ the "language" here may be an unsupported language,
 	  "lang" in qmsgs.pas is always supported }
@@ -123,7 +123,7 @@ type
         started: boolean;            { already started? }
 	evaluated: boolean;          { already ealuated? }
         quit: boolean;               { quit from interactive apps }
-	startTime: LongInt;          { set in StartQuiz }
+	startTime: Cardinal;         { set in StartQuiz }
 
         Points,
 	MaxPoints,                   { maximum points for quiz }
@@ -300,9 +300,9 @@ getboolvalue :=
   (x='1') or ((length(x)>=1) and (UpCase(x[1]) in ['T','Y','J','O']))
 end;
 
-function gettimevalue(x: string): LongInt;
+function gettimevalue(x: string): Cardinal;
 var 
-  e: LongInt;
+  e: Cardinal;
   code, multiplyer : word;
 begin
 code := 0; { no error }
@@ -318,7 +318,7 @@ case x[length(x)] of
 x := copy(x, 1, length(x)-1);
 val(x, e, code);
 if (code<>0) or (multiplyer=0)
-  then gettimevalue := -1
+  then gettimevalue := 0
   else gettimevalue := e * multiplyer
 end;
 
@@ -501,9 +501,6 @@ end;
 
 procedure Takfquiz.StartQuiz;
 begin
-{ check whether value for timelimit is correct }
-if timelimit<0 then error;
-
 startTime := GetSecs; { may be set again in child processes }
 
 started := true;
@@ -943,5 +940,5 @@ if TimeLimit>0
 end;
 
 begin
-ident('$Id: uakfquiz.pas,v 1.17 2010/05/19 12:32:18 akf Exp $')
+ident('$Id: uakfquiz.pas,v 1.18 2010/05/20 16:47:24 akf Exp $')
 end.

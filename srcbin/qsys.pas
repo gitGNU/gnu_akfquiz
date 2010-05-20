@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.22 2010/05/19 12:32:17 akf Exp $
+* $Id: qsys.pas,v 1.23 2010/05/20 16:47:24 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006, 2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -282,8 +282,8 @@ procedure DisableSignals;
 procedure useBeepSignals; { use system beeps (#7) }
 
 { show time from given seconds }
-function ShowTime(sec: LongInt): mystring; 
-function GetSecs: LongInt;
+function ShowTime(sec: Cardinal): mystring; 
+function GetSecs: Cardinal;
 
 function showDateTime: mystring;
 
@@ -1438,7 +1438,7 @@ if i<10
 end;
 
 
-function ShowTime(sec: LongInt): mystring;
+function ShowTime(sec: Cardinal): mystring;
 var h, m, s: integer;
 begin
 h := sec div (60*60);
@@ -1449,7 +1449,7 @@ if h=0
   else ShowTime := IntToStr(h)+':'+IntTo2Str(m)+':'+IntTo2Str(s)
 end;
 
-function GetSecs: LongInt;
+function GetSecs: Cardinal;
 begin
 {$IfDef FPC}
   GetSecs := trunc(TimestampToMSecs(DateTimeToTimestamp(Now))) div 1000
@@ -1493,7 +1493,7 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.22 2010/05/19 12:32:17 akf Exp $');
+  ident('$Id: qsys.pas,v 1.23 2010/05/20 16:47:24 akf Exp $');
   
   InitPrefix;
   disableSignals; { initializes Signals }
