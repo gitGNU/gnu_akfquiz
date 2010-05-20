@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.66 2010/05/20 16:47:24 akf Exp $
+* $Id: cgiquiz.pas,v 1.67 2010/05/20 16:51:59 akf Exp $
 *
 * Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -729,7 +729,7 @@ WriteLn(outp);
 
 if not ExamMode 
   then WriteLn(outp,
-          '<form name="akfquiz" id="akfquiz" method="GET" action="',
+          '<form name="akfquiz" id="akfquiz" method="POST" action="',
           ScriptName, CGI_PATH_INFO, '">')
   else begin { ExamMode }
        { check if name-field is filled out }
@@ -744,7 +744,7 @@ if not ExamMode
        WriteLn(outp, '</script>');
        WriteLn(outp);
        WriteLn(outp,
-          '<form name="akfquiz" id="akfquiz" method="post" action="',
+          '<form name="akfquiz" id="akfquiz" method="POST" action="',
           ScriptName, CGI_PATH_INFO, 
 	  '" onSubmit="return checkName()">')
        end;
@@ -1375,7 +1375,7 @@ procedure configureExamMode;
 begin
 HTTPStatus(200, 'OK');
 CommonHtmlStart(AKFQuizName + ': Configuration');
-WriteLn('<form method="post" action="saveconfig">');
+WriteLn('<form method="POST" action="saveconfig">');
 WriteLn('<div>');
 Write(msg_newpasswd, ': ');
 WriteLn('<input type="password" name="passwd" size="12" maxlength="60"'+cet);
@@ -1411,7 +1411,7 @@ procedure Login;
 begin
 HTTPStatus(200, 'OK');
 CommonHtmlStart(AKFQuizName + ': ' + msg_passwd);
-WriteLn('<form method="post" action="login2">');
+WriteLn('<form method="POST" action="login2">');
 WriteLn('<div>');
 WriteLn(msg_passwd, ': ');
 WriteLn('<input type="password" name="passwd" '
@@ -1835,7 +1835,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.66 2010/05/20 16:47:24 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.67 2010/05/20 16:51:59 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
