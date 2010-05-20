@@ -1,7 +1,7 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.22 2010/05/19 12:32:17 akf Exp $
+* $Id: htmlquiz.pas,v 1.23 2010/05/20 14:57:25 akf Exp $
 *
 * Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -496,13 +496,11 @@ inc(answerNr);
 
 { it must be included in block containers to make RTL work correctly }
 WriteLn(outp, '<div>');
-WriteLn(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
-              ' name="q',questionNr,'"',
+WriteLn(outp, '<label>');
+WriteLn(outp, '<input name="q', questionNr, '"',
               ' value="', value, '"',
               ' type="', qTypeStr(qType), '"', cet);
-
-Write(outp, '<label for="q', questionNr, 'a', answerNr, '">');
-Write(outp, ans);
+WriteLn(outp, ans);
 WriteLn(outp, '</label>');
 WriteLn(outp, '</div>');
 WriteLn(outp)
@@ -512,12 +510,10 @@ procedure Thtmlquiz.processDefaultAnswer;
 begin
 inc(answerNr);
 WriteLn(outp, '<div class="defanswer">');
-WriteLn(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
-	      ' name="q', questionNr, '"',
+WriteLn(outp, '<label>');
+WriteLn(outp, '<input name="q', questionNr, '"',
               ' type="radio" value="0" checked="checked"', cet);
-
-Write(outp, '<label for="q', questionNr, 'a', answerNr, '">');
-Write(outp, defanswer);
+WriteLn(outp, defanswer);
 WriteLn(outp, '</label></div>', br)
 end;
 
@@ -602,5 +598,5 @@ checkTimeout := false
 end;
 
 begin
-ident('$Id: htmlquiz.pas,v 1.22 2010/05/19 12:32:17 akf Exp $')
+ident('$Id: htmlquiz.pas,v 1.23 2010/05/20 14:57:25 akf Exp $')
 end.

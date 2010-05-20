@@ -1,4 +1,5 @@
 4.4.1-cvs
+- htmlquiz.pas, cgiquiz.pas: simplify usage of label-tag
 - new program akfquizweb (CGI/Perl)
 - relicensed to AGPLv3+
 - use rel="nofollow" for user generated links

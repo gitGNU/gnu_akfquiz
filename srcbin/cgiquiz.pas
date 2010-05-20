@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.64 2010/05/19 12:32:17 akf Exp $
+* $Id: cgiquiz.pas,v 1.65 2010/05/20 14:57:25 akf Exp $
 *
 * Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -757,10 +757,9 @@ if CGIInfo('HTTP_REFERER')<>'' then
 
 if ExamMode then
   begin
-  WriteLn(outp, '<div class="name"><label for="name">', msg_name, 
-    '</label>'
-    + '<input type="text" name="name" id="name" size="50" maxlength="100"', 
-    cet, '</div>')
+  WriteLn(outp, '<div class="name"><label>', msg_name, 
+    '<input type="text" name="name" size="50" maxlength="100"', 
+    cet, '</label></div>')
   end
 end;
 
@@ -780,13 +779,11 @@ procedure Tcgiquiz.processDefaultAnswer;
 begin
 inc(answerNr);
 WriteLn(outp, '<div class="defanswer">');
-WriteLn(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
-	      ' name="q', questionNr, '"',
+WriteLn(outp, '<label>');
+WriteLn(outp, '<input name="q', questionNr, '"',
               ' type="radio" value="',
               answerNr, '" checked="checked"', cet);
-
-Write(outp, '<label for="q', questionNr, 'a', answerNr, '">');
-Write(outp, defAnswer);
+WriteLn(outp, defAnswer);
 WriteLn(outp, '</label>');
 WriteLn(outp, '</div>');
 WriteLn(outp)
@@ -799,12 +796,10 @@ inc(answerNr);
 
 { it must be included in block containers to make RTL work correctly }
 WriteLn(outp, '<div>');
-WriteLn(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
-	      ' name="q', questionNr, '"',
+WriteLn(outp, '<label>');
+WriteLn(outp, '<input name="q', questionNr, '"',
               ' type="', qTypeStr(qType), '" value="', answerNr, '"', cet);
-
-Write(outp, '<label for="q', questionNr, 'a', answerNr, '">');
-Write(outp, ans);
+WriteLn(outp, ans);
 WriteLn(outp, '</label>');
 WriteLn(outp, '</div>');
 WriteLn(outp)
@@ -917,8 +912,8 @@ procedure Tcgianswer.showanswer(value: pointsType;
 begin
 inc(answerNr);
 WriteLn(outp, '<div>');
-Write(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
-	    ' name="q', questionNr, '"',
+WriteLn(outp, '<label>');
+Write(outp, '<input name="q', questionNr, '"',
             ' type="', qTypeStr(qType), 
             '" value="', answerNr, '" disabled="disabled"');
 if CGIElement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then 
@@ -930,7 +925,6 @@ if CGIElement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then
    end;
 WriteLn(outp, cet);
 
-Write(outp, '<label for="q', questionNr, 'a', answerNr, '"');
 if not neutral then
   if value > 0 
     then Write(outp, ' class="correct"')
@@ -941,6 +935,7 @@ if (value > 0) and not neutral then Write(outp, '<strong>');
 Write(outp, ans);
 if (value > 0) and not neutral then Write(outp, '</strong>');
 
+WriteLn(outp);
 WriteLn(outp, '</label>');
 WriteLn(outp, '</div>');
 WriteLn(outp)
@@ -951,8 +946,8 @@ procedure Tcgianswer.processDefaultAnswer;
 begin
 inc(answerNr);
 WriteLn(outp, '<div class="defanswer">');
-Write(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
-	    ' name="q', questionNr, '"',
+WriteLn(outp, '<label>');
+Write(outp, '<input name="q', questionNr, '"',
             ' type="radio" value="',
             answerNr, '" disabled="disabled"');
 if CGIElement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then 
@@ -961,10 +956,9 @@ if CGIElement = 'q'+IntToStr(questionNr)+'='+IntToStr(answerNr) then
    GetCGIElement(CGIElement)
    end;
 WriteLn(outp, cet);
-Write(outp, '<label for="q', questionNr, 'a', answerNr, '"');
 if not neutral then Write(outp, ' class="wrong"');
 Write(outp, '>');
-Write(outp, defAnswer);
+WriteLn(outp, defAnswer);
 WriteLn(outp, '</label>');
 WriteLn(outp, '</div>');
 WriteLn(outp)
@@ -1828,7 +1822,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.64 2010/05/19 12:32:17 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.65 2010/05/20 14:57:25 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
