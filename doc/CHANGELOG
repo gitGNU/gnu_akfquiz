@@ -1,4 +1,6 @@
 4.4.1-cvs
+- cgiquiz.pas: try to get the correct charset when displaying textfiles
+- qsys.pas: getQuizEncoding: new function
 - cgiquiz.pas: use cache for index (12h)
 - titimg.ppm: new image
 - cgiquiz.pas: always use POST method

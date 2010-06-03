@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.24 2010/05/20 18:42:06 akf Exp $
+* $Id: qsys.pas,v 1.25 2010/06/03 18:48:18 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006, 2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -191,6 +191,7 @@ function dirname(const s: string): mystring;
 function isQuizStart(const s: string): boolean;
 function isQuizEnd(const s: string): boolean;
 
+function getQuizEncoding(const filename: string): shortstring;
 procedure getQuizInfo(const filename: string;
                       var title, language, encoding: shortstring);
 
@@ -608,6 +609,45 @@ function isQuizEnd(const s: string): boolean;
 begin
 isQuizEnd := (s='END') or (s='ENDE')
 end;
+
+function getQuizEncoding(const filename: string): shortstring;
+var 
+  inp: text;
+  s, e : ShortString;
+  ignore : integer;
+  encoding: shortstring;
+  {$IfDef FPC} Buffer : array[1..1024] of char; {$EndIf}
+begin
+encoding := '';
+
+Assign(inp, filename);
+{$IfDef FPC} SetTextBuf(inp, Buffer); {$EndIf}
+
+reset(inp);
+
+repeat
+  ReadLn(inp, s);
+  s := makeUpcase(stripWhitespace(s))
+until isQuizStart(s) or EOF(inp) or (IOResult<>0);
+
+e := '';
+
+while (not isQuizEnd(e)) and (not EOF(inp)) and (IOResult=0) do
+  begin
+  ReadLn(inp, s);
+  s := stripWhitespace(s);
+  e := makeUpcase(s);
+  if (pos('CHARSET:',e) = 1) or
+     (pos('ZEICHENSATZ:',e) = 1) then encoding := getvalue(s)
+  end; { while }
+
+close(inp);
+ignore := IOResult; { ignore errors }
+
+makeUpcase(encoding);
+
+getQuizEncoding := encoding
+end; { getQuizEncoding }
 
 procedure getQuizInfo(const filename: string;
                       var title, language, encoding: shortstring);
@@ -1503,7 +1543,7 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.24 2010/05/20 18:42:06 akf Exp $');
+  ident('$Id: qsys.pas,v 1.25 2010/06/03 18:48:18 akf Exp $');
   
   InitPrefix;
   disableSignals; { initializes Signals }

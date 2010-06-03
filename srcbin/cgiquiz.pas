@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.69 2010/06/03 17:59:26 akf Exp $
+* $Id: cgiquiz.pas,v 1.70 2010/06/03 18:48:18 akf Exp $
 *
 * Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1668,6 +1668,8 @@ var
   ignore : integer;
 begin
 charset := QueryLookup('charset');
+if (charset='') and (ContentType='text/plain') then 
+  charset := getQuizEncoding(CGI_PATH_TRANSLATED);
 
 Assign(t, CGI_PATH_TRANSLATED);
 reset(t);
@@ -1857,7 +1859,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.69 2010/06/03 17:59:26 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.70 2010/06/03 18:48:18 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
