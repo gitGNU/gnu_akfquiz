@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.68 2010/05/20 18:58:53 akf Exp $
+* $Id: cgiquiz.pas,v 1.69 2010/06/03 17:59:26 akf Exp $
 *
 * Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1294,7 +1294,28 @@ procedure showList;
 var found: boolean;
 begin
 HTTPStatus(200, 'OK');
-CommonHtmlStart(AKFQuizName);
+WriteLn('Cache-Control: public, max-age=', 12 * 60 * 60); { cache 12 hours }
+closeHttpHead;
+
+WriteLn(DocType);
+WriteLn;
+WriteLn('<html><head>');
+WriteLn('<title>' + AKFQuizName + '</title>');
+WriteLn('<meta name="generator" content="'
+         + PrgVersion + '"'+cet);
+{ the next instruction is also in the HTTP header }
+WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"'
+        +cet);
+WriteLn('<link rel="icon" type="image/png" href="', 
+              ScriptName, grIcon + '"'+cet);
+WriteLn('<link rel="stylesheet" type="text/css" href="', 
+           ScriptName, '/q-brown.css"'+cet);
+WriteLn('</head>');
+WriteLn;
+WriteLn('<body>');
+WriteLn('<h1>' + AKFQuizName + '</h1>');
+WriteLn;
+
 WriteLn('<ul>');
 found := ListEntries(CGI_PATH_TRANSLATED, quizext, ListShowEntry);
 if ListEntries(CGI_PATH_TRANSLATED, quizext2, ListShowEntry) 
@@ -1836,7 +1857,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.68 2010/05/20 18:58:53 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.69 2010/06/03 17:59:26 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;

@@ -1,4 +1,6 @@
 4.4.1-cvs
+- cgiquiz.pas: use cache for index (12h)
+- titimg.ppm: new image
 - cgiquiz.pas: always use POST method
 - cgiquiz.pas: show elapsed time
 - qsys.pas, uakfquiz.pas: use Cardinal for GetSecs
