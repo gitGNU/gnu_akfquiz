@@ -5,7 +5,7 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.70 2010/06/03 18:48:18 akf Exp $
+* $Id: cgiquiz.pas,v 1.71 2010/06/04 09:35:19 akf Exp $
 *
 * Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -1170,15 +1170,26 @@ begin
 isResultFile := (pos(ResultExt, CGI_PATH_INFO)<>0)
 end;
 
-procedure CommonHtmlStart(const title: string);
+procedure pleaseCacheHttpHeader;
 begin
-WriteLn('Content-Type: text/html; charset=UTF-8');
+{ max-age must be in seconds }
+{ calculation is done at compile-time, not at run-time }
+WriteLn('Cache-Control: public, max-age=',
+  7 {days} * 24 {hours} * 60 {minutes} * 60 {seconds} ) { 7 days }
+end;
 
+procedure dontCacheHttpHeader;
+begin
 { Don't cache these pages
   different program react on different of these settings }
 WriteLn('Cache-control: no-cache');
 WriteLn('Pragma: no-cache');
 WriteLn('Expires: 0');
+end;
+
+procedure CommonHtmlStart(const title: string);
+begin
+WriteLn('Content-Type: text/html; charset=UTF-8');
 closeHttpHead;
 
 WriteLn(DocType);
@@ -1295,26 +1306,7 @@ var found: boolean;
 begin
 HTTPStatus(200, 'OK');
 WriteLn('Cache-Control: public, max-age=', 12 * 60 * 60); { cache 12 hours }
-closeHttpHead;
-
-WriteLn(DocType);
-WriteLn;
-WriteLn('<html><head>');
-WriteLn('<title>' + AKFQuizName + '</title>');
-WriteLn('<meta name="generator" content="'
-         + PrgVersion + '"'+cet);
-{ the next instruction is also in the HTTP header }
-WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"'
-        +cet);
-WriteLn('<link rel="icon" type="image/png" href="', 
-              ScriptName, grIcon + '"'+cet);
-WriteLn('<link rel="stylesheet" type="text/css" href="', 
-           ScriptName, '/q-brown.css"'+cet);
-WriteLn('</head>');
-WriteLn;
-WriteLn('<body>');
-WriteLn('<h1>' + AKFQuizName + '</h1>');
-WriteLn;
+CommonHtmlStart(AKFQuizName);
 
 WriteLn('<ul>');
 found := ListEntries(CGI_PATH_TRANSLATED, quizext, ListShowEntry);
@@ -1339,6 +1331,7 @@ end;
 procedure unacceptableNewPasswd;
 begin
 HTTPStatus(200, 'OK');
+dontCacheHttpHeader;
 CommonHtmlStart('unacceptable new Password');
 WriteLn('<p>Sorry, but the password should have at least 6 characters.</p>');
 
@@ -1386,6 +1379,7 @@ if IOResult<>0 then SetupError;
 HTTPStatus(200, 'OK');
 { Session-Cookie, deleted when browser is closed }
 WriteLn('Set-Cookie: auth=' + authdata + '; Discard; Version="1";');
+dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': Configuration saved');
 WriteLn('<p>Configuration saved</p>');
 WriteLn('<p><a href="results">', msg_showResults, '</a></p>');
@@ -1396,6 +1390,7 @@ end;
 procedure configureExamMode;
 begin
 HTTPStatus(200, 'OK');
+dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': Configuration');
 WriteLn('<form method="POST" action="saveconfig">');
 WriteLn('<div>');
@@ -1432,6 +1427,7 @@ end;
 procedure Login;
 begin
 HTTPStatus(200, 'OK');
+dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_passwd);
 WriteLn('<form method="POST" action="login2">');
 WriteLn('<div>');
@@ -1461,6 +1457,7 @@ if encodeAuthData(qpasswd) <> authdata then Forbidden;
 
 HTTPStatus(200, 'OK');
 WriteLn('Set-Cookie: auth=' + authdata + '; Discard; Version="1";');
+dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_loggedin);
 WriteLn(msg_loggedin);
 WriteLn('<p><a href="results">', msg_showResults, '</a></p>');
@@ -1476,6 +1473,7 @@ HTTPStatus(200, 'OK');
 { Expiration-date in the past deletes a cookie }
 WriteLn('Set-Cookie: auth=""; expires=Thu, 1-Jan-1970 00:00:00 GMT; '
         + 'Discard; Version="1";');
+dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_loggedout);
 WriteLn('<h2>', msg_loggedout, '</h2>');
 WriteLn('<p><a href="', ScriptName, '/' + ExamModeName + '/">', msg_back, 
@@ -1494,6 +1492,7 @@ var found: boolean;
 begin
 RequireAuthorization;
 HTTPStatus(200, 'OK');
+dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_Results);
 
 WriteLn('<ul>');
@@ -1531,6 +1530,7 @@ var
 begin
 RequireAuthorization;
 HTTPStatus(200, 'OK');
+dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_Results);
 
 WriteLn;
@@ -1741,17 +1741,6 @@ if ExamDir<>'' then { if Exam mode isn't disabled }
   end
 end;
 
-procedure pleaseCacheHttpHeader;
-begin
-{ both cache-control headers mean: please chache me! }
-WriteLn('Cache-Control: public');
-
-{ max-age must be in seconds }
-{ calculation is done at compile-time, not at run-time }
-WriteLn('Cache-Control: max-age=', 
-  7 {days} * 24 {hours} * 60 {minutes} * 60 {seconds} ); { 7 days }
-end;
-
 procedure showImage(const img; size: integer);
 type TcharArray = array[1..MaxInt] of char;
 var i: integer;
@@ -1859,7 +1848,7 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.70 2010/06/03 18:48:18 akf Exp $');
+ident('$Id: cgiquiz.pas,v 1.71 2010/06/04 09:35:19 akf Exp $');
 
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
