@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# $Id: configure,v 1.31 2010/05/19 12:33:42 akf Exp $
+# $Id: configure,v 1.32 2010/06/11 10:08:34 akf Exp $
 #
 # This file is part of AKFQuiz
 #
@@ -190,7 +190,7 @@ test "$COMPILER" = "xw32" && { SYS=w32; NEEDPTHREAD="no"; }
 case $SYS in
   w32|mingw32*|MINGW32*) EXAMDIR="" ;;
 esac
-  
+
 # check for needed tools
 case $COMPILER in
   grx) echo "checking for binobj... "

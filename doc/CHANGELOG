@@ -1,4 +1,5 @@
 4.4.1-cvs
+- sdlgrph.pas: fix for 64Bit systems with FPC (no PackRecords)
 - cgiquiz.pas: dontCacheHttpHeader new procedure - many functions adapted
 - cgiquiz.pas: try to get the correct charset when displaying textfiles
 - qsys.pas: getQuizEncoding: new function

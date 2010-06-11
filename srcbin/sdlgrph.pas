@@ -2,7 +2,7 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.20 2010/05/19 12:32:18 akf Exp $
+* $Id: sdlgrph.pas,v 1.21 2010/06/11 10:08:34 akf Exp $
 *
 * Copyright (c) 2005-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
@@ -29,7 +29,6 @@
 {$IfDef FPC}
   {$Mode Delphi}
   {$LongStrings on}
-  {$PackRecords 4}
 {$EndIf}
 
 {$X+}
@@ -757,7 +756,7 @@ end;
 
 Initialization
 
-  ident('$Id: sdlgrph.pas,v 1.20 2010/05/19 12:32:18 akf Exp $');
+  ident('$Id: sdlgrph.pas,v 1.21 2010/06/11 10:08:34 akf Exp $');
 
   textarea      := NIL;
   screen        := NIL;
