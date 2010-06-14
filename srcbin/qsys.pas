@@ -1,7 +1,7 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.25 2010/06/03 18:48:18 akf Exp $
+* $Id: qsys.pas,v 1.26 2010/06/14 10:27:17 akf Exp $
 *
 * Copyright (c) 2004, 2005, 2006, 2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
@@ -84,7 +84,7 @@ interface
 {$Else} { not __GPC__ }
 
   type 
-    CInteger = LongInt; { @@@ for 32-Bit systems }
+    CInteger = LongInt; { works for 32- and 64-Bit systems }
     CString  = PChar;
     Uint8    = byte;
     Uint16   = word;
@@ -1543,7 +1543,7 @@ end;
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.25 2010/06/03 18:48:18 akf Exp $');
+  ident('$Id: qsys.pas,v 1.26 2010/06/14 10:27:17 akf Exp $');
   
   InitPrefix;
   disableSignals; { initializes Signals }
