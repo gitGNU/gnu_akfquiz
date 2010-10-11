@@ -36,7 +36,7 @@ use warnings;
 use CGI::Carp qw(fatalsToBrowser);
 # I deliberately don't use the CGI module for efficiency
 
-my $version = '4.4.1-beta12';
+my $version = '4.4.1-beta14';
 my $prg_name = 'AKFQuizWeb';
 my $src_name = 'akfquizweb';
 my $prg_version = "$prg_name $version";
@@ -965,6 +965,7 @@ sub error {
 
 sub send_source_code {
   open F, "<$0" or &not_found;
+  print "Content-Disposition: attachment; filename=$src_name\n";
   print "Content-Type: text/x-perl\n\n";
   while (<F>) { print }
   close F;
