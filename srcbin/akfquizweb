@@ -36,7 +36,7 @@ use warnings;
 use CGI::Carp qw(fatalsToBrowser);
 # I deliberately don't use the CGI module for efficiency
 
-my $version = '4.4.1-beta11';
+my $version = '4.4.1-beta12';
 my $prg_name = 'AKFQuizWeb';
 my $src_name = 'akfquizweb';
 my $prg_version = "$prg_name $version";
@@ -1567,7 +1567,7 @@ $cgi_base/myquiz?format=text<br>
 $cgi_base/myquiz?q1=2&amp;q2=1&amp;q5=2<br>
 </dd></dl>
 
-<p>Get the <a href='$script_name/$src_name' type='text/x-perl'>source code</a>.
+<p>Download: <a href='$script_name/$src_name' type='text/x-perl'>$prg_version</a>.
 </body></html>
 EOF
 
@@ -1603,10 +1603,16 @@ $doctype
 <p>$prg_version<br>
 Copyright © 2010
 <a rel='external' href='http://akfoerster.de'>Andreas K. Förster</a></p>
-
-<p style='clear:both'>$m_contributions{$lang}<br>
-Italiano: Martin Guy, Dansk: Tommy Jensen</p>
 EOF
+
+  # Leave this link intact and working to comply with the license.
+  # See section 13 of AGPL 3.0.
+  print "<p style='clear:both'>Download: "
+        ."<a href='$script_name/$src_name' type='text/x-perl'>"
+        ."$prg_version</a>.</p>\n";
+
+  print "<p>$m_contributions{$lang}<br>"
+        ."Italiano: Martin Guy, Dansk: Tommy Jensen</p>\n";
 
   if ($lang eq 'de') { # German?
   print <<EOF;
@@ -1647,11 +1653,8 @@ for more details.
 EOF
   }
 
-  # Leave this link intact and working to comply with the license.
-  # See section 13 of AGPL 3.0.
-  print "<p><a href='$src_name' type='text/x-perl'>Source Code</a>.</p>\n";
   print "<p><a rel='external' href='http://akfquiz.nongnu.org/'>"
-        ."AKFQuiz</a></p>\n";
+        ."AKFQuiz Homepage</a></p>\n";
   print "</body></html>\n";
 
   exit;
