@@ -36,7 +36,7 @@ use warnings;
 use CGI::Carp qw(fatalsToBrowser);
 # I deliberately don't use the CGI module for efficiency
 
-my $version = '4.4.1-beta14';
+my $version = '4.4.1-beta15';
 my $prg_name = 'AKFQuizWeb';
 my $src_name = 'akfquizweb';
 my $prg_version = "$prg_name $version";
@@ -472,13 +472,8 @@ sub html_end {
 
 
 sub start_form {
-  print "<form name='akfquiz' id='akfquiz' method='POST'";
-  if ($result_page) {
-    print " action=''" # no action
-  } else {
-    print " action='$script_name$path_info'"
-  }
-  print ">\n\n";
+  print "<form name='akfquiz' id='akfquiz' method='POST' "
+        ."action=''>\n\n";
 }
 
 
