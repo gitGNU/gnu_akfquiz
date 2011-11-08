@@ -2,7 +2,7 @@
 
 ############################################################################
 # AKFQuizWeb - Quiz-program for the CGI interface of a webserver           #
-# Copyright (C) 2010 Andreas K. Foerster <akfquiz@akfoerster.de>           #
+# Copyright (C) 2010,2011 Andreas K. Foerster <akfquiz@akfoerster.de>      #
 #                                                                          #
 # for more information see http://akfquiz.nongnu.org/                      #
 #                                                                          #
@@ -36,7 +36,7 @@ use warnings;
 use CGI::Carp qw(fatalsToBrowser);
 # I deliberately don't use the CGI module for efficiency
 
-my $version = '4.4.1-beta15';
+my $version = '4.4.1-beta16';
 my $prg_name = 'AKFQuizWeb';
 my $src_name = 'akfquizweb';
 my $prg_version = "$prg_name $version";
@@ -517,13 +517,13 @@ sub show_metadata {
   print "<dt>$m_author{$lang}</dt> <dd>$author</dd>\n" if $author;
   print "<dt>Copyright:</dt> <dd>&copy; $copyright</dd>\n" if $copyright;
   print "<dt>$m_authorlink{$lang}</dt> "
-        . "<dd><a rel='author external' "
+        . "<dd><a rel='author external' target='_blank' "
         . "href='$authorlink'>$authorlink</a></dd>\n" if $authorlink;
   print "<dt>$m_edited{$lang}</dt> <dd>$edited</dd>\n" if $edited;
   print "<dt>$m_translator{$lang}</dt> <dd>$translator</dd>\n" if $translator;
   print "<dt>$m_license{$lang}</dt> <dd>$license</dd>\n" if $license;
   print "<dt>$m_licenselink{$lang}</dt> "
-        . "<dd><a rel='license external' "
+        . "<dd><a rel='license external' target='_blank' "
         . "href='$licenselink'>$licenselink</a></dd>\n" if $licenselink;
 
   print "</dl>\n\n";
@@ -739,7 +739,7 @@ sub evaluate {
 
     if ($assessmentlink) {
       my $link = &get_assessmentlink;
-      print "<p><a href='$link'>$m_result{$lang}</a></p>\n\n";
+      print "<p><a href='$link' target='_blank'>$m_result{$lang}</a></p>\n\n";
     }
   } # if (!$evaluated and $maxpoints > 0)
 
@@ -1597,8 +1597,8 @@ $doctype
 </div>
 
 <p>$prg_version<br>
-Copyright © 2010
-<a rel='external' href='http://akfoerster.de'>Andreas K. Förster</a></p>
+Copyright © 2011
+<a rel='external' target='_blank' href='http://akfoerster.de'>Andreas K. Förster</a></p>
 EOF
 
   # Leave this link intact and working to comply with the license.
@@ -1615,7 +1615,7 @@ EOF
 <p>
 Dieses Programm ist freie Software. Sie können es unter den
 Bedingungen der
-<a href='--license'>GNU Affero General Public License</a>,
+<a href='--license' target='_blank'>GNU Affero General Public License</a>,
 wie von der Free Software Foundation veröffentlicht, weitergeben
 und/oder modifizieren, entweder gemäß Version 3 der Lizenz oder
 (nach Ihrer Option) jeder späteren Version.
@@ -1626,7 +1626,7 @@ Die Veröffentlichung dieses Programms erfolgt in der Hoffnung, daß
 es Ihnen von Nutzen sein wird, aber OHNE IRGENDEINE GARANTIE, sogar
 ohne die implizite Garantie der MARKTREIFE oder der VERWENDBARKEIT
 FÜR EINEN BESTIMMTEN ZWECK. Details finden Sie in der
-<a href='--license'>GNU Affero General Public License</a>.
+<a href='--license' target='_blank'>GNU Affero General Public License</a>.
 </p>
 EOF
   } else { # not German
@@ -1634,7 +1634,7 @@ EOF
 <p>
 This program is free software: you can redistribute it and/or modify
 it under the terms of the
-<a href='--license'>GNU Affero General Public License</a>
+<a href='--license' target='_blank'>GNU Affero General Public License</a>
 as published by the Free Software Foundation, either
 version 3 of the License, or (at your option) any later version.
 </p>
@@ -1643,13 +1643,13 @@ version 3 of the License, or (at your option) any later version.
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-<a href='--license'>GNU Affero General Public License</a>
+<a href='--license' target='_blank'>GNU Affero General Public License</a>
 for more details.
 </p>
 EOF
   }
 
-  print "<p><a rel='external' href='http://akfquiz.nongnu.org/'>"
+  print "<p><a rel='external' target='_blank' href='http://akfquiz.nongnu.org/'>"
         ."AKFQuiz Homepage</a></p>\n";
   print "</body></html>\n";
 
@@ -1685,7 +1685,7 @@ EOF
 sub version {
   print <<EOF;
 $prg_version
-Copyright (C) 2010 Andreas K. Foerster
+Copyright (C) 2011 Andreas K. Foerster
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
