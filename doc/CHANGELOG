@@ -1,4 +1,6 @@
-4.4.1-cvs
+4.4.1-git
+- documentation txt files will be generated in UTF-8 encoding
+- switched to Git
 - sdlgrph.pas: fix for 64Bit systems with FPC (no PackRecords)
 - cgiquiz.pas: dontCacheHttpHeader new procedure - many functions adapted
 - cgiquiz.pas: try to get the correct charset when displaying textfiles
