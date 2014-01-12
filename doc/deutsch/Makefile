@@ -54,28 +54,28 @@ quizstat.html: quizstat.1
 
 
 mkquiz.txt: mkquiz.1
-	groff -man -Tlatin1 mkquiz.1 | col -bx > mkquiz.txt
+	groff -man -Tutf8 mkquiz.1 | col -bx > mkquiz.txt
 
 scrquiz.txt: scrquiz.1
-	groff -man -Tlatin1 scrquiz.1 | col -bx > scrquiz.txt
+	groff -man -Tutf8 scrquiz.1 | col -bx > scrquiz.txt
 
 grquiz.txt: grquiz.1
-	groff -man -Tlatin1 grquiz.1 | col -bx > grquiz.txt
+	groff -man -Tutf8 grquiz.1 | col -bx > grquiz.txt
 
 akfquiz.txt: akfquiz.5
-	groff -man -Tlatin1 akfquiz.5 | col -bx > akfquiz.txt
+	groff -man -Tutf8 akfquiz.5 | col -bx > akfquiz.txt
 
 cgiquiz.txt: cgiquiz.8
-	groff -man -Tlatin1 cgiquiz.8 | col -bx > cgiquiz.txt
+	groff -man -Tutf8 cgiquiz.8 | col -bx > cgiquiz.txt
 
 linequiz.txt: linequiz.1
-	groff -man -Tlatin1 linequiz.1 | col -bx > linequiz.txt
+	groff -man -Tutf8 linequiz.1 | col -bx > linequiz.txt
 
 diaquiz.txt: diaquiz.1
-	groff -man -Tlatin1 diaquiz.1 | col -bx > diaquiz.txt
+	groff -man -Tutf8 diaquiz.1 | col -bx > diaquiz.txt
 
 quizstat.txt: quizstat.1
-	groff -man -Tlatin1 quizstat.1 | col -bx > quizstat.txt
+	groff -man -Tutf8 quizstat.1 | col -bx > quizstat.txt
 
 mkquiz.pdf: mkquiz.1
 	groff -man -Tps mkquiz.1 | ps2pdf - mkquiz.pdf
