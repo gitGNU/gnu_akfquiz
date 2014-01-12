@@ -1,0 +1,7 @@
+Makefile common.mak config.inc
+errorsnd.inc infosnd.inc introsnd.inc neutralsnd.inc rightsnd.inc wrongsnd.inc
+quizhg.inc titimg.inc
+*.gpi *.gpm *.ppu
+cgiquiz diaquiz grquiz linequiz mkquiz gtkquizchooser scrquiz
+ppm2pas
+getquiz

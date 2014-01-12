@@ -1,0 +1,7 @@
+*.res
+*.rc
+*.or
+*.akfquiz
+innosetup.iss
+*.nsh
+COPYING*
