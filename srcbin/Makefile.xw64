@@ -7,15 +7,11 @@
 NATIVEPC=fpc
 NATIVEPFLAGS=
 
-# Cross-Compiling to Windows
-# use "make windows"
+# Cross-Compiling to Windows 64-Bit
 PC=ppcx64
 PFLAGS=-Twin64 -XPx86_64-w64-mingw32- -Xd -Fl/usr/x86_64-w64-mingw32/lib
 
-POPT=-O2G -Xs -XX
-
-# additional optimization-flags for i386 machines
-POPT+=-Op3
+POPT=-O2 -Xs -XX
 
 DEFINES+=-dSDL
 DEFINES+=-dAdvertisement
