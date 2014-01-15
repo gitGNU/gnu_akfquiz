@@ -100,6 +100,7 @@ w32res:
 
 clean:
 	-rm -f *.o *.or *.a a.out *.gpi *.gpm *.ppu *.old *~
+	-rm -r *.obj
 	-rm -f *.aw *.ow *.owr *.ppw *.res
 	-rm -f *.AW *.OW *.OWR *.PPW *.RES
 	-$(MAKE) -C w32 clean
