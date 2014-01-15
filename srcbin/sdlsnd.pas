@@ -2,9 +2,8 @@
 * sdlsnd (unit)
 * sound support with SDL
 *
-* $Id: sdlsnd.pas,v 1.17 2010/05/19 12:32:18 akf Exp $
-*
-* Copyright (c) 2005-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2005-2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
 *
 * Environment: GNU Pascal or FreePascal
@@ -290,10 +289,6 @@ FreeSounds;
 { SDL_Quit might already be called... }
 if AudioAvailable then closeSDLAudio
 end;
-
-Initialization
-
-  ident('$Id: sdlsnd.pas,v 1.17 2010/05/19 12:32:18 akf Exp $')
 
 Finalization
 
