@@ -1147,8 +1147,6 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: grquiz.pas,v 1.23 2010/05/19 12:32:17 akf Exp $');
-
 {$IfDef FPCSVGALIB}
   { space after messages from SVGALib }
   WriteLn;

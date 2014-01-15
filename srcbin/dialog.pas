@@ -8,9 +8,7 @@
 *
 * This unit was originally written for AKFQuiz
 *
-* $Id: dialog.pas,v 1.5 2007/07/02 10:14:10 akf Exp $
-*
-* Copyright (c) 2003,2004,2007 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2003,2004,2007,2014 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * This unit is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -397,10 +395,4 @@ begin
 dselect(default, autosize, autosize, answer)
 end;
 
-procedure ident(const s: string);
-begin
-end;
-
-begin
-ident('$Id: dialog.pas,v 1.5 2007/07/02 10:14:10 akf Exp $')
 end.

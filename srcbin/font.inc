@@ -1,5 +1,4 @@
 {
-* $Id: font.inc,v 1.7 2010/05/19 12:32:17 akf Exp $
 *
 * Copyright (c) 2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright by the contributers to kbd

@@ -6,9 +6,8 @@
 * "akfquiz4.js", "leer.png", "falsch.png", "richtig.png",
 * and optionally a given CSS file
 *
-* $Id: mkquiz.pas,v 1.22 2010/05/19 12:32:17 akf Exp $
-*
-* Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2003-2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: GNU-Pascal or FreePascal
 *
@@ -516,8 +515,6 @@ end;
 
 
 begin
-ident('$Id: mkquiz.pas,v 1.22 2010/05/19 12:32:17 akf Exp $');
-
 outpath := '';
 modes := [];
 useSystemLanguage;

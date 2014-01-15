@@ -5,9 +5,8 @@
 * Needs a CGI/1.1 compatible web-server (boa, apache, ...)
 * (some servers claim to be compatible, but aren't)
 *
-* $Id: cgiquiz.pas,v 1.71 2010/06/04 09:35:19 akf Exp $
-*
-* Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2003-2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: GNU-Pascal or FreePascal
 *
@@ -1848,8 +1847,6 @@ if CGIInfo('REQUEST_METHOD')='' then help
 end;
 
 begin
-ident('$Id: cgiquiz.pas,v 1.71 2010/06/04 09:35:19 akf Exp $');
-
 CGI_QUERY_STRING := '';
 QUERY_STRING_POS := 0;
 

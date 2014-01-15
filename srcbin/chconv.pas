@@ -1,9 +1,8 @@
 {
 * chsys (unit)
 *
-* $Id: chconv.pas,v 1.6 2010/05/19 12:32:17 akf Exp $
-*
-* Copyright (c) 2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Tables taken from GNU LIBICONV Library
 * Copyright (C) 1999-2001 Free Software Foundation, Inc.
@@ -605,6 +604,4 @@ procedure ident(const s: string);
 begin
 end;
 
-begin
-ident('$Id: chconv.pas,v 1.6 2010/05/19 12:32:17 akf Exp $')
 end.

@@ -1,8 +1,6 @@
 { akfquiz - style sheet data }
 { this file is in the public domain }
 
-{ $Id: styles.pas,v 1.5 2007/03/18 10:51:51 akf Exp $ }
-
 unit styles;
 
 Interface
@@ -158,10 +156,4 @@ case color of
 WriteLn('}')
 end; { StyleColor }
 
-procedure ident(const s: string);
-begin
-end;
-
-begin
-ident('$Id: styles.pas,v 1.5 2007/03/18 10:51:51 akf Exp $')
 end.

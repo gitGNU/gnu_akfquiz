@@ -2,9 +2,8 @@
 * sdlgrph (unit)
 * some graph functions with SDL
 *
-* $Id: sdlgrph.pas,v 1.21 2010/06/11 10:08:34 akf Exp $
-*
-* Copyright (c) 2005-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2005-2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
 *
 * Environment: GNU Pascal or Free Pascal
@@ -755,8 +754,6 @@ GetKey := c
 end;
 
 Initialization
-
-  ident('$Id: sdlgrph.pas,v 1.21 2010/06/11 10:08:34 akf Exp $');
 
   textarea      := NIL;
   screen        := NIL;

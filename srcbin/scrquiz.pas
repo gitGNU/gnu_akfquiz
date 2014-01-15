@@ -2,8 +2,6 @@
 * scrquiz   (was crtquiz)
 * screen/terminal oriented quiz program
 *
-* $Id: scrquiz.pas,v 1.19 2010/05/19 12:32:18 akf Exp $
-*
 * Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal or GNU-Pascal
@@ -1105,8 +1103,6 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: scrquiz.pas,v 1.19 2010/05/19 12:32:18 akf Exp $');
-
 myexitcode := 0;
 loop := true;
 unstopable := false;

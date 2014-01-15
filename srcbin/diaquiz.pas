@@ -2,9 +2,8 @@
 * diaquiz
 * quiz program based on "Xdialog"
 *
-* $Id: diaquiz.pas,v 1.13 2010/05/19 12:32:17 akf Exp $
-*
-* Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2003-2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal or GNU-Pascal 
 *
@@ -466,7 +465,6 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: diaquiz.pas,v 1.13 2010/05/19 12:32:17 akf Exp $');
 myexitcode := 0;
 useSystemLanguage;
 

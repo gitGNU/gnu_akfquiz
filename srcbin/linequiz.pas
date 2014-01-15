@@ -4,9 +4,8 @@
 * usable for blind users (braile line or speech synthesizer)
 * usable as backend for other applications
 *
-* $Id: linequiz.pas,v 1.16 2010/05/19 12:32:17 akf Exp $
-*
-* Copyright (c) 2005-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2005-2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal or GNU-Pascal 
 *
@@ -610,8 +609,6 @@ end;
 var myexitcode : byte;
 
 begin { main }
-ident('$Id: linequiz.pas,v 1.16 2010/05/19 12:32:17 akf Exp $');
-
 myexitcode := 0;
 display := checkdisplay; { set a default }
 setmsgconv(display);

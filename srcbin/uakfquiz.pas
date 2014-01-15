@@ -1,8 +1,6 @@
 {
 * uakfquiz (unit)
 *
-* $Id: uakfquiz.pas,v 1.19 2010/06/03 12:10:53 akf Exp $
-*
 * Copyright (c) 2003-2006,2007,2010,2014
 * Andreas K. Foerster <akfquiz@akfoerster.de>
 *

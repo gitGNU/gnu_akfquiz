@@ -1,9 +1,8 @@
 {
 * htmlquiz (unit)
 *
-* $Id: htmlquiz.pas,v 1.23 2010/05/20 14:57:25 akf Exp $
-*
-* Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2003-2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal or GNU-Pascal
 *
@@ -597,6 +596,4 @@ begin
 checkTimeout := false
 end;
 
-begin
-ident('$Id: htmlquiz.pas,v 1.23 2010/05/20 14:57:25 akf Exp $')
 end.

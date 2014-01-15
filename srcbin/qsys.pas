@@ -1,9 +1,8 @@
 {
 * qsys (unit)
 *
-* $Id: qsys.pas,v 1.26 2010/06/14 10:27:17 akf Exp $
-*
-* Copyright (c) 2004, 2005, 2006, 2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2004,2005,2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal or GNU-Pascal
 *
@@ -119,7 +118,7 @@ type
   TquizfileList = record
                   filename : mystring;
                   title,
-		  language : ShortString;
+                  language : ShortString;
                   next     : PquizfileList
                   end;
 
@@ -287,8 +286,6 @@ function ShowTime(sec: LongInt): mystring;
 function GetSecs: Cardinal;
 
 function showDateTime: mystring;
-
-procedure ident(const s: string);
 
 {$IfDef __GPC__}
   function IntToStr(i: LongInt): mystring;
@@ -1535,16 +1532,9 @@ begin GetSecs := GetMicroSecondTime div 1000000 end;
   end;
 {$EndIf}
 
-{ dummy function, just to keep the string from beeing stripped }
-procedure ident(const s: string);
-begin
-end;
-
 
 INITIALIZATION
 
-  ident('$Id: qsys.pas,v 1.26 2010/06/14 10:27:17 akf Exp $');
-  
   InitPrefix;
   disableSignals; { initializes Signals }
   
