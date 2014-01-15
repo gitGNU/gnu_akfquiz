@@ -10,6 +10,7 @@ NATIVEPFLAGS=
 # Cross-Compiling to Windows 64-Bit
 PC=ppcx64
 PFLAGS=-Twin64 -XPx86_64-w64-mingw32- -Xd -Fl/usr/x86_64-w64-mingw32/lib
+CROSS_PREFIX=x86_64-w64-mingw32-
 
 POPT=-O2 -Xs -XX
 

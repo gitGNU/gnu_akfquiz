@@ -11,6 +11,7 @@ NATIVEPFLAGS=
 # use "make windows"
 PC=ppc386
 PFLAGS=-Twin32 -XPi586-mingw32msvc- -Xd -Fl/usr/i586-mingw32msvc/lib
+CROSS_PREFIX=i586-mingw32msvc-
 
 POPT=-O2G -Xs -XX
 

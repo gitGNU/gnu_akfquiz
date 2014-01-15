@@ -1,13 +1,15 @@
 SHELL = /bin/sh
 .SUFFIXES: .res .rc
 
+WINDRES = $(CROSS_PREFIX)windres
+
 all: 
 
 wquizchooser:
 	$(MAKE) -C .. wquizchooser
 
 %.res: %.rc
-	windres -i $< -o $@
+	$(WINDRES) -i $< -o $@
 
 w32res: cgiquiz.res grquiz.res linequiz.res mkquiz.res scrquiz.res 
 
