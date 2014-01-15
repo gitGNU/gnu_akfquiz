@@ -1,7 +1,5 @@
 # Compile with GPC for the native machine using libSDL
 
-# $Id: Makefile.gpc,v 1.12 2007/01/24 15:12:16 akf Exp $
-
 # make further changes in common.mak
 
 # Conditional Defines:

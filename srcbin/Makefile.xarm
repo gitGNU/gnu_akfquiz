@@ -1,7 +1,5 @@
 # use FPC Cross-Compiler for Linux on ARM devices
 
-# $Id: Makefile.xarm,v 1.10 2007/01/24 15:12:16 akf Exp $
-
 # Edit this file for Compiler-specific configuration
 # make further changes in common.mak
 

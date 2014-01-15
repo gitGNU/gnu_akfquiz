@@ -1,9 +1,8 @@
 {
 * qmsgs (unit)
 *
-* $Id: qmsgs.pas,v 1.25 2010/05/19 12:32:17 akf Exp $
-*
-* Copyright (c) 2003-2005,2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2003-2005,2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Thanks to
 * Martin Guy for italiano
@@ -133,9 +132,9 @@ begin
   when a newer version is officially released }
 
 case lang of
-  italiano: msg_GPL := cnv('GPL v3 o version più recente');
-  deutsch : msg_GPL := 'GPL V3 oder neuer'
-  otherwise msg_GPL := 'GPL v3 or later'
+  italiano: msg_GPL := cnv('AGPL v3 o version più recente');
+  deutsch : msg_GPL := 'AGPL V3 oder neuer'
+  otherwise msg_GPL := 'AGPL v3 or later'
   end
 end;
 
@@ -146,14 +145,14 @@ case lang of
     'Questo programma è distribuito SENZA ALCUNA GARANZIA' + nl
     + 'per quanto ciò sia consentito dalla legge.' + nl
     + 'È lecito redistribuirlo secondo i termini della' + nl
-    + 'GNU General Public License;' + nl
+    + 'GNU Affero General Public License;' + nl
     + 'per dettagli vedere la cartella COPYING.' + nl
     + 'Gli archivi dei Quiz non sono coperte da questa licenza');
   deutsch : msg_noWarranty := cnv(
     'Dieses Programm wird ohne Gewährleistung geliefert, ' + nl 
     + 'soweit dies gesetzlich zulässig ist.' + nl 
     + 'Sie können es unter den Bedingungen der' + nl
-    + 'GNU General Public License weitergeben.'+ nl 
+    + 'GNU Affero General Public License weitergeben.'+ nl 
     + 'Details dazu enthält die Datei COPYING.' + nl
     + nl
     + 'Quiz-Dateien sind von dieser Lizenz nicht betroffen.')
@@ -161,7 +160,7 @@ case lang of
     'This program comes with NO WARRANTY,' + nl
     + 'to the extent permitted by law.' + nl
     + 'You may redistribute it under the terms of the ' + nl
-    + 'GNU General Public License;' + nl
+    + 'GNU Affero General Public License;' + nl
     + 'see the file named COPYING for details.' + nl
     + nl
     + 'Quiz-files are not affected by this license.'
@@ -697,6 +696,4 @@ case display of
   end
 end;
 
-begin
-ident('$Id: qmsgs.pas,v 1.25 2010/05/19 12:32:17 akf Exp $')
 end.

@@ -3,7 +3,8 @@
 *
 * $Id: uakfquiz.pas,v 1.19 2010/06/03 12:10:53 akf Exp $
 *
-* Copyright (c) 2003-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
+* Copyright (c) 2003-2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 *
 * Environment: FreePascal or GNU-Pascal
 *
@@ -58,7 +59,7 @@ uses qsys, qmsgs;
 
 { please add your name, when you make changes }
 { You may not delete my name }
-const AKFQuizCopyright = '2010 AKFoerster';
+const AKFQuizCopyright = '2014 AKFoerster';
 
 const Contributors = 'Italiano: Martin Guy, Dansk: Tommy Jensen';
 
@@ -939,6 +940,4 @@ if TimeLimit>0
   else checkTimeout := false
 end;
 
-begin
-ident('$Id: uakfquiz.pas,v 1.19 2010/06/03 12:10:53 akf Exp $')
 end.

@@ -2,11 +2,10 @@
 * grquiz
 * graphics oriented program for AKFQuiz
 *
-* $Id: grquiz.pas,v 1.23 2010/05/19 12:32:17 akf Exp $
+* Copyright (c) 2005-2006,2007,2010,2014
+* Andreas K. Foerster <akfquiz@akfoerster.de>
 *
-* Copyright (c) 2005-2006,2007,2010 Andreas K. Foerster <akfquiz@akfoerster.de>
-*
-* Environment: 
+* Environment:
 * FreePascal or GNU Pascal and libSDL-1.2
 * or
 * GNU Pascal and GRX library with GPC support (no other addon needed)

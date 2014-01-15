@@ -1,7 +1,5 @@
 # Compile with FPC for the native machine
 
-# $Id: Makefile.fpc,v 1.10 2007/01/24 15:12:16 akf Exp $
-
 # make further changes in common.mak
 
 # Conditional Defines:

@@ -1,7 +1,5 @@
 # Compile with GPC for the native machine using the GRX library
 
-# $Id: Makefile.grx,v 1.6 2006/12/30 14:23:11 akf Exp $
-
 # make further changes in common.mak
 
 # Conditional Defines:

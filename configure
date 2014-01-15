@@ -1,7 +1,5 @@
 #! /bin/sh
 
-# $Id: configure,v 1.32 2010/06/11 10:08:34 akf Exp $
-#
 # This file is part of AKFQuiz
 #
 # AKFQuiz is free software: you can redistribute it and/or modify
@@ -26,12 +24,12 @@ EXAMDIR=/var/lib/akfquiz
 
 # for modified versions use a variant-name please
 VARIANT=""
-VARIANT="-cvs"
+VARIANT="-testing"
 NAME="AKFQuiz"
 
 MAINVERSION=4
 SUBVERSION=4
-REVISION=1
+REVISION=2
 PKGVERSION=0
 
 VERSION=$MAINVERSION.$SUBVERSION.$REVISION
@@ -40,7 +38,7 @@ SVERSION=$MAINVERSION$SUBVERSION$REVISION
 SRCDIR="."
 
 # either a E-Mail address, or empty
-BUGMAIL=bug-akfquiz@akfoerster.de
+BUGMAIL="bug-akfquiz@akfoerster.de"
 
 #####################################################################
 # don't change these values
@@ -67,6 +65,7 @@ options:
   --with-gpc
   --with-grx
   --with-xw32
+  --with-xw64
   --with-xarm
   --enable-exam=no
   --disable-exam
@@ -148,12 +147,14 @@ do
     --with-grx)    COMPILER=grx ;;
     --with-fpc)    COMPILER=fpc ;;
     --with-xw32)   COMPILER=xw32 ;;
+    --with-xw64)   COMPILER=xw64 ;;
     --with-xarm)   COMPILER=xarm ;;
     --with-*)      ;; # ignore (see GNU Coding Standards)
     --gpc)         COMPILER=gpc ;;
     --grx)         COMPILER=grx ;;
     --fpc)         COMPILER=fpc ;;
     --xw32)        COMPILER=xw32 ;;
+    --xw32)        COMPILER=xw64 ;;
     --xarm)        COMPILER=xarm ;;
     --enable-sound|--enable-sound=yes|--disable-sound=no) SOUND=yes ;;
     --disable-sound|--disable-sound=yes|--enable-sound=no) SOUND=no ;;
@@ -185,6 +186,7 @@ test -z "$COMPILER" && getcompiler
 
 test "$COMPILER" = "xarm" && ARCH=arm
 test "$COMPILER" = "xw32" && { SYS=w32; NEEDPTHREAD="no"; }
+test "$COMPILER" = "xw64" && { SYS=w64; NEEDPTHREAD="no"; }
 
 # disable exam-mode on some systems
 case $SYS in

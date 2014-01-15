@@ -4,4 +4,4 @@
 cd $(dirname $0)
 cd srcbin
 
-exec akfquiz "$@"
+exec ./akfquiz "$@"
