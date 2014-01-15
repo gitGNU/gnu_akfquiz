@@ -30,11 +30,9 @@ NATIVEPFLAGS=
 # compile for the native machine as default
 PC=$(NATIVEPC)
 PFLAGS=$(NATIVEPFLAGS)
-POPT=-O2G -Xs -XX
+POPT=-O2 -Xs -XX
 #POPT=-g
 
-# additional optimization-flags for i386 machines
-# POPT+=-Op3
 
 DEFINES+=-dSDL
 

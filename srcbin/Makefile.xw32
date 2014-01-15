@@ -14,10 +14,7 @@ CROSS_PREFIX=$(PLATFORM)-
 PC=ppc386
 PFLAGS=-Twin32 -XP$(CROSS_PREFIX) -Xd -Fl/usr/$(PLATFORM)/lib
 
-POPT=-O2G -Xs -XX
-
-# additional optimization-flags for i386 machines
-POPT+=-Op3
+POPT=-O2 -Xs -XX
 
 DEFINES+=-dSDL
 DEFINES+=-dAdvertisement
