@@ -9,7 +9,7 @@ NATIVEPFLAGS=
 
 # Cross-Compiling to Windows
 # use "make windows"
-PLATFORM=i586-mingw32msvc
+PLATFORM=i686-w64-mingw32
 CROSS_PREFIX=$(PLATFORM)-
 PC=ppc386
 PFLAGS=-Twin32 -XP$(CROSS_PREFIX) -Xd -Fl/usr/$(PLATFORM)/lib
