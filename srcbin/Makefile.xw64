@@ -1,0 +1,39 @@
+# use FPC Cross-Compiler for windows
+
+# Edit this file for Compiler-specific configuration
+# make further changes in common.mak
+
+# one program must be compiled for the native machine
+NATIVEPC=fpc
+NATIVEPFLAGS=
+
+# Cross-Compiling to Windows
+# use "make windows"
+PC=ppcx64
+PFLAGS=-Twin64 -XPx86_64-w64-mingw32- -Xd -Fl/usr/x86_64-w64-mingw32/lib
+
+POPT=-O2G -Xs -XX
+
+# additional optimization-flags for i386 machines
+POPT+=-Op3
+
+DEFINES+=-dSDL
+DEFINES+=-dAdvertisement
+#DEFINES+=-dSdlSoundForAll
+DEFINES+=-dTransitional
+#DEFINES+=-dNoTitleImage
+#DEFINES+=-dNoHide
+#DEFINES+=-dscrNoEscKey
+#DEFINES+=-dgrNoEscKey
+#DEFINES+=-dOEM
+#DEFINES+=-dForceLFN
+#DEFINES+=-dNoProjectLink
+
+IMAGEOBJ=quizhg.inc hginfo.inc titimg.inc
+
+SHELL = /bin/sh
+
+all: windows
+
+include common.mak
+

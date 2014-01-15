@@ -1,4 +1,5 @@
 *.o
+*.obj
 *.a
 Makefile
 common.mak
