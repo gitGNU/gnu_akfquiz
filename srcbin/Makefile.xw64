@@ -8,9 +8,10 @@ NATIVEPC=fpc
 NATIVEPFLAGS=
 
 # Cross-Compiling to Windows 64-Bit
+PLATFORM=x86_64-w64-mingw32
+CROSS_PREFIX=$(PLATFORM)-
 PC=ppcx64
-PFLAGS=-Twin64 -XPx86_64-w64-mingw32- -Xd -Fl/usr/x86_64-w64-mingw32/lib
-CROSS_PREFIX=x86_64-w64-mingw32-
+PFLAGS=-Twin64 -XP$(CROSS_PREFIX) -Xd -Fl/usr/$(PLATFORM)/lib
 
 POPT=-O2 -Xs -XX
 
