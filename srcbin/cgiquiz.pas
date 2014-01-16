@@ -394,7 +394,6 @@ if Browser then { send HTTP Header }
   HTTPStatus(200, 'OK');
   WriteLn('Content-Type: text/html; charset=UTF-8');
   closeHttpHead;
-
   
   WriteLn(DocType);
   WriteLn;
@@ -1199,8 +1198,11 @@ WriteLn('<title>', title, '</title>');
 WriteLn('<meta name="generator" content="'
          + PrgVersion + '"'+cet);
 { the next instruction is also in the HTTP header }
+{
 WriteLn('<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"'
         +cet);
+}
+Writeln('<meta charset="UTF-8"'+cet);
 WriteLn('<meta name="robots" content="noindex"'+cet);
 WriteLn;
 WriteLn('<link rel="bookmark" title="Software Homepage" href="', 
@@ -1220,11 +1222,10 @@ end;
 procedure CommonHtmlEnd;
 begin
 WriteLn;
-WriteLn('<hr'+cet+'<div class="made"><a href="', msg_homepage, '"'
-        {$IfDef Transitional}
-          + ' target="_top"'
-	{$EndIf}
-	+ '>' + AKFQuizName + '</a></div>');
+Writeln('<footer>');
+WriteLn('<hr'+cet+'<div class="made"><a href="', msg_homepage, 
+        '" target="_top">' + AKFQuizName + '</a></div>');
+Writeln('</footer>');
 WriteLn('</body>');
 WriteLn('</html>')
 end;
