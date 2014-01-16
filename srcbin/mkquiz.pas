@@ -363,8 +363,13 @@ WriteLn(idxfile, '<html>');
 WriteLn(idxfile, '<head>');
 WriteLn(idxfile, '<meta name="generator" content="'
                  + PrgVersion + '"'+cet); { change-xhtml }
+
+{
 WriteLn(idxfile, '<meta http-equiv="Content-Type" '+
                  'content="text/html; charset=UTF-8"'+cet);
+}
+
+WriteLn(idxfile, '<meta charset="UTF-8"'+cet);
 WriteLn(idxfile);
 WriteLn(idxfile, '<title>AKFQuiz</title>');
 WriteLn(idxfile);
