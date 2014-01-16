@@ -50,36 +50,7 @@ const
   cet = '>';              { close empty tags }
   br  = '<br' + cet;      { <br> or <br /> }
 
-{ HTML 4.01 is the last HTML definition
-  Transitional may be needed, because of the "target" attribute }
-
-{$IfDef Transitional}
-
-  const HTML4LooseDTD  = 'http://www.w3.org/TR/REC-html4/loose.dtd';
-  const Doctype =
-      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"'
-      + ' "' + HTML4LooseDTD + '">';
-
-{$Else} { not Transitional}
-
-  const HTML4StrictDTD = 'http://www.w3.org/TR/html4/strict.dtd';
-  const Doctype =
-      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"'
-      + ' "' + HTML4StrictDTD + '">';
-
-{$EndIf} { Transitional }
-
-{ Attetion:
-  XHTML conflicts with the JavaScript implementation! }
-{
-const XHTML1DTD = 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd';
-const Doctype =
-    '<?xml version="1.0" encoding="iso-8859-1"?>'+nl+
-    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"'
-    + ' "' + XHTML1DTD + '">';
-
-const xmlns='http://www.w3.org/1999/xhtml';
-}
+const Doctype = '<!DOCTYPE html>';
 
 type 
   Phtmlquiz = ^Thtmlquiz;
@@ -248,11 +219,8 @@ repeat
     if img<>0 
       then s := s+'<img src="' + URI + '" alt="[' + URI
                 + ']" style="vertical-align:middle; float:right"' + cet
-      else s := s + '<a href="' + URI + '" rel="nofollow"'
-                {$IfDef Transitional}
-		  + ' target="_top"'
-		{$EndIf}
-         	+ '>' + URI + '</a>'
+      else s := s + '<a href="' + URI + '" rel="nofollow" target="_top">'
+             + URI + '</a>'
     end
 until (rest='') or (f=0);
 
@@ -321,12 +289,19 @@ begin
 if noindex then
    WriteLn(outp, '<meta name="robots" content="noindex"', cet);
 
+{
 WriteLn(outp, '<meta http-equiv="Content-Type" content="text/html; charset=',
         charset,'"', cet);
+}
 
+WriteLn(outp, '<meta charset="', charset,'"', cet);
+
+{
 if language<>'' then
    WriteLn(outp, '<meta http-equiv="Content-Language" content="',
                  language, '"', cet);
+}
+
 if author<>'' then
    WriteLn(outp, '<meta name="author" content="', author, '"', cet);
 if copyright<>'' then
@@ -393,12 +368,13 @@ WriteLn(outp);
 WriteLn(outp);
 WriteLn(outp, '<body>');
 WriteLn(outp);
+WriteLn(outp, '<header>');
 WriteLn(outp, '<h1 id="top">', title, '</h1>');
-WriteLn(outp);
 
 if (author<>'') or (authorURI<>'') or (copyright<>'') or 
    (translator<>'') or (license<>'') or (licenseURI<>'') then
   begin
+  WriteLn(outp);
   WriteLn(outp, '<dl id="metadata">');
   if author<>'' then
     WriteLn(outp, '<dt>', msg_author, '</dt> <dd>', author, '</dd>');
@@ -414,9 +390,11 @@ if (author<>'') or (authorURI<>'') or (copyright<>'') or
     WriteLn(outp, '<dt>', msg_license, '</dt> <dd>', license, '</dd>');
   if licenseURI<>'' then 
     WriteLn(outp, '<dt>', msg_licenseURI, '</dt> <dd>', licenseURI, '</dd>');
-  WriteLn(outp, '</dl>');
-  WriteLn(outp)
-  end
+  WriteLn(outp, '</dl>')
+  end;
+
+WriteLn(outp, '</header>');
+WriteLn(outp)
 end;
 
 procedure Thtmlquiz.handleSettingsURIs;
@@ -436,14 +414,10 @@ procedure Thtmlquiz.EndQuiz;
 begin
 {$IfNDef NoProjectLink}
   WriteLn(outp);
-  WriteLn(outp, '<div dir="ltr" class="made"><small>');
-    WriteLn(outp, msg_made, ' <a '+
-      'href="', msg_homepage, '"' + 
-      {$IfDef Transitional}
-        ' target="_top"' +
-      {$EndIf}
-      '>' + AKFQuizName + '</a>');
-  WriteLn(outp, '</small></div>');
+  WriteLn(outp, '<footer><div dir="ltr" class="made"><small>');
+    WriteLn(outp, msg_made, ' <a href="', msg_homepage, 
+                 '" target="_top">' + AKFQuizName + '</a>');
+  WriteLn(outp, '</small></div></footer>');
 {$EndIf}
 WriteLn(outp);
 WriteLn(outp, '</body>');
