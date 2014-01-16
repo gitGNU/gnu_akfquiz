@@ -67,11 +67,10 @@ options:
   --with-xw32
   --with-xw64
   --with-xarm
-  --enable-exam=no
-  --disable-exam
+  --enable-exam
   --enable-sound
   --disable-sound
-  
+
 The options "--enable-sound" or "--disable-sound" have no influence on 
 grquiz
 EOF
@@ -158,13 +157,11 @@ do
     --xarm)        COMPILER=xarm ;;
     --enable-sound|--enable-sound=yes|--disable-sound=no) SOUND=yes ;;
     --disable-sound|--disable-sound=yes|--enable-sound=no) SOUND=no ;;
-    --enable-exam=no) EXAMDIR="" ;;
-    --enable-exam=yes) EXAMDIR="/var/lib/akfquiz" ;;
-    --disable-exam)   EXAMDIR="" ;;
-    --disable-exam=yes) EXAMDIR="" ;;
-    --disable-exam=no) EXAMDIR="/var/lib/akfquiz" ;;
+    --enable-exam|--enable-exam=yes|--disable-exam=no)
+                   EXAMDIR="/var/lib/akfquiz" ;;
+    --disable-exam|--disable-exam=yes|--enable-exam=no) EXAMDIR="" ;;
     --enable-*)    ;; # ignore (see GNU Coding Standards)
-    --disable-*)    ;; # ignore (see GNU Coding Standards)
+    --disable-*)   ;; # ignore (see GNU Coding Standards)
     --prefix=*)    PREFIX=`echo "$1" | sed -e "s/--prefix=\(.*\)/\1/"` ;;
     --mandir=*)    notsupported --mandir ;; # yet to be implemented
     --infodir=*)    ;; # ignore - not used
