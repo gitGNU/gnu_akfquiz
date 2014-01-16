@@ -20,7 +20,7 @@
 
 PREFIX=/usr/local
 CGIDIR=/usr/lib/cgi-bin
-EXAMDIR=/var/lib/akfquiz
+EXAMDIR=""
 
 # for modified versions use a variant-name please
 VARIANT=""
@@ -159,10 +159,10 @@ do
     --enable-sound|--enable-sound=yes|--disable-sound=no) SOUND=yes ;;
     --disable-sound|--disable-sound=yes|--enable-sound=no) SOUND=no ;;
     --enable-exam=no) EXAMDIR="" ;;
-    --enable-exam=yes) ;; # default behaviour
+    --enable-exam=yes) EXAMDIR="/var/lib/akfquiz" ;;
     --disable-exam)   EXAMDIR="" ;;
     --disable-exam=yes) EXAMDIR="" ;;
-    --disable-exam=no) ;; # default behaviour
+    --disable-exam=no) EXAMDIR="/var/lib/akfquiz" ;;
     --enable-*)    ;; # ignore (see GNU Coding Standards)
     --disable-*)    ;; # ignore (see GNU Coding Standards)
     --prefix=*)    PREFIX=`echo "$1" | sed -e "s/--prefix=\(.*\)/\1/"` ;;
@@ -190,7 +190,7 @@ test "$COMPILER" = "xw64" && { SYS=w64; NEEDPTHREAD="no"; }
 
 # disable exam-mode on some systems
 case $SYS in
-  w32|mingw32*|MINGW32*) EXAMDIR="" ;;
+  w32|w64|mingw*|MINGW*) EXAMDIR="" ;;
 esac
 
 # check for needed tools
