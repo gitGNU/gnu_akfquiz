@@ -1267,10 +1267,9 @@ end;
 procedure ListShowEntry(const dir, s: string);
 var title, language, encoding: ShortString;
   
-  procedure includeLanguageCharset;
+  procedure includeLanguage;
   begin
-  if language<>'' then Write(' hreflang="', language, '"');
-  if encoding<>'' then Write(' charset="', encoding, '"')
+  if language<>'' then Write(' hreflang="', language, '"')
   end;
 
 begin { ListShowEntry }
@@ -1282,18 +1281,18 @@ WriteLn('<li>');
 if language<>'' then
   Write(language, ': ');
 Write('<a href="', s, '"');
-includeLanguageCharset;
+includeLanguage;
 WriteLn('>', title, '</a>');
 
 if not ExamMode then
   begin
   Write('<small>(<a href="', s, 
         '?format=akfquiz" type="' + AKFQuizMime + '"');
-  includeLanguageCharset;
+  includeLanguage;
   Write('>AKFQuiz</a>');
   Write('&nbsp;|&nbsp;');
   Write('<a href="', s, '?format=text&amp;charset=', encoding, '"');
-  includeLanguageCharset;
+  includeLanguage;
   WriteLn(' type="text/plain">', msg_view, '</a>)</small>')
   end;
 
