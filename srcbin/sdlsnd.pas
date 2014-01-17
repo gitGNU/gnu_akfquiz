@@ -179,11 +179,7 @@ begin end;
 
 procedure TSound.play;
 begin
-{ only play, when no other sound is playing,
-  otherwise don't interrupt, don't wait, just forget it -
-  rationale: a human speaker doesn't interrupt himself }
-
-if AudioAvailable and (sndLen<=0) then
+if AudioAvailable then
   begin
   SDL_LockAudio;
   sndData := data;
