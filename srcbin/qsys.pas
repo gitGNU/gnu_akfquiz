@@ -75,6 +75,7 @@ interface
     Uint32 = Cardinal attribute (Size = 32);
     Sint32 = Integer  attribute (Size = 32);
     pByte  = ^Uint8;
+    pSint16  = ^Sint16;
   
   {$if __GPC_RELEASE__ < 20041218}
     type CInteger = Integer;
@@ -91,6 +92,7 @@ interface
     Uint32   = cardinal;
     Sint32   = LongInt;
     pByte    = ^Uint8;
+    pSint16  = ^Sint16;
 
 {$EndIf} { not __GPC__ }
 

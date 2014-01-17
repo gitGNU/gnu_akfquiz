@@ -126,12 +126,12 @@ dist: distclean
 	      akfquiz/desktop/diaquiz.desktop \
 	      akfquiz/desktop/x-akfquiz.xml \
 	      akfquiz/desktop/publishquiz.desktop \
-	      akfquiz/share/akfquiz/sound/errorsnd.ub \
-	      akfquiz/share/akfquiz/sound/infosnd.ub \
-	      akfquiz/share/akfquiz/sound/introsnd.ub \
-	      akfquiz/share/akfquiz/sound/neutralsnd.ub \
-	      akfquiz/share/akfquiz/sound/rightsnd.ub \
-	      akfquiz/share/akfquiz/sound/wrongsnd.ub \
+	      akfquiz/share/akfquiz/sound/errorsnd.ul \
+	      akfquiz/share/akfquiz/sound/infosnd.ul \
+	      akfquiz/share/akfquiz/sound/introsnd.ul \
+	      akfquiz/share/akfquiz/sound/neutralsnd.ul \
+	      akfquiz/share/akfquiz/sound/rightsnd.ul \
+	      akfquiz/share/akfquiz/sound/wrongsnd.ul \
 	      akfquiz/share/akfquiz/sound/README \
 	      akfquiz/share/akfquiz/quiz/Linux-en.akfquiz \
 	      akfquiz/share/akfquiz/quiz/Linux-de.akfquiz \

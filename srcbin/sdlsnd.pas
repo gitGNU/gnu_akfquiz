@@ -92,11 +92,40 @@ type TSound = object
 	 procedure play;
 	 end;
 
-{ various constands - just the ones used here }
+{ Translation table for the audio encoding mu-law }
+const mu_law: Array[0..255] of Sint16
+= (
+  -32124, -31100, -30076, -29052, -28028, -27004, -25980, -24956, -23932,
+  -22908, -21884, -20860, -19836, -18812, -17788, -16764, -15996, -15484,
+  -14972, -14460, -13948, -13436, -12924, -12412, -11900, -11388, -10876,
+  -10364, -9852, -9340, -8828, -8316, -7932, -7676, -7420, -7164, -6908,
+  -6652, -6396, -6140, -5884, -5628, -5372, -5116, -4860, -4604, -4348,
+  -4092, -3900, -3772, -3644, -3516, -3388, -3260, -3132, -3004, -2876,
+  -2748, -2620, -2492, -2364, -2236, -2108, -1980, -1884, -1820, -1756,
+  -1692, -1628, -1564, -1500, -1436, -1372, -1308, -1244, -1180, -1116,
+  -1052, -988, -924, -876, -844, -812, -780, -748, -716, -684, -652, -620,
+  -588, -556, -524, -492, -460, -428, -396, -372, -356, -340, -324, -308,
+  -292, -276, -260, -244, -228, -212, -196, -180, -164, -148, -132, -120,
+  -112, -104, -96, -88, -80, -72, -64, -56, -48, -40, -32, -24, -16, -8, 0,
+  32124, 31100, 30076, 29052, 28028, 27004, 25980, 24956, 23932, 22908,
+  21884, 20860, 19836, 18812, 17788, 16764, 15996, 15484, 14972, 14460,
+  13948, 13436, 12924, 12412, 11900, 11388, 10876, 10364, 9852, 9340, 8828,
+  8316, 7932, 7676, 7420, 7164, 6908, 6652, 6396, 6140, 5884, 5628, 5372,
+  5116, 4860, 4604, 4348, 4092, 3900, 3772, 3644, 3516, 3388, 3260, 3132,
+  3004, 2876, 2748, 2620, 2492, 2364, 2236, 2108, 1980, 1884, 1820, 1756,
+  1692, 1628, 1564, 1500, 1436, 1372, 1308, 1244, 1180, 1116, 1052, 988,
+  924, 876, 844, 812, 780, 748, 716, 684, 652, 620, 588, 556, 524, 492, 460,
+  428, 396, 372, 356, 340, 324, 308, 292, 276, 260, 244, 228, 212, 196, 180,
+  164, 148, 132, 120, 112, 104, 96, 88, 80, 72, 64, 56, 48, 40, 32, 24, 16,
+  8, 0
+);
+
+{ various constants - just the ones used here }
 const 
   SDL_INIT_AUDIO = $00000010;
   SDL_MIX_MAXVOLUME = 128;
   AUDIO_U8 = $0008;  { Unsigned 8-bit samples  }
+  AUDIO_S16 = $8010;  { Signed 16-bit samples, little endian  }
 
 var 
   IntroSound, RightSound, WrongSound, NeutralSound, 
@@ -129,10 +158,6 @@ procedure SDL_UnlockAudio; libSDL 'SDL_UnlockAudio';
 
 procedure SDL_PauseAudio(pause_on: CInteger); libSDL 'SDL_PauseAudio';
 
-procedure SDL_MixAudio(dst: pByte; src: pByte;
-                       len: UInt32; 
-		       volume: CInteger); libSDL 'SDL_MixAudio';
-
 
 constructor TSound.Init(sndName: string);
 var f: file;
@@ -143,7 +168,7 @@ begin
   FileMode := 0;
 {$EndIf}
 
-assign(f, getSoundDir + sndName + '.ub');
+assign(f, getSoundDir + sndName + '.ul');
 Reset(f, 1);
 size := FileSize(f);
 GetMem(data, size);
@@ -230,14 +255,31 @@ ErrorSignal    := playErrorSound
 end;
 
 { This is the callback procedure }
-procedure fillAudio(var userdata; stream: pByte; len: CInteger); cdecl;
+procedure fillAudio(var userdata; stream: pSint16; len: CInteger); cdecl;
+var i, l: CInteger;
 begin
 if sndlen>0 then 
   begin
-  if len > sndlen then len := sndlen;
-  SDL_MixAudio(stream, sndPos, len, SDL_MIX_MAXVOLUME);
-  inc(sndPos, len);
-  dec(sndLen, len)
+  len := len div sizeof(Sint16);
+  l := len;
+  if l > sndlen then l := sndlen;
+
+  for i := 1 to l do
+    begin
+    stream^ := mu_law[sndPos^];
+    inc(stream);
+    inc(sndPos)
+    end;
+
+  dec(sndLen, l);
+  dec(len, l);
+
+  for i := 1 to len do
+    begin
+    stream^ := 0;
+    inc(stream)
+    end
+
   end
 end;
 
@@ -265,8 +307,8 @@ if AudioAvailable then
   begin
   with desired do
     begin
-    freq     := 22050;
-    format   := AUDIO_U8;
+    freq     := 16000;
+    format   := AUDIO_S16;
     channels := 1;
     samples  := 1024;
     userdata := NIL;

@@ -141,12 +141,12 @@ Section "!${NAME} $(REQUIRED)" AKFQuiz
 
   SetOutPath "$INSTDIR\share\akfquiz\sound"
   FILE "..\..\share\akfquiz\sound\README"
-  FILE "..\..\share\akfquiz\sound\introsnd.ub"
-  FILE "..\..\share\akfquiz\sound\infosnd.ub"
-  FILE "..\..\share\akfquiz\sound\errorsnd.ub"
-  FILE "..\..\share\akfquiz\sound\neutralsnd.ub"
-  FILE "..\..\share\akfquiz\sound\rightsnd.ub"
-  FILE "..\..\share\akfquiz\sound\wrongsnd.ub"
+  FILE "..\..\share\akfquiz\sound\introsnd.ul"
+  FILE "..\..\share\akfquiz\sound\infosnd.ul"
+  FILE "..\..\share\akfquiz\sound\errorsnd.ul"
+  FILE "..\..\share\akfquiz\sound\neutralsnd.ul"
+  FILE "..\..\share\akfquiz\sound\rightsnd.ul"
+  FILE "..\..\share\akfquiz\sound\wrongsnd.ul"
   
   ; only GPL-compatible quiz-files here
   SetOutPath "$INSTDIR\share\akfquiz\quiz"
@@ -203,12 +203,12 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\desktop\publishquiz.desktop"
   
   SetOutPath "$INSTDIR\src\share\akfquiz\sound"
-  FILE "..\..\share\akfquiz\sound\errorsnd.ub"
-  FILE "..\..\share\akfquiz\sound\infosnd.ub"
-  FILE "..\..\share\akfquiz\sound\introsnd.ub"
-  FILE "..\..\share\akfquiz\sound\neutralsnd.ub"
-  FILE "..\..\share\akfquiz\sound\rightsnd.ub"
-  FILE "..\..\share\akfquiz\sound\wrongsnd.ub"
+  FILE "..\..\share\akfquiz\sound\errorsnd.ul"
+  FILE "..\..\share\akfquiz\sound\infosnd.ul"
+  FILE "..\..\share\akfquiz\sound\introsnd.ul"
+  FILE "..\..\share\akfquiz\sound\neutralsnd.ul"
+  FILE "..\..\share\akfquiz\sound\rightsnd.ul"
+  FILE "..\..\share\akfquiz\sound\wrongsnd.ul"
   FILE "..\..\share\akfquiz\sound\README"
   
   SetOutPath "$INSTDIR\src\share\akfquiz\quiz"
@@ -565,4 +565,3 @@ Section "Uninstall"
   Delete "$INSTDIR\uninstall.exe"
   RMDIR  "$INSTDIR"
 SectionEnd
-
