@@ -1,5 +1,6 @@
 4.4.2-testing
-- grquiz: use new mu-law encoded audio files (sounds much better)
+- grquiz: use mu-law encoded audio (sounds much better)
+- grquiz: all audio data is now in the executable
 - cgiquiz: exam mode is disabled by default
 - switch to HTML5
 - documentation txt files will be generated in UTF-8 encoding
