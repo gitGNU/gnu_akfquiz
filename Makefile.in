@@ -191,9 +191,11 @@ dist: distclean
 	      akfquiz/srcbin/hginfo.inc \
 	      akfquiz/srcbin/diaquiz.pas \
 	      akfquiz/srcbin/cgiquiz.pas \
+	      akfquiz/srcbin/akfquizweb \
 	      akfquiz/srcbin/common.in \
 	      akfquiz/srcbin/scrquiz.pas \
 	      akfquiz/srcbin/Makefile.xw32 \
+	      akfquiz/srcbin/Makefile.xw64 \
 	      akfquiz/srcbin/linequiz.pas \
 	      akfquiz/srcbin/Makefile.gpc \
 	      akfquiz/srcbin/mainicon.inc \
