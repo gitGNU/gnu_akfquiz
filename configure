@@ -68,11 +68,6 @@ options:
   --with-xw64
   --with-xarm
   --enable-exam
-  --enable-sound
-  --disable-sound
-
-The options "--enable-sound" or "--disable-sound" have no influence on 
-grquiz
 EOF
 exit
 }
@@ -217,7 +212,6 @@ Compiler: $COMPILER
 Sys:      $SYS
 Arch:     $ARCH
 BugMail:  $BUGMAIL
-Sound:    $SOUND
 NeedPthread: $NEEDPTHREAD
 EOF
 
