@@ -1,7 +1,7 @@
 LICENSE
 
 AKFQuiz
-Copyright © 2003-2006,2007,2010 Andreas K. Förster
+Copyright © 2003-2006,2007,2010,2014 Andreas K. Förster
 
 uses tables from GNU libiconv
 Copyright © 1999-2001 Free Software Foundation, Inc.

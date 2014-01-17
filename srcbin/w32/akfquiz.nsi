@@ -137,6 +137,7 @@ Section "!${NAME} $(REQUIRED)" AKFQuiz
   FILE "..\scrquiz.exe"
   FILE "..\linequiz.exe"
   FILE "..\grquiz.exe"
+  FILE "..\akfquizweb"
   FILE "..\quizstat"
 
   ; only GPL-compatible quiz-files here
@@ -272,6 +273,7 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\srcbin\common.in"
   FILE "..\..\srcbin\scrquiz.pas"
   FILE "..\..\srcbin\Makefile.xw32"
+  FILE "..\..\srcbin\Makefile.xw64"
   FILE "..\..\srcbin\linequiz.pas"
   FILE "..\..\srcbin\Makefile.gpc"
   FILE "..\..\srcbin\mainicon.inc"
