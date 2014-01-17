@@ -1,4 +1,5 @@
-4.4.1-git
+4.4.2-testing
+- grquiz: use new mu-law encoded audio files (sounds much better)
 - cgiquiz: exam mode is disabled by default
 - switch to HTML5
 - documentation txt files will be generated in UTF-8 encoding

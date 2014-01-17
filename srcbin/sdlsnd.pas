@@ -121,11 +121,13 @@ const mu_law: Array[0..255] of Sint16
 );
 
 { various constants - just the ones used here }
-const 
-  SDL_INIT_AUDIO = $00000010;
-  SDL_MIX_MAXVOLUME = 128;
-  AUDIO_U8 = $0008;  { Unsigned 8-bit samples  }
-  AUDIO_S16 = $8010;  { Signed 16-bit samples, little endian  }
+const SDL_INIT_AUDIO = $00000010;
+
+{$IfDef ENDIAN_BIG}
+const AUDIO_S16 = $9010;  { Signed 16-bit samples, big endian }
+{$Else}
+const AUDIO_S16 = $8010;  { Signed 16-bit samples, little endian }
+{$EndIf}
 
 var 
   IntroSound, RightSound, WrongSound, NeutralSound, 
