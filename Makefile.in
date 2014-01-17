@@ -126,13 +126,6 @@ dist: distclean
 	      akfquiz/desktop/diaquiz.desktop \
 	      akfquiz/desktop/x-akfquiz.xml \
 	      akfquiz/desktop/publishquiz.desktop \
-	      akfquiz/share/akfquiz/sound/errorsnd.ul \
-	      akfquiz/share/akfquiz/sound/infosnd.ul \
-	      akfquiz/share/akfquiz/sound/introsnd.ul \
-	      akfquiz/share/akfquiz/sound/neutralsnd.ul \
-	      akfquiz/share/akfquiz/sound/rightsnd.ul \
-	      akfquiz/share/akfquiz/sound/wrongsnd.ul \
-	      akfquiz/share/akfquiz/sound/README \
 	      akfquiz/share/akfquiz/quiz/Linux-en.akfquiz \
 	      akfquiz/share/akfquiz/quiz/Linux-de.akfquiz \
 	      akfquiz/share/akfquiz/quiz/Christentum-de.akfquiz \
@@ -228,7 +221,14 @@ dist: distclean
 	      akfquiz/srcbin/w32/template-de \
 	      akfquiz/srcbin/w32/LIZENZ.txt \
 	      akfquiz/srcbin/w32/windows-de.txt \
-	      akfquiz/srcbin/w32/.cvsignore
+	      akfquiz/srcbin/w32/.cvsignore \
+	      akfquiz/srcbin/errorsnd.ul \
+	      akfquiz/srcbin/infosnd.ul \
+	      akfquiz/srcbin/introsnd.ul \
+	      akfquiz/srcbin/neutralsnd.ul \
+	      akfquiz/srcbin/rightsnd.ul \
+	      akfquiz/srcbin/wrongsnd.ul \
+	      akfquiz/srcbin/README-ul
 
 dist-bin: all
 	env GZIP=--best tar czvCf .. \

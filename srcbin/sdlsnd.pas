@@ -55,7 +55,7 @@ implementation
   {$DEFINE libSDL external name}
   {$DEFINE cdecl attribute(cdecl)}
   {$pointer-arithmetic}
-  
+
   {$IfDef NEEDPTHREAD}
     {$L pthread}
   {$EndIf}
@@ -64,11 +64,18 @@ implementation
 {$IfDef FPC}
   {$MACRO ON}
   {$DEFINE libSDL:=cdecl; external 'SDL' name}
-  
+
   {$IfDef NEEDPTHREAD}
     {$LinkLib pthread}
   {$EndIf}
 {$EndIf} { FPC }
+
+{$I introsnd.inc}
+{$I infosnd.inc}
+{$I errorsnd.inc}
+{$I neutralsnd.inc}
+{$I rightsnd.inc}
+{$I wrongsnd.inc}
 
 type
   pSDL_AudioSpec = ^SDL_AudioSpec;
@@ -84,10 +91,10 @@ type
     end;
 
 type TSound = object
-         size : LongInt;
+	 size : LongInt;
 	 data : pByte;
-	 
-	 constructor Init(SndName: String);
+
+	 constructor Init(d: Pointer; s: LongInt);
 	 destructor Done;
 	 procedure play;
 	 end;
@@ -161,34 +168,14 @@ procedure SDL_UnlockAudio; libSDL 'SDL_UnlockAudio';
 procedure SDL_PauseAudio(pause_on: CInteger); libSDL 'SDL_PauseAudio';
 
 
-constructor TSound.Init(sndName: string);
-var f: file;
+constructor TSound.Init(d: Pointer; s: LongInt);
 begin
-{$IfDef FPC}
-  { needed to read from readonly-files
-    - bad Borland heritage :-( }
-  FileMode := 0;
-{$EndIf}
-
-assign(f, getSoundDir + sndName + '.ul');
-Reset(f, 1);
-size := FileSize(f);
-GetMem(data, size);
-if data <> NIL 
-  then BlockRead(f, data^, size)
-  else size := 0;
-close(f);
-
-if IOResult<>0 then
-  begin FreeMem(data, size); size := 0; data := NIL end
+data := pByte(d);
+size := s
 end;
 
 destructor TSound.Done;
-begin
-FreeMem(data, size);
-data := NIL;
-size := 0
-end;
+begin end;
 
 procedure TSound.play;
 begin
@@ -209,22 +196,12 @@ end;
 
 procedure LoadSounds;
 begin
-IntroSound.Init('introsnd');
-RightSound.Init('rightsnd');
-WrongSound.Init('wrongsnd');
-NeutralSound.Init('neutralsnd');
-ErrorSound.Init('errorsnd');
-InfoSound.Init('infosnd')
-end;
-
-procedure FreeSounds;
-begin
-IntroSound.Done;
-RightSound.Done;
-WrongSound.Done;
-NeutralSound.Done;
-ErrorSound.Done;
-InfoSound.Done
+IntroSound.Init(Addr(introsnd_data), sizeof(introsnd_data));
+RightSound.Init(Addr(rightsnd_data), sizeof(rightsnd_data));
+WrongSound.Init(Addr(wrongsnd_data), sizeof(wrongsnd_data));
+NeutralSound.Init(Addr(neutralsnd_data), sizeof(neutralsnd_data));
+ErrorSound.Init(Addr(errorsnd_data), sizeof(errorsnd_data));
+InfoSound.Init(Addr(infosnd_data), sizeof(infosnd_data))
 end;
 
 procedure playIntroSound;
@@ -299,7 +276,6 @@ var desired : SDL_AudioSpec;
 begin
 isSubSystem := sub;
 AudioAvailable := false;
-if not SoundFilesAvailable then exit;
 
 if isSubSystem
   then AudioAvailable := SDL_InitSubSystem(SDL_INIT_AUDIO)=0
@@ -328,7 +304,6 @@ end;
 procedure CloseAudio;
 begin
 DisableSignals;
-FreeSounds;
 
 { SDL_Quit might already be called... }
 if AudioAvailable then closeSDLAudio

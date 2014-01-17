@@ -139,15 +139,6 @@ Section "!${NAME} $(REQUIRED)" AKFQuiz
   FILE "..\grquiz.exe"
   FILE "..\quizstat"
 
-  SetOutPath "$INSTDIR\share\akfquiz\sound"
-  FILE "..\..\share\akfquiz\sound\README"
-  FILE "..\..\share\akfquiz\sound\introsnd.ul"
-  FILE "..\..\share\akfquiz\sound\infosnd.ul"
-  FILE "..\..\share\akfquiz\sound\errorsnd.ul"
-  FILE "..\..\share\akfquiz\sound\neutralsnd.ul"
-  FILE "..\..\share\akfquiz\sound\rightsnd.ul"
-  FILE "..\..\share\akfquiz\sound\wrongsnd.ul"
-  
   ; only GPL-compatible quiz-files here
   SetOutPath "$INSTDIR\share\akfquiz\quiz"
   FILE "Linux-en.akfquiz"
@@ -201,15 +192,6 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\desktop\diaquiz.desktop"
   FILE "..\..\desktop\x-akfquiz.xml"
   FILE "..\..\desktop\publishquiz.desktop"
-  
-  SetOutPath "$INSTDIR\src\share\akfquiz\sound"
-  FILE "..\..\share\akfquiz\sound\errorsnd.ul"
-  FILE "..\..\share\akfquiz\sound\infosnd.ul"
-  FILE "..\..\share\akfquiz\sound\introsnd.ul"
-  FILE "..\..\share\akfquiz\sound\neutralsnd.ul"
-  FILE "..\..\share\akfquiz\sound\rightsnd.ul"
-  FILE "..\..\share\akfquiz\sound\wrongsnd.ul"
-  FILE "..\..\share\akfquiz\sound\README"
   
   SetOutPath "$INSTDIR\src\share\akfquiz\quiz"
   FILE "..\..\share\akfquiz\quiz\Linux-en.akfquiz"
@@ -307,7 +289,14 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\srcbin\quizstat"
   FILE "..\..\srcbin\styles.pas"
   FILE "..\..\srcbin\.cvsignore"
-  
+  FILE "..\..\srcbin\errorsnd.ul"
+  FILE "..\..\srcbin\infosnd.ul"
+  FILE "..\..\srcbin\introsnd.ul"
+  FILE "..\..\srcbin\neutralsnd.ul"
+  FILE "..\..\srcbin\rightsnd.ul"
+  FILE "..\..\srcbin\wrongsnd.ul"
+  FILE "..\..\srcbin\README-ul"
+
   SetOutPath "$INSTDIR\src\srcbin\w32"
   FILE "..\..\srcbin\w32\akfquiz.nsi"
   FILE "..\..\srcbin\w32\LICENSE.txt"

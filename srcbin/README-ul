@@ -8,9 +8,6 @@ If you have the program sox installed, you can play them like this:
 You can use sox to convert soundfiles from other formats:
  $ sox mysound.wav -c 1 introsnd.ul rate 16k
 
-It is a good idea to sample the sounds with a higher quality first and
-resample them afterwards.
-
 
 The soundfiles 
 errorsnd.ul, infosnd.ul, introsnd.ul, rightsnd.ul, wrongsnd.ul,

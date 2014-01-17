@@ -171,9 +171,6 @@ var
 
 var quizfileList, quizfileListEnd : PquizfileList;
 
-function getSoundDir: mystring;
-function SoundFilesAvailable: boolean;
-
 function makeUpcase(x: string): mystring;
 function stripWhitespace(x: string): mystring;
 function StrToInt(s: string; fallback: integer): integer;
@@ -476,20 +473,6 @@ end;
   end;
  
 {$EndIf} { NoRelocation }
-
-function getSoundDir: mystring;
-begin
-getSoundDir := PREFIX 
-               + DirectorySeparator + 'share' 
-               + DirectorySeparator + 'akfquiz'
-               + DirectorySeparator + 'sound'
-	       + DirectorySeparator
-end;
-
-function SoundFilesAvailable: boolean;
-begin
-SoundFilesAvailable := DirectoryExists(getSoundDir)
-end;
 
 { search for Parameter -d }
 function getparamdir: mystring;

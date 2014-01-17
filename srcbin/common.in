@@ -71,27 +71,44 @@ quizhg.inc: quizhg.ppm ppm2pas
 quizhg.o: quizhg.ppm
 	binobj quizhg.ppm quizhg.o AKFQuizHg
 
+introsnd.inc: introsnd.ul
+	data2inc -A -B introsnd.ul $@ introsnd_data
+
+infosnd.inc: infosnd.ul
+	data2inc -A -B infosnd.ul $@ infosnd_data
+
+errorsnd.inc: errorsnd.ul
+	data2inc -A -B errorsnd.ul $@ errorsnd_data
+
+neutralsnd.inc: neutralsnd.ul
+	data2inc -A -B neutralsnd.ul $@ neutralsnd_data
+
+rightsnd.inc: rightsnd.ul
+	data2inc -A -B rightsnd.ul $@ rightsnd_data
+
+wrongsnd.inc: wrongsnd.ul
+	data2inc -A -B wrongsnd.ul $@ wrongsnd_data
+
 grquiz: grquiz.pas qsys.pas qmsgs.pas uakfquiz.pas clgrph.pas \
-        sdlgrph.pas sdlsnd.pas $(IMAGEOBJ) font.inc
+        sdlgrph.pas sdlsnd.pas $(IMAGEOBJ) font.inc \
+        introsnd.inc infosnd.inc errorsnd.inc neutralsnd.inc \
+        rightsnd.inc wrongsnd.inc
 	-$(PC) $(PFLAGS) $(POPT) $(DEFINES) $(GUIFLAG) grquiz.pas
 
 mkquiz: mkquiz.pas qsys.pas qmsgs.pas uakfquiz.pas htmlquiz.pas
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) mkquiz.pas
 
-scrquiz: scrquiz.pas qsys.pas qmsgs.pas uakfquiz.pas \
-         sdlsnd.pas
+scrquiz: scrquiz.pas qsys.pas qmsgs.pas uakfquiz.pas
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) scrquiz.pas
 
-linequiz: linequiz.pas qsys.pas qmsgs.pas uakfquiz.pas \
-          sdlsnd.pas
+linequiz: linequiz.pas qsys.pas qmsgs.pas uakfquiz.pas
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) linequiz.pas
 
 cgiquiz: cgiquiz.pas uakfquiz.pas qmsgs.pas qsys.pas htmlquiz.pas \
          styles.pas pngdata.inc
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) cgiquiz.pas
 
-diaquiz: diaquiz.pas qsys.pas qmsgs.pas uakfquiz.pas dialog.pas \
-         sdlsnd.pas
+diaquiz: diaquiz.pas qsys.pas qmsgs.pas uakfquiz.pas dialog.pas
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) diaquiz.pas
 
 # just for Windows
