@@ -182,7 +182,7 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\start"
   FILE "..\..\configure"
   FILE "..\..\Makefile.in"
-  FILE "..\..\.cvsignore"
+  FILE "..\..\.gitignore"
   
   SetOutPath "$INSTDIR\src\desktop"
   FILE "..\..\desktop\scrquiz.desktop"
@@ -222,7 +222,6 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\doc\english\INSTALL"
   FILE "..\..\doc\english\linequiz.1"
   FILE "..\..\doc\english\quizstat.1"
-  FILE "..\..\doc\english\.cvsignore"
   
   SetOutPath "$INSTDIR\src\doc\deutsch"
   FILE "..\..\doc\deutsch\UPDATE"
@@ -239,7 +238,6 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\doc\deutsch\LIZENZ.txt"
   FILE "..\..\doc\deutsch\linequiz.1"
   FILE "..\..\doc\deutsch\quizstat.1"
-  FILE "..\..\doc\deutsch\.cvsignore"
   
   SetOutPath "$INSTDIR\src\html"
   FILE "..\..\html\q-print.css"
@@ -290,7 +288,6 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\srcbin\htmlquiz.pas"
   FILE "..\..\srcbin\quizstat"
   FILE "..\..\srcbin\styles.pas"
-  FILE "..\..\srcbin\.cvsignore"
   FILE "..\..\srcbin\errorsnd.ul"
   FILE "..\..\srcbin\infosnd.ul"
   FILE "..\..\srcbin\introsnd.ul"
@@ -310,7 +307,6 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\srcbin\w32\template-de"
   FILE "..\..\srcbin\w32\LIZENZ.txt"
   FILE "..\..\srcbin\w32\windows-de.txt"
-  FILE "..\..\srcbin\w32\.cvsignore"
 
 SectionEnd
 

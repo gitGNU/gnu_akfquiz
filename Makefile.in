@@ -117,7 +117,7 @@ dist: distclean
 	      akfquiz/start \
 	      akfquiz/configure \
 	      akfquiz/Makefile.in \
-	      akfquiz/.cvsignore \
+	      akfquiz/.gitignore \
 	      akfquiz/desktop/scrquiz.desktop \
 	      akfquiz/desktop/AKFQuiz.xpm \
 	      akfquiz/desktop/grquiz.desktop \
@@ -149,7 +149,6 @@ dist: distclean
 	      akfquiz/doc/english/INSTALL \
 	      akfquiz/doc/english/linequiz.1 \
 	      akfquiz/doc/english/quizstat.1 \
-	      akfquiz/doc/english/.cvsignore \
 	      akfquiz/doc/deutsch/UPDATE \
 	      akfquiz/doc/deutsch/gpl-3.0.de.html \
 	      akfquiz/doc/deutsch/diaquiz.1 \
@@ -164,7 +163,6 @@ dist: distclean
 	      akfquiz/doc/deutsch/LIZENZ.txt \
 	      akfquiz/doc/deutsch/linequiz.1 \
 	      akfquiz/doc/deutsch/quizstat.1 \
-	      akfquiz/doc/deutsch/.cvsignore \
 	      akfquiz/html/q-print.css \
 	      akfquiz/html/richtig.png \
 	      akfquiz/html/README-png \
@@ -212,7 +210,6 @@ dist: distclean
 	      akfquiz/srcbin/htmlquiz.pas \
 	      akfquiz/srcbin/quizstat \
 	      akfquiz/srcbin/styles.pas \
-	      akfquiz/srcbin/.cvsignore \
 	      akfquiz/srcbin/w32/akfquiz.nsi \
 	      akfquiz/srcbin/w32/LICENSE.txt \
 	      akfquiz/srcbin/w32/AKFQuiz.ico \
@@ -223,7 +220,6 @@ dist: distclean
 	      akfquiz/srcbin/w32/template-de \
 	      akfquiz/srcbin/w32/LIZENZ.txt \
 	      akfquiz/srcbin/w32/windows-de.txt \
-	      akfquiz/srcbin/w32/.cvsignore \
 	      akfquiz/srcbin/errorsnd.ul \
 	      akfquiz/srcbin/infosnd.ul \
 	      akfquiz/srcbin/introsnd.ul \
