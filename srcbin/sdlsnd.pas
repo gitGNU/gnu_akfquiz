@@ -233,28 +233,30 @@ end;
 procedure fillAudio(var userdata; stream: pSint16; len: CInteger); cdecl;
 var i, l: CInteger;
 begin
-if sndlen>0 then 
+if sndlen<=0 then
   begin
-  len := len div sizeof(Sint16);
-  l := len;
-  if l > sndlen then l := sndlen;
+  SDL_PauseAudio(1);
+  exit
+  end;
 
-  for i := 1 to l do
-    begin
-    stream^ := mu_law[sndPos^];
-    inc(stream);
-    inc(sndPos)
-    end;
+len := len div sizeof(Sint16);
+l := len;
+if l > sndlen then l := sndlen;
 
-  dec(sndLen, l);
-  dec(len, l);
+for i := 1 to l do
+  begin
+  stream^ := mu_law[sndPos^];
+  inc(stream);
+  inc(sndPos)
+  end;
 
-  for i := 1 to len do
-    begin
-    stream^ := 0;
-    inc(stream)
-    end
+dec(sndLen, l);
+dec(len, l);
 
+for i := 1 to len do
+  begin
+  stream^ := 0;
+  inc(stream)
   end
 end;
 
