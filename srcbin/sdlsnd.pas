@@ -121,9 +121,9 @@ const mu_law: Array[0..255] of Sint16
 const SDL_INIT_AUDIO = $00000010;
 
 {$IfDef ENDIAN_BIG}
-const AUDIO_S16 = $9010;  { Signed 16-bit samples, big endian }
+const AUDIO_S16SYS = $9010;  { Signed 16-bit samples, big endian }
 {$Else}
-const AUDIO_S16 = $8010;  { Signed 16-bit samples, little endian }
+const AUDIO_S16SYS = $8010;  { Signed 16-bit samples, little endian }
 {$EndIf}
 
 var
@@ -251,7 +251,7 @@ if AudioAvailable then
   with desired do
     begin
     freq     := 16000;
-    format   := AUDIO_S16;
+    format   := AUDIO_S16SYS;
     channels := 1;
     samples  := 1024;
     userdata := NIL;
