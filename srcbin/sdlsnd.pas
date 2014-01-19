@@ -28,7 +28,6 @@
 {$IfDef FPC}
   {$Mode Delphi}
   {$LongStrings on}
-  {$PackRecords 4}
 {$EndIf}
 
 {$I-}
@@ -90,15 +89,6 @@ type
     userdata : pointer;
     end;
 
-type TSound = object
-	 size : LongInt;
-	 data : pByte;
-
-	 constructor Init(d: Pointer; s: LongInt);
-	 destructor Done;
-	 procedure play;
-	 end;
-
 { Translation table for the audio encoding mu-law }
 const mu_law: Array[0..255] of Sint16
 = (
@@ -136,10 +126,6 @@ const AUDIO_S16 = $9010;  { Signed 16-bit samples, big endian }
 const AUDIO_S16 = $8010;  { Signed 16-bit samples, little endian }
 {$EndIf}
 
-var 
-  IntroSound, RightSound, WrongSound, NeutralSound, 
-  ErrorSound, InfoSound : TSound;
-
 var
   isSubSystem: boolean = false; { is it initialzed as subsystem? }
   AudioAvailable : boolean = false;
@@ -167,17 +153,7 @@ procedure SDL_UnlockAudio; libSDL 'SDL_UnlockAudio';
 
 procedure SDL_PauseAudio(pause_on: CInteger); libSDL 'SDL_PauseAudio';
 
-
-constructor TSound.Init(d: Pointer; s: LongInt);
-begin
-data := pByte(d);
-size := s
-end;
-
-destructor TSound.Done;
-begin end;
-
-procedure TSound.play;
+procedure play(data: Pointer; size: LongInt);
 begin
 if AudioAvailable then
   begin
@@ -190,33 +166,23 @@ if AudioAvailable then
   end
 end;
 
-procedure LoadSounds;
-begin
-IntroSound.Init(Addr(introsnd_data), sizeof(introsnd_data));
-RightSound.Init(Addr(rightsnd_data), sizeof(rightsnd_data));
-WrongSound.Init(Addr(wrongsnd_data), sizeof(wrongsnd_data));
-NeutralSound.Init(Addr(neutralsnd_data), sizeof(neutralsnd_data));
-ErrorSound.Init(Addr(errorsnd_data), sizeof(errorsnd_data));
-InfoSound.Init(Addr(infosnd_data), sizeof(infosnd_data))
-end;
-
 procedure playIntroSound;
-begin IntroSound.play end;
+begin play(Addr(introsnd_data), SizeOf(introsnd_data)) end;
 
 procedure playRightSound;
-begin RightSound.play end;
+begin play(Addr(rightsnd_data), SizeOf(rightsnd_data)) end;
 
 procedure playWrongSound;
-begin WrongSound.play end;
+begin play(Addr(wrongsnd_data), SizeOf(wrongsnd_data)) end;
 
 procedure playNeutralSound;
-begin NeutralSound.play end;
+begin play(Addr(neutralsnd_data), SizeOf(neutralsnd_data)) end;
 
 procedure playErrorSound;
-begin ErrorSound.play end;
+begin play(Addr(errorsnd_data), SizeOf(errorsnd_data)) end;
 
 procedure playInfoSound;
-begin InfoSound.play end;
+begin play(Addr(infosnd_data), SizeOf(infosnd_data)) end;
 
 procedure useSDLsounds;
 begin
@@ -239,7 +205,7 @@ if sndlen<=0 then
   exit
   end;
 
-len := len div sizeof(Sint16);
+len := len div SizeOf(stream^);
 l := len;
 if l > sndlen then l := sndlen;
 
@@ -253,6 +219,7 @@ for i := 1 to l do
 dec(sndLen, l);
 dec(len, l);
 
+{ clear end of buffer if not full }
 for i := 1 to len do
   begin
   stream^ := 0;
@@ -294,7 +261,7 @@ if AudioAvailable then
   AudioAvailable := SDL_OpenAudio(desired, NIL)=0;
 
   if AudioAvailable 
-    then begin LoadSounds; useSDLsounds end
+    then useSDLsounds
     else closeSDLAudio
   end
 end;
