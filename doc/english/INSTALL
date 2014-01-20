@@ -8,16 +8,6 @@ INSTALLATION
 
 With binary packages:
 
-You need the main package and the package with the binaries for your 
-system. 
-
-For example:
-akfquiz-4.2.1.main.tar.gz
-akfquiz-4.2.1.bin.Linux.x86.tar.gz
-
-Unpack them in the same directory. Go into the newly created directory
-"akfquiz/srcbin/" and play around with the binaries there.
-
 To install everything, go into the directory "akfquiz/" and run 
 "./configure" and have a look at the settings it shows. If you don't 
 like the settings, use the parameters for configure, as described below.

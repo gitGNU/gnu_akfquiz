@@ -8,17 +8,6 @@ INSTALLATION:
 
 Mit Binär-Paketen:
 
-Man benötigt das Haupt-Paket ("main") und das Paket mit den 
-ausführbaren Dateien für das eigene System. 
-
-Zum Beispiel:
-akfquiz-4.2.1.main.tar.gz
-akfquiz-4.2.1.bin.Linux.x86.tar.gz
-
-Entpacken Sie beide Pakete im selben Verzeichnis, gehen Sie in das neu 
-erstellte Unterverzeichnis "akfquiz/scrbin/" und probieren Sie die 
-Programme dort erstmal aus.
-
 Um alles zu installieren, gehen Sie in das Verzeichnis "akfquiz/",
 starten Sie "./configure" und schauen Sie sich die Einstellungen an. 
 Falls Ihnen die Einstellungen nicht zusagen, benutzen Sie die Parameter 
@@ -155,5 +144,3 @@ getquiz	       - holt alle Dateien, die für mkquiz-Dateien benötigt
 Manpages:
 akfquiz(5), grquiz(1), scrquiz(1), diaquiz(1), linequiz(1), cgiquiz(8),
 mkquiz(1)
-
-

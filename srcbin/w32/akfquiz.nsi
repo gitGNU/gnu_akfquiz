@@ -218,7 +218,6 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\doc\english\grquiz.1"
   FILE "..\..\doc\english\Makefile"
   FILE "..\..\doc\english\template"
-  FILE "..\..\doc\english\cgiquiz.8"
   FILE "..\..\doc\english\INSTALL"
   FILE "..\..\doc\english\linequiz.1"
   FILE "..\..\doc\english\quizstat.1"
@@ -232,7 +231,6 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\doc\deutsch\grquiz.1"
   FILE "..\..\doc\deutsch\Makefile"
   FILE "..\..\doc\deutsch\template"
-  FILE "..\..\doc\deutsch\cgiquiz.8"
   FILE "..\..\doc\deutsch\INSTALL"
   FILE "..\..\doc\deutsch\LIZENZ.txt"
   FILE "..\..\doc\deutsch\linequiz.1"
@@ -325,13 +323,12 @@ SectionEnd
 
 
 ; not GPL-compatible quiz-files
-Section "$(EXTRAQF)" extra
-  SetOutPath "$INSTDIR\share\akfquiz\quiz"
-  FILE /nonfatal "GPL-Quiz-en.akfquiz"
-  FILE /nonfatal "debian-en.akfquiz"
-  FILE /nonfatal "Amerika-de.akfquiz"
-SectionEnd
-
+;Section "$(EXTRAQF)" extra
+;  SetOutPath "$INSTDIR\share\akfquiz\quiz"
+;  FILE /nonfatal "GPL-Quiz-en.akfquiz"
+;  FILE /nonfatal "debian-en.akfquiz"
+;  FILE /nonfatal "Amerika-de.akfquiz"
+;SectionEnd
 
 ; local installation; register in system
 SectionGroup "$(LOCINST)" 
@@ -495,14 +492,14 @@ Section "Uninstall"
   ; registry
   DeleteRegKey HKLM \
     "Software\Microsoft\Windows\CurrentVersion\Uninstall\akfquiz"
-  
+
   DeleteRegKey HKCR ".akfquiz"
   DeleteRegKey HKCR ".aqz"
   DeleteRegKey HKCR "AKFQuiz"
 
   ; StartMenu
   RMDir /r "$SMPROGRAMS\${NAME}"
-  
+
   ; Desktop
   Delete "$DESKTOP\grquiz.lnk"
   Delete "$DESKTOP\$(QUIZDIR).lnk"
@@ -510,11 +507,11 @@ Section "Uninstall"
   ; bin
   Delete "$INSTDIR\bin\*.*"
   RMDir  "$INSTDIR\bin"
-  
+
   ; html
   Delete "$INSTDIR\html\*.*"
   RMDir  "$INSTDIR\html"
-  
+
   ; doc
   Delete "$INSTDIR\doc\english\*.*"
   RMDir  "$INSTDIR\doc\english"
@@ -522,7 +519,7 @@ Section "Uninstall"
   RMDir  "$INSTDIR\doc\deutsch"
   Delete "$INSTDIR\doc\*.*"
   RMDir  "$INSTDIR\doc"
-  
+
   ; quizfiles - only those installed by this installer
   Delete "$INSTDIR\share\akfquiz\quiz\Linux-en.akfquiz"
   Delete "$INSTDIR\share\akfquiz\quiz\Linux-de.akfquiz"
@@ -539,10 +536,10 @@ Section "Uninstall"
   RMDir  "$INSTDIR\share\akfquiz\sound"
   RMDir  "$INSTDIR\share\akfquiz"
   RMDir  "$INSTDIR\share"
-  
+
   ; src
   RMDir  /r "$INSTDIR\src"
-  
+
   ; root
   Delete "$INSTDIR\AKFQuiz.ico"
   Delete "$INSTDIR\uninstall.exe"
