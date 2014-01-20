@@ -10,21 +10,20 @@ Mit dem Programm-Paket AKFQuiz kann man auf einfache Weise
 Quiz-Spiele, Übungsaufgaben für Schule und Ausbildung, sowie 
 Psycho-Tests erstellen.
 
-Diese können mit grquiz in einer grafischen Umgebung, mit diaquiz (nicht
-enthalten) als einfaches GUI-Programm oder mit scrquiz auf der
-Text-Konsole benutzt werden. Es gibt auch eine  zeilenorientierte
-Variante, linequiz, die als Backend benutzt werden  kann.
+Diese können mit grquiz in einer grafischen Umgebung, oder mit
+scrquiz auf der Text-Konsole benutzt werden. Es gibt auch eine
+zeilenorientierte Variante, linequiz, die als Backend benutzt
+werden kann.
 
-Eine CGI-Variante, cgiquiz (nicht enthalten), kann auf einem Web-Server 
-installiert werden, um Übungsaufgaben über das Internet oder ein lokales
-Netzwerk anzubieten. Es gibt in cgiquiz auch einen Prüfungs-Modus
-(exam), der für richtige Prüfungen benutzbar ist.
+Eine CGI-Variante, akfquizweb, kann auf einem Web-Server installiert
+werden, um Übungsaufgaben über das Internet oder ein lokales
+Netzwerk anzubieten.
 
 Oder man benutzt mkquiz, mit dem man eine HTML-Datei mit JavaScript 
 erstellen kann. Diese kann man dann über jeden beliebigen 
 Webspace-Anbieter veröffentlichen.
 
-Das vollständige AKFQuiz-Paket ist für GNU/Linux erhältlich.
+Die Version für GNU/Linux enthält weitere Programme.
 
 
 Sonstiges:
@@ -39,21 +38,9 @@ finden Sie im Startmenü unter Programme/AKFQuiz/Anleitungen.
 Die Beispiel-Dateien sind zwar recht selbsterklärend, doch zeigen sie
 noch nicht alle Möglichkeiten, die die Programme bieten.
 
-
-quizstat:
-
-quizstat bietet ein paar statistische Angaben zu Quiz-Dateien. Aber
-nichts, was man unbedingt haben muss. Falls Sie quizstat dennoch
-verwenden wollen, benötigen Sie einen nawk (new awk) Interpreter wie
-mawk oder gawk. In Posix-kompatiblitäts-Umgebungen wie MSYS oder Cygwin
-ist bereits ein entsprechender awk Interpreter enthalten.
-
-Ein eigenständiges awk erhalten Sie unter folgender Adresse:
-http://gnuwin32.sourceforge.net/packages/mawk.htm
-
-
 Die aktuellste Version von AKFQuiz finden Sie im Internet:
 http://akfquiz.nongnu.org/deutsch.html
+
 
 Für den Installer unter Windows verwende ich 
 NSIS (Nullsoft Scriptable Install System)

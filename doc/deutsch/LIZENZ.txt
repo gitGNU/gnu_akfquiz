@@ -1,7 +1,7 @@
 LIZENZ
 
 AKFQuiz
-Copyright (C) 2003-2006,2007,2010 Andreas K. Foerster
+Copyright (C) 2003-2006,2007,2010,2014 Andreas K. Foerster
 
 verwendet Tabellen von GNU libiconv
 Copyright (C) 1999-2001 Free Software Foundation, Inc.

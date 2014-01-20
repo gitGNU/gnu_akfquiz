@@ -8,19 +8,17 @@ DESCRIPTION
 
 The package AKFQuiz lets you easily make your own quiz games, learning
 exercises or psychotests. These can be used with grquiz in a graphical
-environment, with diaquiz (not included) as a simple GUI program or
-with scrquiz on the text-console. There is also a line oriented
-variant, linequiz, which can be used as a backend.
+environment, or with scrquiz on the text-console. There is also a line
+oriented variant, linequiz, which can be used as a backend.
 
-A CGI-variant, cgiquiz (not included), can be installed on a Web 
-server to offer exercises via Internet or a local network. There is 
-also an exam-mode in cgiquiz to use it for serious exams.
+A CGI-variant, akfquizweb, can be installed on a Web server to offer 
+exercises via Internet or a local network.
 
-Or you can use mkquiz, which generates an HTML-file for to use with 
+Or you can use mkquiz, which generates an HTML-file for to use with
 JavaScript. Those can then be published using any deliberate web-space 
 provider.
 
-The complete AKFQuiz-package is available for GNU/Linux. 
+The version for GNU/Linux contains further software.
 
 
 other hints:
@@ -35,20 +33,9 @@ found in the start-menu under programs/AKFQuiz/Documentation.
 The example-files are very self-explaining, but they don't show each 
 and every possibility offered by the programs.
 
-
-quizstat:
-
-quizstat shows some simple statistics about quizfiles. It is not
-really  needed. If you want to use quizstat anyway, you need a nawk
-(new awk) interpreter like mawk or gawk. A nawk interpreter is included
-in Posix compatiblity environments like MSYS or Cygwin.
-
-You can get a standalone awk there:
-http://gnuwin32.sourceforge.net/packages/mawk.htm
-
-
-The most actual version of AKFQuiz can be found on the Internet:
+You can get the latest version of AkFQuiz from the internet:
 http://akfquiz.nongnu.org/
+
 
 For the installer for Windows I use 
 NSIS (Nullsoft Scriptable Install System)

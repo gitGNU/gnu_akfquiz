@@ -240,7 +240,7 @@ dist-bin: all
 	      akfquiz/srcbin/mkquiz \
 	      akfquiz/srcbin/scrquiz \
 	      akfquiz/srcbin/cgiquiz \
-	      akfquiz/srcbin/diaquiz \
+	      akfquiz/srcbin/akfquizweb \
 	      akfquiz/srcbin/linequiz \
 	      akfquiz/srcbin/grquiz \
 	      akfquiz/srcbin/quizstat \
@@ -258,7 +258,7 @@ dist-mostbin: most
 	      akfquiz/srcbin/mkquiz \
 	      akfquiz/srcbin/scrquiz \
 	      akfquiz/srcbin/cgiquiz \
-	      akfquiz/srcbin/diaquiz \
+	      akfquiz/srcbin/akfquizweb \
 	      akfquiz/srcbin/linequiz \
 	      akfquiz/srcbin/quizstat \
 	      akfquiz/srcbin/akfquiz
