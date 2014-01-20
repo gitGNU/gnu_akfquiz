@@ -84,6 +84,7 @@ type
     channels : Uint8;
     silence  : Uint8;
     samples  : Uint16;
+    padding  : Uint16;
     size     : Uint32;
     callback : pointer;
     userdata : pointer;
