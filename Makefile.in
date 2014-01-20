@@ -150,7 +150,6 @@ dist: distclean
 	      akfquiz/doc/english/linequiz.1 \
 	      akfquiz/doc/english/quizstat.1 \
 	      akfquiz/doc/deutsch/UPDATE \
-	      akfquiz/doc/deutsch/gpl-3.0.de.html \
 	      akfquiz/doc/deutsch/diaquiz.1 \
 	      akfquiz/doc/deutsch/scrquiz.1 \
 	      akfquiz/doc/deutsch/akfquiz.5 \
