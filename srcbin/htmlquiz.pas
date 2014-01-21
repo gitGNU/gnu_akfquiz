@@ -469,11 +469,13 @@ inc(answerNr);
 
 { it must be included in block containers to make RTL work correctly }
 WriteLn(outp, '<div>');
-WriteLn(outp, '<label>');
-WriteLn(outp, '<input name="q', questionNr, '"',
+WriteLn(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
+              ' name="q',questionNr,'"',
               ' value="', value, '"',
               ' type="', qTypeStr(qType), '"', cet);
-WriteLn(outp, ans);
+
+Write(outp, '<label for="q', questionNr, 'a', answerNr, '">');
+Write(outp, ans);
 WriteLn(outp, '</label>');
 WriteLn(outp, '</div>');
 WriteLn(outp)
@@ -483,10 +485,12 @@ procedure Thtmlquiz.processDefaultAnswer;
 begin
 inc(answerNr);
 WriteLn(outp, '<div class="defanswer">');
-WriteLn(outp, '<label>');
-WriteLn(outp, '<input name="q', questionNr, '"',
+WriteLn(outp, '<input  id="q', questionNr, 'a', answerNr, '"',
+	      ' name="q', questionNr, '"',
               ' type="radio" value="0" checked="checked"', cet);
-WriteLn(outp, defanswer);
+
+Write(outp, '<label for="q', questionNr, 'a', answerNr, '">');
+Write(outp, defanswer);
 WriteLn(outp, '</label></div>', br)
 end;
 
