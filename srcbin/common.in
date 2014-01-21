@@ -11,7 +11,6 @@ bindir      = $(exec_prefix)/bin
 icondir     = $(datarootdir)/pixmaps/
 docdir      = $(prefix)/share/doc/akfquiz
 quizdir     = $(datadir)/akfquiz/quiz
-sounddir    = $(datadir)/akfquiz/sound
 htmldir     = $(datadir)/akfquiz/html
 
 cgidir      = @cgidir@
@@ -156,7 +155,6 @@ installdirs:
 	test -d $(DESTDIR)$(man1dedir)|| $(INSTALL) -d $(DESTDIR)$(man1dedir)
 	test -d $(DESTDIR)$(man5dedir)|| $(INSTALL) -d $(DESTDIR)$(man5dedir)
 	test -d $(DESTDIR)$(man8dedir)|| $(INSTALL) -d $(DESTDIR)$(man8dedir)
-	test -d $(DESTDIR)$(sounddir) || $(INSTALL) -d $(DESTDIR)$(sounddir)
 	test -d $(DESTDIR)$(quizdir)  || $(INSTALL) -d -m 1777 $(DESTDIR)$(quizdir)
 	test -d $(DESTDIR)$(htmldir)  || $(INSTALL) -d $(DESTDIR)$(htmldir)
 
@@ -166,11 +164,6 @@ install: all installdirs
 	@echo "* installing example quiz-files to $(DESTDIR)$(quizdir)"
 	@echo "*"
 	$(INSTALL) -m 0644 ../share/akfquiz/quiz/*.akfquiz $(DESTDIR)$(quizdir)
-	@echo "*"
-	@echo "* installing sound-files to $(DESTDIR)$(sounddir)"
-	@echo "*"
-	$(INSTALL) -m 0644 ../share/akfquiz/sound/*.ub $(DESTDIR)$(sounddir)
-	$(INSTALL) -m 0644 ../share/akfquiz/sound/README $(DESTDIR)$(sounddir)
 	@echo "*"
 	@echo "* installing files needed for HTML to $(DESTDIR)$(htmldir)"
 	@echo "*"
