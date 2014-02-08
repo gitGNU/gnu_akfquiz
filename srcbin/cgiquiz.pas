@@ -346,7 +346,7 @@ if Browser then { send HTTP Header }
 
 { the text }
 if Browser 
-  then WriteLn('<a href="', ScriptName, '?--help">', PrgVersion, '</a>')
+  then WriteLn('<a href="', ScriptName, '/--help">', PrgVersion, '</a>')
   else WriteLn(PrgVersion);
 WriteLn;
 If Browser then WriteLn(br+br);
@@ -422,7 +422,7 @@ if Browser
        WriteLn('<p>');
        WriteLn('<img alt="[Icon]" width="32" height="32" src="',
              ScriptName, grIcon + '"'+cet);
-       WriteLn('<a href="', ScriptName, '?--version">', 
+       WriteLn('<a href="', ScriptName, '/--version">', 
                PrgVersion, '</a>');
        WriteLn('</p>');
        WriteLn('<p>Quiz-program for the CGI interface of a webserver</p>');
@@ -433,8 +433,8 @@ if Browser
        WriteLn(br+br+'</dd>');
        WriteLn('<dt>Examples:</dt>');
        WriteLn('<dd>');  
-       WriteLn(CGIBase, '?--help'+br);
-       WriteLn(CGIBase, '?--version'+br);
+       WriteLn(CGIBase, '/--help'+br);
+       WriteLn(CGIBase, '/--version'+br);
        WriteLn(CGIBase, '/quizdir/'+br);
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz'+br);
        WriteLn(CGIBase, '/quizdir/myquiz.akfquiz?format=akfquiz'+br);
@@ -465,8 +465,8 @@ if Browser
        WriteLn(' or:   cgiquiz --version');
        WriteLn;
        WriteLn('Examples:');
-       WriteLn(' > ', CGIBase, '?--help');
-       WriteLn(' > ', CGIBase, '?--version');
+       WriteLn(' > ', CGIBase, '/--help');
+       WriteLn(' > ', CGIBase, '/--version');
        WriteLn(' > ', CGIBase, '/quizdir/');
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz');
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz?format=akfquiz');
@@ -980,7 +980,7 @@ if MaxPoints > 0 then
     then WriteLn(outp, msg_sol4, getPercentage, '%.')
     else if not neutral then WriteLn(outp, msg_sol5);
 
-  if Time > 0 then WriteLn(outp, br, msg_time, ShowTime(Time));
+  if Time > 0 then WriteLn(outp, br, br, msg_time, ShowTime(Time));
 
   { sanity-check with oldPercent }
   if (oldPercent >= 0) and (getPercentage <> oldPercent) then
