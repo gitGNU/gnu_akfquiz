@@ -609,35 +609,6 @@ errorHTMLfoot;
 Halt
 end;
 
-{ used when the user ommits a trailing slash, when it is needed }
-procedure MovedPermanently(const Location: myString);
-begin
-HTTPStatus(301, 'Moved Permanently');
-WriteLn('Location: ', Location);
-WriteLn('Content-Type: text/html; charset=UTF-8');
-closeHttpHead;
-
-WriteLn(DocType);
-WriteLn;
-WriteLn('<html>');
-WriteLn('<head>');
-WriteLn('<title>', AKFQuizName, ': Moved Permanently</title>');
-WriteLn('<meta name="generator" content="'
-         + PrgVersion + '"'+cet);
-WriteLn('<meta name="robots" content="noindex"'+cet);
-WriteLn('<link rel="bookmark" title="Sofware Homepage" href="', 
-                msg_homepage, '"'+cet);
-WriteLn('</head>');
-WriteLn;
-WriteLn('<body>');
-WriteLn('<h1>Moved Permanently</h1>');
-WriteLn;
-WriteLn('<p>Please use the address <a href="', Location, '">',
-        Location, '</a> in the future.');
-ErrorHTMLfoot;
-Halt
-end;
-
 procedure RejectAnswer(s: string);
 begin
 HTTPStatus(204, s);
@@ -1148,18 +1119,11 @@ function isDirectory: boolean;
 begin
 { It is a Directory, when there is a trailing slash. }
 { When there is no trailing slash, but it is nethertheless a Directory,
-  then the browser must be redirected. The trailing slash is really 
+  then the browser rejects it. The trailing slash is really
   needed for relative addresses to function. }
 
 { Directory-separator not system-specific here }
-if CGI_PATH_INFO[length(CGI_PATH_INFO)] = '/'
-  then isDirectory := true
-  else begin
-       isDirectory := false;
-       if DirectoryExists(CGI_PATH_TRANSLATED) 
-         then MovedPermanently(protocol + ServerName + ScriptName
-	                       + CGI_PATH_INFO + '/')
-       end
+isDirectory := CGI_PATH_INFO[length(CGI_PATH_INFO)] = '/'
 end;
 
 { is a Result file requested? }
@@ -1872,10 +1836,9 @@ getQueryString;
 
 if ExamDir<>'' then { if exam-mode is enabled }
   begin
-  { Redirect /exam to /exam/ }
-  if CGI_PATH_INFO = '/' + ExamModeName then 
-    MovedPermanently(protocol + ServerName + ScriptName
-                     + '/' + ExamModeName + '/');
+  { Reject /exam without trailing / }
+  if CGI_PATH_INFO = '/' + ExamModeName then
+    NotFound;
 
   if (pos('/'+ExamModeName+'/', CGI_PATH_INFO)=1) then prepareExam;
   end;
