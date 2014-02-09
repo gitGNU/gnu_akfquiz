@@ -1,7 +1,7 @@
 .\" Process this file with
 .\" groff -man -Tlatin1 akfquiz.cgi.8
 .\"
-.TH "cgiquiz" 8 "4.4.0" AKFQuiz
+.TH "cgiquiz" 8 "4.4.2" AKFQuiz
 
 .SS NAME
 cgiquiz \- CGI program for using AKFQuiz-files
@@ -29,8 +29,8 @@ cgiquiz \- CGI program for using AKFQuiz-files
 
 .SH DESCRIPTION
 
-cgiquiz lets you use a quiz from an easy to write text-file. There is 
-also an exam-mode, which can be used for real exams.
+cgiquiz lets you use a quiz from an easy to write text-file.
+.\" There is also an exam-mode, which can be used for real exams.
 
 The documentation for cgiquiz is not completed yet. If you have 
 questions, have a look at the Internet site first (see below). 
@@ -67,11 +67,11 @@ The URI then looks something like this:
 .br
 .BI "http://" "example.org/" "cgi-bin/cgiquiz" "/~user/quizfile.akfquiz"
 
-If you append the term /exam/, the program switches into a special 
-exam-mode. The files for the exam-mode are located in a special 
-directory (which is not exported by the webserver). To find out, which 
-the exam-directory is, use the parameter
-.IR --help .
+.\" If you append the term /exam/, the program switches into a special 
+.\" exam-mode. The files for the exam-mode are located in a special 
+.\" directory (which is not exported by the webserver). To find out, which 
+.\" the exam-directory is, use the parameter
+.\" .IR --help .
 
 
 [...]
@@ -149,7 +149,7 @@ This program doesn't execute any external programs.
 
 .SH LICENSE
 
-Copyright \(co 2005-2006,2007 Andreas K. Foerster
+Copyright \(co 2005-2006,2007,2014 Andreas K. Foerster
 
 AKFQuiz is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
