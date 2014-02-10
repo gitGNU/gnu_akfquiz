@@ -95,6 +95,7 @@ type
 	procedure HTTPdata;
 	procedure error;                         virtual;
 	procedure startForm;                     virtual;
+        procedure headBaseURI;
         procedure headdata;                      virtual;
 	function  GeneratorName: mystring;       virtual;
         procedure StartQuiz;                     virtual;
@@ -665,9 +666,18 @@ begin
 GeneratorName := PrgVersion
 end;
 
+procedure Tcgiquiz.headBaseURI;
+begin
+WriteLn(outp);
+WriteLn(outp, '<base href="', DocumentURI, '"'+cet);
+WriteLn(outp);
+end;
+
 { Tcgianswer doesn't automatically inherit this! }
 procedure Tcgiquiz.headdata;
 begin
+headBaseURI;
+
 inherited headdata;
 
 WriteLn(outp, '<link rel="icon" type="image/png" href="', 
@@ -832,6 +842,8 @@ end;
 
 procedure Tcgianswer.headdata;
 begin
+headBaseURI;
+
 { avoid inheriting the special data introduced in Tcgiquiz }
 Thtmlquiz.headdata;
 
