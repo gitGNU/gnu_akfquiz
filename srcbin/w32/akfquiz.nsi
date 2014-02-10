@@ -137,7 +137,6 @@ Section "!${NAME} $(REQUIRED)" AKFQuiz
   FILE "..\scrquiz.exe"
   FILE "..\linequiz.exe"
   FILE "..\grquiz.exe"
-  FILE "..\akfquizweb"
   FILE "..\quizstat"
 
   ; only GPL-compatible quiz-files here

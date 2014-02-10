@@ -188,7 +188,6 @@ dist: distclean
 	      akfquiz/srcbin/hginfo.inc \
 	      akfquiz/srcbin/diaquiz.pas \
 	      akfquiz/srcbin/cgiquiz.pas \
-	      akfquiz/srcbin/akfquizweb \
 	      akfquiz/srcbin/common.in \
 	      akfquiz/srcbin/scrquiz.pas \
 	      akfquiz/srcbin/Makefile.xw32 \
@@ -239,7 +238,6 @@ dist-bin: all
 	      akfquiz/srcbin/mkquiz \
 	      akfquiz/srcbin/scrquiz \
 	      akfquiz/srcbin/cgiquiz \
-	      akfquiz/srcbin/akfquizweb \
 	      akfquiz/srcbin/linequiz \
 	      akfquiz/srcbin/grquiz \
 	      akfquiz/srcbin/quizstat \
@@ -257,7 +255,6 @@ dist-mostbin: most
 	      akfquiz/srcbin/mkquiz \
 	      akfquiz/srcbin/scrquiz \
 	      akfquiz/srcbin/cgiquiz \
-	      akfquiz/srcbin/akfquizweb \
 	      akfquiz/srcbin/linequiz \
 	      akfquiz/srcbin/quizstat \
 	      akfquiz/srcbin/akfquiz
