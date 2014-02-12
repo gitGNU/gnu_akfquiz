@@ -224,11 +224,45 @@ dist-bin: all
 	env GZIP=--best tar czvCf .. \
 	  ../akfquiz-$(VERSION)$(VARIANT).bin.$(SYS).$(ARCH).tar.gz \
 	      akfquiz/start \
-	      akfquiz/doc/english/INSTALL \
-	      akfquiz/doc/deutsch/INSTALL \
+	      akfquiz/desktop/scrquiz.desktop \
+	      akfquiz/desktop/AKFQuiz.xpm \
+	      akfquiz/desktop/grquiz.desktop \
+	      akfquiz/desktop/akfquiz.desktop \
+	      akfquiz/desktop/akfquiz-web.desktop \
+	      akfquiz/desktop/x-akfquiz.xml \
+	      akfquiz/share/akfquiz/quiz/Linux-en.akfquiz \
+	      akfquiz/share/akfquiz/quiz/Linux-de.akfquiz \
+	      akfquiz/share/akfquiz/quiz/Christentum-de.akfquiz \
+	      akfquiz/share/akfquiz/quiz/Schokolade-de.akfquiz \
+	      akfquiz/share/akfquiz/quiz/Landtechnik.akfquiz \
+	      akfquiz/doc/Makefile \
 	      akfquiz/doc/COPYING \
+	      akfquiz/doc/CHANGELOG \
+	      akfquiz/doc/FAQ.html \
+	      akfquiz/doc/english/UPDATE \
+	      akfquiz/doc/english/scrquiz.1 \
+	      akfquiz/doc/english/akfquiz.5 \
 	      akfquiz/doc/english/LICENSE.txt \
+	      akfquiz/doc/english/mkquiz.1 \
+	      akfquiz/doc/english/grquiz.1 \
+	      akfquiz/doc/english/Makefile \
+	      akfquiz/doc/english/template \
+	      akfquiz/doc/english/cgiquiz.8 \
+	      akfquiz/doc/english/INSTALL \
+	      akfquiz/doc/english/linequiz.1 \
+	      akfquiz/doc/english/quizstat.1 \
+	      akfquiz/doc/deutsch/UPDATE \
+	      akfquiz/doc/deutsch/scrquiz.1 \
+	      akfquiz/doc/deutsch/akfquiz.5 \
+	      akfquiz/doc/deutsch/mkquiz.1 \
+	      akfquiz/doc/deutsch/grquiz.1 \
+	      akfquiz/doc/deutsch/Makefile \
+	      akfquiz/doc/deutsch/template \
+	      akfquiz/doc/deutsch/cgiquiz.8 \
+	      akfquiz/doc/deutsch/INSTALL \
 	      akfquiz/doc/deutsch/LIZENZ.txt \
+	      akfquiz/doc/deutsch/linequiz.1 \
+	      akfquiz/doc/deutsch/quizstat.1 \
 	      akfquiz/srcbin/mkquiz \
 	      akfquiz/srcbin/scrquiz \
 	      akfquiz/srcbin/cgiquiz \
