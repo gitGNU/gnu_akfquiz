@@ -263,6 +263,18 @@ dist-bin: all
 	      akfquiz/doc/deutsch/LIZENZ.txt \
 	      akfquiz/doc/deutsch/linequiz.1 \
 	      akfquiz/doc/deutsch/quizstat.1 \
+	      akfquiz/html/q-print.css \
+	      akfquiz/html/richtig.png \
+	      akfquiz/html/README-png \
+	      akfquiz/html/q-brown.css \
+	      akfquiz/html/falsch.png \
+	      akfquiz/html/q-blue.css \
+	      akfquiz/html/leer.png \
+	      akfquiz/html/school.png \
+	      akfquiz/html/schulnote.html \
+	      akfquiz/html/htmlupdate \
+	      akfquiz/html/akfquiz5.js \
+	      akfquiz/html/q-school.css \
 	      akfquiz/srcbin/mkquiz \
 	      akfquiz/srcbin/scrquiz \
 	      akfquiz/srcbin/cgiquiz \
