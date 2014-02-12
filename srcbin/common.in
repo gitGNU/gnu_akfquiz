@@ -32,10 +32,10 @@ SVERSION = @SVERSION@
 ######################################################################
 
 # unix: for Unix with all libraries
-unix: scrquiz linequiz diaquiz mkquiz cgiquiz grquiz
+unix: scrquiz linequiz mkquiz cgiquiz grquiz
 
 # "most" leaves some critical progs away
-most: scrquiz linequiz mkquiz cgiquiz diaquiz 
+most: scrquiz linequiz mkquiz cgiquiz
 
 # using FreePascal and DJGPP
 dos: scrquiz linequiz mkquiz # grquiz
@@ -107,9 +107,6 @@ cgiquiz: cgiquiz.pas uakfquiz.pas qmsgs.pas qsys.pas htmlquiz.pas \
          styles.pas pngdata.inc
 	$(PC) $(PFLAGS) $(POPT) $(DEFINES) cgiquiz.pas
 
-diaquiz: diaquiz.pas qsys.pas qmsgs.pas uakfquiz.pas dialog.pas
-	$(PC) $(PFLAGS) $(POPT) $(DEFINES) diaquiz.pas
-
 # just for Windows
 w32res:
 	$(MAKE) -C w32 w32res CROSS_PREFIX=$(CROSS_PREFIX)
@@ -131,7 +128,7 @@ veryclean: clean
 
 distclean: veryclean
 	-$(MAKE) -C w32 distclean
-	-rm -f mkquiz scrquiz cgiquiz akfquiz.cgi diaquiz linequiz grquiz
+	-rm -f mkquiz scrquiz cgiquiz akfquiz.cgi linequiz grquiz
 	-rm -f SDL.dll
 	-rm -f *.exe
 	-rm -f config.inc
@@ -174,7 +171,6 @@ install: all installdirs
 	@echo "*"
 	$(INSTALL) -m 0755 -s mkquiz $(DESTDIR)$(bindir)
 	$(INSTALL) -m 0755 -s scrquiz $(DESTDIR)$(bindir)
-	$(INSTALL) -m 0755 -s diaquiz $(DESTDIR)$(bindir)
 	$(INSTALL) -m 0755 -s linequiz $(DESTDIR)$(bindir)
 	-$(INSTALL) -m 0755 -s grquiz $(DESTDIR)$(bindir)
 	$(INSTALL) -m 0755 akfquiz $(DESTDIR)$(bindir)

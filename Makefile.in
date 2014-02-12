@@ -123,9 +123,7 @@ dist: distclean
 	      akfquiz/desktop/grquiz.desktop \
 	      akfquiz/desktop/akfquiz.desktop \
 	      akfquiz/desktop/akfquiz-web.desktop \
-	      akfquiz/desktop/diaquiz.desktop \
 	      akfquiz/desktop/x-akfquiz.xml \
-	      akfquiz/desktop/publishquiz.desktop \
 	      akfquiz/share/akfquiz/quiz/Linux-en.akfquiz \
 	      akfquiz/share/akfquiz/quiz/Linux-de.akfquiz \
 	      akfquiz/share/akfquiz/quiz/Christentum-de.akfquiz \
@@ -137,7 +135,6 @@ dist: distclean
 	      akfquiz/doc/TODO \
 	      akfquiz/doc/FAQ.html \
 	      akfquiz/doc/english/UPDATE \
-	      akfquiz/doc/english/diaquiz.1 \
 	      akfquiz/doc/english/scrquiz.1 \
 	      akfquiz/doc/english/akfquiz.5 \
 	      akfquiz/doc/english/LICENSE.txt \
@@ -150,7 +147,6 @@ dist: distclean
 	      akfquiz/doc/english/linequiz.1 \
 	      akfquiz/doc/english/quizstat.1 \
 	      akfquiz/doc/deutsch/UPDATE \
-	      akfquiz/doc/deutsch/diaquiz.1 \
 	      akfquiz/doc/deutsch/scrquiz.1 \
 	      akfquiz/doc/deutsch/akfquiz.5 \
 	      akfquiz/doc/deutsch/mkquiz.1 \
@@ -186,7 +182,6 @@ dist: distclean
 	      akfquiz/srcbin/AKFQuiz.xpm \
 	      akfquiz/srcbin/sdlsnd.pas \
 	      akfquiz/srcbin/hginfo.inc \
-	      akfquiz/srcbin/diaquiz.pas \
 	      akfquiz/srcbin/cgiquiz.pas \
 	      akfquiz/srcbin/common.in \
 	      akfquiz/srcbin/scrquiz.pas \
@@ -200,7 +195,6 @@ dist: distclean
 	      akfquiz/srcbin/clgrph.pas \
 	      akfquiz/srcbin/titimg.ppm \
 	      akfquiz/srcbin/chconv.pas \
-	      akfquiz/srcbin/dialog.pas \
 	      akfquiz/srcbin/quizhg.ppm \
 	      akfquiz/srcbin/akfquiz \
 	      akfquiz/srcbin/Makefile.xarm \

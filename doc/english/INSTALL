@@ -21,29 +21,6 @@ You should make sure, that the CGI directory is configured correctly.
 Use the parameter "--cgidir=" with the command "./configure".
 Then type "make install-cgi". 
 
-Then have a look at the privileges of the exam directory (normally that 
-is /var/lib/akfquiz/). The directory should be readable and writable 
-by the web server. A web server normally runs with special user and 
-group privileges. For example the user and the group may be called 
-"www-data" or "www" or even "nobody", that depends on the server-setup.
-That means for example the directory should be readable and writable 
-for the group "www-data". The owner of the directory should be the 
-teacher. If there are more than one teacher, you could put them into 
-the group "www-data".
-IMPORTANT: others should have no access to that directory!
-
-Example:
-drwxrwx---  2 teacher www-data 4096 2006-10-18 20:18 /var/lib/akfquiz/
-
-After that you should call the exam-mode from a web-browser to complete 
-the installation. Enter the address to "cgiquiz" and append "/exam/" to 
-that address. Then you will be asked to enter a new password. If the 
-password could successfully be saved to disk, the installation is 
-completed. Then you can copy your exams (quiz-files) into that 
-directory.
-
-If you don't want to use the exam-mode, it is okay to simply delete 
-that directory.
 
 
 COMPILING:

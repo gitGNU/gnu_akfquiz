@@ -189,7 +189,6 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\desktop\grquiz.desktop"
   FILE "..\..\desktop\akfquiz.desktop"
   FILE "..\..\desktop\akfquiz-web.desktop"
-  FILE "..\..\desktop\diaquiz.desktop"
   FILE "..\..\desktop\x-akfquiz.xml"
   FILE "..\..\desktop\publishquiz.desktop"
   
@@ -209,7 +208,6 @@ Section /o "${NAME} $(SRC)" src
   
   SetOutPath "$INSTDIR\src\doc\english"
   FILE "..\..\doc\english\UPDATE"
-  FILE "..\..\doc\english\diaquiz.1"
   FILE "..\..\doc\english\scrquiz.1"
   FILE "..\..\doc\english\akfquiz.5"
   FILE "..\..\doc\english\LICENSE.txt"
@@ -223,7 +221,6 @@ Section /o "${NAME} $(SRC)" src
   
   SetOutPath "$INSTDIR\src\doc\deutsch"
   FILE "..\..\doc\deutsch\UPDATE"
-  FILE "..\..\doc\deutsch\diaquiz.1"
   FILE "..\..\doc\deutsch\scrquiz.1"
   FILE "..\..\doc\deutsch\akfquiz.5"
   FILE "..\..\doc\deutsch\mkquiz.1"
@@ -262,7 +259,6 @@ Section /o "${NAME} $(SRC)" src
   FILE "..\..\srcbin\AKFQuiz.xpm"
   FILE "..\..\srcbin\sdlsnd.pas"
   FILE "..\..\srcbin\hginfo.inc"
-  FILE "..\..\srcbin\diaquiz.pas"
   FILE "..\..\srcbin\cgiquiz.pas"
   FILE "..\..\srcbin\common.in"
   FILE "..\..\srcbin\scrquiz.pas"

@@ -1,13 +1,13 @@
 # $Id: Makefile,v 1.7 2006/12/02 16:39:43 akf Exp $
 
 TXTFILES=mkquiz.txt scrquiz.txt grquiz.txt akfquiz.txt cgiquiz.txt \
-         diaquiz.txt linequiz.txt quizstat.txt
+         linequiz.txt quizstat.txt
 
 HTMLFILES=mkquiz.html scrquiz.html grquiz.html akfquiz.html cgiquiz.html \
-          diaquiz.html linequiz.html quizstat.html
+          linequiz.html quizstat.html
 
 PDFFILES=mkquiz.pdf scrquiz.pdf grquiz.pdf akfquiz.pdf cgiquiz.pdf \
-         diaquiz.pdf linequiz.pdf quizstat.pdf
+         linequiz.pdf quizstat.pdf
 
 SHELL = /bin/sh
 
