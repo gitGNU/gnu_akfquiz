@@ -1,12 +1,10 @@
 #!/bin/sh
 
+cd $(dirname $0)
+
 # check if we are in X and if grquiz is available
 
 test -n "$DISPLAY" && which grquiz && exec grquiz "$@"
-
-# check if we are in X and if Xdialog is usable
-
-test -n "$DISPLAY" && which Xdialog && exec diaquiz "$@"
 
 # use scrquiz as last resort
 
