@@ -356,7 +356,12 @@ If Browser then WriteLn(br);
 WriteLn(copyright, '1999-2001 Free Software Foundation, Inc.');
 If Browser then WriteLn(br+br);
 WriteLn;
-WriteLn(msg_License, msg_GPL);
+If Browser then
+  WriteLn(msg_License,
+          '<a href="https://www.gnu.org/licenses/gpl-3.0"' +
+          ' rel="external license" target="_top">', msg_GPL, '</a>')
+else
+  WriteLn(msg_License, msg_GPL);
 WriteLn;
 If Browser then WriteLn('</p><pre>');
 WriteLn(msg_noWarranty);
