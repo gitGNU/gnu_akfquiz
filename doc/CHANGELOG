@@ -16,7 +16,6 @@
 - cgiquiz.pas: show elapsed time
 - qsys.pas, uakfquiz.pas: use Cardinal for GetSecs
 - htmlquiz.pas, cgiquiz.pas: simplify usage of label-tag
-- new program akfquizweb (CGI/Perl)
 - use rel="nofollow" for user generated links
 4.4.1
 - relicensed to GPLv3+
