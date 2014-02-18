@@ -9,7 +9,7 @@ grquiz verwendet Zeichensaetze aus dem kbd-Paket
 Copyright (C) 2004 by the contributors to kbd
 
 AKFQuiz ist Freie Software. Sie koennen es unter den Bedingungen
-der GNU Affero General Public License, wie von der Free Software Foundation
+der GNU General Public License, wie von der Free Software Foundation
 veroeffentlicht, weitergeben und/oder modifizieren, entweder gemaess 
 Version 3 der Lizenz oder (nach Ihrer Option) jeder spaeteren Version.
 

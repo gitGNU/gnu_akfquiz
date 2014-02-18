@@ -11,9 +11,6 @@ exercises or psychotests. These can be used with grquiz in a graphical
 environment, or with scrquiz on the text-console. There is also a line
 oriented variant, linequiz, which can be used as a backend.
 
-A CGI-variant, akfquizweb, can be installed on a Web server to offer 
-exercises via Internet or a local network.
-
 Or you can use mkquiz, which generates an HTML-file for to use with
 JavaScript. Those can then be published using any deliberate web-space 
 provider.

@@ -15,10 +15,6 @@ scrquiz auf der Text-Konsole benutzt werden. Es gibt auch eine
 zeilenorientierte Variante, linequiz, die als Backend benutzt
 werden kann.
 
-Eine CGI-Variante, akfquizweb, kann auf einem Web-Server installiert
-werden, um Übungsaufgaben über das Internet oder ein lokales
-Netzwerk anzubieten.
-
 Oder man benutzt mkquiz, mit dem man eine HTML-Datei mit JavaScript 
 erstellen kann. Diese kann man dann über jeden beliebigen 
 Webspace-Anbieter veröffentlichen.

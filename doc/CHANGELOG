@@ -17,7 +17,6 @@
 - qsys.pas, uakfquiz.pas: use Cardinal for GetSecs
 - htmlquiz.pas, cgiquiz.pas: simplify usage of label-tag
 - new program akfquizweb (CGI/Perl)
-- relicensed to AGPLv3+
 - use rel="nofollow" for user generated links
 4.4.1
 - relicensed to GPLv3+
