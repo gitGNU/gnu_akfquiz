@@ -1381,10 +1381,11 @@ WriteLn('<form method="POST" action="saveconfig">');
 WriteLn('<div>');
 Write(msg_name);
 WriteLn('<input type="text" name="name" size="12" maxlength="60" ' +
-        'value="', logName, '"'+cet);
+        'value="', logName, '" required'+cet);
 WriteLn(br);
-Write(msg_newpasswd, ': ');
-WriteLn('<input type="password" name="passwd" size="12" maxlength="60"'+cet);
+WriteLn(msg_newpasswd, ': ',
+        '<input type="password" name="passwd" size="12" maxlength="60"'
+        + ' required'+cet);
 WriteLn(br);
 
 WriteLn('<input type="submit"'+cet+'<input type="reset"'+cet);
@@ -1423,10 +1424,10 @@ WriteLn('<form method="POST" action="login">');
 WriteLn('<div>');
 WriteLn(msg_name);
 WriteLn('<input type="text" name="name" '
-        + 'size="12" maxlength="60"'+cet, br);
+        + 'size="12" maxlength="60" required'+cet, br);
 WriteLn(msg_passwd, ': ');
 WriteLn('<input type="password" name="passwd" '
-        + 'size="12" maxlength="60"'+cet, br);
+        + 'size="12" maxlength="60" required'+cet, br);
 WriteLn('<input type="submit"'+cet);
 WriteLn('</div>');
 WriteLn('</form>');
