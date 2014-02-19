@@ -1216,7 +1216,7 @@ end;
 
 function loggedIn: boolean;
 begin
-loggedIn := (authdata <> '') and (pos('teacher=true', Cookie) <> 0)
+loggedIn := (authdata <> '') and (pos('teacher=', Cookie) <> 0)
 end;
 
 procedure RequireAuthorization;
@@ -1311,7 +1311,7 @@ end;
 procedure saveExamConfig;
 var 
   f: text;
-  passwd : ShortString;
+  element, passwd, name : ShortString;
 begin
 
 { for security reasons only the POST method is allowed here }
@@ -1321,14 +1321,19 @@ if RequestMethod <> POST then Forbidden;
   or the user is correctly authorized with the old passwd }
 if authdata <> '' then if not loggedIn then Forbidden;
 
-{ get the new passwd from the query }
-GetCGIElement(passwd);
-if CGIfield(passwd) = 'passwd'
-  then passwd := CGIvalue(passwd)
-  else SetupError;
+{ get the new data from the query }
+repeat
+  GetCGIElement(element);
+  if element = '' then Forbidden;
+  if CGIfield(element) = 'name' then name := CGIvalue(element);
+until CGIfield(element) = 'passwd';
+
+passwd := CGIvalue(element);
 
 checkNewPasswd(passwd);
 authdata := encodeAuthData(passwd);
+
+if name = '' then name := 'X';
 
 SetUmask(127 { = 177oct } );
 Assign(f, useDirSeparator(ExamDir) + examConfigFileName);
@@ -1339,7 +1344,7 @@ if IOResult<>0 then SetupError;
 
 HTTPStatus(200, 'OK');
 { Session-Cookie, deleted when browser is closed }
-WriteLn('Set-Cookie: teacher=true; Discard; Version="1";');
+WriteLn('Set-Cookie: teacher="', name, '"; Discard; Version="1";');
 dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': Configuration saved');
 WriteLn('<p>Configuration saved</p>');
@@ -1355,6 +1360,9 @@ dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': Configuration');
 WriteLn('<form method="POST" action="saveconfig">');
 WriteLn('<div>');
+Write(msg_name);
+WriteLn('<input type="text" name="name" size="12" maxlength="60"'+cet);
+WriteLn(br);
 Write(msg_newpasswd, ': ');
 WriteLn('<input type="password" name="passwd" size="12" maxlength="60"'+cet);
 WriteLn(br);
@@ -1393,9 +1401,12 @@ dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_passwd);
 WriteLn('<form method="POST" action="login">');
 WriteLn('<div>');
+WriteLn(msg_name);
+WriteLn('<input type="text" name="name" '
+        + 'size="12" maxlength="60"'+cet, br);
 WriteLn(msg_passwd, ': ');
 WriteLn('<input type="password" name="passwd" '
-        + 'size="12" maxlength="60"'+cet);
+        + 'size="12" maxlength="60"'+cet, br);
 WriteLn('<input type="submit"'+cet);
 WriteLn('</div>');
 WriteLn('</form>');
@@ -1407,21 +1418,28 @@ Halt
 end;
 
 procedure Login2;
-var qpasswd : ShortString;
+var qpasswd, name : ShortString;
 begin
+name := '';
+
 { security: never accept a password via GET! }
 if RequestMethod <> POST then Forbidden;
 
 { don't use QueryLookup, because it doesn't decode the value }
-GetCGIElement(qpasswd);
-if CGIfield(qpasswd) = 'passwd'
-  then qpasswd := CGIvalue(qpasswd)
-  else Forbidden;
+repeat
+  GetCGIElement(qpasswd);
+  if qpasswd = '' then Forbidden;
+  if CGIfield(qpasswd) = 'name' then name := CGIvalue(qpasswd);
+until CGIfield(qpasswd) = 'passwd';
+
+qpasswd := CGIvalue(qpasswd);
 
 if encodeAuthData(qpasswd) <> authdata then Forbidden;
 
+if name = '' then name := 'X';
+
 HTTPStatus(200, 'OK');
-WriteLn('Set-Cookie: teacher=true; Discard; Version="1";');
+WriteLn('Set-Cookie: teacher="', name, '"; Discard; Version="1";');
 dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_loggedin);
 WriteLn(msg_loggedin);
