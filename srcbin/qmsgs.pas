@@ -91,7 +91,6 @@ function msg_name: mystring;
 function msg_passwd: mystring;
 function msg_newpasswd: mystring;
 function msg_reconfigure: mystring;
-function msg_login: mystring;
 function msg_loggedin: mystring;
 function msg_logout: mystring;
 function msg_loggedout: mystring;
@@ -600,15 +599,6 @@ case lang of
   italiano:  msg_reconfigure := 'Riconfigurare';
   deutsch :  msg_reconfigure := 'Umkonfigurieren'
   otherwise  msg_reconfigure := 'Reconfigure'
-  end
-end;
-
-function msg_login: mystring;
-begin
-case lang of
-  italiano:  msg_login := 'Entrare come docente';
-  deutsch :  msg_login := 'Als Lehrer anmelden'
-  otherwise  msg_login := 'Log in as teacher'
   end
 end;
 

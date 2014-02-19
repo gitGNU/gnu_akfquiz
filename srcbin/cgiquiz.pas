@@ -1279,17 +1279,12 @@ found := ListEntries(CGI_PATH_TRANSLATED, quizext, ListShowEntry);
 if ListEntries(CGI_PATH_TRANSLATED, quizext2, ListShowEntry) 
    then found := true;
 WriteLn('</ul>');
+
 if not found then NoEntriesFound;
+
 if ExamMode then
-  if loggedIn 
-    then begin
-         WriteLn('<hr'+cet+'<ul>');
-	 WriteLn('<li><a href="results">', msg_showResults, '</a></li>');
-	 WriteLn('<li><a href="logout">', msg_logout, '</a></li>');
-	 WriteLn('</ul>')
-	 end
-    else WriteLn('<hr'+cet+'<ul><li><a href="login">', msg_login, 
-                 '</a></li></ul>');
+  WriteLn('<hr'+cet+'<a href="results">', msg_showResults, '</a></li>');
+
 CommonHtmlEnd;
 Halt
 end;
@@ -1391,16 +1386,12 @@ close(f);
 if IOResult<>0 then authdata := ''
 end;
 
-procedure showResultList; forward;
-
 procedure Login;
 begin
-if loggedIn then showResultList;
-
 HTTPStatus(200, 'OK');
 dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_passwd);
-WriteLn('<form method="POST" action="login2">');
+WriteLn('<form method="POST" action="login">');
 WriteLn('<div>');
 WriteLn(msg_passwd, ': ');
 WriteLn('<input type="password" name="passwd" '
@@ -1461,7 +1452,8 @@ end;
 procedure showResultList;
 var found: boolean;
 begin
-RequireAuthorization;
+if not loggedIn then Login;
+
 HTTPStatus(200, 'OK');
 dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_Results);
@@ -1705,8 +1697,7 @@ if ExamMode then
   begin
   if CGI_PATH_INFO='/'+ExamModeName+'/results' then showResultList;
   if CGI_PATH_INFO='/'+ExamModeName+'/reconfigure' then reconfigureExamMode;
-  if CGI_PATH_INFO='/'+ExamModeName+'/login' then Login;
-  if CGI_PATH_INFO='/'+ExamModeName+'/login2' then Login2;
+  if CGI_PATH_INFO='/'+ExamModeName+'/login' then Login2;
   if CGI_PATH_INFO='/'+ExamModeName+'/logout' then Logout;
   if CGI_PATH_INFO='/'+ExamModeName+'/saveconfig' then saveExamConfig
   end
