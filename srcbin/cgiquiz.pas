@@ -510,10 +510,10 @@ if s='de' then lang := deutsch
         else begin 
              { first language unknown - check for others: }
              s := CGIInfo('HTTP_ACCEPT_LANGUAGE');
-  	     if pos('de', s)<>0 then lang := deutsch
-	       else if pos('it', s)<>0 then lang := italiano
-	         else if pos('da', s)<>0 then lang := dansk
-	  	   else lang := english
+             if pos('de', s)<>0 then lang := deutsch
+               else if pos('it', s)<>0 then lang := italiano
+                 else if pos('da', s)<>0 then lang := dansk
+                   else lang := english
              end
 end;
 
@@ -1399,6 +1399,9 @@ WriteLn('<input type="password" name="passwd" '
 WriteLn('<input type="submit"'+cet);
 WriteLn('</div>');
 WriteLn('</form>');
+
+WriteLn('<p><a href=".">', msg_back, '</a></p>');
+
 CommonHtmlEnd;
 Halt
 end;
@@ -1438,8 +1441,7 @@ WriteLn('Set-Cookie: teacher=""; expires=Thu, 1-Jan-1970 00:00:00 GMT; '
 dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_loggedout);
 WriteLn('<h2>', msg_loggedout, '</h2>');
-WriteLn('<p><a href="', ScriptName, '/' + ExamModeName + '/">', msg_back, 
-        '</a></p>');
+WriteLn('<p><a href=".">', msg_back, '</a></p>');
 CommonHtmlEnd;
 Halt
 end;
@@ -1467,8 +1469,7 @@ if not found then NoEntriesFound;
 WriteLn('<hr'+cet+'<ul>');
 WriteLn('<li><a href="reconfigure">', msg_reconfigure, '</a></li>');
 WriteLn('<li><a href="logout">', msg_logout, '</a></li>');
-WriteLn('<li><a href="', ScriptName, '/' + ExamModeName + '/">', 
-        msg_back, '</a></li>');
+WriteLn('<li><a href=".">', msg_back, '</a></li>');
 WriteLn('</ul>');
 CommonHtmlEnd;
 Halt
@@ -1525,8 +1526,7 @@ if IOResult<>0 then
   WriteLn('<p class="error">', msg_error, '</p>');
 
 WriteLn('<hr'+cet);
-WriteLn('<p><a href="results">', 
-        msg_back, '</a></p>');
+WriteLn('<p><a href="results">', msg_back, '</a></p>');
 WriteLn;
 
 CommonHtmlEnd;
