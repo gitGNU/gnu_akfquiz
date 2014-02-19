@@ -1219,6 +1219,25 @@ begin
 loggedIn := (authdata <> '') and (pos('teacher=', Cookie) <> 0)
 end;
 
+function logName: ShortString;
+var name: ShortString; p: LongInt;
+begin
+name := '';
+if (authdata <> '') then
+  begin
+  p := pos('teacher="', Cookie);
+  if p <> 0 then
+    begin
+      name := Cookie;
+      Delete(name, 1, p + 8);
+      p := pos('"', name);
+      if p <> 0 then name := copy(name, 1, p - 1);
+    end
+  end;
+
+logName := name
+end;
+
 procedure RequireAuthorization;
 begin
 if not loggedIn then Forbidden
@@ -1361,7 +1380,8 @@ CommonHtmlStart(AKFQuizName + ': Configuration');
 WriteLn('<form method="POST" action="saveconfig">');
 WriteLn('<div>');
 Write(msg_name);
-WriteLn('<input type="text" name="name" size="12" maxlength="60"'+cet);
+WriteLn('<input type="text" name="name" size="12" maxlength="60" ' +
+        'value="', logName, '"'+cet);
 WriteLn(br);
 Write(msg_newpasswd, ': ');
 WriteLn('<input type="password" name="passwd" size="12" maxlength="60"'+cet);
