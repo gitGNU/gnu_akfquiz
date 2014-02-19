@@ -1298,7 +1298,7 @@ begin
 HTTPStatus(200, 'OK');
 dontCacheHttpHeader;
 CommonHtmlStart('unacceptable new Password');
-WriteLn('<p>Sorry, but the password should have at least 6 characters.</p>');
+WriteLn('<p>Sorry, but the password should have at least 8 characters.</p>');
 
 { when a password is set: reconfigure
   when no password is set, the target of the link is ignored anyway }
@@ -1309,7 +1309,7 @@ end;
 
 procedure checkNewPasswd(const passwd: ShortString);
 begin
-if UTF8Length(passwd) < 6 then unacceptableNewPasswd
+if UTF8Length(passwd) < 8 then unacceptableNewPasswd
 end;
 
 procedure saveExamConfig;
