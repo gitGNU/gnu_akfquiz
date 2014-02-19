@@ -1196,6 +1196,9 @@ WriteLn('</body>');
 WriteLn('</html>')
 end;
 
+{ --------------------------------------------------------------------- }
+{ exam mode }
+
 { simple password encoder }
 { the password needn't be decoded, 
   so you could replace this with a hash-encoding }
@@ -1213,9 +1216,7 @@ end;
 
 function loggedIn: boolean;
 begin
-loggedIn := 
-  (authdata <> '') and 
-  (pos('auth=' + authdata , Cookie) <> 0)
+loggedIn := (authdata <> '') and (pos('teacher=true', Cookie) <> 0)
 end;
 
 procedure RequireAuthorization;
@@ -1343,7 +1344,7 @@ if IOResult<>0 then SetupError;
 
 HTTPStatus(200, 'OK');
 { Session-Cookie, deleted when browser is closed }
-WriteLn('Set-Cookie: auth=' + authdata + '; Discard; Version="1";');
+WriteLn('Set-Cookie: teacher=true; Discard; Version="1";');
 dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': Configuration saved');
 WriteLn('<p>Configuration saved</p>');
@@ -1421,7 +1422,7 @@ if CGIfield(qpasswd) = 'passwd'
 if encodeAuthData(qpasswd) <> authdata then Forbidden;
 
 HTTPStatus(200, 'OK');
-WriteLn('Set-Cookie: auth=' + authdata + '; Discard; Version="1";');
+WriteLn('Set-Cookie: teacher=true; Discard; Version="1";');
 dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_loggedin);
 WriteLn(msg_loggedin);
@@ -1436,7 +1437,7 @@ begin
 { not security critical }
 HTTPStatus(200, 'OK');
 { Expiration-date in the past deletes a cookie }
-WriteLn('Set-Cookie: auth=""; expires=Thu, 1-Jan-1970 00:00:00 GMT; '
+WriteLn('Set-Cookie: teacher=""; expires=Thu, 1-Jan-1970 00:00:00 GMT; '
         + 'Discard; Version="1";');
 dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_loggedout);
@@ -1462,8 +1463,7 @@ CommonHtmlStart(AKFQuizName + ': ' + msg_Results);
 
 WriteLn('<ul>');
 found := ListEntries(dirname(CGI_PATH_TRANSLATED), 
-                     ResultExt, 
-		     ResultListShowEntry);
+                     ResultExt, ResultListShowEntry);
 WriteLn('</ul>');
 if not found then NoEntriesFound;
 
@@ -1536,6 +1536,8 @@ WriteLn;
 CommonHtmlEnd;
 Halt
 end;
+
+{ --------------------------------------------------------------------- }
 
 procedure getQueryString;
 
