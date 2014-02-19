@@ -1367,6 +1367,7 @@ WriteLn(br);
 WriteLn('<input type="submit"'+cet+'<input type="reset"'+cet);
 WriteLn('</div>');
 WriteLn('</form>');
+WriteLn('<p><a href="results">', msg_back, '</a></p>');
 CommonHtmlEnd;
 Halt
 end;
@@ -1503,8 +1504,7 @@ dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_Results);
 
 WriteLn;
-WriteLn('<p><a href="results">', 
-        msg_back, '</a></p>');
+WriteLn('<p><a href="results">', msg_back, '</a></p>');
 WriteLn('<hr'+cet);
 
 Assign(f, CGI_PATH_TRANSLATED);
