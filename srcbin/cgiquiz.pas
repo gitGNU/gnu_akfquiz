@@ -733,7 +733,7 @@ WriteLn(outp, '<input type="hidden" name="time" value="', GetSecs, '">');
 if ExamMode then
   begin
   WriteLn(outp, '<div class="name"><label>', msg_name, 
-    '<input type="text" name="name" size="50" maxlength="100"', 
+    '<input type="text" name="name" size="50" maxlength="100" required',
     cet, '</label></div>')
   end
 end;
