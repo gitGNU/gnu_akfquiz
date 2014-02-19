@@ -1878,6 +1878,8 @@ if ExamDir<>'' then { if exam-mode is enabled }
   if CGI_PATH_INFO = '/' + ExamModeName then
     NotFound;
 
+  ChDir(CGIInfo('DOCUMENT_ROOT'));
+
   if (pos('/'+ExamModeName+'/', CGI_PATH_INFO)=1) then prepareExam;
   end;
 
