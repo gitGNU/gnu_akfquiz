@@ -1541,6 +1541,26 @@ CommonHtmlEnd;
 Halt
 end;
 
+{ prepare CGI_PATH_TRANSLATED when ExamModeName is used in the URI }
+procedure prepareExam;
+var s: mystring;
+begin
+if ExamDir<>'' then { if Exam mode isn't disabled }
+  begin
+  ExamMode := true;
+
+  s := CGI_PATH_INFO;
+  delete(s, 1, length('/' + ExamModeName));
+  CGI_PATH_TRANSLATED := ExamDir + s;
+  readExamConfig; { reads authdata from file }
+
+  if CGI_PATH_INFO = '/' + ExamModeName + '/saveconfig' then
+    saveExamConfig;
+
+  if authdata = '' then configureExamMode
+  end
+end;
+
 { --------------------------------------------------------------------- }
 
 procedure getQueryString;
@@ -1639,7 +1659,7 @@ var
   ignore : integer;
 begin
 charset := QueryLookup('charset');
-if (charset='') and (ContentType='text/plain') then 
+if (charset='') and (ContentType='text/plain') then
   charset := getQuizEncoding(CGI_PATH_TRANSLATED);
 
 Assign(t, CGI_PATH_TRANSLATED);
@@ -1689,26 +1709,6 @@ if ExamMode then
   if CGI_PATH_INFO='/'+ExamModeName+'/login2' then Login2;
   if CGI_PATH_INFO='/'+ExamModeName+'/logout' then Logout;
   if CGI_PATH_INFO='/'+ExamModeName+'/saveconfig' then saveExamConfig
-  end
-end;
-
-{ prepare CGI_PATH_TRANSLATED when ExamModeName is used in the URI }
-procedure prepareExam;
-var s: mystring;
-begin
-if ExamDir<>'' then { if Exam mode isn't disabled }
-  begin
-  ExamMode := true;
-
-  s := CGI_PATH_INFO; 
-  delete(s, 1, length('/' + ExamModeName));
-  CGI_PATH_TRANSLATED := ExamDir + s;
-  readExamConfig; { reads authdata from file }
-  
-  if CGI_PATH_INFO = '/' + ExamModeName + '/saveconfig' then 
-    saveExamConfig;
-
-  if authdata = '' then configureExamMode
   end
 end;
 
