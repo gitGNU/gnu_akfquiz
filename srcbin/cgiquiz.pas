@@ -1390,8 +1390,12 @@ close(f);
 if IOResult<>0 then authdata := ''
 end;
 
+procedure showResultList; forward;
+
 procedure Login;
 begin
+if loggedIn then showResultList;
+
 HTTPStatus(200, 'OK');
 dontCacheHttpHeader;
 CommonHtmlStart(AKFQuizName + ': ' + msg_passwd);
