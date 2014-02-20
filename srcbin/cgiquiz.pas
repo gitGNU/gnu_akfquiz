@@ -842,6 +842,8 @@ repeat
       val(CGIvalue(CGIElement), Time, code);
       if code = 0 then Time := GetSecs - Time
     end;
+  if CGIfield(CGIElement) = 'elapsed' then
+    val(CGIvalue(CGIElement), Time, code);
   if CGIfield(CGIElement) = 'percent' then 
     oldPercent := StrToInt(CGIvalue(CGIElement), -1);
   if CGIfield(CGIElement) = 'name' then Name := CGIvalue(CGIElement);
@@ -1087,10 +1089,13 @@ ResultStr := CGI_QUERY_STRING;
 i := pos('name=', ResultStr);
 if i <> 0 then Delete(ResultStr, 1, pred(i));
 { add percent= for sanity-check }
-ResultStr := 'percent=' + IntToStr(getPercentage) + '&' + ResultStr;
+ResultStr := 'percent=' + IntToStr(getPercentage)
+             + '&' + 'elapsed=' + IntToStr(Time)
+             + '&' + ResultStr;
 
 { collect the all data }
-ResultStr := showDateTime + nl + myname + nl + IntToStr(getPercentage) 
+ResultStr := showDateTime + ' (' + showTime(Time) + ')'
+                 + nl + myname + nl + IntToStr(getPercentage)
                  + nl + FileName + '?' + ResultStr + nl + nl;
 
 SetUmask(95 { = 137oct } );
