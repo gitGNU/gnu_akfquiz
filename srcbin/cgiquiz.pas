@@ -450,12 +450,15 @@ if Browser
                 '/quizdir/myquiz.akfquiz?q1=2&amp;q2=1&amp;q5=2'+br);
        WriteLn('</dd></dl>');
        WriteLn;
-       if ExamDir<>'' 
-         then WriteLn('<p>The special quizdir "<a href="', 
-	          ScriptName, '/' + ExamModeName + '/">', 
-		  ExamModeName, '</a>" for exams'
-                      + ' is mapped to "', ExamDir, '".</p>')
-	 else WriteLn('<p>Exam mode disabled.</p>');
+       if ExamDir = ''
+         then WriteLn('<p>Exam mode disabled.</p>')
+         else begin
+              Write('<p>The special quizdir "<a href="',
+                    ScriptName, '/' + ExamModeName + '/">',
+                    ExamModeName, '</a>" for exams is mapped to "');
+              if ExamDir[1] <> '/' then Write(CGIInfo('DOCUMENT_ROOT'), '/');
+              WriteLn(ExamDir, '".</p>')
+              end;
        WriteLn;
        WriteLn('<p>The following layouts are included in the binary:<br>');
        WriteLn('"q-school.css", "q-brown.css", "q-blue.css"</p>');
@@ -480,10 +483,10 @@ if Browser
                        '/quizdir/myquiz.akfquiz?format=text&charset=UTF-8');
        WriteLn(' > ', CGIBase, '/quizdir/myquiz.akfquiz?q1=2&q2=1&q5=2');
        WriteLn;
-       if ExamDir<>'' 
-         then WriteLn('The special quizdir "', ExamModeName, '" for exams'
-                      + ' is mapped to "', ExamDir, '".')
-	 else WriteLn('Exam mode disabled.');
+       if ExamDir = ''
+         then WriteLn('Exam mode disabled.')
+         else WriteLn('The special quizdir "', ExamModeName, 
+                      '" for exams is mapped to "', ExamDir, '".');
        WriteLn;
        WriteLn('The following layouts are included in the binary:');
        WriteLn('"q-school.css", "q-brown.css", "q-blue.css"');

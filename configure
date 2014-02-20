@@ -153,7 +153,7 @@ do
     --enable-sound|--enable-sound=yes|--disable-sound=no) SOUND=yes ;;
     --disable-sound|--disable-sound=yes|--enable-sound=no) SOUND=no ;;
     --enable-exam|--enable-exam=yes|--disable-exam=no)
-                   EXAMDIR="/var/lib/akfquiz" ;;
+                   EXAMDIR="cgi-data/exam" ;;
     --disable-exam|--disable-exam=yes|--enable-exam=no) EXAMDIR="" ;;
     --enable-*)    ;; # ignore (see GNU Coding Standards)
     --disable-*)   ;; # ignore (see GNU Coding Standards)
