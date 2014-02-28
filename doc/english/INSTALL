@@ -43,24 +43,6 @@ akfquiz/ and type
 After that, it is ready to use, as described above.
 
 
-Compiling with GNU Pascal (GPC) 20030303 or newer.
-
-To compile grquiz with GPC, either the libSDL-1.2 or the GRX library 
-with GPC support enabled must be installed. 
-When grquiz cannot be compiled, that error is ignored in the Makefile. 
-
-type
-
-  ./configure --with-gpc
-  make 
-  make clean
-
-If you have the GRX library installed, you should enter
-"./configure --with-grx", but libSDL should be preferred.
-
-After that, it is ready to use, as described above.
-
-
 Using configure:
 The configure script accepts the following parameters:
 
@@ -81,10 +63,8 @@ The configure script accepts the following parameters:
 
 [*] the compiler may be
 --with-fpc  - Free Pascal 2.0 or newer
---with-gpc  - GNU Pascal 20030303 or newer with libSDL
---with-grx  - GNU Pascal 20030303 or newer with GRX
 --with-xarm - Free Pascal Cross-Compiler for Linux on ARM
---with-xw32 - Free Pascal Cross-Compiler for Windows 
+--with-xw32 - Free Pascal Cross-Compiler for Windows
               (don't use it directly on Windows)
 
 
@@ -98,12 +78,12 @@ MinGW as environment. Use "make windows". Do not use "make install" or
 AKFQuiz contains the following programs:
 
 grquiz         - interactive quiz in graphic mode [1]
-scrquiz	       - interactive quiz on textconsole/terminal
+scrquiz        - interactive quiz on textconsole/terminal
 linequiz       - interactive quiz in command-line mode [2]
 diaquiz        - interactive quiz for X (needs Xdialog)
 cgiquiz        - webserver based quiz program
-mkquiz	       - creates HTML code for the JavaSript based quiz
-getquiz	       - fetches all files needed for mkquiz files and 
+mkquiz         - creates HTML code for the JavaSript based quiz
+getquiz        - fetches all files needed for mkquiz files and 
                  copies them to the current directory
 
 [1] grquiz can be compiled for different libraries.

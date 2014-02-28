@@ -44,26 +44,6 @@ Verzeichnis akfquiz/ und geben Sie folgendes ein:
 Danach sollte es wie oben beschrieben benutzbar sein.
 
 
-GNU-Pascal (GPC) 20030303 oder besser.
-
-Um grquiz mit GPC zu kompilieren, muss entweder die libSDL-1.2 oder die 
-GRX Bibliothek mit aktivierter GPC Unterstützung installiert sein. 
-Wenn grquiz nicht kompiliert werden kann, wird dieser Fehler in der 
-Makefile ignoriert. 
-
-Wechseln Sie in das neu erstellte Verzeichnis akfquiz/ und geben Sie 
-folgendes ein, wenn Sie die libSDL installiert haben:
-
-  ./configure --with-gpc
-  make
-  make clean
-
-Wenn Sie die GRX Bibliothek installiert haben, sollten Sie 
-"./configure --with-grx" eingeben. Die libSDL ist vorzuziehen.
-
-Danach sollte es wie oben beschrieben benutzbar sein.
-
-
 Das Skript "configure":
 Das Skript "configure" akzeptiert die folgenden Parameter:
 
@@ -84,8 +64,6 @@ Das Skript "configure" akzeptiert die folgenden Parameter:
 
 [*] Als Compiler kann folgendes angegeben werden:
 --with-fpc  - Free Pascal 2.0 oder besser
---with-gpc  - GNU Pascal 20030303 oder besser mit libSDL
---with-grx  - GNU Pascal 20030303 oder besser mit GRX
 --with-xarm - Free Pascal Cross-Compiler für Linux auf ARM Prozessoren
 --with-xw32 - Free Pascal Cross-Compiler für Windows
               (nicht verwenden, wenn Sie direkt unter Windows kompilieren)
@@ -102,12 +80,12 @@ Benutzen Sie "make windows". Benutzen Sie aber nicht "make install" oder
 AKFQuiz umfasst folgende Programme:
 
 grquiz         - Interaktives Quiz im Grafik-Modus [1]
-scrquiz	       - Interaktives Quiz auf der Textkonsole/Terminal
+scrquiz        - Interaktives Quiz auf der Textkonsole/Terminal
 linequiz       - Interaktives Quiz auf der Kommandozeile [2]
 diaquiz        - Interaktives Quiz für X (benötigt Xdialog)
 cgiquiz        - Webserver basiertes Quiz-Programm
-mkquiz	       - erzeugt HTML Code für JavaScript basiertes Quiz
-getquiz	       - holt alle Dateien, die für mkquiz-Dateien benötigt
+mkquiz         - erzeugt HTML Code für JavaScript basiertes Quiz
+getquiz        - holt alle Dateien, die für mkquiz-Dateien benötigt
                  werden, und speichert sie im aktuellen Verzeichnis
 
 [1] grquiz kann mit verschiedenen Bibliotheken laufen.
