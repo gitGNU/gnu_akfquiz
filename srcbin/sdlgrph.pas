@@ -6,7 +6,7 @@
 * Andreas K. Foerster <akfquiz@akfoerster.de>
 * Copyright (c) 1997-2004 Sam Lantinga
 *
-* Environment: GNU Pascal or Free Pascal
+* Environment: Free Pascal
 *
 * This file is part of AKFQuiz
 *

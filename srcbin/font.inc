@@ -4,7 +4,7 @@
 * Copyright by the contributers to kbd
 * for more information see below
 *
-* Environment: FreePascal or GNU-Pascal
+* Environment: FreePascal
 *
 * This file is part of AKFQuiz
 *

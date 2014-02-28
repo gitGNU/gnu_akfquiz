@@ -10,7 +10,7 @@
 *
 * This file contains characters in UTF-8 - keep that encoding
 *
-* Environment: FreePascal or GNU-Pascal
+* Environment: FreePascal
 *
 * This file is part of AKFQuiz
 *

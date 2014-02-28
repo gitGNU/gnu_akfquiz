@@ -7,7 +7,7 @@
 * Copyright (c) 2005-2006,2007,2010,2014
 * Andreas K. Foerster <akfquiz@akfoerster.de>
 *
-* Environment: FreePascal or GNU-Pascal 
+* Environment: FreePascal
 *
 * This file is part of AKFQuiz
 *

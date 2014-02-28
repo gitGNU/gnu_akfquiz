@@ -5,7 +5,7 @@
 * Copyright (c) 2006,2007,2010,2014
 * Andreas K. Foerster <akfquiz@akfoerster.de>
 *
-* Environment: FreePascal or GNU-Pascal
+* Environment: FreePascal
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as 

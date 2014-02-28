@@ -37,7 +37,7 @@ unix: scrquiz linequiz mkquiz cgiquiz grquiz
 # "most" leaves some critical progs away
 most: scrquiz linequiz mkquiz cgiquiz
 
-# using FreePascal and DJGPP
+# using FreePascal
 dos: scrquiz linequiz mkquiz # grquiz
 
 # compile for Windows

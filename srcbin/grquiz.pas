@@ -5,10 +5,7 @@
 * Copyright (c) 2005-2006,2007,2010,2014
 * Andreas K. Foerster <akfquiz@akfoerster.de>
 *
-* Environment:
-* FreePascal or GNU Pascal and libSDL-1.2
-* or
-* GNU Pascal and GRX library with GPC support (no other addon needed)
+* Environment: FreePascal and libSDL-1.2
 *
 * This file is part of AKFQuiz
 *

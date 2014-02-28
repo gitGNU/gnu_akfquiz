@@ -1,4 +1,5 @@
 4.5.0-testing
+- only FreePascal is officially supported now
 - diaquiz removed
 - grquiz: use mu-law encoded audio (sounds much better)
 - grquiz: all audio data is now in the executable

@@ -7,7 +7,7 @@
 * Tables taken from GNU LIBICONV Library
 * Copyright (C) 1999-2001 Free Software Foundation, Inc.
 *
-* Environment: FreePascal or GNU-Pascal
+* Environment: FreePascal
 *
 * This file is part of AKFQuiz
 *
