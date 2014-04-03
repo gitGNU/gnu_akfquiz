@@ -2,6 +2,9 @@
 
 cd $(dirname $0)
 
+PATH=".:$PATH"
+export PATH
+
 # check if we are in X and if grquiz is available
 
 test -n "$DISPLAY" && which grquiz && exec grquiz "$@"
