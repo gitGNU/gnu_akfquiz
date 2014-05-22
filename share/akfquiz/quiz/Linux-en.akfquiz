@@ -128,14 +128,6 @@ written? (the kernel, and the GNU tools like bash, tar, gzip and so on)
 
 
 question:
-Which of these programming languages do not exist for GNU+Linux?
-
--1 Fortran, Lisp, Pascal, Modula-2, ADA
--1 Java, JavaScript
-+1 Visual Basic, Visual C, Visual Java 
-
-
-question:
 Which kernel was created in the GNU project?
 
 -1 BSD

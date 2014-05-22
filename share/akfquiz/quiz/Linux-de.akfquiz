@@ -135,14 +135,6 @@ gzip und so weiter)
 
 
 Frage:
-Welche Programmiersprachen gibt es für GNU+Linux nicht?
-
--1 Fortran, Lisp, Pascal, Modula-2, ADA
--1 Java, JavaScript
-+1 Visual Basic, Visual C, Visual Java 
-
-
-Frage:
 Welcher Kernel stammt aus dem GNU Projekt?
 
 -1 BSD
